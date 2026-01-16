@@ -1,0 +1,7 @@
+{
+  "/landing/case-studies/page": "app/landing/case-studies/page.js",
+  "/landing/category/page": "app/landing/category/page.js",
+  "/landing/departmant/page": "app/landing/departmant/page.js",
+  "/landing/price-package/page": "app/landing/price-package/page.js",
+  "/page": "app/page.js"
+}
