@@ -42,7 +42,7 @@ export default function CategoryPage() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
           onClick={() => handleEdit(category)}
         >
           <Edit className="w-4 h-4" />
@@ -50,7 +50,7 @@ export default function CategoryPage() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-red-600 hover:text-red-700"
+          className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
           onClick={() => handleDeleteClick(category)}
         >
           <Trash2 className="w-4 h-4" />
@@ -94,11 +94,14 @@ export default function CategoryPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
+    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+      <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Categories</CardTitle>
-          <Button onClick={handleAdd}>
+          <CardTitle className="text-white">Categories</CardTitle>
+          <Button
+            onClick={handleAdd}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Category
           </Button>
