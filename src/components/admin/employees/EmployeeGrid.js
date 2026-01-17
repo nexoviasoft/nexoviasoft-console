@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import EmployeeCard from "./EmployeeCard";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Mail, Phone, Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const initialEmployees = [
   {
@@ -61,6 +64,8 @@ const initialEmployees = [
 ];
 
 export default function EmployeeGrid({ searchQuery, departmentFilter }) {
+  const router = useRouter();
+  
   const filteredEmployees = initialEmployees.filter((employee) => {
     const matchesSearch = employee.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           employee.role.toLowerCase().includes(searchQuery.toLowerCase());
@@ -79,10 +84,99 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {filteredEmployees.map((employee) => (
-        <EmployeeCard key={employee.id} employee={employee} />
-      ))}
+    <div className="glass-card rounded-xl overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50/50 border-b border-gray-200">
+            <tr>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Employee
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Role
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Department
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Contact
+              </th>
+              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {filteredEmployees.map((employee) => (
+              <tr 
+                key={employee.id} 
+                className="hover:bg-gray-50/50 transition-colors"
+              >
+                {/* Employee Info */}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={employee.avatar} alt={employee.name} />
+                      <AvatarFallback className="bg-purple-100 text-purple-600">
+                        {employee.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold text-gray-900">{employee.name}</div>
+                      <div className="text-sm text-gray-500">{employee.email}</div>
+                    </div>
+                  </div>
+                </td>
+
+                {/* Role */}
+                <td className="px-6 py-4">
+                  <div className="text-sm text-gray-900">{employee.role}</div>
+                </td>
+
+                {/* Department */}
+                <td className="px-6 py-4">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                    {employee.department}
+                  </span>
+                </td>
+
+                {/* Contact */}
+                <td className="px-6 py-4">
+                  <div className="flex flex-col gap-1">
+                    <a 
+                      href={`mailto:${employee.email}`}
+                      className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-purple-600 transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span className="text-xs">{employee.email}</span>
+                    </a>
+                    <a 
+                      href={`tel:${employee.phone}`}
+                      className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-purple-600 transition-colors"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                      <span className="text-xs">{employee.phone}</span>
+                    </a>
+                  </div>
+                </td>
+
+                {/* Actions */}
+                <td className="px-6 py-4 text-right">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push(`/admin/employees/${employee.id}`)}
+                    className="hover:bg-purple-50 hover:text-purple-600"
+                  >
+                    <Eye className="w-4 h-4 mr-1" />
+                    View Profile
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
