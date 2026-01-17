@@ -1,3 +1,9 @@
 {
-  "/landing/our-product/page": "app/landing/our-product/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/our-team/page": "app/admin/our-team/page.js",
+  "/admin/payroll/page": "app/admin/payroll/page.js",
+  "/landing/footer/page": "app/landing/footer/page.js",
+  "/landing/our-product/page": "app/landing/our-product/page.js",
+  "/landing/our-service/[id]/page": "app/landing/our-service/[id]/page.js",
+  "/landing/our-service/page": "app/landing/our-service/page.js"
 }
