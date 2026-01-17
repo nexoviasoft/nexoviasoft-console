@@ -17,6 +17,7 @@ import {
   Layout,
   Image,
   FileCheck,
+  User,
 } from "lucide-react";
 
 export const mainNavItems = [
@@ -32,6 +33,8 @@ export const mainNavItems = [
   { icon: DollarSign, label: "Payroll", id: "Payroll", href: "/admin/payroll" },
   { icon: BarChart3, label: "Reports", id: "Reports", href: "/admin/reports" },
   { icon: Radio, label: "Broadcast", id: "Broadcast", href: "/admin/broadcast" },
+  { icon: User, label: "Our Clients", id: "Our Clients", href: "/admin/our-client" },
+  { icon: User, label: "Service Requests", id: "Service Requests", href: "/admin/service-request" },
   { icon: Settings, label: "Settings", id: "Settings", href: "/admin/settings" },
 ];
 
@@ -62,7 +65,20 @@ export const othersNavItems = [
       // { icon: FileCheck, label: "Groups", id: "Groups", href: "/platform-settings/groups" },
       // { icon: FileCheck, label: "Tags", id: "Tags", href: "/platform-settings/tags" },
       { icon: FileCheck, label: "Categories", id: "Categories", href: "/landing/category" },
-      // { icon: FileCheck, label: "Tags", id: "Tags", href: "/platform-settings/tags" },
+      { icon: FileCheck, label: "Our Services", id: "Our Services", href: "/landing/our-service" },
+      { icon: FileCheck, label: "Products", id: "Products", href: "/landing/our-product" },
+
+      { 
+        icon: Layout, 
+        label: "Our Products", 
+        id: "Our Products", 
+        href: "/admin/platform-settings/our-product",
+        children: [
+          { icon: FileCheck, label: "SquadLog", id: "SquadLog", href: "/admin/platform-settings/our-product/squadlog" },
+        ]
+      },
+      { icon: FileCheck, label: "Footer", id: "Footer", href: "/landing/footer" },
+   
     ]
   },
   { icon: UserCog, label: "Our Team", id: "Our Team", href: "/admin/our-team" },

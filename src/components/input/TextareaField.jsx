@@ -7,11 +7,17 @@ const TextareaField = ({
     register,
     name,
     defaultValue,
+    value,
+    onChange,
     disabled = false,
     error,
     required,
     rows = 3,
 }) => {
+    // Determine if we're using controlled or uncontrolled mode
+    const isControlled = value !== undefined && onChange !== undefined;
+    const isUncontrolled = register && name;
+
     return (
         <div className={`flex flex-col gap-2 ${className}`}>
             {label && (
@@ -20,11 +26,12 @@ const TextareaField = ({
                 </label>
             )}
             <textarea
-                defaultValue={defaultValue}
+                {...(isUncontrolled ? register(name) : {})}
+                {...(isControlled ? { value, onChange } : {})}
+                {...(!isControlled && !isUncontrolled && defaultValue !== undefined ? { defaultValue } : {})}
                 disabled={disabled}
                 rows={rows}
                 placeholder={placeholder}
-                {...register(name)}
                 className={`border-[1px] border-[#E4E4E7] dark:border-white/10 py-2.5 px-4 rounded-[6px] bg-white w-full outline-none focus:border-green-300/50 dark:focus:border-primary dark:text-white/90 resize-vertical min-h-[80px] ${disabled && "bg-gray-400"
                     } ${error ? "border-red-500" : ""}`}
             />
