@@ -8,16 +8,15 @@ import TaskDistributionChart from "@/components/admin/reports/TaskDistributionCh
 
 export default function Reports() {
   return (
-    <div className="bg-gray-50 px-8 py-8">
-      <div className="max-w-[1600px] w-full mx-auto">
+    <div className="px-8 py-8 min-h-screen text-white">
+      <div className="max-w-[1600px] w-full mx-auto space-y-6">
         <ReportsHeader />
         <ReportsStats />
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-           <RevenueChart />
-           <TaskDistributionChart />
+          <RevenueChart />
+          <TaskDistributionChart />
         </div>
-
       </div>
     </div>
   );
