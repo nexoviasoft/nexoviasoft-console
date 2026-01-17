@@ -76,6 +76,7 @@ export default function OurServiceForm({
   editingService, 
   onSuccess 
 }) {
+  const formId = "our-service-form";
   const [logoFile, setLogoFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   
@@ -314,17 +315,17 @@ export default function OurServiceForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto glass-card border-white/20">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingService ? "Edit Service" : "Add New Service"}
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form id={formId} onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 py-4">
             {/* Basic Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -372,12 +373,13 @@ export default function OurServiceForm({
                 error={errors.description?.message}
                 required
                 rows={4}
+                textareaClassName="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
             {/* Images */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Images
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -421,9 +423,9 @@ export default function OurServiceForm({
             </div>
 
             {/* Key Features */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <h3 className="text-lg font-semibold text-white">
                   Key Features
                 </h3>
                 <Button
@@ -431,7 +433,7 @@ export default function OurServiceForm({
                   variant="outline"
                   size="sm"
                   onClick={addKeyFeature}
-                  className="gap-2"
+                  className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 >
                   <Plus className="w-4 h-4" />
                   Add Feature
@@ -445,7 +447,7 @@ export default function OurServiceForm({
                         value={feature || ""}
                         onChange={(e) => updateKeyFeature(index, e.target.value)}
                         placeholder="e.g. Responsive Design"
-                        className={errors.keyFeature?.[index] ? "border-red-500" : ""}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.keyFeature?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.keyFeature?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.keyFeature[index]?.message}</p>
@@ -457,7 +459,7 @@ export default function OurServiceForm({
                         variant="ghost"
                         size="icon"
                         onClick={() => removeKeyFeature(index)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -471,9 +473,9 @@ export default function OurServiceForm({
             </div>
 
             {/* Benefits */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <h3 className="text-lg font-semibold text-white">
                   Benefits
                 </h3>
                 <Button
@@ -481,7 +483,7 @@ export default function OurServiceForm({
                   variant="outline"
                   size="sm"
                   onClick={addBenefit}
-                  className="gap-2"
+                  className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 >
                   <Plus className="w-4 h-4" />
                   Add Benefit
@@ -495,20 +497,20 @@ export default function OurServiceForm({
                         value={benefit || ""}
                         onChange={(e) => updateBenefit(index, e.target.value)}
                         placeholder="e.g. Fast loading"
-                        className={errors.benefit?.[index] ? "border-red-500" : ""}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.benefit?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.benefit?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.benefit[index]?.message}</p>
                       )}
                     </div>
                     {benefits.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeBenefit(index)}
-                        className="text-red-600 hover:text-red-700"
-                      >
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeBenefit(index)}
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
+                    >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     )}
@@ -521,9 +523,9 @@ export default function OurServiceForm({
             </div>
 
             {/* Other Services */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <h3 className="text-lg font-semibold text-white">
                   Other Services
                 </h3>
                 <Button
@@ -531,7 +533,7 @@ export default function OurServiceForm({
                   variant="outline"
                   size="sm"
                   onClick={addOtherService}
-                  className="gap-2"
+                  className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 >
                   <Plus className="w-4 h-4" />
                   Add Service
@@ -539,9 +541,9 @@ export default function OurServiceForm({
               </div>
               <div className="space-y-4">
                 {otherServices.map((service, index) => (
-                  <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg space-y-3">
+                  <div key={index} className="p-4 border border-white/10 rounded-lg space-y-3 bg-black/40">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                      <h4 className="font-medium text-white">
                         Service {index + 1}
                       </h4>
                       <Button
@@ -549,7 +551,7 @@ export default function OurServiceForm({
                         variant="ghost"
                         size="icon"
                         onClick={() => removeOtherService(index)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -559,7 +561,7 @@ export default function OurServiceForm({
                         value={service.name || ""}
                         onChange={(e) => updateOtherService(index, "name", e.target.value)}
                         placeholder="Service name (e.g. UI/UX Design)"
-                        className={errors.otherservice?.[index]?.name ? "border-red-500" : ""}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.otherservice?.[index]?.name ? "border-red-500" : ""}`}
                       />
                       {errors.otherservice?.[index]?.name && (
                         <p className="text-sm text-red-500 mt-1">{errors.otherservice[index].name.message}</p>
@@ -568,7 +570,7 @@ export default function OurServiceForm({
                         value={service.description || ""}
                         onChange={(e) => updateOtherService(index, "description", e.target.value)}
                         placeholder="Service description (e.g. We provide UI/UX design services for your website)"
-                        className={errors.otherservice?.[index]?.description ? "border-red-500" : ""}
+                        textareaClassName={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.otherservice?.[index]?.description ? "border-red-500" : ""}`}
                       />
                       {errors.otherservice?.[index]?.description && (
                         <p className="text-sm text-red-500 mt-1">{errors.otherservice[index].description.message}</p>
@@ -580,6 +582,28 @@ export default function OurServiceForm({
             </div>
           </div>
         </form>
+        <DialogFooter className="mt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleClose}
+            className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form={formId}
+            disabled={isCreating || isUpdating || isSubmitting}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
+            {isCreating || isUpdating || isSubmitting
+              ? "Saving..."
+              : editingService
+              ? "Update Service"
+              : "Create Service"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
