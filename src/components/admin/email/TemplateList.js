@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, FileText, AlertTriangle, Star, UserPlus, PartyPopper, Rocket } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Calendar, FileText, AlertTriangle, Star, UserPlus, PartyPopper, Rocket, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const templates = [
   {
@@ -211,34 +213,112 @@ DevOps Team
   }
 ];
 
+const ITEMS_PER_PAGE = 3;
+
 export default function TemplateList({ onSelectTemplate }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Filter templates based on search
+  const filteredTemplates = templates.filter(template =>
+    template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    template.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    template.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredTemplates.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedTemplates = filteredTemplates.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when search changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Email Templates</h3>
-      {templates.map((template) => (
-        <Card 
-          key={template.id}
-          className="cursor-pointer hover:bg-gray-50 transition-colors border-l-4 border-l-purple-500"
-          onClick={() => onSelectTemplate(template)}
-        >
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <template.icon className="w-4 h-4 text-purple-600" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h4 className="font-medium text-sm text-gray-900">{template.title}</h4>
-                  <Badge variant="secondary" className="text-xs">
-                    {template.category}
-                  </Badge>
+    <div className="space-y-4">
+      {/* Header with Search */}
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-lg font-bold text-gray-900">Email Templates</h3>
+        <div className="relative flex-1 max-w-xs">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Search templates..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 glass-card border-white/20"
+          />
+        </div>
+      </div>
+
+      {/* Templates Grid */}
+      <div className="space-y-3">
+        {paginatedTemplates.length > 0 ? (
+          paginatedTemplates.map((template) => (
+            <Card 
+              key={template.id}
+              className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-purple-500 group"
+              onClick={() => onSelectTemplate(template)}
+            >
+              <CardContent className="p-5">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl group-hover:from-purple-200 group-hover:to-purple-100 transition-colors">
+                    <template.icon className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                        {template.title}
+                      </h4>
+                      <Badge variant="secondary" className="text-xs bg-purple-50 text-purple-700 border-purple-200">
+                        {template.category}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 line-clamp-1">{template.subject}</p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 truncate">{template.subject}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <div className="text-center py-12 glass-card rounded-xl">
+            <p className="text-gray-500">No templates found matching "{searchQuery}"</p>
+          </div>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between pt-2">
+          <p className="text-sm text-gray-600">
+            Showing {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredTemplates.length)} of {filteredTemplates.length}
+          </p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="glass-button"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="text-sm font-medium text-gray-700 px-3">
+              {currentPage} / {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="glass-button"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
