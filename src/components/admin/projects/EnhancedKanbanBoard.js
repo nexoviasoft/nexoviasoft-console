@@ -95,7 +95,8 @@ export default function EnhancedKanbanBoard() {
   const [activeTask, setActiveTask] = useState(null);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [taskComments, setTaskComments] = useState({});
-  const [newComment, setNewComment] = useState("");
+  const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
+  const [newComments, setNewComments] = useState({});
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
 
@@ -202,29 +203,39 @@ export default function EnhancedKanbanBoard() {
     });
   };
 
-  const handleAddComment = () => {
-    if (!activeTask || !newComment.trim()) return;
+  const handleCommentInputChange = (taskId, value) => {
+    setNewComments((prev) => ({
+      ...prev,
+      [taskId]: value,
+    }));
+  };
+
+  const handleAddComment = (taskId) => {
+    const text = newComments[taskId]?.trim();
+    if (!text) return;
 
     setTaskComments((prev) => {
-      const existing = prev[activeTask.id] || [];
+      const existing = prev[taskId] || [];
       const nextComment = {
         id: String(Date.now()),
         author: "You",
-        text: newComment.trim(),
+        text,
       };
       return {
         ...prev,
-        [activeTask.id]: [...existing, nextComment],
+        [taskId]: [...existing, nextComment],
       };
     });
-    setNewComment("");
+
+    setNewComments((prev) => ({
+      ...prev,
+      [taskId]: "",
+    }));
   };
 
   const getCommentCount = (taskId) => {
     return taskComments[taskId]?.length || 0;
   };
-
-  const activeTaskComments = activeTask ? taskComments[activeTask.id] || [] : [];
 
   return (
     <>
@@ -308,13 +319,63 @@ export default function EnhancedKanbanBoard() {
                         className="flex items-center gap-1 text-gray-400 hover:text-purple-600 text-xs"
                         onClick={(event) => {
                           event.stopPropagation();
-                          handleOpenTask(task, column.id);
+                          setExpandedCommentTaskId((prev) =>
+                            prev === task.id ? null : task.id
+                          );
                         }}
                       >
                         <MessageSquare className="w-3.5 h-3.5" />
                         <span>{getCommentCount(task.id)}</span>
                       </button>
                     </div>
+
+                    {expandedCommentTaskId === task.id && (
+                      <div className="mt-3 space-y-2 border-t border-gray-100 pt-2">
+                        <div className="space-y-1 max-h-24 overflow-y-auto">
+                          {(taskComments[task.id] || []).length === 0 && (
+                            <p className="text-xs text-gray-400">
+                              No comments yet. Start the discussion for this task.
+                            </p>
+                          )}
+                          {(taskComments[task.id] || []).map((comment) => (
+                            <div
+                              key={comment.id}
+                              className="text-xs text-gray-700 bg-gray-50 rounded-md px-2 py-1"
+                            >
+                              <span className="font-medium mr-1">
+                                {comment.author}:
+                              </span>
+                              <span>{comment.text}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="space-y-1">
+                          <Textarea
+                            rows={2}
+                            placeholder="Add a comment..."
+                            className="text-xs"
+                            value={newComments[task.id] || ""}
+                            onChange={(event) =>
+                              handleCommentInputChange(task.id, event.target.value)
+                            }
+                            onClick={(event) => event.stopPropagation()}
+                          />
+                          <div className="flex justify-end">
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="h-7 px-3 text-xs"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleAddComment(task.id);
+                              }}
+                            >
+                              Comment
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -421,43 +482,6 @@ export default function EnhancedKanbanBoard() {
                   })}
                 </div>
               </div>
-
-              <div className="space-y-3">
-                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                  Comments
-                </p>
-                <div className="space-y-2 max-h-40 overflow-y-auto rounded-md border border-gray-100 bg-gray-50 p-3">
-                  {activeTaskComments.length === 0 && (
-                    <p className="text-xs text-gray-400">
-                      No comments yet. Start the discussion for this task.
-                    </p>
-                  )}
-                  {activeTaskComments.map((comment) => (
-                    <div
-                      key={comment.id}
-                      className="text-xs text-gray-700 bg-white rounded-md px-2 py-1.5 shadow-sm"
-                    >
-                      <span className="font-medium mr-1">
-                        {comment.author}:
-                      </span>
-                      <span>{comment.text}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="space-y-2">
-                  <Textarea
-                    rows={3}
-                    placeholder="Add a comment to this task..."
-                    value={newComment}
-                    onChange={(event) => setNewComment(event.target.value)}
-                  />
-                  <div className="flex justify-end">
-                    <Button type="button" size="sm" onClick={handleAddComment}>
-                      Add Comment
-                    </Button>
-                  </div>
-                </div>
-              </div>
             </div>
           )}
         </DialogContent>
@@ -465,4 +489,3 @@ export default function EnhancedKanbanBoard() {
     </>
   );
 }
-
