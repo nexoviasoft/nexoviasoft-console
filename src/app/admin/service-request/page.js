@@ -138,7 +138,7 @@ export default function ServiceRequestPage() {
     <div className="max-w-[1600px] w-full mx-auto">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Service Requests</CardTitle>
+          <CardTitle className="text-white">Service Requests</CardTitle>
         </CardHeader>
         <CardContent>
           <ReusableTable
