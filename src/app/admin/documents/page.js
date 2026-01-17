@@ -33,22 +33,22 @@ export default function DocumentsPage() {
   const isEditing = currentView === "invoice" || currentView === "letter";
 
   return (
-    <div className="bg-gray-50 px-8 py-8 min-h-screen">
+    <div className="px-8 py-8 min-h-screen flex flex-col text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
         <DocumentsHeader />
 
         <div className="flex-1">
           {!isEditing && (
-            <div className="border border-dashed border-gray-200 rounded-xl bg-white/60 flex flex-col items-center justify-center py-16 px-6 text-center">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="glass-card border-dashed border-white/30 flex flex-col items-center justify-center py-16 px-6 text-center">
+              <h2 className="text-lg font-semibold text-white mb-2">
                 Start with a template
               </h2>
-              <p className="text-sm text-gray-500 mb-6 max-w-md">
+              <p className="text-sm text-white/70 mb-6 max-w-md">
                 Select a template to open the immersive editor for invoices and letters.
               </p>
               <Button
                 onClick={() => setIsTemplateOpen(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-5"
+                className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black px-5 glass-button"
               >
                 Select Template
               </Button>
@@ -59,10 +59,10 @@ export default function DocumentsPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-lg font-semibold text-white">
                     Invoice editor
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-white/70">
                     Customize the selected invoice template in an immersive view.
                   </p>
                 </div>
@@ -71,6 +71,7 @@ export default function DocumentsPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => setIsTemplateOpen(true)}
+                    className="glass-button border-white/30 text-white"
                   >
                     Switch Template
                   </Button>
@@ -78,13 +79,14 @@ export default function DocumentsPage() {
                     variant="ghost"
                     size="sm"
                     onClick={handleCloseEditor}
+                    className="text-white/80 hover:bg-white/10"
                   >
                     Close
                   </Button>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="glass-card rounded-xl p-6">
                 <InvoiceBuilder
                   template={selectedTemplate}
                   onBack={handleCloseEditor}
@@ -97,10 +99,10 @@ export default function DocumentsPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-lg font-semibold text-white">
                     Letter editor
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-white/70">
                     Edit your letter content in a focused, full-width experience.
                   </p>
                 </div>
@@ -109,6 +111,7 @@ export default function DocumentsPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => setIsTemplateOpen(true)}
+                    className="glass-button border-white/30 text-white"
                   >
                     Switch Template
                   </Button>
@@ -116,13 +119,14 @@ export default function DocumentsPage() {
                     variant="ghost"
                     size="sm"
                     onClick={handleCloseEditor}
+                    className="text-white/80 hover:bg-white/10"
                   >
                     Close
                   </Button>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="glass-card rounded-xl p-6">
                 <LetterBuilder
                   template={selectedTemplate}
                   onBack={handleCloseEditor}
@@ -134,7 +138,7 @@ export default function DocumentsPage() {
       </div>
 
       <Dialog open={isTemplateOpen} onOpenChange={setIsTemplateOpen}>
-        <DialogContent className="max-w-3xl glass-panel border-white/20 p-8 bg-white/95 backdrop-blur-2xl">
+        <DialogContent className="max-w-3xl glass-panel border-white/20 p-8">
           <TemplateSelector 
             onSelect={handleSelectTemplate} 
             onCancel={() => setIsTemplateOpen(false)} 

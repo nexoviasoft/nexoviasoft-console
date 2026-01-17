@@ -70,14 +70,27 @@ export default function InvoiceBuilder({ template, onBack }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between no-print">
-        <Button variant="ghost" onClick={onBack} className="gap-2">
-            <ArrowLeft className="w-4 h-4" /> Back to Gallery
+        <Button
+          variant="ghost"
+          onClick={onBack}
+          className="gap-2 text-white/80 hover:bg-white/10"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back to Gallery
         </Button>
         <div className="flex gap-2">
-            <Button variant="outline" onClick={() => toast.success("Draft saved!")}>Save Draft</Button>
-            <Button onClick={handlePrint} className="bg-purple-600 hover:bg-purple-700 text-white">
-                <Printer className="w-4 h-4 mr-2" /> Print PDF
-            </Button>
+          <Button
+            variant="outline"
+            onClick={() => toast.success("Draft saved!")}
+            className="glass-button border-white/30 text-black"
+          >
+            Save Draft
+          </Button>
+          <Button
+            onClick={handlePrint}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
+            <Printer className="w-4 h-4 mr-2" /> Print PDF
+          </Button>
         </div>
       </div>
 
@@ -85,59 +98,90 @@ export default function InvoiceBuilder({ template, onBack }) {
         {/* Editor Form */}
         <Card className="no-print h-fit">
             <CardHeader>
-                <CardTitle>Invoice Details</CardTitle>
+                <CardTitle className="text-white">Invoice Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Invoice No.</Label>
-                        <Input value={invoiceData.invoiceNumber} onChange={(e) => updateField('invoiceNumber', e.target.value)} />
+                        <Label className="text-white/80">Invoice No.</Label>
+                        <Input
+                          value={invoiceData.invoiceNumber}
+                          onChange={(e) => updateField('invoiceNumber', e.target.value)}
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                        />
                     </div>
                     <div className="space-y-2">
-                        <Label>Date</Label>
-                        <Input type="date" value={invoiceData.date} onChange={(e) => updateField('date', e.target.value)} />
+                        <Label className="text-white/80">Date</Label>
+                        <Input
+                          type="date"
+                          value={invoiceData.date}
+                          onChange={(e) => updateField('date', e.target.value)}
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                        />
                     </div>
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Client Name</Label>
-                    <Input placeholder="Company or Person Name" value={invoiceData.clientName} onChange={(e) => updateField('clientName', e.target.value)} />
+                    <Label className="text-white/80">Client Name</Label>
+                    <Input
+                      placeholder="Company or Person Name"
+                      value={invoiceData.clientName}
+                      onChange={(e) => updateField('clientName', e.target.value)}
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    />
                 </div>
                 <div className="space-y-2">
-                    <Label>Client Address</Label>
-                    <Input placeholder="Billing Address" value={invoiceData.clientAddress} onChange={(e) => updateField('clientAddress', e.target.value)} />
+                    <Label className="text-white/80">Client Address</Label>
+                    <Input
+                      placeholder="Billing Address"
+                      value={invoiceData.clientAddress}
+                      onChange={(e) => updateField('clientAddress', e.target.value)}
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    />
                 </div>
 
                 <Separator className="my-4" />
                 
                 <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                        <Label>Line Items</Label>
-                        <Button variant="ghost" size="sm" onClick={addItem}><Plus className="w-4 h-4 mr-1"/> Add Item</Button>
+                        <Label className="text-white/80">Line Items</Label>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={addItem}
+                          className="glass-button text-white/80 hover:text-white"
+                        >
+                          <Plus className="w-4 h-4 mr-1"/> Add Item
+                        </Button>
                     </div>
                     {invoiceData.items.map((item, idx) => (
                         <div key={idx} className="flex gap-2 items-start">
                              <Input 
-                                className="flex-1" 
+                                className="flex-1 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
                                 placeholder="Description" 
                                 value={item.description} 
                                 onChange={(e) => updateItem(idx, 'description', e.target.value)} 
                              />
                              <Input 
-                                className="w-20" 
+                                className="w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
                                 type="number" 
                                 placeholder="Qty" 
                                 value={item.quantity} 
                                 onChange={(e) => updateItem(idx, 'quantity', e.target.value)} 
                              />
                              <Input 
-                                className="w-24" 
+                                className="w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
                                 type="number" 
                                 placeholder="Rate" 
                                 value={item.rate} 
                                 onChange={(e) => updateItem(idx, 'rate', e.target.value)} 
                              />
-                             <Button variant="ghost" size="icon" className="text-red-500" onClick={() => removeItem(idx)}>
+                             <Button
+                               variant="ghost"
+                               size="icon"
+                               className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                               onClick={() => removeItem(idx)}
+                             >
                                 <Trash2 className="w-4 h-4" />
                              </Button>
                         </div>
@@ -147,15 +191,15 @@ export default function InvoiceBuilder({ template, onBack }) {
         </Card>
 
         {/* Live Preview / Printable Area */}
-        <div className="bg-white border rounded-lg shadow-sm p-8 min-h-[600px] text-sm print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 aspect-[1/1.4] mx-auto print:mx-0">
+        <div className="glass-card border-white/20 rounded-lg p-8 min-h-[600px] text-sm text-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 aspect-[1/1.4] mx-auto print:mx-0">
             <div className="flex justify-between items-start mb-12">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">INVOICE</h1>
-                    <div className="text-gray-500">#{invoiceData.invoiceNumber}</div>
+                    <h1 className="text-3xl font-bold mb-2">INVOICE</h1>
+                    <div className="text-white/70">#{invoiceData.invoiceNumber}</div>
                 </div>
                 <div className="text-right">
-                    <div className="font-bold text-lg text-purple-600">SquadLog Inc.</div>
-                    <div className="text-gray-500 text-xs mt-1">
+                    <div className="font-bold text-lg text-[#EFFC76] tracking-wide">SquadLog Inc.</div>
+                    <div className="text-white/60 text-xs mt-1">
                         123 Tech Park, Suite 400<br/>
                         San Francisco, CA 94107s
                     </div>
@@ -164,13 +208,13 @@ export default function InvoiceBuilder({ template, onBack }) {
 
             <div className="grid grid-cols-2 gap-12 mb-12">
                 <div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase mb-2">Billed To:</div>
-                    <div className="font-semibold text-gray-900">{invoiceData.clientName || "[Client Name]"}</div>
-                    <div className="text-gray-600 whitespace-pre-wrap">{invoiceData.clientAddress || "[Address]"}</div>
+                    <div className="text-xs font-semibold text-white/60 uppercase mb-2">Billed To:</div>
+                    <div className="font-semibold">{invoiceData.clientName || "[Client Name]"}</div>
+                    <div className="text-white/70 whitespace-pre-wrap">{invoiceData.clientAddress || "[Address]"}</div>
                 </div>
                 <div className="text-right">
-                    <div className="text-xs font-semibold text-gray-500 uppercase mb-2">Date:</div>
-                    <div className="font-semibold text-gray-900">{invoiceData.date}</div>
+                    <div className="text-xs font-semibold text-white/60 uppercase mb-2">Date:</div>
+                    <div className="font-semibold">{invoiceData.date}</div>
                 </div>
             </div>
 
@@ -201,12 +245,12 @@ export default function InvoiceBuilder({ template, onBack }) {
                 <div className="w-1/3 space-y-2">
                     <div className="flex justify-between text-base font-bold">
                         <span>Total:</span>
-                        <span>${calculateTotal().toFixed(2)}</span>
+                        <span className="text-[#EFFC76]">${calculateTotal().toFixed(2)}</span>
                     </div>
                 </div>
             </div>
             
-            <div className="mt-12 pt-8 border-t text-xs text-gray-400 text-center">
+            <div className="mt-12 pt-8 border-t text-xs text-white/60 text-center">
                 Thank you for your business. Please process payment within 30 days.
             </div>
         </div>

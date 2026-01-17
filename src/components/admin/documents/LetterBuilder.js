@@ -36,14 +36,27 @@ export default function LetterBuilder({ template, onBack }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between no-print">
-        <Button variant="ghost" onClick={onBack} className="gap-2">
-            <ArrowLeft className="w-4 h-4" /> Back to Gallery
+        <Button
+          variant="ghost"
+          onClick={onBack}
+          className="gap-2 text-white/80 hover:bg-white/10"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back to Gallery
         </Button>
         <div className="flex gap-2">
-            <Button variant="outline" onClick={() => toast.success("Draft saved!")}>Save Draft</Button>
-            <Button onClick={handlePrint} className="bg-purple-600 hover:bg-purple-700 text-white">
-                <Printer className="w-4 h-4 mr-2" /> Print PDF
-            </Button>
+          <Button
+            variant="outline"
+            onClick={() => toast.success("Draft saved!")}
+            className="glass-button border-white/30 text-black"
+          >
+            Save Draft
+          </Button>
+          <Button
+            onClick={handlePrint}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
+            <Printer className="w-4 h-4 mr-2" /> Print PDF
+          </Button>
         </div>
       </div>
 
@@ -51,30 +64,55 @@ export default function LetterBuilder({ template, onBack }) {
         {/* Editor Form */}
         <Card className="no-print h-fit">
             <CardHeader>
-                <CardTitle>Letter Details</CardTitle>
+                <CardTitle className="text-white">Letter Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="space-y-2">
-                    <Label>Candidate Name</Label>
-                    <Input placeholder="John Doe" value={data.candidateName} onChange={(e) => updateField('candidateName', e.target.value)} />
+                    <Label className="text-white/80">Candidate Name</Label>
+                    <Input
+                      placeholder="John Doe"
+                      value={data.candidateName}
+                      onChange={(e) => updateField('candidateName', e.target.value)}
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Role / Designation</Label>
-                        <Input placeholder="Senior Developer" value={data.role} onChange={(e) => updateField('role', e.target.value)} />
+                        <Label className="text-white/80">Role / Designation</Label>
+                        <Input
+                          placeholder="Senior Developer"
+                          value={data.role}
+                          onChange={(e) => updateField('role', e.target.value)}
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                        />
                     </div>
                     <div className="space-y-2">
-                        <Label>Start Date</Label>
-                        <Input type="date" value={data.startDate} onChange={(e) => updateField('startDate', e.target.value)} />
+                        <Label className="text-white/80">Start Date</Label>
+                        <Input
+                          type="date"
+                          value={data.startDate}
+                          onChange={(e) => updateField('startDate', e.target.value)}
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                        />
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <Label>Annual CTC / Salary</Label>
-                    <Input placeholder="$120,000" value={data.salary} onChange={(e) => updateField('salary', e.target.value)} />
+                    <Label className="text-white/80">Annual CTC / Salary</Label>
+                    <Input
+                      placeholder="$120,000"
+                      value={data.salary}
+                      onChange={(e) => updateField('salary', e.target.value)}
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    />
                 </div>
                 <div className="space-y-2">
-                    <Label>Reporting Manager</Label>
-                    <Input placeholder="Manager Name" value={data.manager} onChange={(e) => updateField('manager', e.target.value)} />
+                    <Label className="text-white/80">Reporting Manager</Label>
+                    <Input
+                      placeholder="Manager Name"
+                      value={data.manager}
+                      onChange={(e) => updateField('manager', e.target.value)}
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    />
                 </div>
            </CardContent>
         </Card>
