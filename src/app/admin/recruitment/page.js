@@ -29,7 +29,7 @@ export default function RecruitmentPage() {
           onTabChange={setActiveTab}
         />
         
-  /* ... inside RecruitmentPage ... */
+
         
         {activeTab === 'jobs' && (
           selectedJob ? (
