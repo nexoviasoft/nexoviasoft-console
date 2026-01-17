@@ -206,10 +206,13 @@ export default function OurTeamPage() {
 
   return (
     <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
+      <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Our Team</CardTitle>
-          <Button onClick={handleAdd}>
+          <CardTitle className="text-white">Our Team</CardTitle>
+          <Button
+            onClick={handleAdd}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Team Member
           </Button>

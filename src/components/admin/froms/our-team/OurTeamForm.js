@@ -360,17 +360,17 @@ export default function OurTeamForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingTeamMember ? "Edit Team Member" : "Add New Team Member"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 py-4">
             {/* Basic Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -381,6 +381,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.employeeId?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="First Name"
@@ -389,6 +390,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.firstName?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Last Name"
@@ -397,6 +399,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.lastName?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Email"
@@ -406,6 +409,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.email?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Phone"
@@ -414,6 +418,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.phone?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 {!editingTeamMember && (
                   <TextField
@@ -424,14 +429,15 @@ export default function OurTeamForm({
                     register={register}
                     error={errors.password?.message}
                     required
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                 )}
               </div>
             </div>
 
             {/* Employment Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Employment Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -442,6 +448,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.position?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <Controller
                   name="role"
@@ -466,6 +473,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.salary?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <Controller
                   name="departmentId"
@@ -493,6 +501,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.hireDate?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <Controller
                   name="status"
@@ -513,8 +522,8 @@ export default function OurTeamForm({
             </div>
 
             {/* Personal Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Personal Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -525,6 +534,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.dateOfBirth?.message}
                   required
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Address"
@@ -532,6 +542,7 @@ export default function OurTeamForm({
                   placeholder="e.g. House 12, Road 5"
                   register={register}
                   error={errors.address?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="City"
@@ -539,6 +550,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Dhaka"
                   register={register}
                   error={errors.city?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="State"
@@ -546,6 +558,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Dhaka"
                   register={register}
                   error={errors.state?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Zip Code"
@@ -553,6 +566,7 @@ export default function OurTeamForm({
                   placeholder="e.g. 1207"
                   register={register}
                   error={errors.zipCode?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Country"
@@ -560,13 +574,14 @@ export default function OurTeamForm({
                   placeholder="e.g. Bangladesh"
                   register={register}
                   error={errors.country?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
               </div>
             </div>
 
             {/* Emergency Contact */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Emergency Contact
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -576,6 +591,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Md Rahman"
                   register={register}
                   error={errors.emergencyContactName?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <TextField
                   label="Emergency Contact Phone"
@@ -583,13 +599,14 @@ export default function OurTeamForm({
                   placeholder="e.g. +8801812345678"
                   register={register}
                   error={errors.emergencyContactPhone?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
               </div>
             </div>
 
             {/* Profile & Skills */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Profile & Skills
               </h3>
               <div className="space-y-4">
@@ -618,9 +635,12 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.bio?.message}
                   rows={4}
+                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#EFFC76]"
                 />
                 <div>
-                  <Label htmlFor="skills">Skills (comma-separated)</Label>
+                  <Label htmlFor="skills" className="text-white/80">
+                    Skills (comma-separated)
+                  </Label>
                   <Controller
                     name="skills"
                     control={control}
@@ -637,6 +657,7 @@ export default function OurTeamForm({
                               .filter(s => s);
                             field.onChange(skillsArray);
                           }}
+                          className="bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                         />
                         {errors.skills && (
                           <p className="text-sm text-red-500 mt-1">{errors.skills.message}</p>
@@ -653,12 +674,14 @@ export default function OurTeamForm({
               type="button"
               variant="outline" 
               onClick={handleClose}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting || isUploading}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting || isUploading
                 ? isUploading

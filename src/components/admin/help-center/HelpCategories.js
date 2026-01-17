@@ -52,18 +52,21 @@ export default function HelpCategories() {
 
   return (
     <div className="mb-16">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Browse by Category</h2>
+      <h2 className="text-xl font-bold text-white mb-6">Browse by Category</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {categories.map((cat, index) => (
-          <Card key={index} className="border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+          <Card
+            key={index}
+            className="glass-card border-white/20 hover:border-[#EFFC76]/60 transition-shadow cursor-pointer group"
+          >
             <CardContent className="p-6">
-              <div className={`w-12 h-12 rounded-lg ${cat.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <cat.icon className={`w-6 h-6 ${cat.color}`} />
+              <div className="w-12 h-12 rounded-lg bg-[#EFFC76]/15 text-[#EFFC76] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <cat.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#EFFC76] transition-colors">
                 {cat.title}
               </h3>
-              <p className="text-sm text-gray-500 line-clamp-2">
+              <p className="text-sm text-white/70 line-clamp-2">
                 {cat.description}
               </p>
             </CardContent>
