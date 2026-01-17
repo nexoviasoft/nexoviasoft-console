@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { Bell, Search, Settings } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function DocumentsHeader() {
@@ -16,14 +15,6 @@ export default function DocumentsHeader() {
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="relative hidden md:block w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input 
-              placeholder="Search templates..." 
-              className="pl-9 bg-white border-gray-200"
-            />
-          </div>
-          
           <Button variant="ghost" size="icon" className="relative">
             <Bell className="h-5 w-5 text-gray-500" />
             <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border-2 border-white"></span>
