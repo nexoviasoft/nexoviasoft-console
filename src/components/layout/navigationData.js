@@ -65,6 +65,6 @@ export const othersNavItems = [
       // { icon: FileCheck, label: "Tags", id: "Tags", href: "/platform-settings/tags" },
     ]
   },
-  { icon: UserCog, label: "User Management", id: "User Management", href: "/admin/user-management" },
+  { icon: UserCog, label: "Our Team", id: "Our Team", href: "/admin/our-team" },
   { icon: HelpCircle, label: "Help Center", id: "Help Center", href: "/admin/help-center" },
 ];

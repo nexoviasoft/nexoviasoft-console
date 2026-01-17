@@ -1,4 +1,4 @@
 {
-  "/admin/help-center/page": "app/admin/help-center/page.js",
-  "/landing/customer-review/page": "app/landing/customer-review/page.js"
+  "/admin/our-team/[id]/page": "app/admin/our-team/[id]/page.js",
+  "/admin/our-team/page": "app/admin/our-team/page.js"
 }

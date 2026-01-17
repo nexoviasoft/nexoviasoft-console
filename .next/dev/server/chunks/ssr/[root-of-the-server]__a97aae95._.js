@@ -51,7 +51,8 @@ const baseApi = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
         'Client',
         'HeroCarousel',
         'PricePackage',
-        'CustomerReview'
+        'CustomerReview',
+        'OurTeam'
     ],
     endpoints: ()=>({})
 });
@@ -291,9 +292,9 @@ const othersNavItems = [
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$cog$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCog$3e$__["UserCog"],
-        label: "User Management",
-        id: "User Management",
-        href: "/admin/user-management"
+        label: "Our Team",
+        id: "Our Team",
+        href: "/admin/our-team"
     },
     {
         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$question$2d$mark$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__HelpCircle$3e$__["HelpCircle"],
