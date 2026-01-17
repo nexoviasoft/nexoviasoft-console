@@ -5,11 +5,13 @@ import RecruitmentHeader from "@/components/admin/recruitment/RecruitmentHeader"
 import JobPostings from "@/components/admin/recruitment/JobPostings";
 import CandidatePipeline from "@/components/admin/recruitment/CandidatePipeline";
 import CandidateDetails from "@/components/admin/recruitment/CandidateDetails";
+import JobDetails from "@/components/admin/recruitment/JobDetails";
 import InterviewScheduler from "@/components/admin/recruitment/InterviewScheduler";
 
 export default function RecruitmentPage() {
   const [activeTab, setActiveTab] = useState('jobs');
   const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   const handleSelectCandidate = (candidate) => {
     setSelectedCandidate(candidate);
@@ -27,7 +29,18 @@ export default function RecruitmentPage() {
           onTabChange={setActiveTab}
         />
         
-        {activeTab === 'jobs' && <JobPostings />}
+  /* ... inside RecruitmentPage ... */
+        
+        {activeTab === 'jobs' && (
+          selectedJob ? (
+            <JobDetails 
+              job={selectedJob} 
+              onBack={() => setSelectedJob(null)}
+            />
+          ) : (
+            <JobPostings onViewDetails={(job) => setSelectedJob(job)} />
+          )
+        )}
         
         {activeTab === 'candidates' && (
           selectedCandidate ? (

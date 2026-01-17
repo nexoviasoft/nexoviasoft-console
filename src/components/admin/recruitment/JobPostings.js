@@ -48,7 +48,7 @@ const initialJobs = [
   }
 ];
 
-export default function JobPostings({ onNewJob }) {
+export default function JobPostings({ onNewJob, onViewDetails }) {
   const [jobs, setJobs] = useState(initialJobs);
   const [showDialog, setShowDialog] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
@@ -128,7 +128,11 @@ export default function JobPostings({ onNewJob }) {
                   <Users className="w-4 h-4" />
                   {job.applicants} applicants
                 </div>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => onViewDetails && onViewDetails(job)}
+                >
                   View Details
                 </Button>
               </div>
