@@ -148,9 +148,9 @@ const Sidebar = () => {
           </div>
           <div className="flex-1">
             <div className="font-bold text-sm text-gray-900 transition-colors group-hover:text-purple-600">
-              Makmur Bahagia
+              SquadLog Console
             </div>
-            <div className="text-xs text-gray-500">Company</div>
+            <div className="text-xs text-gray-500">Dashboard</div>
           </div>
           <button className="text-gray-400 hover:text-purple-600 transition-colors duration-200 hover:scale-110">
             <ChevronDown className="w-4 h-4 transition-transform duration-200" />
