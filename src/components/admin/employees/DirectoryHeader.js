@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function DirectoryHeader({ onSearch, onFilterChange }) {
+export default function DirectoryHeader({ onSearch, onFilterChange, onAddEmployee }) {
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div>
@@ -46,7 +46,10 @@ export default function DirectoryHeader({ onSearch, onFilterChange }) {
           </SelectContent>
         </Select>
 
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white gap-2">
+        <Button 
+          className="bg-purple-600 hover:bg-purple-700 text-white gap-2"
+          onClick={onAddEmployee}
+        >
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Add Employee</span>
         </Button>
