@@ -33,22 +33,22 @@ export default function NewProjectDialog({ open, onOpenChange }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] glass-card border-white/20 text-white">
         <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-white">Create New Project</DialogTitle>
+          <DialogDescription className="text-white/70">
             Start a new project board. Select a template and fill in the details below.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           {/* Template Selection */}
           <div className="grid grid-cols-4 items-start gap-4">
-            <Label htmlFor="template" className="text-right pt-2">
+            <Label htmlFor="template" className="text-right pt-2 text-white">
               Template
             </Label>
             <div className="col-span-3 space-y-2">
               <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white">
                   <SelectValue placeholder="Select a project template" />
                 </SelectTrigger>
                 <SelectContent className="max-h-[300px]">
@@ -60,7 +60,7 @@ export default function NewProjectDialog({ open, onOpenChange }) {
                 </SelectContent>
               </Select>
               {selectedTemplateData && (
-                <p className="text-xs text-gray-500 leading-relaxed">
+                <p className="text-xs text-white/60 leading-relaxed">
                   {selectedTemplateData.description}
                 </p>
               )}
@@ -69,31 +69,35 @@ export default function NewProjectDialog({ open, onOpenChange }) {
 
           {/* Project Name */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="name" className="text-right text-white">
               Name
             </Label>
-            <Input id="name" placeholder="E.g., Website Redesign" className="col-span-3" />
+            <Input
+              id="name"
+              placeholder="E.g., Website Redesign"
+              className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+            />
           </div>
 
           {/* Description */}
           <div className="grid grid-cols-4 items-start gap-4">
-            <Label htmlFor="description" className="text-right pt-2">
+            <Label htmlFor="description" className="text-right pt-2 text-white">
               Description
             </Label>
             <Textarea 
               id="description" 
               placeholder="Project goals and scope..." 
-              className="col-span-3 min-h-[80px]" 
+              className="col-span-3 min-h-[80px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
             />
           </div>
 
           {/* Team */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="team" className="text-right">
+            <Label htmlFor="team" className="text-right text-white">
               Team
             </Label>
             <Select>
-              <SelectTrigger className="col-span-3">
+              <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                 <SelectValue placeholder="Select a team" />
               </SelectTrigger>
               <SelectContent>
@@ -108,11 +112,11 @@ export default function NewProjectDialog({ open, onOpenChange }) {
 
           {/* Project Lead */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="lead" className="text-right">
+            <Label htmlFor="lead" className="text-right text-white">
               Lead
             </Label>
             <Select>
-              <SelectTrigger className="col-span-3">
+              <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                 <SelectValue placeholder="Select project lead" />
               </SelectTrigger>
               <SelectContent>
@@ -125,9 +129,22 @@ export default function NewProjectDialog({ open, onOpenChange }) {
             </Select>
           </div>
         </div>
-        <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button type="submit" disabled={!selectedTemplate}>Create Project</Button>
+        <DialogFooter className="border-t border-white/10 pt-4 mt-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={!selectedTemplate}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button disabled:opacity-60"
+          >
+            Create Project
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
