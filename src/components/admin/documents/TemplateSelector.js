@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Receipt, UserPlus, FileCheck, Check, Sparkles } from "lucide-react";
+import { Receipt, UserPlus, FileCheck, CheckCircle2, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -14,8 +14,6 @@ const templates = [
       icon: Receipt,
       type: "invoice",
       category: "Finance",
-      gradient: "from-blue-500 to-cyan-500",
-      bg: "bg-blue-50"
   },
   {
       id: "invoice-web",
@@ -24,8 +22,6 @@ const templates = [
       icon: Receipt,
       type: "invoice",
       category: "Finance",
-      gradient: "from-purple-500 to-pink-500",
-      bg: "bg-purple-50"
   },
   {
       id: "invoice-design",
@@ -34,8 +30,6 @@ const templates = [
       icon: Receipt,
       type: "invoice",
       category: "Creative",
-      gradient: "from-orange-500 to-amber-500",
-      bg: "bg-orange-50"
   },
   {
       id: "offer-letter",
@@ -44,8 +38,6 @@ const templates = [
       icon: UserPlus,
       type: "letter",
       category: "HR",
-      gradient: "from-emerald-500 to-teal-500",
-      bg: "bg-emerald-50"
   },
   {
       id: "appointment-letter",
@@ -54,8 +46,6 @@ const templates = [
       icon: FileCheck,
       type: "letter",
       category: "HR",
-      gradient: "from-indigo-500 to-violet-500",
-      bg: "bg-indigo-50"
   }
 ];
 
@@ -70,89 +60,85 @@ export default function TemplateSelector({ onSelect, onCancel }) {
   };
 
   return (
-    <div className="flex flex-col h-full"> 
+    <div className="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-100"> 
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-            <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
+      <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
+         <div>
+            <h3 className="text-xl font-semibold text-gray-900 tracking-tight">
               Choose Template
             </h3>
-            <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full font-semibold">Step 1 of 3</span>
-        </div>
-        <p className="text-gray-500 text-sm">Select a professionally designed template to get started.</p>
+            <p className="text-sm text-gray-500 mt-1">Select a professionally designed template to get started.</p>
+         </div>
+         <Button variant="ghost" size="icon" onClick={onCancel} className="rounded-full text-gray-400 hover:text-gray-900">
+            <X className="w-4 h-4" />
+         </Button>
       </div>
 
       {/* Templates List */}
-      <div className="space-y-3 flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+      <div className="flex-1 overflow-y-auto p-6 bg-gray-50/30">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {templates.map((template) => {
           const isSelected = selectedId === template.id;
           return (
-            <div 
+            <button 
               key={template.id}
               onClick={() => setSelectedId(template.id)}
               className={cn(
-                "group relative cursor-pointer flex items-center gap-5 p-4 rounded-xl border transition-all duration-300",
+                "group relative flex flex-col items-start text-left p-5 rounded-lg border transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-900",
                 isSelected 
-                  ? "border-purple-500 bg-purple-50/50 shadow-md shadow-purple-500/10 scale-[1.01]" 
-                  : "border-gray-100 bg-white hover:border-purple-200 hover:shadow-lg hover:shadow-gray-200/50 hover:-translate-y-0.5"
+                  ? "bg-white border-gray-900 shadow-sm ring-1 ring-gray-900" 
+                  : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
               )}
             >
               {/* Icon Box */}
-              <div className={cn(
-                "w-14 h-14 rounded-xl flex items-center justify-center shrink-0 shadow-sm transition-all duration-500 group-hover:scale-110",
-                isSelected ? `bg-gradient-to-br ${template.gradient} text-white` : `${template.bg} text-gray-500 group-hover:text-gray-700`
-              )}>
-                {isSelected ? <template.icon className="w-7 h-7" /> : <template.icon className="w-7 h-7" />}
+              <div className="flex items-center justify-between w-full mb-4">
+                  <div className={cn(
+                    "w-8 h-8 rounded-md flex items-center justify-center transition-colors",
+                    isSelected ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-gray-200'
+                  )}>
+                    <template.icon className="w-4 h-4" />
+                  </div>
+                  {isSelected && (
+                     <div className="text-gray-900">
+                       <CheckCircle2 className="w-5 h-5 fill-current text-white" />
+                     </div>
+                  )}
               </div>
 
               {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h4 className={cn("text-base font-bold transition-colors", isSelected ? "text-gray-900" : "text-gray-700 group-hover:text-gray-900")}>
+              <div className="flex-1 min-w-0 w-full">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <h4 className={cn("text-sm font-semibold transition-colors", isSelected ? "text-gray-900" : "text-gray-900")}>
                     {template.title}
                   </h4>
                   {template.category && (
-                    <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal bg-gray-100 text-gray-500">
                       {template.category}
                     </Badge>
                   )}
                 </div>
-                <p className="text-sm text-gray-500 leading-snug group-hover:text-gray-600 transition-colors">
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 text-left">
                   {template.description}
                 </p>
               </div>
-
-              {/* Selection Checkbox */}
-              <div className={cn(
-                "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300",
-                isSelected 
-                  ? "border-purple-600 bg-purple-600 shadow-sm scale-110" 
-                  : "border-gray-200 group-hover:border-purple-300"
-              )}>
-                  {isSelected && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
-              </div>
-              
-              {/* Subtle Highlight Glow */}
-              {isSelected && (
-                <div className="absolute inset-0 rounded-xl bg-purple-500/5 pointer-events-none animate-pulse" />
-              )}
-            </div>
+            </button>
           );
         })}
+        </div>
       </div>
 
       {/* Footer Actions */}
-      <div className="mt-8 flex items-center justify-between pt-6 border-t border-gray-100">
+      <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-between items-center">
         <div className="flex items-center gap-2 text-xs text-gray-400">
-          <Sparkles className="w-3 h-3 text-purple-400" />
-          <span>AI-Powered Suggestions enabled</span>
+          <Sparkles className="w-3 h-3 text-gray-400" />
+          <span>Smart templates</span>
         </div>
         
         <div className="flex items-center gap-3">
           <Button 
               variant="outline" 
               onClick={onCancel}
-              className="hover:bg-gray-50 text-gray-600 border-gray-200"
+              className="border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
           >
               Cancel
           </Button>
@@ -160,13 +146,13 @@ export default function TemplateSelector({ onSelect, onCancel }) {
               onClick={handleNext}
               disabled={!selectedId}
               className={cn(
-                "px-8 transition-all duration-300 shadow-lg",
+                "px-6 transition-all duration-200",
                 selectedId 
-                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-purple-500/25 hover:shadow-purple-500/40 transform hover:-translate-y-0.5" 
+                  ? "bg-gray-900 hover:bg-black text-white shadow-sm" 
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
               )}
           >
-              Continue
+              Use Template
           </Button>
         </div>
       </div>
