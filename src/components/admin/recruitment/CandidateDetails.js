@@ -17,7 +17,7 @@ export default function CandidateDetails({ candidate, onBack }) {
   if (!candidate) {
     return (
       <div className="flex items-center justify-center h-96">
-        <p className="text-gray-500">Select a candidate to view details</p>
+        <p className="text-white/70">Select a candidate to view details</p>
       </div>
     );
   }
@@ -37,83 +37,114 @@ export default function CandidateDetails({ candidate, onBack }) {
   return (
     <>
       <div className="space-y-6">
-        <Button variant="ghost" onClick={onBack} className="gap-2">
+        <Button
+          variant="ghost"
+          onClick={onBack}
+          className="gap-2 text-white/80 hover:bg-white/10"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Pipeline
         </Button>
 
-        <Card>
+        <Card className="glass-card border-white/20">
           <CardHeader>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarFallback className="bg-purple-100 text-purple-600 text-xl">
+                  <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xl">
                     {candidate.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle className="text-2xl">{candidate.name}</CardTitle>
-                  <p className="text-gray-500">{candidate.position}</p>
+                  <CardTitle className="text-2xl text-white">
+                    {candidate.name}
+                  </CardTitle>
+                  <p className="text-white/70">{candidate.position}</p>
                 </div>
               </div>
-              <Badge className="text-sm">{candidate.stage}</Badge>
+              <Badge className="text-sm bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40">
+                {candidate.stage}
+              </Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-gray-400" />
+                <Mail className="w-5 h-5 text-white/60" />
                 <div>
-                  <p className="text-xs text-gray-500">Email</p>
-                  <p className="font-medium">{candidate.email}</p>
+                  <p className="text-xs text-white/60">Email</p>
+                  <p className="font-medium text-white">{candidate.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-gray-400" />
+                <Phone className="w-5 h-5 text-white/60" />
                 <div>
-                  <p className="text-xs text-gray-500">Phone</p>
-                  <p className="font-medium">{candidate.phone}</p>
+                  <p className="text-xs text-white/60">Phone</p>
+                  <p className="font-medium text-white">{candidate.phone}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-gray-400" />
+                <Calendar className="w-5 h-5 text-white/60" />
                 <div>
-                  <p className="text-xs text-gray-500">Applied Date</p>
-                  <p className="font-medium">{candidate.appliedDate}</p>
+                  <p className="text-xs text-white/60">Applied Date</p>
+                  <p className="font-medium text-white">
+                    {candidate.appliedDate}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-gray-400" />
+                <Clock className="w-5 h-5 text-white/60" />
                 <div>
-                  <p className="text-xs text-gray-500">Experience</p>
-                  <p className="font-medium">{candidate.experience}</p>
+                  <p className="text-xs text-white/60">Experience</p>
+                  <p className="font-medium text-white">
+                    {candidate.experience}
+                  </p>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2">Skills</h4>
+              <h4 className="font-semibold mb-2 text-white">Skills</h4>
               <div className="flex flex-wrap gap-2">
                 {candidate.skills.map((skill, idx) => (
-                  <Badge key={idx} variant="secondary">{skill}</Badge>
+                  <Badge
+                    key={idx}
+                    variant="secondary"
+                    className="bg-white/5 border-white/20 text-white/80"
+                  >
+                    {skill}
+                  </Badge>
                 ))}
               </div>
             </div>
 
-            <div className="flex gap-2 pt-4 border-t">
-              <Button onClick={() => setShowEmailDialog(true)} className="gap-2">
+            <div className="flex gap-2 pt-4 border-t border-white/10">
+              <Button
+                onClick={() => setShowEmailDialog(true)}
+                className="gap-2 bg-white hover:bg-white/90 text-black"
+              >
                 <Mail className="w-4 h-4" />
                 Send Email
               </Button>
-              <Button variant="outline">Schedule Interview</Button>
-              <Button variant="outline">Download Resume</Button>
+              <Button
+                variant="outline"
+                className="bg-white hover:bg-white/90 text-black"
+              >
+                Schedule Interview
+              </Button>
+              <Button
+                variant="outline"
+                className="bg-white hover:bg-white/90 text-black"
+              >
+                Download Resume
+              </Button>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="glass-card border-white/20">
           <CardHeader>
-            <CardTitle>Interview Notes</CardTitle>
+            <CardTitle className="text-white">Interview Notes</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea 
@@ -121,16 +152,24 @@ export default function CandidateDetails({ candidate, onBack }) {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={4}
+              className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
             />
-            <Button onClick={handleAddNote}>Add Note</Button>
+            <Button
+              onClick={handleAddNote}
+              className="bg-white hover:bg-white/90 text-black"
+            >
+              Add Note
+            </Button>
             
             <div className="space-y-3 mt-6">
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium text-sm">Initial Screening</span>
-                  <span className="text-xs text-gray-500">2026-01-13</span>
+                  <span className="font-medium text-sm text-white">
+                    Initial Screening
+                  </span>
+                  <span className="text-xs text-white/60">2026-01-13</span>
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-white/70">
                   Strong technical background. Good communication skills. Recommended for technical interview.
                 </p>
               </div>
@@ -140,18 +179,29 @@ export default function CandidateDetails({ candidate, onBack }) {
       </div>
 
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
-        <DialogContent>
+        <DialogContent className="glass-panel border-white/20">
           <DialogHeader>
-            <DialogTitle>Send Email to {candidate.name}</DialogTitle>
+            <DialogTitle className="text-white">
+              Send Email to {candidate.name}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white/70">
               This will open your email client with a pre-filled message to {candidate.email}
             </p>
           </div>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setShowEmailDialog(false)}>Cancel</Button>
-            <Button onClick={handleSendEmail} className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowEmailDialog(false)}
+              className="bg-white hover:bg-white/90 text-black"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSendEmail}
+              className="gap-2 bg-white hover:bg-white/90 text-black"
+            >
               <Send className="w-4 h-4" />
               Send Email
             </Button>

@@ -9,8 +9,10 @@ export default function RecruitmentHeader({ activeTab, onTabChange, onNewJob }) 
   return (
     <div className="flex items-center justify-between mb-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Recruitment</h1>
-        <p className="text-gray-500">Manage job postings, candidates, and interviews</p>
+        <h1 className="text-2xl font-bold text-white">Recruitment</h1>
+        <p className="text-sm text-white/70">
+          Manage job postings, candidates, and interviews
+        </p>
       </div>
       
       <div className="flex items-center gap-4">
@@ -23,7 +25,10 @@ export default function RecruitmentHeader({ activeTab, onTabChange, onNewJob }) 
         </Tabs>
         
         {activeTab === 'jobs' && (
-          <Button onClick={onNewJob} className="bg-purple-600 hover:bg-purple-700 gap-2">
+          <Button
+            onClick={onNewJob}
+            className="bg-white hover:bg-white/90 text-black gap-2"
+          >
             <Plus className="w-4 h-4" />
             Post New Job
           </Button>
