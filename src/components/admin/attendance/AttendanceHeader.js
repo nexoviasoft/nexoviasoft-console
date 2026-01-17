@@ -11,24 +11,31 @@ export default function AttendanceHeader() {
   const [date, setDate] = React.useState(new Date());
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-white">Attendance</h1>
+        <p className="text-sm text-white/60 mt-1">
           Track employee attendance, work hours, and status.
         </p>
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center bg-white rounded-lg border border-gray-200 p-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-gray-900">
+        <div className="flex items-center rounded-lg border border-white/15 bg-white/5 backdrop-blur-xl p-1 shadow-[0_0_24px_rgba(0,0,0,0.45)]">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/5"
+          >
             <ChevronLeft className="w-4 h-4" />
           </Button>
           
           <Popover>
             <PopoverTrigger asChild>
-               <Button variant="ghost" className="h-8 px-3 text-sm font-medium text-gray-900 hover:bg-transparent">
-                 <CalendarIcon className="mr-2 h-4 w-4 text-gray-400" />
+               <Button
+                 variant="ghost"
+                 className="h-8 px-3 text-sm font-medium text-white hover:bg-white/5 hover:text-[#EFFC76]"
+               >
+                 <CalendarIcon className="mr-2 h-4 w-4 text-[#EFFC76]" />
                  {format(date, "MMM dd, yyyy")}
                </Button>
             </PopoverTrigger>
@@ -42,14 +49,21 @@ export default function AttendanceHeader() {
             </PopoverContent>
           </Popover>
 
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-gray-900">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/5"
+          >
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
 
-        <Button variant="outline" className="gap-2 bg-white hover:bg-gray-50 text-gray-700 border-gray-200">
-          <Download className="w-4 h-4" />
-          <span>Export Report</span>
+        <Button
+          variant="outline"
+          className="gap-2 glass-button border border-[#EFFC76]/60 bg-[#EFFC76] text-black hover:bg-[#e0ef5f]"
+        >
+          <Download className="w-4 h-4 text-black" />
+          <span className="font-medium">Export Report</span>
         </Button>
       </div>
     </div>

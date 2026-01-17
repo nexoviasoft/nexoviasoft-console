@@ -16,9 +16,9 @@ const Header = ({ title = "Squadlog", subtitle }) => {
     "An overview of key HR metrics and quick insights on employee activity.";
 
   return (
-    <header className="relative bg-white/5 backdrop-blur-xl border-b border-white/10 px-8 py-3 text-white">
-      <div className="absolute inset-y-0 left-0 w-1 bg-[#EFFC76] rounded-r-full shadow-[0_0_16px_rgba(239,252,118,0.6)]" />
-      <div className="absolute inset-y-0 right-0 w-1 bg-[#EFFC76] rounded-l-full shadow-[0_0_16px_rgba(239,252,118,0.6)]" />
+    <header className="relative bg-white/5 backdrop-blur-xl border-b border-white/10 px-8 py-6 text-white">
+      <div className="absolute inset-y-0 left-0 w-1 bg-[#EFFC76] rounded-r-full shadow-[0_0_18px_rgba(239,252,118,0.6)]" />
+      <div className="absolute inset-y-0 right-0 w-1 bg-[#EFFC76] rounded-l-full shadow-[0_0_18px_rgba(239,252,118,0.6)]" />
       <div className="flex items-start justify-between mb-4 relative z-10">
         <div>
           <h1 className="text-3xl font-bold text-white mb-1">{title}</h1>

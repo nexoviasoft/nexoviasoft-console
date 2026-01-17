@@ -91,22 +91,36 @@ export default function BiometricClockIn() {
   };
 
   return (
-    <Card className="mb-6 bg-gradient-to-r from-purple-50 to-white border-purple-100">
+    <Card className="mb-6 glass-card">
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          
           <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-full ${isClockedIn ? "bg-green-100 text-green-600" : "bg-purple-100 text-purple-600"}`}>
-                {isClockedIn ? <CheckCircle2 className="w-8 h-8" /> : <ScanFace className="w-8 h-8" />}
+            <div
+              className={`p-3 rounded-full border ${
+                isClockedIn
+                  ? "bg-emerald-500/15 border-emerald-400/50 text-emerald-300"
+                  : "bg-[#EFFC76]/15 border-[#EFFC76]/60 text-[#EFFC76]"
+              }`}
+            >
+              {isClockedIn ? (
+                <CheckCircle2 className="w-8 h-8" />
+              ) : (
+                <ScanFace className="w-8 h-8" />
+              )}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
-                {isClockedIn ? "You are Clocked In" : "FaceID & Fingerprint Attendance"}
+              <h2 className="text-xl font-bold text-white">
+                {isClockedIn
+                  ? "You are Clocked In"
+                  : "FaceID & Fingerprint Attendance"}
               </h2>
-              <p className="text-gray-500">
-                {isClockedIn 
-                    ? `Clocked in at ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` 
-                    : "Securely clock in using your FaceID or Fingerprint scan."}
+              <p className="text-white/70">
+                {isClockedIn
+                  ? `Clocked in at ${new Date().toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : "Securely clock in using your FaceID or Fingerprint scan."}
               </p>
             </div>
           </div>
@@ -118,7 +132,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('FaceID')} 
                     disabled={isLoading}
-                    className="border-purple-200 hover:bg-purple-50 text-purple-700"
+                    className="border-black hover:bg-[#EFFC76]/10 
+                    text-black"
                 >
                     <ScanFace className="w-4 h-4 mr-2" />
                     Setup FaceID
@@ -127,7 +142,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('Fingerprint')} 
                     disabled={isLoading}
-                    className="border-purple-200 hover:bg-purple-50 text-purple-700"
+                    className="border-black hover:bg-[#EFFC76]/10 
+                    text-black"
                 >
                     <Fingerprint className="w-4 h-4 mr-2" />
                     Setup Fingerprint
@@ -135,10 +151,10 @@ export default function BiometricClockIn() {
                </div>
             ) : (
                 !isClockedIn && (
-                    <Button 
-                        onClick={handleClockIn} 
-                        disabled={isLoading}
-                        className="bg-purple-600 hover:bg-purple-700 text-white min-w-[200px]"
+                    <Button
+                      onClick={handleClockIn}
+                      disabled={isLoading}
+                      className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black min-w-[200px] glass-button"
                     >
                         {isLoading ? "Verifying..." : "Clock In with FaceID"}
                     </Button>
@@ -146,7 +162,10 @@ export default function BiometricClockIn() {
             )}
             
             {isClockedIn && (
-                 <Button variant="outline" className="text-red-500 hover:text-red-600 hover:bg-red-50">
+                 <Button
+                  variant="outline"
+                  className="border-red-500/70 text-red-400 hover:text-red-300 hover:bg-red-500/15"
+                >
                     Clock Out
                  </Button>
             )}

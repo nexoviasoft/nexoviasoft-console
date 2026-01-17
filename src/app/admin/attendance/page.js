@@ -8,8 +8,8 @@ import BiometricClockIn from "@/components/admin/attendance/BiometricClockIn";
 
 export default function Attendance() {
   return (
-    <div className="bg-gray-50 px-8 py-8">
-      <div className="max-w-[1600px] w-full mx-auto">
+    <div className="px-8 py-8 text-white">
+      <div className="max-w-[1600px] w-full mx-auto space-y-6">
         <AttendanceHeader />
         <BiometricClockIn />
         <AttendanceStats />

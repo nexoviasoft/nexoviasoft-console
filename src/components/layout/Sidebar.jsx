@@ -168,7 +168,7 @@ const Sidebar = () => {
           </div>
           <div className="flex-1">
             <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
-              Squadlog Dashbord
+              Squadlog
             </div>
             <div className="text-xs text-white/60">Company</div>
           </div>

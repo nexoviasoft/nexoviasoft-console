@@ -63,11 +63,11 @@ export default function Schedule() {
   };
 
   return (
-    <div className="bg-gray-50 px-8 py-8 flex flex-col">
-      <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full">
+    <div className="px-8 py-8 flex flex-col text-white">
+      <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full space-y-6">
         <ScheduleHeader onAddShift={() => setIsAddShiftDialogOpen(true)} />
         <div className="flex-1 min-h-0">
-           <ScheduleGrid />
+          <ScheduleGrid />
         </div>
       </div>
 
