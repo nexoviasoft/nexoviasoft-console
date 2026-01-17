@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Eye } from "lucide-react";
@@ -14,7 +14,7 @@ import {
   useDeleteOurProductMutation,
 } from "@/api/landing/our-product/ourProductApi";
 
-export default function OurProductPage() {
+function OurProductContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showDialog, setShowDialog] = useState(false);
@@ -197,5 +197,13 @@ export default function OurProductPage() {
         loading={isDeleting}
       />
     </div>
+  );
+}
+
+export default function OurProductPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OurProductContent />
+    </Suspense>
   );
 }
