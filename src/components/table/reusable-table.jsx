@@ -258,17 +258,17 @@ export default function ReusableTable({
       )}
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-x-auto relative max-h-[600px] overflow-auto">
+      <div className="glass-panel rounded-xl overflow-x-auto relative max-h-[600px] overflow-auto">
         <Table className="min-w-[900px] w-full">
-          <TableHeader className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800">
-            <TableRow className="border-b border-gray-200 dark:border-gray-700">
+          <TableHeader className="sticky top-0 z-10 bg-white/5 backdrop-blur-md">
+            <TableRow className="border-b border-white/10">
               {enableSelection && (
                 <TableHead className="w-12 px-6 py-4">
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 text-[#EFFC76] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#EFFC76]"
                   />
                 </TableHead>
               )}
@@ -300,18 +300,15 @@ export default function ReusableTable({
           <TableBody>
             {isLoading
               ? Array.from({ length: 6 }).map((_, rowIndex) => (
-                  <TableRow
-                    key={rowIndex}
-                    className="border-b border-gray-100 dark:border-gray-800"
-                  >
+                  <TableRow key={rowIndex} className="border-b border-white/10">
                     {enableSelection && (
                       <TableCell className="px-6 py-4">
-                        <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                        <div className="w-4 h-4 bg-white/10 rounded animate-pulse"></div>
                       </TableCell>
                     )}
                     {headers?.map((_, colIndex) => (
                       <TableCell key={colIndex} className="px-6 py-4">
-                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-full"></div>
+                        <div className="h-4 bg-white/10 rounded animate-pulse w-full"></div>
                       </TableCell>
                     ))}
                   </TableRow>
@@ -319,10 +316,10 @@ export default function ReusableTable({
               : paginatedData?.map((item, index) => (
                   <TableRow
                     key={index}
-                    className={`border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors duration-200 ${
+                    className={`border-b border-white/10 transition-colors duration-200 ${
                       selectedRows.has(item.id)
-                        ? "bg-blue-50 dark:bg-blue-900/20"
-                        : ""
+                        ? "bg-[#EFFC76]/5"
+                        : "hover:bg-white/5"
                     }`}
                   >
                     {enableSelection && (
@@ -331,7 +328,7 @@ export default function ReusableTable({
                           type="checkbox"
                           checked={selectedRows.has(item.id)}
                           onChange={() => handleRowSelect(item.id)}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className="w-4 h-4 text-[#EFFC76] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#EFFC76]"
                         />
                       </TableCell>
                     )}
@@ -342,7 +339,7 @@ export default function ReusableTable({
                           idx + 1 === headers?.length
                             ? "text-center"
                             : "text-left"
-                        } text-sm text-gray-900 dark:text-gray-100`}
+                        } text-sm text-gray-100`}
                       >
                         {React.isValidElement(item[header.field]) ? (
                           item[header.field]
