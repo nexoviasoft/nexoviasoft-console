@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Eye } from "lucide-react";
@@ -14,7 +14,7 @@ import {
   useDeleteClientMutation,
 } from "@/api/landing/client/clientApi";
 
-export default function OurClientPage() {
+function OurClientContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showDialog, setShowDialog] = useState(false);
@@ -188,5 +188,13 @@ export default function OurClientPage() {
         loading={isDeleting}
       />
     </div>
+  );
+}
+
+export default function OurClientPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OurClientContent />
+    </Suspense>
   );
 }
