@@ -294,8 +294,8 @@ export default function EnhancedKanbanBoard() {
   const [taskComments, setTaskComments] = useState({});
   const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
   const [newComments, setNewComments] = useState({});
-  const [selectedTemplateId, setSelectedTemplateId] = useState(null);
-  const [showTemplateDialog, setShowTemplateDialog] = useState(true);
+  const [selectedTemplateId, setSelectedTemplateId] = useState("project_management");
+  const [showTemplateDialog, setShowTemplateDialog] = useState(false);
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
 
