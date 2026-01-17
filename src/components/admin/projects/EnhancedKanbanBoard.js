@@ -15,7 +15,204 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MoreHorizontal, MessageSquare, Plus, X } from "lucide-react";
 import { toast } from "sonner";
 
-const initialColumns = [
+const templates = [
+  {
+    id: "scrum",
+    name: "Scrum",
+    description:
+      "Designed for teams using time-boxed sprints to deliver incremental value.",
+    columns: [
+      { id: "todo", title: "Sprint Backlog", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Done", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "kanban",
+    name: "Kanban",
+    description:
+      "Ideal for managing a continuous flow of work with work-in-progress (WIP) limits.",
+    columns: [
+      { id: "todo", title: "To-Do", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Done", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "bug_tracking",
+    name: "Bug Tracking",
+    description:
+      "Used to capture, track, prioritize, and resolve software defects.",
+    columns: [
+      { id: "todo", title: "To Triage", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "In Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Resolved", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "project_management",
+    name: "Project Management",
+    description:
+      "General-purpose template for managing business projects and tasks.",
+    columns: [
+      { id: "todo", title: "To-Do", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Complete", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "devops",
+    name: "DevOps",
+    description:
+      "Supports software development, deployment, monitoring, and operations workflows.",
+    columns: [
+      { id: "todo", title: "Backlog", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Testing", isCustom: false, order: 3 },
+      { id: "complete", title: "Deployed", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "itsm",
+    name: "IT Service Management (ITSM)",
+    description:
+      "For managing incidents, service requests, problems, and service delivery.",
+    columns: [
+      { id: "todo", title: "New", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Pending", isCustom: false, order: 3 },
+      { id: "complete", title: "Resolved", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "marketing",
+    name: "Marketing",
+    description:
+      "Campaign management, content calendars, and lead tracking.",
+    columns: [
+      { id: "todo", title: "Ideas", isCustom: false, order: 1 },
+      { id: "inprogress", title: "Planning", isCustom: false, order: 2 },
+      { id: "review", title: "In Progress", isCustom: false, order: 3 },
+      { id: "complete", title: "Launched", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "design",
+    name: "Design",
+    description:
+      "UX/UI projects, creative workflows, and digital asset management.",
+    columns: [
+      { id: "todo", title: "Brief", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Design", isCustom: false, order: 2 },
+      { id: "review", title: "In Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Approved", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "hr",
+    name: "Human Resources (HR)",
+    description:
+      "Employee onboarding, recruitment pipelines, and internal HR processes.",
+    columns: [
+      { id: "todo", title: "Pipeline", isCustom: false, order: 1 },
+      { id: "inprogress", title: "Interviewing", isCustom: false, order: 2 },
+      { id: "review", title: "Offer", isCustom: false, order: 3 },
+      { id: "complete", title: "Onboarding", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "sales",
+    name: "Sales",
+    description:
+      "Sales pipelines, opportunity tracking, and deal management.",
+    columns: [
+      { id: "todo", title: "Leads", isCustom: false, order: 1 },
+      { id: "inprogress", title: "Contacted", isCustom: false, order: 2 },
+      { id: "review", title: "Proposal", isCustom: false, order: 3 },
+      { id: "complete", title: "Closed", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "operations",
+    name: "Operations",
+    description:
+      "Procurement, process management, compliance, and policy tracking.",
+    columns: [
+      { id: "todo", title: "Backlog", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Complete", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "task_tracking",
+    name: "Task Tracking",
+    description:
+      "Simple task organization for individuals or teams.",
+    columns: [
+      { id: "todo", title: "To-Do", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Done", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "event_planning",
+    name: "Event Planning",
+    description:
+      "Managing event timelines, responsibilities, and logistics.",
+    columns: [
+      { id: "todo", title: "Planning", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "On Hold", isCustom: false, order: 3 },
+      { id: "complete", title: "Complete", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "fdd",
+    name: "Feature-Driven Development (FDD)",
+    description:
+      "Organizing work around feature delivery.",
+    columns: [
+      { id: "todo", title: "Feature List", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "In Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Complete", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "tdd",
+    name: "Test-Driven Development (TDD)",
+    description:
+      "Supporting test-first development workflows.",
+    columns: [
+      { id: "todo", title: "Tests Planned", isCustom: false, order: 1 },
+      { id: "inprogress", title: "Tests Written", isCustom: false, order: 2 },
+      { id: "review", title: "Code Implemented", isCustom: false, order: 3 },
+      { id: "complete", title: "Verified", isCustom: false, order: 4 },
+    ],
+  },
+  {
+    id: "custom",
+    name: "Custom Templates",
+    description:
+      "User-defined templates with custom fields, workflows, and boards.",
+    columns: [
+      { id: "todo", title: "To-Do", isCustom: false, order: 1 },
+      { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
+      { id: "review", title: "Review", isCustom: false, order: 3 },
+      { id: "complete", title: "Complete", isCustom: false, order: 4 },
+    ],
+  },
+];
+
+const initialColumns = templates.find(
+  (template) => template.id === "project_management"
+)?.columns || [
   { id: "todo", title: "To-Do", isCustom: false, order: 1 },
   { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
   { id: "review", title: "Review", isCustom: false, order: 3 },
@@ -97,6 +294,8 @@ export default function EnhancedKanbanBoard() {
   const [taskComments, setTaskComments] = useState({});
   const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
   const [newComments, setNewComments] = useState({});
+  const [selectedTemplateId, setSelectedTemplateId] = useState(null);
+  const [showTemplateDialog, setShowTemplateDialog] = useState(true);
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
 
@@ -164,6 +363,14 @@ export default function EnhancedKanbanBoard() {
     if (columnTitle) {
       toast.success(`Task moved to ${columnTitle}`);
     }
+  };
+
+  const handleSelectTemplate = (templateId) => {
+    const template = templates.find((item) => item.id === templateId);
+    if (!template) return;
+    setColumns(template.columns);
+    setSelectedTemplateId(templateId);
+    setShowTemplateDialog(false);
   };
 
   const handleOpenTask = (task, columnId) => {
@@ -237,9 +444,38 @@ export default function EnhancedKanbanBoard() {
     return taskComments[taskId]?.length || 0;
   };
 
+  const currentTemplate = templates.find(
+    (template) => template.id === selectedTemplateId
+  );
+
   return (
     <>
-      <div className="flex gap-6 overflow-x-auto pb-4 h-full items-start">
+      <div className="flex flex-col h-full gap-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-medium text-gray-500 uppercase">
+              Template
+            </p>
+            <p className="text-sm font-semibold text-gray-900">
+              {currentTemplate ? currentTemplate.name : "Select a template"}
+            </p>
+            <p className="text-xs text-gray-500 max-w-xl">
+              {currentTemplate
+                ? currentTemplate.description
+                : "Choose the project template that best matches your workflow."}
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowTemplateDialog(true)}
+          >
+            {currentTemplate ? "Change Template" : "Select Template"}
+          </Button>
+        </div>
+
+        <div className="flex gap-6 overflow-x-auto pb-4 h-full items-start">
         {columns
           .slice()
           .sort((a, b) => a.order - b.order)
@@ -390,14 +626,15 @@ export default function EnhancedKanbanBoard() {
             </div>
           ))}
 
-        <button
-          type="button"
-          onClick={() => setShowColumnDialog(true)}
-          className="w-80 shrink-0 flex items-center gap-2 text-gray-500 hover:text-purple-600 py-4 justify-center border-2 border-dashed border-gray-300 rounded-lg transition-colors"
-        >
-          <Plus className="w-5 h-5" />
-          <span className="font-medium">Add Custom Column</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setShowColumnDialog(true)}
+            className="w-80 shrink-0 flex items-center gap-2 text-gray-500 hover:text-purple-600 py-4 justify-center border-2 border-dashed border-gray-300 rounded-lg transition-colors"
+          >
+            <Plus className="w-5 h-5" />
+            <span className="font-medium">Add Custom Column</span>
+          </button>
+        </div>
       </div>
 
       <Dialog open={showColumnDialog} onOpenChange={setShowColumnDialog}>
@@ -484,6 +721,35 @@ export default function EnhancedKanbanBoard() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Select a project template</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+            {templates.map((template) => (
+              <button
+                key={template.id}
+                type="button"
+                onClick={() => handleSelectTemplate(template.id)}
+                className={`flex flex-col items-start text-left p-4 rounded-lg border transition-colors ${
+                  selectedTemplateId === template.id
+                    ? "border-purple-500 bg-purple-50"
+                    : "border-gray-200 hover:border-purple-400 hover:bg-purple-50/50"
+                }`}
+              >
+                <span className="text-sm font-semibold text-gray-900">
+                  {template.name}
+                </span>
+                <span className="mt-1 text-xs text-gray-500">
+                  {template.description}
+                </span>
+              </button>
+            ))}
+          </div>
         </DialogContent>
       </Dialog>
     </>
