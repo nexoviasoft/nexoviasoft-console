@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import DocumentsHeader from "@/components/admin/documents/DocumentsHeader";
-import TemplateGallery from "@/components/admin/documents/TemplateGallery";
+import TemplateSelector from "@/components/admin/documents/TemplateSelector";
 import InvoiceBuilder from "@/components/admin/documents/InvoiceBuilder";
 import LetterBuilder from "@/components/admin/documents/LetterBuilder";
 import {
@@ -134,16 +134,11 @@ export default function DocumentsPage() {
       </div>
 
       <Dialog open={isTemplateOpen} onOpenChange={setIsTemplateOpen}>
-        <DialogContent className="max-w-5xl bg-white/80 backdrop-blur-2xl border border-white/60 shadow-2xl">
-          <DialogHeader className="mb-2">
-            <DialogTitle>Choose a template</DialogTitle>
-            <DialogDescription>
-              Explore invoice and letter templates, then pick one to open in the
-              editor.
-            </DialogDescription>
-          </DialogHeader>
-
-          <TemplateGallery onSelect={handleSelectTemplate} viewMode="grid" />
+        <DialogContent className="max-w-3xl glass-panel border-white/20 p-8 bg-white/95 backdrop-blur-2xl">
+          <TemplateSelector 
+            onSelect={handleSelectTemplate} 
+            onCancel={() => setIsTemplateOpen(false)} 
+          />
         </DialogContent>
       </Dialog>
     </div>
