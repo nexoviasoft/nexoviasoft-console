@@ -12,28 +12,38 @@ export default function PayrollHeader() {
   const handleNextMonth = () => setCurrentDate(addMonths(currentDate, 1));
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Payroll</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-white">Payroll</h1>
+        <p className="text-sm text-white/70 mt-1">
           Manage salaries, bonuses, and process payments.
         </p>
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center bg-white rounded-lg border border-gray-200 p-1 shadow-sm">
-          <Button variant="ghost" size="icon" onClick={handlePrevMonth} className="h-8 w-8 text-gray-500 hover:text-gray-900">
+        <div className="flex items-center glass-card rounded-xl px-2 py-1 border-white/20">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handlePrevMonth}
+            className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+          >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <span className="text-sm font-medium px-4 min-w-[140px] text-center text-gray-900">
+          <span className="text-sm font-medium px-4 min-w-[140px] text-center text-white">
             {format(currentDate, "MMMM yyyy")}
           </span>
-          <Button variant="ghost" size="icon" onClick={handleNextMonth} className="h-8 w-8 text-gray-500 hover:text-gray-900">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleNextMonth}
+            className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+          >
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
 
-        <Button className="bg-green-600 hover:bg-green-700 text-white gap-2 shadow-sm">
+        <Button className="bg-white hover:bg-white/90 text-black gap-2 glass-button">
           <PlayCircle className="w-4 h-4" />
           <span>Run Payroll</span>
         </Button>

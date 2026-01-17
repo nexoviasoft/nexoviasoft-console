@@ -79,63 +79,87 @@ const payrollData = [
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    Paid: "bg-green-100 text-green-700 hover:bg-green-200",
-    Processing: "bg-blue-100 text-blue-700 hover:bg-blue-200",
-    Pending: "bg-yellow-100 text-yellow-700 hover:bg-yellow-200",
+    Paid: "bg-emerald-500/15 text-emerald-200 border border-emerald-400/60",
+    Processing: "bg-sky-500/15 text-sky-200 border border-sky-400/60",
+    Pending: "bg-amber-500/15 text-amber-200 border border-amber-400/60",
   };
-  return <Badge className={`${styles[status] || "bg-gray-100"} font-medium border-0 shadow-none`}>{status}</Badge>;
+  return (
+    <Badge className={`${styles[status] || ""} font-medium`}>
+      {status}
+    </Badge>
+  );
 };
 
 export default function PayrollTable() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+    <div className="glass-card rounded-xl border-white/20 overflow-hidden">
       <Table>
-        <TableHeader className="bg-gray-50">
+        <TableHeader className="bg-white/5">
           <TableRow>
-            <TableHead className="w-[300px]">Employee</TableHead>
-            <TableHead>Base Salary</TableHead>
-            <TableHead>Bonus</TableHead>
-            <TableHead>Deductions</TableHead>
-            <TableHead className="font-bold text-gray-900">Net Pay</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="w-[300px] text-white/70">Employee</TableHead>
+            <TableHead className="text-white/70">Base Salary</TableHead>
+            <TableHead className="text-white/70">Bonus</TableHead>
+            <TableHead className="text-white/70">Deductions</TableHead>
+            <TableHead className="font-bold text-white">Net Pay</TableHead>
+            <TableHead className="text-white/70">Status</TableHead>
+            <TableHead className="text-right text-white/70">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {payrollData.map((row) => (
-            <TableRow key={row.id} className="hover:bg-gray-50/50">
+            <TableRow key={row.id} className="hover:bg-white/5">
               <TableCell className="font-medium">
                 <div className="flex items-center gap-3">
-                  <Avatar className="w-9 h-9 border border-gray-100">
+                  <Avatar className="w-9 text-black h-9 border border-white/20">
                     <AvatarImage src={row.avatar} />
                     <AvatarFallback>{row.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold text-gray-900">{row.name}</div>
-                    <div className="text-xs text-gray-500">{row.role}</div>
+                    <div className="font-semibold text-white">{row.name}</div>
+                    <div className="text-xs text-white/60">{row.role}</div>
                   </div>
                 </div>
               </TableCell>
-              <TableCell className="text-gray-600 font-medium">{row.salary}</TableCell>
-              <TableCell className="text-green-600 font-medium">{row.bonus}</TableCell>
-              <TableCell className="text-red-500 font-medium">{row.deductions}</TableCell>
-              <TableCell className="font-bold text-gray-900">{row.netPay}</TableCell>
+              <TableCell className="text-white/80 font-medium">
+                {row.salary}
+              </TableCell>
+              <TableCell className="text-emerald-300 font-medium">
+                {row.bonus}
+              </TableCell>
+              <TableCell className="text-red-300 font-medium">
+                {row.deductions}
+              </TableCell>
+              <TableCell className="font-bold text-[#EFFC76]">
+                {row.netPay}
+              </TableCell>
               <TableCell>
                 <StatusBadge status={row.status} />
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
-                   {row.status === "Pending" && (
-                     <Button size="sm" variant="outline" className="h-8 text-green-600 border-green-200 hover:bg-green-50">
-                       <Send className="w-3 h-3 mr-1" /> Pay
-                     </Button>
-                   )}
-                   <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
-                     <Download className="w-4 h-4" />
-                   </Button>
-                   <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
-                     <MoreHorizontal className="w-4 h-4" />
-                   </Button>
+                  {row.status === "Pending" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-8 bg-white hover:bg-white/90 text-black glass-button"
+                    >
+                      <Send className="w-3 h-3 mr-1" /> Pay
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-white/60 hover:text-[#EFFC76] hover:bg-white/10"
+                  >
+                    <Download className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-white/60 hover:text-[#EFFC76] hover:bg-white/10"
+                  >
+                    <MoreHorizontal className="w-4 h-4" />
+                  </Button>
                 </div>
               </TableCell>
             </TableRow>
