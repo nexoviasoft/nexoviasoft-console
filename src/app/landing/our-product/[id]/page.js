@@ -35,8 +35,8 @@ export default function OurProductDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-            <p className="text-gray-500">Loading product details...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4" />
+            <p className="text-white/70">Loading product details...</p>
           </div>
         </div>
       </div>
@@ -49,8 +49,12 @@ export default function OurProductDetailPage() {
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
             <p className="text-red-500 mb-4">Failed to load product</p>
-            <Button onClick={() => router.back()} variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+            <Button
+              onClick={() => router.back()}
+              variant="outline"
+              className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/70"
+            >
+              <ArrowLeft className="w-4 h-4" />
               Go Back
             </Button>
           </div>
@@ -89,19 +93,19 @@ export default function OurProductDetailPage() {
       <Button 
         variant="ghost" 
         onClick={() => router.back()} 
-        className="mb-6 gap-2"
+        className="mb-6 gap-2 text-white/80 hover:text-[#EFFC76] hover:bg-white/5"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Products
       </Button>
 
       {/* Hero Section with Logo */}
-      <Card className="mb-6 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+      <Card className="mb-6 overflow-hidden glass-card border-white/20 bg-black/40">
+        <CardHeader className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] text-white border-b border-white/10">
           <div className="flex items-start gap-6">
             {product.logo && (
               <div className="flex-shrink-0">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <div className="bg-black/40 border border-white/20 rounded-lg p-4">
                   <img
                     src={product.logo}
                     alt={`${product.name} logo`}
@@ -112,9 +116,11 @@ export default function OurProductDetailPage() {
             )}
             <div className="flex-1">
               {categoryName && (
-                <Badge className="bg-blue-500 text-white mb-3">{categoryName}</Badge>
+                <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40 mb-3">
+                  {categoryName}
+                </Badge>
               )}
-              <CardTitle className="text-4xl mb-2">{product.name}</CardTitle>
+              <CardTitle className="text-4xl mb-2 text-white">{product.name}</CardTitle>
               {product.description && (
                 <p className="text-lg text-white/90 mb-4">{product.description}</p>
               )}
@@ -124,7 +130,7 @@ export default function OurProductDetailPage() {
                     variant="secondary"
                     size="sm"
                     onClick={() => window.open(product.url, "_blank")}
-                    className="gap-2"
+                    className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                   >
                     <ExternalLink className="w-4 h-4" />
                     Visit Website
@@ -132,7 +138,7 @@ export default function OurProductDetailPage() {
                 )}
                 {product.totalUser !== undefined && product.totalUser !== null && (
                   <div className="flex items-center gap-2 text-white/90">
-                    <Users className="w-5 h-5" />
+                    <Users className="w-5 h-5 text-[#EFFC76]" />
                     <span className="font-semibold">{product.totalUser.toLocaleString()} Users</span>
                   </div>
                 )}
@@ -147,10 +153,10 @@ export default function OurProductDetailPage() {
         <div className="lg:col-span-2 space-y-6">
           {/* Features Section */}
           {product.feature && product.feature.length > 0 && (
-            <Card>
+            <Card className="glass-card border-white/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Star className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Star className="w-5 h-5 text-[#EFFC76]" />
                   Features
                 </CardTitle>
               </CardHeader>
@@ -158,8 +164,8 @@ export default function OurProductDetailPage() {
                 <ul className="space-y-3">
                   {product.feature.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      <CheckCircle2 className="w-5 h-5 text-[#EFFC76] mt-0.5 flex-shrink-0" />
+                      <span className="text-white/80">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -169,12 +175,12 @@ export default function OurProductDetailPage() {
 
           {/* Description Section */}
           {product.description && (
-            <Card>
+            <Card className="glass-card border-white/20">
               <CardHeader>
-                <CardTitle>About This Product</CardTitle>
+                <CardTitle className="text-white">About This Product</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+                <p className="text-white/80 leading-relaxed whitespace-pre-wrap">
                   {product.description}
                 </p>
               </CardContent>
@@ -185,42 +191,42 @@ export default function OurProductDetailPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Product Info Card */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Tag className="w-5 h-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Tag className="w-5 h-5 text-[#EFFC76]" />
                 Product Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {categoryName && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Category</p>
-                  <Badge variant="secondary" className="text-sm">
+                  <p className="text-sm text-white/60 mb-1">Category</p>
+                  <Badge variant="secondary" className="text-sm bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40">
                     {categoryName}
                   </Badge>
                 </div>
               )}
               {product.feature && product.feature.length > 0 && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Features</p>
-                  <p className="font-medium">{product.feature.length} features</p>
+                  <p className="text-sm text-white/60 mb-1">Features</p>
+                  <p className="font-medium text-white">{product.feature.length} features</p>
                 </div>
               )}
               {product.totalUser !== undefined && product.totalUser !== null && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Total Users</p>
-                  <p className="font-medium">{product.totalUser.toLocaleString()}</p>
+                  <p className="text-sm text-white/60 mb-1">Total Users</p>
+                  <p className="font-medium text-white">{product.totalUser.toLocaleString()}</p>
                 </div>
               )}
               {product.url && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Website</p>
+                  <p className="text-sm text-white/60 mb-1">Website</p>
                   <a
                     href={product.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm break-all"
+                    className="text-[#EFFC76] hover:text-white underline text-sm break-all"
                   >
                     {product.url}
                   </a>
@@ -231,15 +237,15 @@ export default function OurProductDetailPage() {
 
           {/* Logo Display */}
           {product.logo && (
-            <Card>
+            <Card className="glass-card border-white/20">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <ImageIcon className="w-5 h-5" />
                   Product Logo
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="flex items-center justify-center p-4 bg-black/40 border border-white/10 rounded-lg">
                   <img
                     src={product.logo}
                     alt={`${product.name} logo`}
@@ -251,24 +257,24 @@ export default function OurProductDetailPage() {
           )}
 
           {/* Timestamps */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Calendar className="w-5 h-5 text-[#EFFC76]" />
                 Timestamps
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {product.createdAt && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Created At</p>
-                  <p className="text-sm font-medium">{formatDate(product.createdAt)}</p>
+                  <p className="text-sm text-white/60 mb-1">Created At</p>
+                  <p className="text-sm font-medium text-white">{formatDate(product.createdAt)}</p>
                 </div>
               )}
               {product.updatedAt && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Updated At</p>
-                  <p className="text-sm font-medium">{formatDate(product.updatedAt)}</p>
+                  <p className="text-sm text-white/60 mb-1">Updated At</p>
+                  <p className="text-sm font-medium text-white">{formatDate(product.updatedAt)}</p>
                 </div>
               )}
             </CardContent>
