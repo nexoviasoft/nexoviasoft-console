@@ -94,30 +94,30 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
     <div className="glass-card rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50/50 border-b border-gray-200">
+          <thead className="bg-white/5 border-b border-white/10">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
                 Employee
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
                 Role
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
                 Department
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
                 Contact
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-white/70 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-white/10">
             {filteredEmployees.map((employee) => (
               <tr 
                 key={employee.id} 
-                className="hover:bg-gray-50/50 transition-colors"
+                className="hover:bg-white/5 transition-colors"
               >
                 {/* Employee Info */}
                 <td className="px-6 py-4">
@@ -129,20 +129,20 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <div className="font-semibold text-gray-900">{employee.name}</div>
-                      <div className="text-sm text-gray-500">{employee.email}</div>
+                      <div className="font-semibold text-white">{employee.name}</div>
+                      <div className="text-sm text-white/60">{employee.email}</div>
                     </div>
                   </div>
                 </td>
 
                 {/* Role */}
                 <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">{employee.role}</div>
+                  <div className="text-sm text-white/80">{employee.role}</div>
                 </td>
 
                 {/* Department */}
                 <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/60">
                     {employee.department}
                   </span>
                 </td>
@@ -152,14 +152,14 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
                   <div className="flex flex-col gap-1">
                     <a 
                       href={`mailto:${employee.email}`}
-                      className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-purple-600 transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-white/70 hover:text-[#EFFC76] transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span className="text-xs">{employee.email}</span>
                     </a>
                     <a 
                       href={`tel:${employee.phone}`}
-                      className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-purple-600 transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-white/70 hover:text-[#EFFC76] transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5" />
                       <span className="text-xs">{employee.phone}</span>
@@ -174,7 +174,7 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
                       variant="outline"
                       size="sm"
                       onClick={() => router.push(`/admin/employees/${employee.id}`)}
-                      className="hover:bg-purple-50 hover:text-purple-600 hover:border-purple-300"
+                      className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/70 hover:text-[#EFFC76]"
                     >
                       <Eye className="w-4 h-4 mr-1" />
                       View Profile

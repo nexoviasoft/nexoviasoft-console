@@ -14,26 +14,26 @@ import {
 
 export default function DirectoryHeader({ onSearch, onFilterChange, onAddEmployee }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Employee Directory</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-white">Employee Directory</h1>
+        <p className="text-sm text-white/60 mt-1">
           Manage your team members and their account permissions here.
         </p>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="relative w-full md:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input 
             placeholder="Search employees..." 
-            className="pl-9 bg-white" 
+            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#EFFC76]" 
             onChange={(e) => onSearch(e.target.value)}
           />
         </div>
         
         <Select onValueChange={onFilterChange}>
-          <SelectTrigger className="w-[180px] bg-white">
+          <SelectTrigger className="w-[180px] bg-black/40 border border-white/20 text-white">
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
           <SelectContent>
@@ -47,10 +47,10 @@ export default function DirectoryHeader({ onSearch, onFilterChange, onAddEmploye
         </Select>
 
         <Button 
-          className="bg-purple-600 hover:bg-purple-700 text-white gap-2"
+          className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button"
           onClick={onAddEmployee}
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-black" />
           <span className="hidden sm:inline">Add Employee</span>
         </Button>
       </div>
