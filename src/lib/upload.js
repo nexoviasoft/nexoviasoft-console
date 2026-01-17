@@ -1,23 +1,23 @@
 /**
- * ImgBB Upload Utility Functions
- * Handles file uploads to ImgBB image hosting service
+ * Image Upload Utility Functions
+ * Handles file uploads to backend API
  */
 
-const IMGBB_API_KEY = "7f7b2615e37d49f2db2eec28c9007bc4"
-const IMGBB_API_URL = "https://api.imgbb.com/1/upload"
+const API_BASE_URL = 'https://squadlog-cdn.up.railway.app'
+const UPLOAD_ENDPOINT = '/upload/image'
 /**
 
+ * Upload an image file to the backend
  * @param {File} file - The file to upload
- * @param {string} folder - Optional folder name (not used by ImgBB, kept for compatibility)
- * @returns {Promise<string>} - The ImgBB URL of the uploaded file
+ * @param {string} folder - Optional folder name (kept for compatibility, not used by API)
+ * @returns {Promise<string>} - The URL of the uploaded file
  */
 export const uploadToCDN = async (file, folder = 'documents') => {
     try {
         const formData = new FormData()
-        formData.append('image', file)
+        formData.append('file', file)
 
-        // Add API key as query parameter (recommended by ImgBB)
-        const url = `${IMGBB_API_URL}?key=${encodeURIComponent(IMGBB_API_KEY)}`
+        const url = `${API_BASE_URL}${UPLOAD_ENDPOINT}`
 
         const response = await fetch(url, {
             method: 'POST',
@@ -28,17 +28,19 @@ export const uploadToCDN = async (file, folder = 'documents') => {
         const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(data.error?.message || data.status_txt || 'Upload failed')
+            throw new Error(data.message || data.error?.message || 'Upload failed')
         }
 
         if (!data.success) {
-            throw new Error(data.error?.message || data.status_txt || 'Upload failed')
+            throw new Error(data.message || data.error?.message || 'Upload failed')
         }
 
-        return data.data.url // Return the ImgBB URL
+        // Return the URL from the response
+        // Response format: { success: true, url: "http://localhost:8000/uploads/...", ... }
+        return data.url
     } catch (error) {
-        console.error('ImgBB Upload Error:', error)
-        throw new Error(error.message || 'Failed to upload file to ImgBB')
+        console.error('Image Upload Error:', error)
+        throw new Error(error.message || 'Failed to upload file')
     }
 }
 
