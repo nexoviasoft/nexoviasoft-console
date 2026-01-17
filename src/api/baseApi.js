@@ -39,6 +39,7 @@ export const baseApi = createApi({
     'Client',
     'HeroCarousel',
     'PricePackage',
+    'CustomerReview',
   ],
   endpoints: () => ({}),
 });

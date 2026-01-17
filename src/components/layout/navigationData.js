@@ -51,6 +51,7 @@ export const othersNavItems = [
           { icon: Image, label: "Carousel", id: "Carousel", href: "/landing/carousel" },
           { icon: FileCheck, label: "Case Studies", id: "Case Studies", href: "/landing/case-studies" },
           { icon: DollarSign, label: "Price Packages", id: "Price Packages", href: "/landing/price-package" },
+          { icon: FileCheck, label: "Customer Reviews", id: "Customer Reviews", href: "/landing/customer-review" },
         ]
       },
       { icon: Image, label: "Departments", id: "Departments", href: "/landing/departmant" },

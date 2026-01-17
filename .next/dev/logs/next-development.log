@@ -1,4 +1,7 @@
-[00:00:00.654] Server  LOG     ✓ Ready in 494ms
-[00:00:01.495] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:01.996] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:02.467] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:00.794] Server  LOG     ✓ Ready in 592ms
+[00:00:04.461] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:44.989] Server  LOG     ✓ Compiled in 113ms
+[00:00:53.144] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:53.145] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:47.919] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:47.919] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.

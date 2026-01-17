@@ -45,7 +45,8 @@ const baseApi = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
         'CaseStudy',
         'Client',
         'HeroCarousel',
-        'PricePackage'
+        'PricePackage',
+        'CustomerReview'
     ],
     endpoints: ()=>({})
 });
@@ -272,6 +273,12 @@ const othersNavItems = [
                         label: "Price Packages",
                         id: "Price Packages",
                         href: "/landing/price-package"
+                    },
+                    {
+                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileCheck$3e$__["FileCheck"],
+                        label: "Customer Reviews",
+                        id: "Customer Reviews",
+                        href: "/landing/customer-review"
                     }
                 ]
             },
