@@ -17,11 +17,15 @@ export default function Projects() {
         <ProjectHeader
           currentView={currentView}
           onViewChange={(value) => setCurrentView(value)}
+          selectedProject={selectedProject}
         />
 
         <div className="flex-1 min-h-0 mt-6 flex flex-col lg:flex-row gap-6">
           <div className="w-full lg:w-1/3 xl:w-1/4">
-            <ProjectList onSelectProject={setSelectedProject} />
+            <ProjectList 
+              onSelectProject={setSelectedProject} 
+              selectedProjectId={selectedProject?.id}
+            />
           </div>
 
           <div className="flex-1 flex flex-col gap-6">
