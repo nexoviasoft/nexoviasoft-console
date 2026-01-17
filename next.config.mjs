@@ -2,9 +2,6 @@
 const nextConfig = {
   output: 'standalone',
   
-  // Optimize build performance
-  swcMinify: true,
-  
   // Reduce bundle size
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

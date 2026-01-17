@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Mobile-first responsive utilities */
 
 @layer utilities {
