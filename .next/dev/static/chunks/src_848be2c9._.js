@@ -27,7 +27,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$js__$
 function Card({ className, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         "data-slot": "card",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm", className),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("glass-card text-card-foreground flex flex-col gap-6 rounded-xl border-white/20 py-6", className),
         ...props
     }, void 0, false, {
         fileName: "[project]/src/components/ui/card.jsx",
@@ -2757,7 +2757,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 ;
 ;
-const TextareaField = ({ placeholder, label, className, register, name, defaultValue, disabled = false, error, required, rows = 3 })=>{
+const TextareaField = ({ placeholder, label, className, register, name, defaultValue, value, onChange, disabled = false, error, required, rows = 3 })=>{
+    // Determine if we're using controlled or uncontrolled mode
+    const isControlled = value !== undefined && onChange !== undefined;
+    const isUncontrolled = register && name;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: `flex flex-col gap-2 ${className}`,
         children: [
@@ -2771,25 +2774,31 @@ const TextareaField = ({ placeholder, label, className, register, name, defaultV
                         children: "*"
                     }, void 0, false, {
                         fileName: "[project]/src/components/input/TextareaField.jsx",
-                        lineNumber: 19,
+                        lineNumber: 25,
                         columnNumber: 42
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/input/TextareaField.jsx",
-                lineNumber: 18,
+                lineNumber: 24,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                defaultValue: defaultValue,
+                ...isUncontrolled ? register(name) : {},
+                ...isControlled ? {
+                    value,
+                    onChange
+                } : {},
+                ...!isControlled && !isUncontrolled && defaultValue !== undefined ? {
+                    defaultValue
+                } : {},
                 disabled: disabled,
                 rows: rows,
                 placeholder: placeholder,
-                ...register(name),
                 className: `border-[1px] border-[#E4E4E7] dark:border-white/10 py-2.5 px-4 rounded-[6px] bg-white w-full outline-none focus:border-green-300/50 dark:focus:border-primary dark:text-white/90 resize-vertical min-h-[80px] ${disabled && "bg-gray-400"} ${error ? "border-red-500" : ""}`
             }, void 0, false, {
                 fileName: "[project]/src/components/input/TextareaField.jsx",
-                lineNumber: 22,
+                lineNumber: 28,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2797,13 +2806,13 @@ const TextareaField = ({ placeholder, label, className, register, name, defaultV
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/input/TextareaField.jsx",
-                lineNumber: 31,
+                lineNumber: 38,
                 columnNumber: 23
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/input/TextareaField.jsx",
-        lineNumber: 16,
+        lineNumber: 22,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
