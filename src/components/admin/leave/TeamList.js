@@ -67,11 +67,11 @@ export default function TeamList() {
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">My Teams</h3>
-            <p className="text-sm text-gray-500">From 1-30 Sep, 2023</p>
+            <h3 className="text-lg font-semibold text-white">My Teams</h3>
+            <p className="text-sm text-white/60">From 1-30 Sep, 2023</p>
           </div>
           <Select defaultValue="month">
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-[140px] bg-black/40 border border-white/20 text-white">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -87,11 +87,13 @@ export default function TeamList() {
               <div className="flex items-center gap-3 w-48 shrink-0">
                 <Avatar>
                   <AvatarImage src={member.avatar} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                  <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                    {member.name.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className="text-sm font-semibold text-gray-900">{member.name}</div>
-                  <div className="text-xs text-gray-500">{member.role}</div>
+                  <div className="text-sm font-semibold text-white">{member.name}</div>
+                  <div className="text-xs text-white/60">{member.role}</div>
                 </div>
               </div>
               

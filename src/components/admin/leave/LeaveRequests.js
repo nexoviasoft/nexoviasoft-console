@@ -147,113 +147,136 @@ export default function LeaveRequests() {
     <Card className="mb-6">
       <CardHeader>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-                <CardTitle>Pending Requests</CardTitle>
-                <CardDescription>Review and manage leave applications</CardDescription>
-            </div>
-            <div className="flex items-center gap-3">
-                 <Select value={filterDept} onValueChange={handleFilterChange}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Filter Department" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Departments</SelectItem>
-                        <SelectItem value="Engineering">Engineering</SelectItem>
-                        <SelectItem value="Design">Design</SelectItem>
-                        <SelectItem value="Product">Product</SelectItem>
-                        <SelectItem value="Marketing">Marketing</SelectItem>
-                        <SelectItem value="HR">HR</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Badge variant="secondary">{filteredRequests.filter(r => r.status === 'pending').length} Pending</Badge>
-            </div>
+          <div>
+            <CardTitle className="text-white">Pending Requests</CardTitle>
+            <CardDescription className="text-white/70">
+              Review and manage leave applications
+            </CardDescription>
+          </div>
+          <div className="flex items-center gap-3">
+            <Select value={filterDept} onValueChange={handleFilterChange}>
+              <SelectTrigger className="w-[200px] bg-black/40 border border-white/20 text-white">
+                <SelectValue placeholder="Filter Department" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Departments</SelectItem>
+                <SelectItem value="Engineering">Engineering</SelectItem>
+                <SelectItem value="Design">Design</SelectItem>
+                <SelectItem value="Product">Product</SelectItem>
+                <SelectItem value="Marketing">Marketing</SelectItem>
+                <SelectItem value="HR">HR</SelectItem>
+              </SelectContent>
+            </Select>
+            <Badge variant="secondary" className="bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/60">
+              {filteredRequests.filter(r => r.status === "pending").length} Pending
+            </Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {currentItems.length > 0 ? (
-             currentItems.map((request) => (
-            <div key={request.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border rounded-lg bg-gray-50/50">
-              <div className="flex items-start gap-4 mb-4 sm:mb-0">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={request.avatar} />
-                  <AvatarFallback>{request.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <div className="flex items-center gap-2">
-                       <div className="font-semibold text-gray-900">{request.name}</div>
-                       <Badge variant="outline" className="text-[10px] h-5 px-1.5">{request.department}</Badge>
+            currentItems.map((request) => (
+              <div
+                key={request.id}
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-white/15 rounded-lg bg-black/40"
+              >
+                <div className="flex items-start gap-4 mb-4 sm:mb-0">
+                  <Avatar className="h-10 w-10 ring-2 ring-[#EFFC76]/40">
+                    <AvatarImage src={request.avatar} />
+                    <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                      {request.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div className="font-semibold text-white">{request.name}</div>
+                      <Badge className="text-[10px] h-5 px-1.5 bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/60">
+                        {request.department}
+                      </Badge>
+                    </div>
+                    <div className="text-xs text-white/60 mb-1">{request.role}</div>
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-white/75">
+                      <span className="font-medium bg-[#EFFC76]/20 text-[#EFFC76] px-2 py-0.5 rounded text-xs">
+                        {request.type}
+                      </span>
+                      <span className="text-white/40">•</span>
+                      <span>{request.dates}</span>
+                      <span className="text-white/50">({request.days})</span>
+                    </div>
+                    <p className="text-sm text-white/70 mt-1">"{request.reason}"</p>
                   </div>
-                  <div className="text-xs text-gray-500 mb-1">{request.role}</div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <span className="font-medium text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-xs">{request.type}</span>
-                    <span className="text-gray-400">•</span>
-                    <span>{request.dates}</span>
-                    <span className="text-gray-400">({request.days})</span>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-1">"{request.reason}"</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {request.status === "pending" ? (
+                    <>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10 glass-button"
+                        onClick={() => handleAction(request.id, "rejected")}
+                      >
+                        <X className="w-4 h-4 mr-1" />
+                        Reject
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+                        onClick={() => handleAction(request.id, "approved")}
+                      >
+                        <Check className="w-4 h-4 mr-1" />
+                        Approve
+                      </Button>
+                    </>
+                  ) : (
+                    <Badge
+                      variant={request.status === "approved" ? "default" : "destructive"}
+                      className={
+                        request.status === "approved"
+                          ? "bg-emerald-500 text-white border-emerald-400"
+                          : "bg-red-600 text-white border-red-500"
+                      }
+                    >
+                      {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                    </Badge>
+                  )}
                 </div>
               </div>
-
-              <div className="flex items-center gap-2">
-                {request.status === 'pending' ? (
-                  <>
-                    <Button 
-                        size="sm" 
-                        variant="ghost" 
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => handleAction(request.id, 'rejected')}
-                    >
-                      <X className="w-4 h-4 mr-1" />
-                      Reject
-                    </Button>
-                    <Button 
-                        size="sm" 
-                        className="bg-green-600 hover:bg-green-700 text-white"
-                        onClick={() => handleAction(request.id, 'approved')}
-                    >
-                      <Check className="w-4 h-4 mr-1" />
-                      Approve
-                    </Button>
-                  </>
-                ) : (
-                  <Badge variant={request.status === 'approved' ? "default" : "destructive"} className={request.status === 'approved' ? "bg-green-600" : ""}>
-                    {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
-                  </Badge>
-                )}
-              </div>
-            </div>
-          ))
+            ))
           ) : (
-              <div className="text-center py-8 text-gray-500">No requests found.</div>
+            <div className="text-center py-8 text-white/70">No requests found.</div>
           )}
         </div>
         
         {/* Pagination Controls */}
         {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                <div className="text-sm text-gray-500">
-                    Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredRequests.length)} of {filteredRequests.length}
-                </div>
-                <div className="flex gap-2">
-                    <Button 
-                        variant="outline" 
-                        size="sm" 
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    >
-                        Previous
-                    </Button>
-                    <Button 
-                        variant="outline" 
-                        size="sm" 
-                        disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    >
-                        Next
-                    </Button>
-                </div>
+          <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
+            <div className="text-sm text-white/60">
+              Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredRequests.length)} of{" "}
+              {filteredRequests.length}
             </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                className="glass-button border-white/30 text-white disabled:opacity-50"
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                className="glass-button border-white/30 text-white disabled:opacity-50"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>

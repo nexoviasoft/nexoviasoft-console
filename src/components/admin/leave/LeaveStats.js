@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/select";
 
 const data = [
-  { name: "In Office", value: 63, color: "#2563eb" }, // Blue
-  { name: "Half Day", value: 6, color: "#facc15" }, // Yellow
-  { name: "Work from Home", value: 22, color: "#0ea5e9" }, // Light Blue
-  { name: "On Leave", value: 9, color: "#ef4444" }, // Red
+  { name: "In Office", value: 63, color: "#3b82f6" }, // Primary Blue
+  { name: "Half Day", value: 6, color: "#EFFC76" }, // Brand Yellow
+  { name: "Work from Home", value: 22, color: "#22d3ee" }, // Teal
+  { name: "On Leave", value: 9, color: "#ec4899" }, // Pink
 ];
 
 export default function LeaveStats() {
@@ -24,11 +24,11 @@ export default function LeaveStats() {
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">My Teams</h3>
-            <p className="text-sm text-gray-500">From 4-10 Sep, 2023</p>
+            <h3 className="text-lg font-semibold text-white">My Teams</h3>
+            <p className="text-sm text-white/60">From 4-10 Sep, 2023</p>
           </div>
           <Select defaultValue="week">
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-[140px] bg-black/40 border border-white/20 text-white">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -39,7 +39,6 @@ export default function LeaveStats() {
         </div>
 
         <div className="flex items-center gap-8">
-          {/* Chart */}
           <div className="w-48 h-48 relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -64,13 +63,11 @@ export default function LeaveStats() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-            {/* Center Text */}
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span className="text-3xl font-bold text-gray-900">63%</span>
+              <span className="text-3xl font-bold text-[#EFFC76]">63%</span>
             </div>
           </div>
 
-          {/* Legend */}
           <div className="flex-1 grid grid-cols-2 gap-y-6 gap-x-4">
             {data.map((item) => (
               <div key={item.name} className="flex flex-col">
@@ -79,13 +76,13 @@ export default function LeaveStats() {
                     className="w-1 h-8 rounded-full"
                     style={{ backgroundColor: item.color }}
                   ></div>
-                  <span className="text-sm text-gray-500">{item.name}</span>
+                  <span className="text-sm text-white/70">{item.name}</span>
                 </div>
                 <div className="flex items-baseline gap-1 pl-3">
-                  <span className="text-xl font-bold text-gray-900">
+                  <span className="text-xl font-bold text-white">
                     {item.value}
                   </span>
-                  <span className="text-sm text-gray-400">%</span>
+                  <span className="text-sm text-white/50">%</span>
                 </div>
               </div>
             ))}
