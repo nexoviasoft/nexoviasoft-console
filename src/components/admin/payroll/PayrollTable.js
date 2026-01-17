@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,7 +12,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download, MoreHorizontal, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Download, MoreHorizontal, Send, Search } from "lucide-react";
 
 const payrollData = [
   {
@@ -87,61 +88,90 @@ const StatusBadge = ({ status }) => {
 };
 
 export default function PayrollTable() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredData = payrollData.filter((employee) =>
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    employee.role.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-      <Table>
-        <TableHeader className="bg-gray-50">
-          <TableRow>
-            <TableHead className="w-[300px]">Employee</TableHead>
-            <TableHead>Base Salary</TableHead>
-            <TableHead>Bonus</TableHead>
-            <TableHead>Deductions</TableHead>
-            <TableHead className="font-bold text-gray-900">Net Pay</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {payrollData.map((row) => (
-            <TableRow key={row.id} className="hover:bg-gray-50/50">
-              <TableCell className="font-medium">
-                <div className="flex items-center gap-3">
-                  <Avatar className="w-9 h-9 border border-gray-100">
-                    <AvatarImage src={row.avatar} />
-                    <AvatarFallback>{row.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold text-gray-900">{row.name}</div>
-                    <div className="text-xs text-gray-500">{row.role}</div>
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell className="text-gray-600 font-medium">{row.salary}</TableCell>
-              <TableCell className="text-green-600 font-medium">{row.bonus}</TableCell>
-              <TableCell className="text-red-500 font-medium">{row.deductions}</TableCell>
-              <TableCell className="font-bold text-gray-900">{row.netPay}</TableCell>
-              <TableCell>
-                <StatusBadge status={row.status} />
-              </TableCell>
-              <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-2">
-                   {row.status === "Pending" && (
-                     <Button size="sm" variant="outline" className="h-8 text-green-600 border-green-200 hover:bg-green-50">
-                       <Send className="w-3 h-3 mr-1" /> Pay
-                     </Button>
-                   )}
-                   <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
-                     <Download className="w-4 h-4" />
-                   </Button>
-                   <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
-                     <MoreHorizontal className="w-4 h-4" />
-                   </Button>
-                </div>
-              </TableCell>
+    <div className="space-y-4">
+      {/* Search Bar */}
+      <div className="flex items-center gap-2 max-w-sm bg-white border border-gray-200 rounded-lg px-3 py-1 shadow-sm focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent transition-all">
+        <Search className="w-4 h-4 text-gray-400" />
+        <Input 
+          type="text" 
+          placeholder="Search employees..." 
+          className="border-0 shadow-none focus-visible:ring-0 px-0 h-8 text-sm placeholder:text-gray-400"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow>
+              <TableHead className="w-[300px]">Employee</TableHead>
+              <TableHead>Base Salary</TableHead>
+              <TableHead>Bonus</TableHead>
+              <TableHead>Deductions</TableHead>
+              <TableHead className="font-bold text-gray-900">Net Pay</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredData.length > 0 ? (
+              filteredData.map((row) => (
+                <TableRow key={row.id} className="hover:bg-gray-50/50">
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-9 h-9 border border-gray-100">
+                        <AvatarImage src={row.avatar} />
+                        <AvatarFallback>{row.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="font-semibold text-gray-900">{row.name}</div>
+                        <div className="text-xs text-gray-500">{row.role}</div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-gray-600 font-medium">{row.salary}</TableCell>
+                  <TableCell className="text-green-600 font-medium">{row.bonus}</TableCell>
+                  <TableCell className="text-red-500 font-medium">{row.deductions}</TableCell>
+                  <TableCell className="font-bold text-gray-900">{row.netPay}</TableCell>
+                  <TableCell>
+                    <StatusBadge status={row.status} />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      {row.status === "Pending" && (
+                        <Button size="sm" variant="outline" className="h-8 text-green-600 border-green-200 hover:bg-green-50">
+                          <Send className="w-3 h-3 mr-1" /> Pay
+                        </Button>
+                      )}
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} className="h-24 text-center text-gray-500">
+                  No employees found matching "{searchTerm}"
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
