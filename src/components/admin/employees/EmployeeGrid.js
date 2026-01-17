@@ -3,7 +3,14 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, Eye } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Mail, Phone, Eye, MoreVertical, Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const initialEmployees = [
@@ -161,16 +168,49 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
                 </td>
 
                 {/* Actions */}
-                <td className="px-6 py-4 text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => router.push(`/admin/employees/${employee.id}`)}
-                    className="hover:bg-purple-50 hover:text-purple-600"
-                  >
-                    <Eye className="w-4 h-4 mr-1" />
-                    View Profile
-                  </Button>
+                <td className="px-6 py-4">
+                  <div className="flex items-center justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/admin/employees/${employee.id}`)}
+                      className="hover:bg-purple-50 hover:text-purple-600 hover:border-purple-300"
+                    >
+                      <Eye className="w-4 h-4 mr-1" />
+                      View Profile
+                    </Button>
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => router.push(`/admin/employees/${employee.id}`)}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          View Profile
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => window.location.href = `mailto:${employee.email}`}>
+                          <Mail className="mr-2 h-4 w-4" />
+                          Send Email
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => window.location.href = `tel:${employee.phone}`}>
+                          <Phone className="mr-2 h-4 w-4" />
+                          Call
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          <Edit className="mr-2 h-4 w-4" />
+                          Edit Employee
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Remove Employee
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </td>
               </tr>
             ))}
