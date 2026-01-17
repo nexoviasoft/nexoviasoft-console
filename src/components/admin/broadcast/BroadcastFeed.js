@@ -49,12 +49,15 @@ const broadcasts = [
 export default function BroadcastFeed() {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Announcements</h2>
+      <h2 className="text-lg font-semibold text-white mb-4">Recent Announcements</h2>
       {broadcasts.map((post) => (
-        <Card key={post.id} className="shadow-sm border-gray-100 hover:shadow-md transition-shadow">
+        <Card
+          key={post.id}
+          className="glass-card border-white/20 hover:bg-white/10 transition-all"
+        >
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
-              <Avatar className="w-10 h-10 border border-gray-100">
+              <Avatar className="w-10 h-10 border border-white/20">
                 <AvatarImage src={post.sender.avatar} />
                 <AvatarFallback>{post.sender.name.charAt(0)}</AvatarFallback>
               </Avatar>
@@ -62,42 +65,54 @@ export default function BroadcastFeed() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <div>
-                     <h3 className="text-md font-semibold text-gray-900 flex items-center gap-2">
-                       {post.subject}
-                       <Badge variant="secondary" className="text-xs font-normal bg-gray-100 text-gray-600">{post.tag}</Badge>
-                     </h3>
-                     <p className="text-sm text-gray-500">
-                       <span className="font-medium text-gray-700">{post.sender.name}</span> • {post.date}
-                     </p>
+                    <h3 className="text-md font-semibold text-white flex items-center gap-2">
+                      {post.subject}
+                      <Badge
+                        variant="secondary"
+                        className="text-xs font-normal bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40"
+                      >
+                        {post.tag}
+                      </Badge>
+                    </h3>
+                    <p className="text-sm text-white/60">
+                      <span className="font-medium text-white/80">
+                        {post.sender.name}
+                      </span>{" "}
+                      • {post.date}
+                    </p>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/10"
+                  >
                     <MoreHorizontal className="w-4 h-4" />
                   </Button>
                 </div>
                 
-                <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                <p className="text-white/70 text-sm leading-relaxed mb-4 line-clamp-2">
                   {post.content}
                 </p>
 
-                <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                   <div className="flex items-center gap-4 text-sm text-gray-500">
-                     <span className="flex items-center gap-1.5 hover:text-gray-900 cursor-pointer">
-                        <ThumbsUp className="w-4 h-4" /> {post.likes}
-                     </span>
-                     <span className="flex items-center gap-1.5 hover:text-gray-900 cursor-pointer">
-                        <MessageSquare className="w-4 h-4" /> {post.comments}
-                     </span>
-                     {post.attachments > 0 && (
-                       <span className="flex items-center gap-1.5 hover:text-gray-900 cursor-pointer">
-                          <Paperclip className="w-4 h-4" /> {post.attachments}
-                       </span>
-                     )}
-                   </div>
-                   
-                   <div className="flex items-center gap-2 text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">
-                      <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                      {post.readRate}% Read
-                   </div>
+                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-4 text-sm text-white/60">
+                    <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                      <ThumbsUp className="w-4 h-4" /> {post.likes}
+                    </span>
+                    <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                      <MessageSquare className="w-4 h-4" /> {post.comments}
+                    </span>
+                    {post.attachments > 0 && (
+                      <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                        <Paperclip className="w-4 h-4" /> {post.attachments}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-2 text-xs font-medium text-white/70 bg-white/5 px-2 py-1 rounded-full border border-white/15">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    {post.readRate}% Read
+                  </div>
                 </div>
               </div>
             </div>
