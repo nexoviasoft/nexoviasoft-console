@@ -204,17 +204,17 @@ export default function OurClientForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingClient ? "Edit Client" : "Add New Client"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 py-4">
             {/* Personal Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 rounded-lg bg-black/40 border border-white/15">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Personal Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -255,8 +255,8 @@ export default function OurClientForm({
             </div>
 
             {/* Company Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 rounded-lg bg-black/40 border border-white/15">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Company Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -296,8 +296,8 @@ export default function OurClientForm({
             </div>
 
             {/* Photo */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 rounded-lg bg-black/40 border border-white/15">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Photo
               </h3>
               <ImageInput
@@ -320,7 +320,7 @@ export default function OurClientForm({
               />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="border-t border-white/10 pt-4 mt-2">
             <Button 
               type="button"
               variant="outline" 
@@ -331,6 +331,7 @@ export default function OurClientForm({
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting || isUploading}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting || isUploading
                 ? isUploading

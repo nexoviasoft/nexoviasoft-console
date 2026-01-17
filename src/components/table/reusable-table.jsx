@@ -164,11 +164,14 @@ export default function ReusableTable({
 
   const getSortIcon = (field) => {
     if (!enableSorting) return null;
-    if (sortConfig.key !== field) return <ArrowUpDown className="w-4 h-4" />;
+    const baseClass = "w-4 h-4";
+    if (sortConfig.key !== field) {
+      return <ArrowUpDown className={`${baseClass} text-white/40`} />;
+    }
     return sortConfig.direction === "asc" ? (
-      <ArrowUp className="w-4 h-4" />
+      <ArrowUp className={`${baseClass} text-[#EFFC76]`} />
     ) : (
-      <ArrowDown className="w-4 h-4" />
+      <ArrowDown className={`${baseClass} text-[#EFFC76]`} />
     );
   };
 
@@ -178,13 +181,13 @@ export default function ReusableTable({
       <div className="flex flex-wrap gap-4 mb-4 items-center">
         {enableSearch && (
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4" />
             <input
               type="text"
               placeholder={searchPlaceholder}
               value={localSearchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-white/5 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#EFFC76]"
             />
           </div>
         )}
@@ -234,21 +237,21 @@ export default function ReusableTable({
 
       {/* Bulk Actions */}
       {enableBulkActions && selectedRows.size > 0 && (
-        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <div className="mb-4 p-3 glass-card border-white/20 rounded-lg">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-blue-700 dark:text-blue-300">
+            <span className="text-sm text-white/80">
               {selectedRows.size} item(s) selected
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleBulkAction("delete")}
-                className="px-3 py-1 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+                className="px-3 py-1 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/15 rounded-md transition-colors"
               >
                 Delete Selected
               </button>
               <button
                 onClick={() => setSelectedRows(new Set())}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="p-1 text-white/50 hover:text-white/80"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -277,9 +280,9 @@ export default function ReusableTable({
                   key={index}
                   className={`${
                     index + 1 === headers?.length ? "text-center" : "text-left"
-                  } px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider${
+                  } px-6 py-4 text-sm font-semibold text-white/70 uppercase tracking-wider${
                     enableSorting && cell.field !== "actions"
-                      ? "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? " cursor-pointer hover:bg-white/10"
                       : ""
                   }`}
                   onClick={() =>
@@ -339,7 +342,7 @@ export default function ReusableTable({
                           idx + 1 === headers?.length
                             ? "text-center"
                             : "text-left"
-                        } text-sm text-gray-100`}
+                        } text-sm text-white/80`}
                       >
                         {React.isValidElement(item[header.field]) ? (
                           item[header.field]
@@ -361,16 +364,16 @@ export default function ReusableTable({
       {/* No data */}
       {!isLoading && processedData.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12">
-          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-white/5 border border-white/15">
             <FolderOpen
-              className="w-8 h-8 text-gray-400 dark:text-gray-500"
+              className="w-8 h-8 text-[#EFFC76]"
               strokeWidth={1.5}
             />
           </div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+          <p className="text-white/70 text-sm font-medium">
             {localSearchTerm ? "No results found" : "No data found"}
           </p>
-          <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
+          <p className="text-white/50 text-xs mt-1">
             {localSearchTerm
               ? "Try adjusting your search terms"
               : "Try adjusting your search or filters"}

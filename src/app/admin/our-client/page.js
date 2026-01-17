@@ -67,7 +67,7 @@ function OurClientContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
           onClick={() => router.push(`/admin/our-client/${client.id || client._id}`)}
           title="View Details"
         >
@@ -76,7 +76,7 @@ function OurClientContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg:white/10"
           onClick={() => handleEdit(client)}
           title="Edit"
         >
@@ -85,7 +85,7 @@ function OurClientContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/15"
           onClick={() => handleDeleteClick(client)}
           title="Delete"
           disabled={isDeleting}
@@ -137,56 +137,63 @@ function OurClientContent() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Our Clients</CardTitle>
-          <Button onClick={handleAdd}>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Client
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <ReusableTable
-            data={tableData}
-            headers={headers}
-            isLoading={isLoading}
-            enableSearch={true}
-            searchPlaceholder="Search clients..."
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
-        </CardContent>
-      </Card>
+    <div className="px-8 py-8 min-h-screen text-white">
+      <div className="max-w-[1600px] w-full mx-auto">
+        <Card className="glass-card border-white/20">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-white">Our Clients</CardTitle>
+            <Button
+              onClick={handleAdd}
+              className="bg-white hover:bg-white/90 text-black gap-2 glass-button"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Client</span>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <ReusableTable
+              data={tableData}
+              headers={headers}
+              isLoading={isLoading}
+              enableSearch={true}
+              searchPlaceholder="Search clients..."
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </CardContent>
+        </Card>
 
-      {/* Our Client Form Dialog */}
-      <OurClientForm
-        open={showDialog}
-        onOpenChange={setShowDialog}
-        editingClient={editingClient}
-        onSuccess={() => {
-          const isEdit = !!editingClient;
-          toast.success(isEdit ? "Client updated successfully!" : "Client created successfully!");
-          setEditingClient(null);
-          refetch();
-        }}
-      />
+        <OurClientForm
+          open={showDialog}
+          onOpenChange={setShowDialog}
+          editingClient={editingClient}
+          onSuccess={() => {
+            const isEdit = !!editingClient;
+            toast.success(
+              isEdit
+                ? "Client updated successfully!"
+                : "Client created successfully!"
+            );
+            setEditingClient(null);
+            refetch();
+          }}
+        />
 
-      {/* Confirmation Modal */}
-      <ConfirmActionModal
-        isOpen={showConfirmModal}
-        onClose={() => {
-          setShowConfirmModal(false);
-          setClientForAction(null);
-        }}
-        onConfirm={handleConfirmDelete}
-        action="delete"
-        description={getDeleteDescription()}
-        itemName="client"
-        loading={isDeleting}
-      />
+        <ConfirmActionModal
+          isOpen={showConfirmModal}
+          onClose={() => {
+            setShowConfirmModal(false);
+            setClientForAction(null);
+          }}
+          onConfirm={handleConfirmDelete}
+          action="delete"
+          description={getDeleteDescription()}
+          itemName="client"
+          loading={isDeleting}
+        />
+      </div>
     </div>
   );
 }

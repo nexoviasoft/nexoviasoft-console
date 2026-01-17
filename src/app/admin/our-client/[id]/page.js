@@ -34,8 +34,8 @@ export default function OurClientDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-            <p className="text-gray-500">Loading client details...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4"></div>
+            <p className="text-white/70">Loading client details...</p>
           </div>
         </div>
       </div>
@@ -46,9 +46,13 @@ export default function OurClientDetailPage() {
     return (
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <p className="text-red-500 mb-4">Failed to load client</p>
-            <Button onClick={() => router.back()} variant="outline">
+          <div className="glass-card rounded-xl p-8 text-center border-white/20">
+            <p className="text-red-400 mb-4">Failed to load client</p>
+            <Button
+              onClick={() => router.back()}
+              variant="outline"
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
+            >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Go Back
             </Button>
@@ -74,13 +78,16 @@ export default function OurClientDetailPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.back()} 
-          className="gap-2"
+          className="gap-2 text-white/80 hover:text-[#EFFC76] hover:bg-white/5"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Clients
         </Button>
         <Link href={`/admin/our-client?edit=${clientId}`}>
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-[#EFFC76]/70"
+          >
             <Edit className="w-4 h-4" />
             Edit Client
           </Button>
@@ -88,12 +95,12 @@ export default function OurClientDetailPage() {
       </div>
 
       {/* Hero Section with Profile */}
-      <Card className="mb-6 overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8">
+      <Card className="mb-6 overflow-hidden glass-card border-white/20">
+        <div className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] p-8 border-b border-white/10">
           <div className="flex items-start gap-6">
-            <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
+            <Avatar className="w-32 h-32 border-4 border-[#EFFC76] shadow-lg">
               <AvatarImage src={client.photo} alt={client.name} />
-              <AvatarFallback className="text-3xl bg-white text-gray-700">
+              <AvatarFallback className="text-3xl bg-[#EFFC76] text-black">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -114,34 +121,40 @@ export default function OurClientDetailPage() {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Personal Information */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <User className="w-5 h-5 text-[#EFFC76]" />
                 Personal Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-gray-400 mt-1" />
+                  <Mail className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="font-medium">{client.email || "N/A"}</p>
+                    <p className="text-sm text-white/60">Email</p>
+                    <p className="font-medium text-white/90">
+                      {client.email || "N/A"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="w-5 h-5 text-gray-400 mt-1" />
+                  <Phone className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Phone</p>
-                    <p className="font-medium">{client.phone || "N/A"}</p>
+                    <p className="text-sm text-white/60">Phone</p>
+                    <p className="font-medium text-white/90">
+                      {client.phone || "N/A"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
+                  <Briefcase className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Designation</p>
-                    <p className="font-medium">{client.designation || "N/A"}</p>
+                    <p className="text-sm text-white/60">Designation</p>
+                    <p className="font-medium text-white/90">
+                      {client.designation || "N/A"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -149,41 +162,49 @@ export default function OurClientDetailPage() {
           </Card>
 
           {/* Company Information */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="w-5 h-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Building2 className="w-5 h-5 text-[#EFFC76]" />
                 Company Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Building2 className="w-5 h-5 text-gray-400 mt-1" />
+                  <Building2 className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Company Name</p>
-                    <p className="font-medium">{client.companyName || "N/A"}</p>
+                    <p className="text-sm text-white/60">Company Name</p>
+                    <p className="font-medium text-white/90">
+                      {client.companyName || "N/A"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
+                  <Briefcase className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Company Type</p>
-                    <p className="font-medium">{client.companyType || "N/A"}</p>
+                    <p className="text-sm text-white/60">Company Type</p>
+                    <p className="font-medium text-white/90">
+                      {client.companyType || "N/A"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-gray-400 mt-1" />
+                  <MapPin className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Location</p>
-                    <p className="font-medium">{client.location || "N/A"}</p>
+                    <p className="text-sm text-white/60">Location</p>
+                    <p className="font-medium text-white/90">
+                      {client.location || "N/A"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Globe className="w-5 h-5 text-gray-400 mt-1" />
+                  <Globe className="w-5 h-5 text-[#EFFC76] mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Country</p>
-                    <p className="font-medium">{client.country || "N/A"}</p>
+                    <p className="text-sm text-white/60">Country</p>
+                    <p className="font-medium text-white/90">
+                      {client.country || "N/A"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -194,54 +215,58 @@ export default function OurClientDetailPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Quick Info */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle>Quick Info</CardTitle>
+              <CardTitle className="text-white">Quick Info</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               {client.companyName && (
                 <div>
-                  <p className="text-gray-500 mb-1">Company</p>
-                  <p className="font-medium">{client.companyName}</p>
+                  <p className="text-white/60 mb-1">Company</p>
+                  <p className="font-medium text-white/90">{client.companyName}</p>
                 </div>
               )}
               {client.companyType && (
                 <div>
-                  <p className="text-gray-500 mb-1">Company Type</p>
-                  <p className="font-medium">{client.companyType}</p>
+                  <p className="text-white/60 mb-1">Company Type</p>
+                  <p className="font-medium text-white/90">
+                    {client.companyType}
+                  </p>
                 </div>
               )}
               {client.location && (
                 <div>
-                  <p className="text-gray-500 mb-1">Location</p>
-                  <p className="font-medium">{client.location}</p>
+                  <p className="text-white/60 mb-1">Location</p>
+                  <p className="font-medium text-white/90">{client.location}</p>
                 </div>
               )}
               {client.country && (
                 <div>
-                  <p className="text-gray-500 mb-1">Country</p>
-                  <p className="font-medium">{client.country}</p>
+                  <p className="text-white/60 mb-1">Country</p>
+                  <p className="font-medium text-white/90">{client.country}</p>
                 </div>
               )}
             </CardContent>
           </Card>
 
           {/* Contact Info */}
-          <Card>
+          <Card className="glass-card border-white/20">
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
+              <CardTitle className="text-white">Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               {client.email && (
                 <div>
-                  <p className="text-gray-500 mb-1">Email</p>
-                  <p className="font-medium break-all">{client.email}</p>
+                  <p className="text-white/60 mb-1">Email</p>
+                  <p className="font-medium break-all text-white/90">
+                    {client.email}
+                  </p>
                 </div>
               )}
               {client.phone && (
                 <div>
-                  <p className="text-gray-500 mb-1">Phone</p>
-                  <p className="font-medium">{client.phone}</p>
+                  <p className="text-white/60 mb-1">Phone</p>
+                  <p className="font-medium text-white/90">{client.phone}</p>
                 </div>
               )}
             </CardContent>

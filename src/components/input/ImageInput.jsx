@@ -182,11 +182,11 @@ const ImageInput = ({
       {label && (
         <Label
           htmlFor={id}
-          className={
+          className={`text-white/80 ${
             required
-              ? "after:content-['*'] after:ml-0.5 after:text-red-500"
+              ? "after:content-['*'] after:ml-0.5 after:text-[#EFFC76]"
               : ""
-          }
+          }`}
         >
           {label}
         </Label>
@@ -198,9 +198,9 @@ const ImageInput = ({
           ref={dropZoneRef}
           className={`relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer ${
             dragActive
-              ? "border-blue-400 bg-blue-50 dark:bg-blue-900/20 scale-105"
-              : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
-          } ${hasImage ? "bg-gray-50 dark:bg-gray-800/50" : ""}`}
+              ? "border-[#EFFC76] bg-[#EFFC76]/5 scale-105"
+              : "border-white/30 hover:border-[#EFFC76]/60"
+          } ${hasImage ? "bg-black/40" : "bg-black/40"}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
@@ -225,7 +225,7 @@ const ImageInput = ({
                   <img
                     src={getPreviewSrc()}
                     alt="Preview"
-                    className={`${previewSize} object-cover rounded-lg border-2 border-gray-200 dark:border-gray-600`}
+                    className={`${previewSize} object-cover rounded-lg border-2 border-white/30`}
                     onError={(e) => {
                       console.log("Image failed to load:", getPreviewSrc());
                       e.target.style.display = "none";
@@ -244,28 +244,28 @@ const ImageInput = ({
                   />
                   {/* Fallback when image fails to load */}
                   <div
-                    className="hidden items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg border-2 border-gray-200 dark:border-gray-600"
+                    className="hidden items-center justify-center bg-black/60 rounded-lg border-2 border-white/20"
                     style={{ width: "128px", height: "80px" }}
                   >
                     <div className="text-center">
-                      <ImageIcon className="w-6 h-6 mx-auto mb-1 text-gray-400" />
-                      <p className="text-xs text-gray-500">
+                      <ImageIcon className="w-6 h-6 mx-auto mb-1 text-white/60" />
+                      <p className="text-xs text-white/60">
                         Image not available
                       </p>
                     </div>
                   </div>
                   {file && (
-                    <div className="absolute -top-2 -right-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
+                    <div className="absolute -top-2 -right-2 bg-emerald-500/20 text-emerald-200 text-xs px-2 py-1 rounded-full font-medium border border-emerald-400/60">
                       New
                     </div>
                   )}
                   {!file && (currentImage || value) && (
-                    <div className="absolute -top-2 -right-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">
+                    <div className="absolute -top-2 -right-2 bg-[#EFFC76]/20 text-[#EFFC76] text-xs px-2 py-1 rounded-full font-medium border border-[#EFFC76]/60">
                       Current
                     </div>
                   )}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-white/80">
                   {file ? (
                     <div className="space-y-1">
                       <p className="font-medium">{file.name}</p>
@@ -278,18 +278,18 @@ const ImageInput = ({
               </>
             ) : (
               <>
-                <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-full">
-                  <Upload className="w-8 h-8 text-gray-400" />
+                <div className="p-4 bg-white/5 rounded-full border border-white/20">
+                  <Upload className="w-8 h-8 text-white/70" />
                 </div>
                 <div className="space-y-2">
-                  <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                  <p className="text-lg font-medium text-white">
                     Drag and drop or{" "}
-                    <span className="text-blue-600 dark:text-blue-400 underline">
+                    <span className="text-[#EFFC76] underline">
                       browse
                     </span>{" "}
                     to upload
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-white/70">
                     PNG, JPG, GIF up to {maxSize}MB
                   </p>
                 </div>
@@ -299,8 +299,8 @@ const ImageInput = ({
 
           {/* Loading overlay */}
           {isLoading && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 rounded-lg flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <div className="absolute inset-0 bg-black/80 rounded-lg flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#EFFC76]"></div>
             </div>
           )}
         </div>
@@ -313,7 +313,7 @@ const ImageInput = ({
               variant="outline"
               size="sm"
               onClick={handleRemove}
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+              className="text-red-400 hover:text-red-300 hover:bg-red-500/15 border-red-300/40"
             >
               <X className="w-4 h-4 mr-1" />
               Remove
