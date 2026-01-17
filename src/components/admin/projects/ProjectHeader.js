@@ -4,7 +4,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Star, Lock, Share2, Filter, LayoutGrid, Plus } from "lucide-react";
+import { Star, Lock, Share2, Filter, LayoutGrid, Plus, Users } from "lucide-react";
 import NewProjectDialog from "./NewProjectDialog";
 import InviteMembersDialog from "./InviteMembersDialog";
 
@@ -38,7 +38,7 @@ export default function ProjectHeader({ currentView, onViewChange }) {
       </div>
 
       {/* Meta Info & Actions */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Lock className="w-4 h-4" />
@@ -83,13 +83,21 @@ export default function ProjectHeader({ currentView, onViewChange }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-           <button className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900">
-             <Filter className="w-4 h-4" />
-             <span>Filter</span>
-           </button>
-           
-           <Tabs value={currentView} onValueChange={onViewChange} className="w-auto">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => setIsInviteOpen(true)}
+          >
+            <Users className="w-4 h-4" />
+            Assign Team
+          </Button>
+          <button className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900">
+            <Filter className="w-4 h-4" />
+            <span>Filter</span>
+          </button>
+          <Tabs value={currentView} onValueChange={onViewChange} className="w-auto">
             <TabsList>
               <TabsTrigger value="board" className="flex items-center gap-2">
                 <LayoutGrid className="w-4 h-4" />
