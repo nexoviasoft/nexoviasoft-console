@@ -240,14 +240,14 @@ export default function TemplateList({ onSelectTemplate }) {
     <div className="space-y-4">
       {/* Header with Search */}
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-lg font-bold text-gray-900">Email Templates</h3>
+        <h3 className="text-lg font-bold text-white">Email Templates</h3>
         <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input
             placeholder="Search templates..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 glass-card border-white/20"
+            className="pl-10 glass-card border-white/20 text-white placeholder:text-white/40"
           />
         </div>
       </div>
@@ -258,24 +258,29 @@ export default function TemplateList({ onSelectTemplate }) {
           paginatedTemplates.map((template) => (
             <Card 
               key={template.id}
-              className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-purple-500 group"
+              className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-[#EFFC76] group"
               onClick={() => onSelectTemplate(template)}
             >
               <CardContent className="p-5">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl group-hover:from-purple-200 group-hover:to-purple-100 transition-colors">
-                    <template.icon className="w-5 h-5 text-purple-600" />
+                  <div className="p-3 bg-[#EFFC76]/15 rounded-xl group-hover:bg-[#EFFC76]/25 transition-colors">
+                    <template.icon className="w-5 h-5 text-[#EFFC76]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                      <h4 className="font-semibold text-white group-hover:text-[#EFFC76] transition-colors">
                         {template.title}
                       </h4>
-                      <Badge variant="secondary" className="text-xs bg-purple-50 text-purple-700 border-purple-200">
+                      <Badge
+                        variant="secondary"
+                        className="text-xs bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                      >
                         {template.category}
                       </Badge>
                     </div>
-                    <p className="text-sm text-gray-600 line-clamp-1">{template.subject}</p>
+                    <p className="text-sm text-white/70 line-clamp-1">
+                      {template.subject}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -283,7 +288,9 @@ export default function TemplateList({ onSelectTemplate }) {
           ))
         ) : (
           <div className="text-center py-12 glass-card rounded-xl">
-            <p className="text-gray-500">No templates found matching "{searchQuery}"</p>
+            <p className="text-white/70">
+              No templates found matching "{searchQuery}"
+            </p>
           </div>
         )}
       </div>
@@ -291,7 +298,7 @@ export default function TemplateList({ onSelectTemplate }) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between pt-2">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-white/70">
             Showing {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredTemplates.length)} of {filteredTemplates.length}
           </p>
           <div className="flex items-center gap-2">
@@ -300,11 +307,11 @@ export default function TemplateList({ onSelectTemplate }) {
               size="sm"
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="glass-button"
+              className="bg-white hover:bg-white/90 text-black"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-sm font-medium text-gray-700 px-3">
+            <span className="text-sm font-medium text-white px-3">
               {currentPage} / {totalPages}
             </span>
             <Button
@@ -312,7 +319,7 @@ export default function TemplateList({ onSelectTemplate }) {
               size="sm"
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
-              className="glass-button"
+              className="bg-white hover:bg-white/90 text-black"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
