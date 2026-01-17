@@ -76,9 +76,9 @@ export default function ScheduleGrid() {
     <div className="glass-panel rounded-2xl overflow-hidden flex flex-col h-full">
       <div className="overflow-auto scrollbar-thin scrollbar-glass">
         <Table className="min-w-[1200px]">
-          <TableHeader className="bg-white/5">
+          <TableHeader className="bg-black/40">
             <TableRow>
-              <TableHead className="w-[250px] sticky left-0 z-20 bg-black/40 backdrop-blur-xl border-r border-white/10 text-white/80">
+              <TableHead className="w-[250px] sticky left-0 z-20 bg-black/60 backdrop-blur-xl border-r border-white/10 text-white/80">
                 Employee
               </TableHead>
               {days.map((day, i) => (
@@ -93,8 +93,8 @@ export default function ScheduleGrid() {
           </TableHeader>
           <TableBody>
             {scheduleData.map((emp) => (
-              <TableRow key={emp.id} className="hover:bg-white/5 transition-colors">
-                <TableCell className="sticky left-0 z-20 bg-black/40 backdrop-blur-xl border-r border-white/10 font-medium">
+              <TableRow key={emp.id} className="hover:bg-white/5/40 transition-colors">
+                <TableCell className="sticky left-0 z-20 bg-black/60 backdrop-blur-xl border-r border-white/10 font-medium">
                   <div className="flex items-center gap-3">
                     <Avatar className="w-9 h-9 border border-white/20">
                       <AvatarImage src={emp.avatar} />

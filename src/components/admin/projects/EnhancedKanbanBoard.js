@@ -91,8 +91,7 @@ const templates = [
   {
     id: "marketing",
     name: "Marketing",
-    description:
-      "Campaign management, content calendars, and lead tracking.",
+    description: "Campaign management, content calendars, and lead tracking.",
     columns: [
       { id: "todo", title: "Ideas", isCustom: false, order: 1 },
       { id: "inprogress", title: "Planning", isCustom: false, order: 2 },
@@ -127,8 +126,7 @@ const templates = [
   {
     id: "sales",
     name: "Sales",
-    description:
-      "Sales pipelines, opportunity tracking, and deal management.",
+    description: "Sales pipelines, opportunity tracking, and deal management.",
     columns: [
       { id: "todo", title: "Leads", isCustom: false, order: 1 },
       { id: "inprogress", title: "Contacted", isCustom: false, order: 2 },
@@ -151,8 +149,7 @@ const templates = [
   {
     id: "task_tracking",
     name: "Task Tracking",
-    description:
-      "Simple task organization for individuals or teams.",
+    description: "Simple task organization for individuals or teams.",
     columns: [
       { id: "todo", title: "To-Do", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -163,8 +160,7 @@ const templates = [
   {
     id: "event_planning",
     name: "Event Planning",
-    description:
-      "Managing event timelines, responsibilities, and logistics.",
+    description: "Managing event timelines, responsibilities, and logistics.",
     columns: [
       { id: "todo", title: "Planning", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -175,8 +171,7 @@ const templates = [
   {
     id: "fdd",
     name: "Feature-Driven Development (FDD)",
-    description:
-      "Organizing work around feature delivery.",
+    description: "Organizing work around feature delivery.",
     columns: [
       { id: "todo", title: "Feature List", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -187,8 +182,7 @@ const templates = [
   {
     id: "tdd",
     name: "Test-Driven Development (TDD)",
-    description:
-      "Supporting test-first development workflows.",
+    description: "Supporting test-first development workflows.",
     columns: [
       { id: "todo", title: "Tests Planned", isCustom: false, order: 1 },
       { id: "inprogress", title: "Tests Written", isCustom: false, order: 2 },
@@ -211,7 +205,7 @@ const templates = [
 ];
 
 const initialColumns = templates.find(
-  (template) => template.id === "project_management"
+  (template) => template.id === "project_management",
 )?.columns || [
   { id: "todo", title: "To-Do", isCustom: false, order: 1 },
   { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -267,14 +261,14 @@ const initialTasks = {
 
 const PriorityBadge = ({ priority }) => {
   const styles = {
-    high: "bg-red-100 text-red-600",
-    medium: "bg-orange-100 text-orange-600",
-    low: "bg-green-100 text-green-600",
+    high: "bg-red-500/15 text-red-200 border border-red-400/50",
+    medium: "bg-yellow-400/15 text-yellow-100 border border-yellow-300/60",
+    low: "bg-emerald-500/15 text-emerald-200 border border-emerald-400/50",
   };
 
   return (
     <span
-      className={`px-2 py-1 rounded text-xs font-medium ${
+      className={`px-2 py-1 rounded-full text-xs font-semibold tracking-wide ${
         styles[priority] || styles.low
       }`}
     >
@@ -292,9 +286,9 @@ export default function EnhancedKanbanBoard() {
   const [activeTask, setActiveTask] = useState(null);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [taskComments, setTaskComments] = useState({});
-  const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
   const [newComments, setNewComments] = useState({});
-  const [selectedTemplateId, setSelectedTemplateId] = useState("project_management");
+  const [selectedTemplateId, setSelectedTemplateId] =
+    useState("project_management");
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
@@ -351,14 +345,14 @@ export default function EnhancedKanbanBoard() {
 
     const nextTasks = { ...tasks };
     nextTasks[sourceColumn] = nextTasks[sourceColumn].filter(
-      (item) => item.id !== task.id
+      (item) => item.id !== task.id,
     );
     nextTasks[targetColumn] = [...(nextTasks[targetColumn] || []), task];
 
     setTasks(nextTasks);
     setDraggedTask(null);
     const columnTitle = columns.find(
-      (column) => column.id === targetColumn
+      (column) => column.id === targetColumn,
     )?.title;
     if (columnTitle) {
       toast.success(`Task moved to ${columnTitle}`);
@@ -392,7 +386,7 @@ export default function EnhancedKanbanBoard() {
                   ? task.assignees.filter((value) => value !== initials)
                   : [...task.assignees, initials],
               }
-            : task
+            : task,
         );
       });
       return next;
@@ -445,7 +439,7 @@ export default function EnhancedKanbanBoard() {
   };
 
   const currentTemplate = templates.find(
-    (template) => template.id === selectedTemplateId
+    (template) => template.id === selectedTemplateId,
   );
 
   return (
@@ -453,13 +447,13 @@ export default function EnhancedKanbanBoard() {
       <div className="flex flex-col h-full gap-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">
+            <p className="text-xs font-semibold text-white/60 uppercase tracking-[0.2em]">
               Template
             </p>
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-[#EFFC76]">
               {currentTemplate ? currentTemplate.name : "Select a template"}
             </p>
-            <p className="text-xs text-gray-500 max-w-xl">
+            <p className="text-xs text-white/60 max-w-xl">
               {currentTemplate
                 ? currentTemplate.description
                 : "Choose the project template that best matches your workflow."}
@@ -470,166 +464,115 @@ export default function EnhancedKanbanBoard() {
             variant="outline"
             size="sm"
             onClick={() => setShowTemplateDialog(true)}
+            className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/60"
           >
             {currentTemplate ? "Change Template" : "Select Template"}
           </Button>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto pb-4 h-full items-start">
-        {columns
-          .slice()
-          .sort((a, b) => a.order - b.order)
-          .map((column) => (
-            <div
-              key={column.id}
-              className="w-80 shrink-0 flex flex-col gap-4"
-              onDragOver={handleDragOver}
-              onDrop={(event) => handleDrop(event, column.id)}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-gray-700 text-sm uppercase">
-                    {column.title}
-                  </span>
-                  <span className="bg-gray-200 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
-                    {tasks[column.id]?.length || 0}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1">
-                  {column.isCustom && (
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteColumn(column.id)}
-                      className="text-gray-400 hover:text-red-600 p-1"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    className="text-gray-400 hover:text-gray-600 p-1"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {(tasks[column.id] || []).map((task) => (
-                <Card
-                  key={task.id}
-                  className="cursor-move hover:shadow-md transition-shadow"
-                  draggable
-                  onDragStart={(event) => handleDragStart(event, task, column.id)}
-                  onClick={() => handleOpenTask(task, column.id)}
-                >
-                  <CardContent className="p-4 space-y-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-semibold text-gray-900 leading-tight">
-                        {task.title}
-                      </h4>
-                    </div>
-
-                    {task.desc && (
-                      <p className="text-xs text-gray-500 line-clamp-2">
-                        {task.desc}
-                      </p>
-                    )}
-
-                    <PriorityBadge priority={task.priority} />
-
-                    <div className="pt-2 flex items-center justify-between border-t border-gray-100 mt-2">
-                      <div className="flex -space-x-2">
-                        {task.assignees.map((initials, index) => (
-                          <Avatar
-                            key={initials + index}
-                            className="w-6 h-6 border-2 border-white"
-                          >
-                            <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
-                              {initials}
-                            </AvatarFallback>
-                          </Avatar>
-                        ))}
-                      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-4 h-full items-start">
+          {columns
+            .slice()
+            .sort((a, b) => a.order - b.order)
+            .map((column) => (
+              <div
+                key={column.id}
+                className="w-full flex flex-col gap-4 rounded-2xl bg-white/5 border border-white/10 p-3 "
+                onDragOver={handleDragOver}
+                onDrop={(event) => handleDrop(event, column.id)}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-xs text-white/80 uppercase tracking-wide">
+                      {column.title}
+                    </span>
+                    <span className="bg-white/10 text-[#EFFC76] text-xs font-semibold px-2 py-0.5 rounded-full border border-white/20">
+                      {tasks[column.id]?.length || 0}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {column.isCustom && (
                       <button
                         type="button"
-                        className="flex items-center gap-1 text-gray-400 hover:text-purple-600 text-xs"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setExpandedCommentTaskId((prev) =>
-                            prev === task.id ? null : task.id
-                          );
-                        }}
+                        onClick={() => handleDeleteColumn(column.id)}
+                        className="text-white/60 hover:text-red-400 p-1 hover:bg-red-500/10 rounded-full transition-colors"
                       >
-                        <MessageSquare className="w-3.5 h-3.5" />
-                        <span>{getCommentCount(task.id)}</span>
+                        <X className="w-4 h-4" />
                       </button>
-                    </div>
+                    )}
+                    <button
+                      type="button"
+                      className="text-white/50 hover:text-[#EFFC76] p-1 hover:bg-white/10 rounded-full transition-colors"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
 
-                    {expandedCommentTaskId === task.id && (
-                      <div className="mt-3 space-y-2 border-t border-gray-100 pt-2">
-                        <div className="space-y-1 max-h-24 overflow-y-auto">
-                          {(taskComments[task.id] || []).length === 0 && (
-                            <p className="text-xs text-gray-400">
-                              No comments yet. Start the discussion for this task.
-                            </p>
-                          )}
-                          {(taskComments[task.id] || []).map((comment) => (
-                            <div
-                              key={comment.id}
-                              className="text-xs text-gray-700 bg-gray-50 rounded-md px-2 py-1"
+                {(tasks[column.id] || []).map((task) => (
+                  <Card
+                    key={task.id}
+                    className="cursor-move bg-black/40 hover:bg-black/60 hover:shadow-[0_0_28px_rgba(239,252,118,0.35)] border border-white/10 hover:border-[#EFFC76]/70 transition-all duration-200"
+                    draggable
+                    onDragStart={(event) =>
+                      handleDragStart(event, task, column.id)
+                    }
+                    onClick={() => handleOpenTask(task, column.id)}
+                  >
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="font-semibold text-white leading-tight">
+                          {task.title}
+                        </h4>
+                      </div>
+
+                      {task.desc && (
+                        <p className="text-xs text-white/70 line-clamp-2">
+                          {task.desc}
+                        </p>
+                      )}
+
+                      <PriorityBadge priority={task.priority} />
+
+                      <div className="pt-2 flex items-center justify-between border-t border-white/10 mt-2">
+                        <div className="flex -space-x-2">
+                          {task.assignees.map((initials, index) => (
+                            <Avatar
+                              key={initials + index}
+                              className="w-6 h-6 border-2 border-white/80"
                             >
-                              <span className="font-medium mr-1">
-                                {comment.author}:
-                              </span>
-                              <span>{comment.text}</span>
-                            </div>
+                              <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-xs">
+                                {initials}
+                              </AvatarFallback>
+                            </Avatar>
                           ))}
                         </div>
-                        <div className="space-y-1">
-                          <Textarea
-                            rows={2}
-                            placeholder="Add a comment..."
-                            className="text-xs"
-                            value={newComments[task.id] || ""}
-                            onChange={(event) =>
-                              handleCommentInputChange(task.id, event.target.value)
-                            }
-                            onClick={(event) => event.stopPropagation()}
-                          />
-                          <div className="flex justify-end">
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="h-7 px-3 text-xs"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleAddComment(task.id);
-                              }}
-                            >
-                              Comment
-                            </Button>
-                          </div>
-                        </div>
+                        <button
+                          type="button"
+                          className="flex items-center gap-1 text-white/50 hover:text-[#EFFC76] text-xs"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5" />
+                          <span>{getCommentCount(task.id)}</span>
+                        </button>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                ))}
 
-              <button
-                type="button"
-                className="flex items-center gap-2 text-gray-500 hover:text-purple-600 py-2 w-full justify-center border border-dashed border-gray-300 rounded-lg transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="text-sm font-medium">Add Task</span>
-              </button>
-            </div>
-          ))}
+                <button
+                  type="button"
+                  className="flex items-center gap-2 text-white/60 hover:text-[#EFFC76] py-2 w-full justify-center border border-dashed border-white/30 rounded-lg bg-white/5 hover:border-[#EFFC76]/70 hover:bg-white/10 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span className="text-sm font-medium">Add Task</span>
+                </button>
+              </div>
+            ))}
 
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-80 shrink-0 flex items-center gap-2 text-gray-500 hover:text-purple-600 py-4 justify-center border-2 border-dashed border-gray-300 rounded-lg transition-colors"
+            className="w-full flex items-center gap-2 text-white/60 hover:text-[#EFFC76] py-4 justify-center border-2 border-dashed border-white/30 rounded-2xl bg-white/5 hover:border-[#EFFC76]/70 hover:bg-white/10 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Custom Column</span>
@@ -638,9 +581,9 @@ export default function EnhancedKanbanBoard() {
       </div>
 
       <Dialog open={showColumnDialog} onOpenChange={setShowColumnDialog}>
-        <DialogContent>
+        <DialogContent className="max-w-md glass-card border-white/20">
           <DialogHeader>
-            <DialogTitle>Add Custom Column</DialogTitle>
+            <DialogTitle className="text-white">Add Custom Column</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <Input
@@ -650,6 +593,7 @@ export default function EnhancedKanbanBoard() {
               onKeyDown={(event) =>
                 event.key === "Enter" ? handleAddColumn() : undefined
               }
+              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
             />
           </div>
           <div className="flex justify-end gap-2">
@@ -657,10 +601,15 @@ export default function EnhancedKanbanBoard() {
               type="button"
               variant="outline"
               onClick={() => setShowColumnDialog(false)}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
             >
               Cancel
             </Button>
-            <Button type="button" onClick={handleAddColumn}>
+            <Button
+              type="button"
+              onClick={handleAddColumn}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            >
               Add Column
             </Button>
           </div>
@@ -668,30 +617,31 @@ export default function EnhancedKanbanBoard() {
       </Dialog>
 
       <Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-xl glass-card border-white/20">
           <DialogHeader>
-            <DialogTitle>{activeTask?.title}</DialogTitle>
+            <DialogTitle className="text-white">
+              {activeTask?.title}
+            </DialogTitle>
           </DialogHeader>
 
           {activeTask && (
             <div className="space-y-6">
               {activeTask.desc && (
-                <p className="text-sm text-gray-600">{activeTask.desc}</p>
+                <p className="text-sm text-white/70">{activeTask.desc}</p>
               )}
 
               <div className="flex items-center justify-between">
                 <PriorityBadge priority={activeTask.priority} />
-                <span className="text-xs text-gray-500 uppercase">
+                <span className="text-xs text-white/60 uppercase">
                   {
-                    columns.find(
-                      (column) => column.id === activeTask.columnId
-                    )?.title
+                    columns.find((column) => column.id === activeTask.columnId)
+                      ?.title
                   }
                 </span>
               </div>
 
               <div className="space-y-3">
-                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-white/70 uppercase tracking-wide">
                   Assignees
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -702,14 +652,14 @@ export default function EnhancedKanbanBoard() {
                         key={initials}
                         type="button"
                         onClick={() => toggleAssignee(initials)}
-                        className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs border ${
+                        className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs border transition-colors ${
                           selected
-                            ? "bg-purple-50 border-purple-300 text-purple-700"
-                            : "bg-gray-50 border-gray-200 text-gray-600"
+                            ? "bg-[#EFFC76]/20 border-[#EFFC76]/60 text-[#EFFC76]"
+                            : "bg-white/5 border-white/20 text-white/70 hover:border-[#EFFC76]/40 hover:text-[#EFFC76]"
                         }`}
                       >
                         <Avatar className="w-6 h-6 border border-white">
-                          <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
+                          <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-xs">
                             {initials}
                           </AvatarFallback>
                         </Avatar>
@@ -725,9 +675,11 @@ export default function EnhancedKanbanBoard() {
       </Dialog>
 
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl glass-card border-white/20">
           <DialogHeader>
-            <DialogTitle>Select a project template</DialogTitle>
+            <DialogTitle className="text-white">
+              Select a project template
+            </DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
             {templates.map((template) => (
@@ -735,16 +687,16 @@ export default function EnhancedKanbanBoard() {
                 key={template.id}
                 type="button"
                 onClick={() => handleSelectTemplate(template.id)}
-                className={`flex flex-col items-start text-left p-4 rounded-lg border transition-colors ${
+                className={`flex flex-col items-start text-left p-4 rounded-lg border transition-colors bg-white/5 ${
                   selectedTemplateId === template.id
-                    ? "border-purple-500 bg-purple-50"
-                    : "border-gray-200 hover:border-purple-400 hover:bg-purple-50/50"
+                    ? "border-[#EFFC76]/70 bg-[#EFFC76]/10"
+                    : "border-white/10 hover:border-[#EFFC76]/60 hover:bg-white/10"
                 }`}
               >
-                <span className="text-sm font-semibold text-gray-900">
+                <span className="text-sm font-semibold text-white">
                   {template.name}
                 </span>
-                <span className="mt-1 text-xs text-gray-500">
+                <span className="mt-1 text-xs text-white/70">
                   {template.description}
                 </span>
               </button>

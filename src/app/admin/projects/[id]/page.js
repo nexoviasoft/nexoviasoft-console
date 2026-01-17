@@ -23,7 +23,7 @@ export default function ProjectDetailPage({ params }) {
   const project = getProject(params.id);
 
   return (
-    <div className="bg-gray-50 px-8 py-6 flex flex-col min-h-screen">
+    <div className="px-8 py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1920px] w-full mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -32,15 +32,15 @@ export default function ProjectDetailPage({ params }) {
               variant="ghost"
               size="sm"
               onClick={() => router.push('/admin/projects')}
-              className="hover:bg-white/50"
+              className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-2 text-[#EFFC76]" />
               Back to Projects
             </Button>
-            <div className="h-6 w-px bg-gray-200" />
+            <div className="h-6 w-px bg-white/20" />
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
-              <p className="text-sm text-gray-500">{project.description}</p>
+              <h1 className="text-2xl font-bold text-white">{project.name}</h1>
+              <p className="text-sm text-white/60">{project.description}</p>
             </div>
           </div>
         </div>
