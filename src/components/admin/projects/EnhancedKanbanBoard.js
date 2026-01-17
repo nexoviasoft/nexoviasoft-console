@@ -725,35 +725,37 @@ export default function EnhancedKanbanBoard() {
       </Dialog>
 
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
-        <DialogContent className="max-w-5xl glass-panel border-white/20 bg-white/95 backdrop-blur-2xl p-0 overflow-hidden">
-          <div className="p-6 border-b border-gray-100">
-             <DialogHeader>
-                <DialogTitle className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900">
-                  Select a project template
+        <DialogContent className="max-w-4xl bg-white p-0 gap-0 border border-gray-100 shadow-2xl sm:rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
+             <div>
+                <DialogTitle className="text-xl font-semibold text-gray-900 tracking-tight">
+                  Choose a template
                 </DialogTitle>
                 <div className="text-sm text-gray-500 mt-1">
-                  Choose a framework to structure your team's workflow.
+                  Select a workflow to get started. You can customize columns later.
                 </div>
-            </DialogHeader>
+             </div>
+             <Button variant="ghost" size="icon" onClick={() => setShowTemplateDialog(false)} className="rounded-full text-gray-400 hover:text-gray-900">
+                <X className="w-4 h-4" />
+             </Button>
           </div>
           
-          <div className="p-6 overflow-y-auto max-h-[70vh]">
+          <div className="p-6 overflow-y-auto max-h-[65vh] bg-gray-50/30">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => {
-                // Icon mapping based on template ID
                 let Icon = ListTodo;
-                let colorClass = "bg-gray-100 text-gray-600";
-                
-                if (template.id === 'scrum') { Icon = Boxes; colorClass = "bg-blue-100 text-blue-600"; }
-                if (template.id === 'kanban') { Icon = Layout; colorClass = "bg-emerald-100 text-emerald-600"; }
-                if (template.id === 'bug_tracking') { Icon = MessageSquare; colorClass = "bg-red-100 text-red-600"; }
-                if (template.id === 'devops') { Icon = Code2; colorClass = "bg-slate-100 text-slate-800"; }
-                if (template.id === 'marketing') { Icon = Megaphone; colorClass = "bg-pink-100 text-pink-600"; }
-                if (template.id === 'design') { Icon = Palette; colorClass = "bg-purple-100 text-purple-600"; }
-                if (template.id === 'hr') { Icon = Users; colorClass = "bg-orange-100 text-orange-600"; }
-                if (template.id === 'sales') { Icon = DollarSign; colorClass = "bg-green-100 text-green-600"; }
-                if (template.id === 'operations') { Icon = Settings; colorClass = "bg-cyan-100 text-cyan-600"; }
-                if (template.id === 'event_planning') { Icon = Calendar; colorClass = "bg-rose-100 text-rose-600"; }
+                // Using a more minimal, monochrome approach for icons or subtle colors
+                // Mapping remains the same, but styling will be cleaner
+                if (template.id === 'scrum') Icon = Boxes;
+                if (template.id === 'kanban') Icon = Layout;
+                if (template.id === 'bug_tracking') Icon = MessageSquare;
+                if (template.id === 'devops') Icon = Code2;
+                if (template.id === 'marketing') Icon = Megaphone;
+                if (template.id === 'design') Icon = Palette;
+                if (template.id === 'hr') Icon = Users;
+                if (template.id === 'sales') Icon = DollarSign;
+                if (template.id === 'operations') Icon = Settings;
+                if (template.id === 'event_planning') Icon = Calendar;
 
                 const isSelected = selectedTemplateId === template.id;
 
@@ -762,36 +764,42 @@ export default function EnhancedKanbanBoard() {
                     key={template.id}
                     type="button"
                     onClick={() => handleSelectTemplate(template.id)}
-                    className={`group relative flex flex-col items-start text-left p-5 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                    className={`group relative flex flex-col items-start text-left p-5 rounded-lg border transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-900 ${
                       isSelected
-                        ? "border-purple-600 bg-purple-50/60 shadow-md shadow-purple-500/10 ring-1 ring-purple-600/20"
-                        : "border-gray-200 bg-white hover:border-purple-200 hover:bg-gray-50/50"
+                        ? "bg-white border-gray-900 shadow-sm ring-1 ring-gray-900"
+                        : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
                     }`}
                   >
-                    <div className="flex items-start justify-between w-full mb-3">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass}`}>
-                            <Icon className="w-5 h-5" />
+                    <div className="flex items-center justify-between w-full mb-4">
+                        <div className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${isSelected ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-gray-200'}`}>
+                            <Icon className="w-4 h-4" />
                         </div>
                         {isSelected && (
-                          <div className="w-5 h-5 bg-purple-600 rounded-full flex items-center justify-center">
-                             <CheckCircle2 className="w-3 h-3 text-white" />
-                          </div>
+                           <div className="text-gray-900">
+                             <CheckCircle2 className="w-5 h-5 fill-current text-white" />
+                           </div>
                         )}
                     </div>
 
-                    <span className={`text-base font-bold mb-1 transition-colors ${isSelected ? 'text-purple-900' : 'text-gray-900 group-hover:text-purple-700'}`}>
+                    <h4 className={`text-sm font-semibold mb-1.5 ${isSelected ? 'text-gray-900' : 'text-gray-900'}`}>
                       {template.name}
-                    </span>
-                    <span className="text-xs text-gray-500 leading-relaxed">
+                    </h4>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
                       {template.description}
-                    </span>
+                    </p>
                   </button>
                 );
               })}
             </div>
           </div>
-          <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
-             <Button variant="ghost" onClick={() => setShowTemplateDialog(false)}>Cancel</Button>
+          <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-end">
+             <Button 
+                variant="outline" 
+                onClick={() => setShowTemplateDialog(false)}
+                className="mr-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+             >
+               Cancel
+             </Button>
           </div>
         </DialogContent>
       </Dialog>
