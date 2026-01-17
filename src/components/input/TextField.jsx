@@ -14,6 +14,7 @@ const TextField = ({
   error, // <--- ADDED PROP: This prop will receive the error message
   required,
   validation,
+  inputClassName = "",
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,11 +34,11 @@ const TextField = ({
           type={isPassword ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
           {...register(name, validation)}
-          className={`border-[1px] border-[#E4E4E7] dark:border-white/10 py-2 sm:py-2.5 pr-8 sm:pr-10 bg-white w-full outline-none focus:border-green-300/50 text-sm sm:text-base rounded-md ${
+          className={`border border-white/20 bg-black text-white placeholder:text-white/40 py-2 sm:py-2.5 pr-8 sm:pr-10 w-full outline-none text-sm sm:text-base rounded-md focus-visible:ring-1 focus-visible:ring-[#EFFC76] ${
             disabled === true && "bg-gray-400"
-          } dark:focus:border-primary dark:text-white/90 ${
-            icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4"
-          } password-input ${error ? "border-red-500" : ""}`}
+          } ${icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4"} password-input ${
+            error ? "border-red-500" : ""
+          } ${inputClassName}`}
           {...props}
         />
         {icon && (

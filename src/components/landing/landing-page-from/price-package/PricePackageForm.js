@@ -205,7 +205,7 @@ export default function PricePackageForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto glass-card border-white/20">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
           <DialogTitle className="text-white">
             {editingPricePackage ? "Edit Price Package" : "Add New Price Package"}

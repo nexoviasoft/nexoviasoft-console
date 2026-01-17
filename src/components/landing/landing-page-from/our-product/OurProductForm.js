@@ -227,7 +227,7 @@ export default function OurProductForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto glass-card border-white/20">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
           <DialogTitle className="text-white">
             {editingProduct ? "Edit Product" : "Add New Product"}
