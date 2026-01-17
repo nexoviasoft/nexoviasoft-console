@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle2 } from "lucide-react";
@@ -65,12 +66,22 @@ const projects = [
 ];
 
 export default function ProjectList({ onSelectProject, selectedProjectId }) {
+  const router = useRouter();
+
   const getStatusColor = (status) => {
     switch (status) {
       case "Completed": return "bg-green-100 text-green-700";
       case "In Progress": return "bg-blue-100 text-blue-700";
       case "Planning": return "bg-yellow-100 text-yellow-700";
       default: return "bg-gray-100 text-gray-700";
+    }
+  };
+
+  const handleClick = (project) => {
+    if (onSelectProject) {
+      onSelectProject(project);
+    } else {
+      router.push(`/admin/projects/${project.id}`);
     }
   };
 
@@ -87,7 +98,7 @@ export default function ProjectList({ onSelectProject, selectedProjectId }) {
         {projects.map((project) => (
           <div 
             key={project.id}
-            onClick={() => onSelectProject(project)}
+            onClick={() => handleClick(project)}
             className={`
               group relative p-5 rounded-xl border transition-all duration-200 cursor-pointer
               ${selectedProjectId === project.id 
