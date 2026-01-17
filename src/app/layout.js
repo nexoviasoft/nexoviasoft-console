@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${baiJamjuree.variable} antialiased`}
+        className={`${baiJamjuree.className} ${baiJamjuree.variable} antialiased`}
       >
         <StoreProvider>
           <AppLayout>

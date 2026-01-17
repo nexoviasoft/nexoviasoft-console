@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { FileText, Receipt, UserPlus, FileCheck, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { FileText, Receipt, UserPlus, FileCheck, ArrowRight, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const templates = [
@@ -59,40 +59,129 @@ const templates = [
     }
 ];
 
-export default function TemplateGallery({ onSelect }) {
-  return (
-    <div className="space-y-8">
-      {templates.map((section, idx) => (
-        <div key={idx}>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                {section.category === "Finance" ? <Receipt className="w-5 h-5 text-gray-500" /> : <UserPlus className="w-5 h-5 text-gray-500" />}
-                {section.category} Patterns
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {section.items.map((item) => (
-                    <Card key={item.id} className="group hover:shadow-lg transition-all border-gray-200 cursor-pointer" onClick={() => onSelect(item.type, item.id)}>
-                        <CardHeader className="pb-3">
-                            <div className="flex justify-between items-start mb-2">
-                                <div className="p-2 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors">
-                                    <item.icon className="w-6 h-6 text-purple-600" />
-                                </div>
-                                <Badge variant="secondary" className="text-xs font-normal">
-                                    {item.tags[0]}
-                                </Badge>
-                            </div>
-                            <CardTitle className="text-lg">{item.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <CardDescription className="line-clamp-2">
-                                {item.description}
-                            </CardDescription>
-                        </CardContent>
-                        <CardFooter className="pt-0 text-purple-600 text-sm font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                            Use Template <ArrowRight className="w-4 h-4" />
-                        </CardFooter>
-                    </Card>
-                ))}
+export default function TemplateGallery({ onSelect, viewMode = "grid" }) {
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  const filteredSections = templates
+    .map((section) => {
+      const items = section.items.filter((item) => {
+        if (!normalizedQuery) return true;
+
+        const haystack = `${item.title} ${item.description} ${item.tags.join(" ")}`.toLowerCase();
+        return haystack.includes(normalizedQuery);
+      });
+
+      return { ...section, items };
+    })
+    .filter((section) => section.items.length > 0);
+
+  const sectionsToRender = filteredSections.length > 0 ? filteredSections : [];
+
+  const renderGridItems = (items) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {items.map((item) => (
+        <Card
+          key={item.id}
+          className="group hover:shadow-lg transition-all border-gray-200 cursor-pointer bg-white/80 hover:bg-white"
+          onClick={() => onSelect(item.type, item.id)}
+        >
+          <CardHeader className="pb-3">
+            <div className="flex justify-between items-start mb-2">
+              <div className="p-2 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors">
+                <item.icon className="w-6 h-6 text-purple-600" />
+              </div>
+              <Badge variant="secondary" className="text-xs font-normal">
+                {item.tags[0]}
+              </Badge>
             </div>
+            <CardTitle className="text-lg">{item.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription className="line-clamp-2">
+              {item.description}
+            </CardDescription>
+          </CardContent>
+          <CardFooter className="pt-0 text-purple-600 text-sm font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1">
+            Use Template <ArrowRight className="w-4 h-4" />
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderListItems = (items) => (
+    <div className="space-y-3">
+      {items.map((item) => (
+        <Card
+          key={item.id}
+          className="group hover:shadow-md transition-all border-gray-200 cursor-pointer bg-white/80 hover:bg-white"
+          onClick={() => onSelect(item.type, item.id)}
+        >
+          <CardContent className="flex items-center justify-between gap-4 py-4">
+            <div className="flex items-center gap-4">
+              <div className="p-2 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors">
+                <item.icon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <CardTitle className="text-base mb-1">{item.title}</CardTitle>
+                <CardDescription className="text-sm">
+                  {item.description}
+                </CardDescription>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Badge variant="secondary" className="text-xs font-normal">
+                {item.tags[0]}
+              </Badge>
+              <ArrowRight className="w-4 h-4 text-purple-600 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">Select a template</h2>
+          <p className="text-sm text-gray-500">
+            Browse invoice and letter templates to start your document.
+          </p>
+        </div>
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search templates..."
+            className="pl-9 bg-white/80 border-gray-200"
+          />
+        </div>
+      </div>
+
+      {sectionsToRender.length === 0 && (
+        <div className="text-center text-sm text-gray-500 py-8">
+          No templates found for <span className="font-medium">"{searchQuery}"</span>.
+        </div>
+      )}
+
+      {sectionsToRender.map((section, idx) => (
+        <div key={idx} className="space-y-4">
+          <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            {section.category === "Finance" ? (
+              <Receipt className="w-4 h-4 text-gray-500" />
+            ) : (
+              <UserPlus className="w-4 h-4 text-gray-500" />
+            )}
+            {section.category} patterns
+          </h3>
+          {viewMode === "grid"
+            ? renderGridItems(section.items)
+            : renderListItems(section.items)}
         </div>
       ))}
     </div>

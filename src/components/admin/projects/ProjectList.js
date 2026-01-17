@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import { Calendar, Users, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 const projects = [
   {
@@ -66,7 +65,9 @@ const projects = [
   }
 ];
 
-export default function ProjectList({ onSelectProject }) {
+export default function ProjectList({ onSelectProject, selectedProjectId }) {
+  const router = useRouter();
+
   const getStatusColor = (status) => {
     switch (status) {
       case "Completed": return "bg-green-100 text-green-700";
@@ -76,65 +77,83 @@ export default function ProjectList({ onSelectProject }) {
     }
   };
 
+  const handleClick = (project) => {
+    if (onSelectProject) {
+      onSelectProject(project);
+    } else {
+      router.push(`/admin/projects/${project.id}`);
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 h-full flex flex-col">
+      <div className="flex items-center justify-between shrink-0">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">All Projects</h2>
-          <p className="text-gray-500">Select a project to view details and manage tasks</p>
+          <h2 className="text-xl font-bold text-gray-900">All Projects</h2>
+          <p className="text-sm text-gray-500">Select a project to view details</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex-1 overflow-y-auto space-y-4 pr-2">
         {projects.map((project) => (
-          <Card 
+          <div 
             key={project.id}
-            className="cursor-pointer hover:shadow-lg transition-all border-l-4 border-l-purple-500"
-            onClick={() => onSelectProject(project)}
+            onClick={() => handleClick(project)}
+            className={`
+              group relative p-5 rounded-xl border transition-all duration-200 cursor-pointer
+              ${selectedProjectId === project.id 
+                ? 'bg-white border-purple-200 shadow-md ring-1 ring-purple-100' 
+                : 'bg-white border-gray-100 hover:border-purple-200 hover:shadow-sm'
+              }
+            `}
           >
-            <CardHeader className="pb-3">
-              <div className="flex justify-between items-start mb-2">
-                <CardTitle className="text-lg">{project.name}</CardTitle>
-                <Badge className={getStatusColor(project.status)}>
-                  {project.status}
-                </Badge>
-              </div>
-              <p className="text-sm text-gray-500 line-clamp-2">{project.description}</p>
-            </CardHeader>
-            <CardContent className="space-y-4">
+            {/* Left Border Indicator for Selected State */}
+            {selectedProjectId === project.id && (
+              <div className="absolute left-0 top-4 bottom-4 w-1 bg-purple-500 rounded-r-full" />
+            )}
+
+            <div className="mb-3 pl-2">
+              <h3 className={`font-bold text-lg mb-1 ${selectedProjectId === project.id ? 'text-gray-900' : 'text-gray-800'}`}>
+                {project.name}
+              </h3>
+              <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            <div className="space-y-4 pl-2">
               <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-gray-600">Progress</span>
-                  <span className="font-medium">{project.progress}%</span>
+                <div className="flex justify-between text-xs font-medium text-gray-500 mb-1.5">
+                  <span>Progress</span>
+                  <span className={selectedProjectId === project.id ? 'text-purple-600' : 'text-gray-600'}>
+                    {project.progress}%
+                  </span>
                 </div>
-                <Progress value={project.progress} className="h-2" />
+                <Progress 
+                  value={project.progress} 
+                  className="h-1.5 bg-gray-100" 
+                  indicatorClassName={selectedProjectId === project.id ? 'bg-purple-500' : 'bg-gray-400 group-hover:bg-purple-400'}
+                />
               </div>
 
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{project.tasksCompleted}/{project.totalTasks} tasks</span>
+              <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center gap-1.5 text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span className="text-xs font-medium">{project.tasksCompleted}/{project.totalTasks} tasks</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <Calendar className="w-4 h-4" />
-                  <span>{project.dueDate}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 pt-3 border-t">
-                <Users className="w-4 h-4 text-gray-400" />
+                
                 <div className="flex -space-x-2">
                   {project.team.map((member, idx) => (
-                    <Avatar key={idx} className="h-8 w-8 border-2 border-white">
-                      <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
+                    <Avatar key={idx} className="h-7 w-7 border-2 border-white ring-1 ring-gray-50">
+                      <AvatarFallback className={`text-[10px] ${idx % 2 === 0 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
                         {member.avatar}
                       </AvatarFallback>
                     </Avatar>
                   ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
     </div>

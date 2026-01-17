@@ -1,11 +1,3 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/our-client/[id]/page": "app/admin/our-client/[id]/page.js",
-  "/admin/our-client/page": "app/admin/our-client/page.js",
-  "/admin/service-request/[id]/page": "app/admin/service-request/[id]/page.js",
-  "/admin/service-request/page": "app/admin/service-request/page.js",
-  "/landing/our-product/[id]/page": "app/landing/our-product/[id]/page.js",
-  "/landing/our-product/page": "app/landing/our-product/page.js",
-  "/landing/our-service/[id]/page": "app/landing/our-service/[id]/page.js",
-  "/landing/our-service/page": "app/landing/our-service/page.js"
+  "/landing/our-product/page": "app/landing/our-product/page.js"
 }

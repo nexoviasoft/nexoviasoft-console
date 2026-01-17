@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Plus, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format, addDays, startOfWeek } from "date-fns";
 
-export default function ScheduleHeader() {
+export default function ScheduleHeader({ onAddShift }) {
   const [currentDate, setCurrentDate] = React.useState(new Date());
   
   const startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
@@ -37,7 +37,10 @@ export default function ScheduleHeader() {
           <Upload className="w-4 h-4 mr-2" />
           Publish
         </Button>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+        <Button 
+          className="bg-purple-600 hover:bg-purple-700 text-white"
+          onClick={onAddShift}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Shift
         </Button>
