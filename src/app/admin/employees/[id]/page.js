@@ -1,10 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   ArrowLeft, 
   Mail, 
@@ -13,8 +31,10 @@ import {
   Calendar, 
   Briefcase,
   Edit,
-  MoreVertical
+  MoreVertical,
+  Save
 } from "lucide-react";
+import { toast } from "sonner";
 
 // Mock employee data - in real app, fetch based on params.id
 const getEmployee = (id) => {
@@ -59,7 +79,25 @@ const getEmployee = (id) => {
 
 export default function EmployeeProfilePage({ params }) {
   const router = useRouter();
-  const employee = getEmployee(params.id);
+  const initialEmployee = getEmployee(params.id);
+  const [employee, setEmployee] = useState(initialEmployee);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editForm, setEditForm] = useState(employee);
+
+  const handleEditClick = () => {
+    setEditForm(employee);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSaveChanges = () => {
+    setEmployee(editForm);
+    setIsEditDialogOpen(false);
+    toast.success("Profile updated successfully!");
+  };
+
+  const handleInputChange = (field, value) => {
+    setEditForm(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
     <div className="bg-gray-50 px-8 py-6 min-h-screen">
@@ -99,7 +137,7 @@ export default function EmployeeProfilePage({ params }) {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleEditClick}>
                 <Edit className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>
@@ -207,6 +245,141 @@ export default function EmployeeProfilePage({ params }) {
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl glass-panel">
+          <DialogHeader>
+            <DialogTitle>Edit Employee Profile</DialogTitle>
+            <DialogDescription>
+              Update employee information and save changes.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto">
+            {/* Name */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">Name</Label>
+              <Input
+                id="name"
+                value={editForm.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Role */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="role" className="text-right">Role</Label>
+              <Input
+                id="role"
+                value={editForm.role}
+                onChange={(e) => handleInputChange('role', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Department */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="department" className="text-right">Department</Label>
+              <Select value={editForm.department} onValueChange={(value) => handleInputChange('department', value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Design">Design</SelectItem>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Product">Product</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                  <SelectItem value="Sales">Sales</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Email */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="email" className="text-right">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={editForm.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="phone" className="text-right">Phone</Label>
+              <Input
+                id="phone"
+                value={editForm.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Location */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="location" className="text-right">Location</Label>
+              <Input
+                id="location"
+                value={editForm.location}
+                onChange={(e) => handleInputChange('location', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Manager */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="manager" className="text-right">Manager</Label>
+              <Input
+                id="manager"
+                value={editForm.manager}
+                onChange={(e) => handleInputChange('manager', e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+
+            {/* Status */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="status" className="text-right">Status</Label>
+              <Select value={editForm.status} onValueChange={(value) => handleInputChange('status', value)}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="On Leave">On Leave</SelectItem>
+                  <SelectItem value="Inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Bio */}
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="bio" className="text-right pt-2">Bio</Label>
+              <Textarea
+                id="bio"
+                value={editForm.bio}
+                onChange={(e) => handleInputChange('bio', e.target.value)}
+                className="col-span-3 min-h-[100px]"
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveChanges} className="bg-purple-600 hover:bg-purple-700">
+              <Save className="w-4 h-4 mr-2" />
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
