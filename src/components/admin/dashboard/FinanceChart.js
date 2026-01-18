@@ -26,12 +26,10 @@ const monthlyData = Array.from({ length: 30 }, (_, i) => ({
   income: 2000 + Math.floor(Math.random() * 5000), // Random income
 }));
 
-const quarterlyData = [
-  { label: "Q1", income: 45000 },
-  { label: "Q2", income: 52000 },
-  { label: "Q3", income: 48000 },
-  { label: "Q4", income: 61000 },
-];
+const quarterlyData = Array.from({ length: 90 }, (_, i) => ({
+  label: String(i + 1).padStart(2, "0"),
+  income: 2000 + Math.floor(Math.random() * 5000), // Random income
+}));
 
 const yearlyData = [
   { label: "Jan", income: 2400 },
@@ -81,15 +79,15 @@ export default function FinanceChart({ period = "Yearly" }) {
   return (
     <div className="h-72 w-full mt-6">
       <div 
-        className={`w-full h-full ${period === "Monthly" ? "overflow-x-auto pb-4" : ""}`}
+        className={`w-full h-full ${["Monthly", "Quarterly"].includes(period) ? "overflow-x-auto pb-4" : ""}`}
         style={{ scrollbarWidth: 'thin' }}
       >
-        <div style={{ width: period === "Monthly" ? "250%" : "100%", height: "100%" }}>
+        <div style={{ width: period === "Quarterly" ? "750%" : period === "Monthly" ? "250%" : "100%", height: "100%" }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
               margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
-              barSize={period === "Monthly" ? 16 : barWidth}
+              barSize={["Monthly", "Quarterly"].includes(period) ? 16 : barWidth}
             >
               <XAxis 
                 dataKey="label" 
@@ -97,7 +95,7 @@ export default function FinanceChart({ period = "Yearly" }) {
                 tickLine={false} 
                 tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12, fontWeight: 500 }} 
                 dy={10}
-                interval={period === "Monthly" ? 0 : "preserveStartEnd"}
+                interval={["Monthly", "Quarterly"].includes(period) ? 0 : "preserveStartEnd"}
               />
               
               <Tooltip 
