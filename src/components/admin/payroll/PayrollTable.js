@@ -79,12 +79,25 @@ const payrollData = [
 ];
 
 const StatusBadge = ({ status }) => {
-  const styles = {
-    Paid: "bg-green-100 text-green-700 hover:bg-green-200",
-    Processing: "bg-blue-100 text-blue-700 hover:bg-blue-200",
-    Pending: "bg-yellow-100 text-yellow-700 hover:bg-yellow-200",
-  };
-  return <Badge className={`${styles[status] || "bg-gray-100"} font-medium border-0 shadow-none`}>{status}</Badge>;
+  if (status === "Paid") {
+    return (
+      <Badge className="bg-emerald-500/15 text-emerald-200 border border-emerald-400/60 font-medium">
+        Paid
+      </Badge>
+    );
+  }
+  if (status === "Processing") {
+    return (
+      <Badge className="bg-sky-500/15 text-sky-200 border border-sky-400/60 font-medium">
+        Processing
+      </Badge>
+    );
+  }
+  return (
+    <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60 font-medium">
+      Pending
+    </Badge>
+  );
 };
 
 export default function PayrollTable() {
@@ -97,65 +110,91 @@ export default function PayrollTable() {
 
   return (
     <div className="space-y-4">
-      {/* Search Bar */}
-      <div className="flex items-center gap-2 max-w-sm bg-white border border-gray-200 rounded-lg px-3 py-1 shadow-sm focus-within:ring-2 focus-within:ring-purple-500 focus-within:border-transparent transition-all">
-        <Search className="w-4 h-4 text-gray-400" />
+      <div className="flex items-center gap-2 max-w-sm bg-black/40 border border-white/20 rounded-lg px-3 py-1 shadow-sm focus-within:border-[#EFFC76] transition-all">
+        <Search className="w-4 h-4 text-white/40" />
         <Input 
           type="text" 
           placeholder="Search employees..." 
-          className="border-0 shadow-none focus-visible:ring-0 px-0 h-8 text-sm placeholder:text-gray-400"
+          className="border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 h-8 text-sm text-white placeholder:text-white/40"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+      <div className="glass-panel rounded-2xl overflow-hidden">
         <Table>
-          <TableHeader className="bg-gray-50">
+          <TableHeader className="bg-white/5">
             <TableRow>
-              <TableHead className="w-[300px]">Employee</TableHead>
-              <TableHead>Base Salary</TableHead>
-              <TableHead>Bonus</TableHead>
-              <TableHead>Deductions</TableHead>
-              <TableHead className="font-bold text-gray-900">Net Pay</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[300px] text-white/70">Employee</TableHead>
+              <TableHead className="text-white/70">Base Salary</TableHead>
+              <TableHead className="text-white/70">Bonus</TableHead>
+              <TableHead className="text-white/70">Deductions</TableHead>
+              <TableHead className="font-bold text-white">Net Pay</TableHead>
+              <TableHead className="text-white/70">Status</TableHead>
+              <TableHead className="text-right text-white/70">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredData.length > 0 ? (
               filteredData.map((row) => (
-                <TableRow key={row.id} className="hover:bg-gray-50/50">
+                <TableRow
+                  key={row.id}
+                  className="hover:bg-white/5 cursor-pointer transition-colors"
+                >
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-3">
-                      <Avatar className="w-9 h-9 border border-gray-100">
+                      <Avatar className="w-9 h-9 border border-white/20">
                         <AvatarImage src={row.avatar} />
-                        <AvatarFallback>{row.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                          {row.name.charAt(0)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-semibold text-gray-900">{row.name}</div>
-                        <div className="text-xs text-gray-500">{row.role}</div>
+                        <div className="font-semibold text-white">{row.name}</div>
+                        <div className="text-xs text-white/60">{row.role}</div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-gray-600 font-medium">{row.salary}</TableCell>
-                  <TableCell className="text-green-600 font-medium">{row.bonus}</TableCell>
-                  <TableCell className="text-red-500 font-medium">{row.deductions}</TableCell>
-                  <TableCell className="font-bold text-gray-900">{row.netPay}</TableCell>
+                  <TableCell className="text-white/80 font-medium">
+                    {row.salary}
+                  </TableCell>
+                  <TableCell className="text-emerald-300 font-medium">
+                    {row.bonus}
+                  </TableCell>
+                  <TableCell className="text-rose-300 font-medium">
+                    {row.deductions}
+                  </TableCell>
+                  <TableCell className="font-bold text-[#EFFC76]">
+                    {row.netPay}
+                  </TableCell>
                   <TableCell>
                     <StatusBadge status={row.status} />
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
                       {row.status === "Pending" && (
-                        <Button size="sm" variant="outline" className="h-8 text-green-600 border-green-200 hover:bg-green-50">
-                          <Send className="w-3 h-3 mr-1" /> Pay
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 glass-button border-white/30 
+                          text-black hover:text-[#EFFC76] hover:bg-white/10"
+                        >
+                          <Send className="w-3 h-3 mr-1" />
+                          Pay
                         </Button>
                       )}
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 w-8 p-0 text-white/50 hover:text-[#EFFC76] hover:bg-white/5"
+                      >
                         <Download className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-900">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 w-8 p-0 text-white/50 hover:text-[#EFFC76] hover:bg-white/5"
+                      >
                         <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </div>
@@ -164,7 +203,7 @@ export default function PayrollTable() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center text-gray-500">
+                <TableCell colSpan={7} className="h-24 text-center text-white/60">
                   No employees found matching "{searchTerm}"
                 </TableCell>
               </TableRow>

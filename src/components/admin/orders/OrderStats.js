@@ -46,8 +46,8 @@ export default function OrderStats() {
         <Card key={index} className="border-gray-100 shadow-sm hover:shadow-md transition-shadow">
           <CardContent className="p-6 flex items-start justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">{stat.title}</p>
-              <h3 className="text-2xl font-bold text-gray-900 mt-2">{stat.value}</h3>
+              <p className="text-sm font-medium text-white">{stat.title}</p>
+              <h3 className="text-2xl font-bold text-[#EFFC76] mt-2">{stat.value}</h3>
               <div className="flex items-center mt-1 gap-2">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${stat.trend === 'up' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
                   {stat.change}
