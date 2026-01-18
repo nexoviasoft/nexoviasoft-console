@@ -60,14 +60,14 @@ export default function EmailComposer({ selectedTemplate }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle className="flex items-center justify-between text-white">
           <span>Compose Email</span>
           {selectedTemplate && (
             <Button 
               variant="ghost" 
               size="sm"
               onClick={handleReset}
-              className="gap-2"
+              className="gap-2 bg-white hover:bg-white/90 text-black"
             >
               <RefreshCw className="w-4 h-4" />
               Reset Template
@@ -77,31 +77,33 @@ export default function EmailComposer({ selectedTemplate }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label>To</Label>
+          <Label className="text-white/80">To</Label>
           <Input 
             placeholder="teammate@company.com (comma-separated for multiple)"
             value={emailData.to}
             onChange={(e) => setEmailData({...emailData, to: e.target.value})}
+            className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
           />
         </div>
 
         <div className="space-y-2">
-          <Label>Subject</Label>
+          <Label className="text-white/80">Subject</Label>
           <Input 
             placeholder="Email subject"
             value={emailData.subject}
             onChange={(e) => setEmailData({...emailData, subject: e.target.value})}
+            className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
           />
         </div>
 
         <div className="space-y-2">
-          <Label>Message</Label>
+          <Label className="text-white/80">Message</Label>
           <Textarea 
             placeholder="Email body..."
             value={emailData.body}
             onChange={(e) => setEmailData({...emailData, body: e.target.value})}
             rows={12}
-            className="font-mono text-sm"
+            className="font-mono text-sm bg-white/5 border-white/20 text-white placeholder:text-white/40"
           />
         </div>
 
@@ -109,12 +111,13 @@ export default function EmailComposer({ selectedTemplate }) {
           <Button 
             variant="outline"
             onClick={() => setEmailData({ to: "", subject: "", body: "" })}
+            className="bg-white hover:bg-white/90 text-black"
           >
             Clear
           </Button>
           <Button 
             onClick={handleSend}
-            className="bg-purple-600 hover:bg-purple-700 gap-2"
+            className="bg-white hover:bg-white/90 text-black gap-2"
           >
             <Send className="w-4 h-4" />
             Send Email

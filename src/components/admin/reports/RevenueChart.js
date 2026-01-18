@@ -16,9 +16,9 @@ const data = [
 
 export default function RevenueChart() {
   return (
-    <Card className="shadow-sm border-gray-100 col-span-1 lg:col-span-2">
+    <Card className="glass-card border-white/20 col-span-1 lg:col-span-2">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Revenue Trend</CardTitle>
+        <CardTitle className="text-lg font-semibold text-white">Revenue Trend</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
@@ -34,18 +34,46 @@ export default function RevenueChart() {
             >
               <defs>
                 <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#EFFC76" stopOpacity={0.9} />
+                  <stop offset="95%" stopColor="#EFFC76" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6B7280', fontSize: 12}} dy={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#6B7280', fontSize: 12}} />
-              <Tooltip 
-                contentStyle={{backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
-                itemStyle={{color: '#1f2937'}}
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="rgba(148, 163, 184, 0.35)"
               />
-              <Area type="monotone" dataKey="pv" stroke="#8b5cf6" strokeWidth={3} fillOpacity={1} fill="url(#colorPv)" />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "#E5E7EB", fontSize: 12 }}
+                dy={10}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "#E5E7EB", fontSize: 12 }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(15,23,42,0.95)",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(148,163,184,0.45)",
+                  boxShadow: "0 18px 45px rgba(15,23,42,0.65)",
+                  color: "#F9FAFB",
+                }}
+                itemStyle={{ color: "#EFFC76" }}
+                cursor={{ stroke: "rgba(148,163,184,0.4)", strokeWidth: 1 }}
+              />
+              <Area
+                type="monotone"
+                dataKey="pv"
+                stroke="#EFFC76"
+                strokeWidth={3}
+                fillOpacity={1}
+                fill="url(#colorPv)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>

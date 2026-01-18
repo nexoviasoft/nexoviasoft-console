@@ -22,31 +22,31 @@ const data = [
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100 min-w-[200px]">
+      <div className="bg-black/80 p-4 rounded-xl shadow-lg border border-white/20 min-w-[220px]">
         <div className="flex items-center gap-3 mb-3">
-          <Avatar className="w-8 h-8">
+          <Avatar className="w-8 h-8 ring-2 ring-[#EFFC76]/40">
             <AvatarImage src="/avatars/miracle.jpg" />
             <AvatarFallback>MV</AvatarFallback>
           </Avatar>
           <div>
-            <div className="text-sm font-semibold">Miracle Vetrovs</div>
-            <div className="text-xs text-gray-500">UX Designer - UXD3</div>
+            <div className="text-sm font-semibold text-white">Miracle Vetrovs</div>
+            <div className="text-xs text-white/60">UX Designer - UXD3</div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div className="flex items-center gap-1.5 mb-1">
               <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-              <span className="text-xs text-gray-500">Last week</span>
+              <span className="text-xs text-white/60">Last week</span>
             </div>
-            <div className="text-sm font-bold">32 Hrs</div>
+            <div className="text-sm font-bold text-white">32 Hrs</div>
           </div>
           <div>
             <div className="flex items-center gap-1.5 mb-1">
               <div className="w-2 h-2 rounded-full bg-cyan-400"></div>
-              <span className="text-xs text-gray-500">This week</span>
+              <span className="text-xs text-white/60">This week</span>
             </div>
-            <div className="text-sm font-bold">34.30 Hrs</div>
+            <div className="text-sm font-bold text-white">34.30 Hrs</div>
           </div>
         </div>
       </div>
@@ -61,11 +61,11 @@ export default function TimingsChart() {
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Timings</h3>
-            <p className="text-sm text-gray-500">From 4-10 Sep, 2023</p>
+            <h3 className="text-lg font-semibold text-white">Timings</h3>
+            <p className="text-sm text-white/60">From 4-10 Sep, 2023</p>
           </div>
           <Select defaultValue="week">
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-[140px] bg-black/40 border border-white/20 text-white">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -78,7 +78,7 @@ export default function TimingsChart() {
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} barGap={4}>
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "transparent" }} />
               <Bar dataKey="last" fill="#3b82f6" radius={[4, 4, 4, 4]} barSize={6} />
               <Bar dataKey="current" fill="#22d3ee" radius={[4, 4, 4, 4]} barSize={6} />
             </BarChart>
@@ -88,11 +88,11 @@ export default function TimingsChart() {
         <div className="flex items-center justify-center gap-6 mt-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-blue-500"></div>
-            <span className="text-sm text-gray-500">Last week</span>
+            <span className="text-sm text-white/70">Last week</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-cyan-400"></div>
-            <span className="text-sm text-gray-500">This week</span>
+            <span className="text-sm text-white/70">This week</span>
           </div>
         </div>
       </CardContent>

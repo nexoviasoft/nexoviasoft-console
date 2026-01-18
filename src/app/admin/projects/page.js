@@ -73,10 +73,14 @@ export default function Projects() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "Completed": return "bg-green-100 text-green-700";
-      case "In Progress": return "bg-blue-100 text-blue-700";
-      case "Planning": return "bg-yellow-100 text-yellow-700";
-      default: return "bg-gray-100 text-gray-700";
+      case "Completed":
+        return "bg-emerald-500/20 text-emerald-300 border border-emerald-400/50";
+      case "In Progress":
+        return "bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/60";
+      case "Planning":
+        return "bg-purple-500/20 text-purple-200 border border-purple-400/60";
+      default:
+        return "bg-white/10 text-white/70 border border-white/20";
     }
   };
 
@@ -85,19 +89,19 @@ export default function Projects() {
   };
 
   return (
-    <div className="bg-gray-50 px-8 py-6 flex flex-col min-h-screen">
+    <div className="px-8 py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
-            <p className="text-sm text-gray-500">
+            <h1 className="text-2xl font-bold text-white">Projects</h1>
+            <p className="text-sm text-white/60">
               Manage your projects with customizable Kanban boards
             </p>
           </div>
           <Button 
             onClick={() => setShowNewProjectDialog(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Project
@@ -115,35 +119,35 @@ export default function Projects() {
               {/* Project Header */}
               <div className="mb-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-lg text-gray-900 group-hover:text-purple-600 transition-colors">
+                  <h3 className="font-bold text-lg text-white group-hover:text-[#EFFC76] transition-colors">
                     {project.name}
                   </h3>
                   <span className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
                     {project.status}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                <p className="text-sm text-white/70 line-clamp-2 leading-relaxed">
                   {project.description}
                 </p>
               </div>
 
               {/* Progress */}
               <div className="mb-4">
-                <div className="flex justify-between text-xs font-medium text-gray-500 mb-2">
+                <div className="flex justify-between text-xs font-medium text-white/60 mb-2">
                   <span>Progress</span>
-                  <span className="text-purple-600">{project.progress}%</span>
+                  <span className="text-[#EFFC76]">{project.progress}%</span>
                 </div>
                 <Progress 
                   value={project.progress} 
-                  className="h-2 bg-gray-100" 
-                  indicatorClassName="bg-purple-500"
+                  className="h-2 bg-[#EFFC76]" 
+                  indicatorClassName="bg-[#EFFC76]"
                 />
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div className="flex items-center gap-1.5 text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+              <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                <div className="flex items-center gap-1.5 text-white/70 bg-white/5 px-2 py-1 rounded-md border border-white/15">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#EFFC76]" />
                   <span className="text-xs font-medium">
                     {project.tasksCompleted}/{project.totalTasks} tasks
                   </span>
@@ -151,15 +155,18 @@ export default function Projects() {
                 
                 <div className="flex -space-x-2">
                   {project.team.slice(0, 3).map((member, idx) => (
-                    <Avatar key={idx} className="h-7 w-7 border-2 border-white ring-1 ring-gray-50">
-                      <AvatarFallback className={`text-[10px] ${idx % 2 === 0 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                    <Avatar
+                      key={idx}
+                      className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#EFFC76]/30"
+                    >
+                      <AvatarFallback className="text-[10px] bg-[#EFFC76]/10 text-[#EFFC76]">
                         {member.avatar}
                       </AvatarFallback>
                     </Avatar>
                   ))}
                   {project.team.length > 3 && (
-                    <div className="h-7 w-7 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center">
-                      <span className="text-[10px] font-medium text-gray-600">
+                    <div className="h-7 w-7 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center">
+                      <span className="text-[10px] font-medium text-white/80">
                         +{project.team.length - 3}
                       </span>
                     </div>

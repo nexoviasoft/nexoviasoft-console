@@ -227,17 +227,16 @@ export default function OurProductForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingProduct ? "Edit Product" : "Add New Product"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 py-4">
-            {/* Basic Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -297,9 +296,8 @@ export default function OurProductForm({
               />
             </div>
 
-            {/* Logo */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Logo
               </h3>
               <ImageInput
@@ -322,10 +320,9 @@ export default function OurProductForm({
               />
             </div>
 
-            {/* Features */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <h3 className="text-lg font-semibold text-white">
                   Features
                 </h3>
                 <Button
@@ -333,7 +330,7 @@ export default function OurProductForm({
                   variant="outline"
                   size="sm"
                   onClick={addFeature}
-                  className="gap-2"
+                  className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 >
                   <Plus className="w-4 h-4" />
                   Add Feature
@@ -347,7 +344,7 @@ export default function OurProductForm({
                         value={feature || ""}
                         onChange={(e) => updateFeature(index, e.target.value)}
                         placeholder="e.g. Lead Management"
-                        className={errors.feature?.[index] ? "border-red-500" : ""}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.feature?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.feature?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.feature[index]?.message}</p>
@@ -359,7 +356,7 @@ export default function OurProductForm({
                         variant="ghost"
                         size="icon"
                         onClick={() => removeFeature(index)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/20"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -373,12 +370,18 @@ export default function OurProductForm({
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={handleClose}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+            >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={isSubmitting || isCreating || isUpdating || isUploading}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               {isSubmitting || isCreating || isUpdating || isUploading
                 ? "Saving..."

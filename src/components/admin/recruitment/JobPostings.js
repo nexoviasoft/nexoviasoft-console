@@ -96,35 +96,43 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {jobs.map((job) => (
-          <Card key={job.id} className="hover:shadow-lg transition-shadow">
+          <Card key={job.id} className="glass-card border-white/20 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start mb-2">
-                <Badge variant={job.status === 'Active' ? 'default' : 'secondary'}>
+                <Badge
+                  variant={job.status === 'Active' ? 'default' : 'secondary'}
+                  className="bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                >
                   {job.status}
                 </Badge>
                 <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(job)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-white/70 hover:bg-white/10"
+                    onClick={() => handleEdit(job)}
+                  >
                     <Edit className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
-              <CardTitle className="text-lg">{job.title}</CardTitle>
+              <CardTitle className="text-lg text-white">{job.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-white/70">
                 <Briefcase className="w-4 h-4" />
                 {job.department}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-white/70">
                 <MapPin className="w-4 h-4" />
                 {job.location}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-white/70">
                 <Clock className="w-4 h-4" />
                 {job.type}
               </div>
-              <div className="flex items-center justify-between pt-3 border-t">
-                <div className="flex items-center gap-2 text-sm font-medium text-purple-600">
+              <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                <div className="flex items-center gap-2 text-sm font-medium text-[#EFFC76]">
                   <Users className="w-4 h-4" />
                   {job.applicants} applicants
                 </div>
@@ -132,6 +140,7 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
                   variant="outline" 
                   size="sm"
                   onClick={() => onViewDetails && onViewDetails(job)}
+                  className="bg-white hover:bg-white/90 text-black"
                 >
                   View Details
                 </Button>
@@ -142,30 +151,34 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
       </div>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] glass-panel border-white/20">
           <DialogHeader>
-            <DialogTitle>{editingJob ? 'Edit Job' : 'Post New Job'}</DialogTitle>
+            <DialogTitle className="text-white">
+              {editingJob ? 'Edit Job' : 'Post New Job'}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Job Title</Label>
+              <Label className="text-white/80">Job Title</Label>
               <Input 
                 placeholder="e.g. Senior Frontend Developer"
                 value={formData.title}
                 onChange={(e) => setFormData({...formData, title: e.target.value})}
+                className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Department</Label>
+                <Label className="text-white/80">Department</Label>
                 <Input 
                   placeholder="e.g. Engineering"
                   value={formData.department}
                   onChange={(e) => setFormData({...formData, department: e.target.value})}
+                  className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Employment Type</Label>
+                <Label className="text-white/80">Employment Type</Label>
                 <Select value={formData.type} onValueChange={(v) => setFormData({...formData, type: v})}>
                   <SelectTrigger>
                     <SelectValue />
@@ -180,26 +193,37 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Location</Label>
+              <Label className="text-white/80">Location</Label>
               <Input 
                 placeholder="e.g. Remote, San Francisco, Hybrid"
                 value={formData.location}
                 onChange={(e) => setFormData({...formData, location: e.target.value})}
+                className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
               />
             </div>
             <div className="space-y-2">
-              <Label>Job Description</Label>
+              <Label className="text-white/80">Job Description</Label>
               <Textarea 
                 placeholder="Describe the role, responsibilities, and requirements..."
                 value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 rows={6}
+                className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
               />
             </div>
           </div>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setShowDialog(false)}>Cancel</Button>
-            <Button onClick={handleSave}>
+            <Button
+              variant="outline"
+              onClick={() => setShowDialog(false)}
+              className="bg-white hover:bg-white/90 text-black"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              className="bg-white hover:bg-white/90 text-black"
+            >
               {editingJob ? 'Update Job' : 'Post Job'}
             </Button>
           </div>

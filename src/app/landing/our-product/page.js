@@ -66,7 +66,7 @@ function OurProductContent() {
         href={product.url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-blue-600 hover:text-blue-800 underline truncate max-w-xs block"
+        className="text-[#EFFC76] hover:text-white underline truncate max-w-xs block"
       >
         {product.url}
       </a>
@@ -76,7 +76,7 @@ function OurProductContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => router.push(`/landing/our-product/${product.id || product._id}`)}
           title="View Details"
         >
@@ -85,7 +85,7 @@ function OurProductContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => handleEdit(product)}
           title="Edit"
         >
@@ -94,7 +94,7 @@ function OurProductContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
           onClick={() => handleDeleteClick(product)}
           title="Delete"
           disabled={isDeleting}
@@ -147,10 +147,13 @@ function OurProductContent() {
 
   return (
     <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
+      <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Our Products</CardTitle>
-          <Button onClick={handleAdd}>
+          <CardTitle className="text-white">Our Products</CardTitle>
+          <Button
+            onClick={handleAdd}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Product
           </Button>

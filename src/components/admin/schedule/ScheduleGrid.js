@@ -73,46 +73,54 @@ const scheduleData = [
 
 export default function ScheduleGrid() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden flex flex-col h-full">
-      <div className="overflow-auto">
-         <Table className="min-w-[1200px]">
-        <TableHeader className="bg-gray-50">
-          <TableRow>
-            <TableHead className="w-[250px] sticky left-0 z-20 bg-gray-50 border-r border-gray-200">Employee</TableHead>
-            {days.map((day, i) => (
-              <TableHead key={i} className="text-center min-w-[140px] border-l border-gray-100 font-semibold text-gray-700">
-                {day}
+    <div className="glass-panel rounded-2xl overflow-hidden flex flex-col h-full">
+      <div className="overflow-auto scrollbar-thin scrollbar-glass">
+        <Table className="min-w-[1200px]">
+          <TableHeader className="bg-black/40">
+            <TableRow>
+              <TableHead className="w-[250px] sticky left-0 z-20 bg-black/60 backdrop-blur-xl border-r border-white/10 text-white/80">
+                Employee
               </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {scheduleData.map((emp) => (
-            <TableRow key={emp.id} className="hover:bg-transparent">
-              {/* Employee Column - Sticky */}
-              <TableCell className="sticky left-0 z-20 bg-white border-r border-gray-200 font-medium">
-                <div className="flex items-center gap-3">
-                  <Avatar className="w-9 h-9 border border-gray-100">
-                    <AvatarImage src={emp.avatar} />
-                    <AvatarFallback>{emp.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold text-gray-900 text-sm">{emp.name}</div>
-                    <div className="text-xs text-gray-500">{emp.role}</div>
-                  </div>
-                </div>
-              </TableCell>
-
-              {/* Shifts Columns */}
-              {emp.shifts.map((shift, i) => (
-                 <TableCell key={i} className="p-2 border-l border-gray-100 align-top h-[100px]">
-                    <ShiftCard shift={shift} />
-                 </TableCell>
+              {days.map((day, i) => (
+                <TableHead
+                  key={i}
+                  className="text-center min-w-[140px] border-l border-white/10 font-semibold text-white/70"
+                >
+                  {day}
+                </TableHead>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {scheduleData.map((emp) => (
+              <TableRow key={emp.id} className="hover:bg-white/5/40 transition-colors">
+                <TableCell className="sticky left-0 z-20 bg-black/60 backdrop-blur-xl border-r border-white/10 font-medium">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-9 h-9 border border-white/20">
+                      <AvatarImage src={emp.avatar} />
+                      <AvatarFallback>{emp.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold text-white text-sm">
+                        {emp.name}
+                      </div>
+                      <div className="text-xs text-white/60">{emp.role}</div>
+                    </div>
+                  </div>
+                </TableCell>
+
+                {emp.shifts.map((shift, i) => (
+                  <TableCell
+                    key={i}
+                    className="p-2 border-l border-white/10 align-top h-[100px]"
+                  >
+                    <ShiftCard shift={shift} />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

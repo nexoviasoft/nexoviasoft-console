@@ -147,35 +147,35 @@ export default function TemplateGallery({ onSelect, viewMode = "grid" }) {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Select a template</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="text-lg font-semibold text-white">Select a template</h2>
+          <p className="text-sm text-white/70">
             Browse invoice and letter templates to start your document.
           </p>
         </div>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
           <Input
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search templates..."
-            className="pl-9 bg-white/80 border-gray-200"
+            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#EFFC76]"
           />
         </div>
       </div>
 
       {sectionsToRender.length === 0 && (
-        <div className="text-center text-sm text-gray-500 py-8">
-          No templates found for <span className="font-medium">"{searchQuery}"</span>.
+        <div className="text-center text-sm text-white/70 py-8">
+          No templates found for <span className="font-medium text-white">"{searchQuery}"</span>.
         </div>
       )}
 
       {sectionsToRender.map((section, idx) => (
         <div key={idx} className="space-y-4">
-          <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-white/70 flex items-center gap-2">
             {section.category === "Finance" ? (
-              <Receipt className="w-4 h-4 text-gray-500" />
+              <Receipt className="w-4 h-4 text-white/60" />
             ) : (
-              <UserPlus className="w-4 h-4 text-gray-500" />
+              <UserPlus className="w-4 h-4 text-white/60" />
             )}
             {section.category} patterns
           </h3>

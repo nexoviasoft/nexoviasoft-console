@@ -40,18 +40,18 @@ const ModernPagination = ({
 
   return (
     <div
-      className={`flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 ${className}`}
+      className={`flex flex-col rounded-xl gap-3 sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-3 sm:py-4 glass-card border-white/20 ${className}`}
     >
       {/* Left Section */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-700 dark:text-gray-300">
+          <span className="text-sm text-white/70">
             Items per page
           </span>
           <select
             value={localItemsPerPage}
             onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
-            className="px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-2 py-1 text-sm rounded-md bg-black/40 border border-white/30 text-white/90 focus:outline-none focus:ring-2 focus:ring-[#EFFC76] focus:border-transparent"
           >
             {itemsPerPageOptions.map((option) => (
               <option key={option} value={option}>
@@ -60,7 +60,7 @@ const ModernPagination = ({
             ))}
           </select>
         </div>
-        <span className="text-sm text-gray-700 dark:text-gray-300">
+        <span className="text-sm text-white/70">
           {startItem}-{endItem} of {totalItems} items
         </span>
       </div>
@@ -71,7 +71,7 @@ const ModernPagination = ({
         <button
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
-          className="flex items-center justify-center w-8 h-8 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center justify-center w-8 h-8 rounded-md border border-white/30 bg-white/5 text-white hover:bg-white/15 hover:border-[#EFFC76]/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           title="Go to first page"
         >
           <ChevronsLeft className="w-4 h-4" />
@@ -81,7 +81,7 @@ const ModernPagination = ({
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="flex items-center gap-1 px-3 py-1 text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-1 px-3 py-1 text-sm rounded-md border border-white/30 bg-white/5 text-white hover:bg-white/15 hover:border-[#EFFC76]/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           title="Previous page"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -115,9 +115,9 @@ const ModernPagination = ({
                 }
               }
             }}
-            className="w-14 h-8 px-2 text-center text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-14 h-8 px-2 text-center text-sm rounded-md bg-black/40 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-[#EFFC76] focus:border-transparent"
           />
-          <span className="text-sm text-gray-700 dark:text-gray-300">
+          <span className="text-sm text-white/70">
             of {totalPages}
           </span>
         </div>
@@ -126,7 +126,7 @@ const ModernPagination = ({
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="flex items-center gap-1 px-3 py-1 text-sm text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center gap-1 px-3 py-1 text-sm rounded-md border border-white/30 bg-white/5 text-white hover:bg-white/15 hover:border-[#EFFC76]/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           title="Next page"
         >
           Next
@@ -137,7 +137,7 @@ const ModernPagination = ({
         <button
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
-          className="flex items-center justify-center w-8 h-8 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center justify-center w-8 h-8 rounded-md border border-white/30 bg-white/5 text-white hover:bg-white/15 hover:border-[#EFFC76]/70 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           title="Go to last page"
         >
           <ChevronsRight className="w-4 h-4" />

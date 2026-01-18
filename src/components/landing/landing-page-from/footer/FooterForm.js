@@ -342,9 +342,9 @@ export default function FooterForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
-          <DialogTitle>Update Footer</DialogTitle>
+          <DialogTitle className="text-white">Update Footer</DialogTitle>
         </DialogHeader>
         {isLoadingFooter ? (
           <div className="flex items-center justify-center py-8">
@@ -354,8 +354,8 @@ export default function FooterForm({
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-6 py-4">
               {/* Basic Information */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                   Basic Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -366,6 +366,7 @@ export default function FooterForm({
                     register={register}
                     error={errors.company_name?.message}
                     required
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <TextField
                     label="Location"
@@ -373,6 +374,7 @@ export default function FooterForm({
                     placeholder="e.g. New York, USA"
                     register={register}
                     error={errors.location?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                 </div>
                 <TextareaField
@@ -383,12 +385,13 @@ export default function FooterForm({
                   error={errors.company_description?.message}
                   required
                   rows={3}
+                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#EFFC76]"
                 />
               </div>
 
               {/* Logo */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                   Logo
                 </h3>
                 <ImageInput
@@ -412,8 +415,8 @@ export default function FooterForm({
               </div>
 
               {/* Social Media Links */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                   Social Media Links
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -423,6 +426,7 @@ export default function FooterForm({
                     placeholder="https://twitter.com/techsoft"
                     register={register}
                     error={errors.twitter_url?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <TextField
                     label="Instagram URL"
@@ -430,6 +434,7 @@ export default function FooterForm({
                     placeholder="https://instagram.com/techsoft"
                     register={register}
                     error={errors.instagram_url?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <TextField
                     label="LinkedIn URL"
@@ -437,6 +442,7 @@ export default function FooterForm({
                     placeholder="https://linkedin.com/company/techsoft"
                     register={register}
                     error={errors.linkedin_url?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <TextField
                     label="YouTube URL"
@@ -444,14 +450,15 @@ export default function FooterForm({
                     placeholder="https://youtube.com/techsoft"
                     register={register}
                     error={errors.youtube_url?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                 </div>
               </div>
 
               {/* Company Links */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <h3 className="text-lg font-semibold text-white">
                     Company Links
                   </h3>
                   <Button
@@ -459,7 +466,7 @@ export default function FooterForm({
                     variant="outline"
                     size="sm"
                     onClick={addCompanyLink}
-                    className="gap-2"
+                    className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                   >
                     <Plus className="w-4 h-4" />
                     Add Link
@@ -471,6 +478,7 @@ export default function FooterForm({
                   placeholder="e.g. Company"
                   register={register}
                   error={errors.company_links_title?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <div className="space-y-3">
                   {companyLinks.map((link, index) => (
@@ -480,13 +488,17 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateCompanyLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. About Us)"
-                          className={errors.company_links?.[index]?.label ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.company_links?.[index]?.label ? "border-red-500" : ""
+                          }`}
                         />
                         <Input
                           value={link?.url || ""}
                           onChange={(e) => updateCompanyLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /about)"
-                          className={errors.company_links?.[index]?.url ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.company_links?.[index]?.url ? "border-red-500" : ""
+                          }`}
                         />
                       </div>
                       {companyLinks.length > 1 && (
@@ -506,9 +518,9 @@ export default function FooterForm({
               </div>
 
               {/* Services Links */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <h3 className="text-lg font-semibold text-white">
                     Services Links
                   </h3>
                   <Button
@@ -516,7 +528,7 @@ export default function FooterForm({
                     variant="outline"
                     size="sm"
                     onClick={addServicesLink}
-                    className="gap-2"
+                    className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                   >
                     <Plus className="w-4 h-4" />
                     Add Link
@@ -528,6 +540,7 @@ export default function FooterForm({
                   placeholder="e.g. Services"
                   register={register}
                   error={errors.services_links_title?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <div className="space-y-3">
                   {servicesLinks.map((link, index) => (
@@ -537,13 +550,17 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateServicesLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. Web Development)"
-                          className={errors.services_links?.[index]?.label ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.services_links?.[index]?.label ? "border-red-500" : ""
+                          }`}
                         />
                         <Input
                           value={link?.url || ""}
                           onChange={(e) => updateServicesLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /services/web-development)"
-                          className={errors.services_links?.[index]?.url ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.services_links?.[index]?.url ? "border-red-500" : ""
+                          }`}
                         />
                       </div>
                       {servicesLinks.length > 1 && (
@@ -563,9 +580,9 @@ export default function FooterForm({
               </div>
 
               {/* Legal Links */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <h3 className="text-lg font-semibold text-white">
                     Legal Links
                   </h3>
                   <Button
@@ -573,7 +590,7 @@ export default function FooterForm({
                     variant="outline"
                     size="sm"
                     onClick={addLegalLink}
-                    className="gap-2"
+                    className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                   >
                     <Plus className="w-4 h-4" />
                     Add Link
@@ -585,6 +602,7 @@ export default function FooterForm({
                   placeholder="e.g. Legal"
                   register={register}
                   error={errors.legal_links_title?.message}
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
                 <div className="space-y-3">
                   {legalLinks.map((link, index) => (
@@ -594,13 +612,17 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateLegalLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. Privacy Policy)"
-                          className={errors.legal_links?.[index]?.label ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.legal_links?.[index]?.label ? "border-red-500" : ""
+                          }`}
                         />
                         <Input
                           value={link?.url || ""}
                           onChange={(e) => updateLegalLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /privacy-policy)"
-                          className={errors.legal_links?.[index]?.url ? "border-red-500" : ""}
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                            errors.legal_links?.[index]?.url ? "border-red-500" : ""
+                          }`}
                         />
                       </div>
                       {legalLinks.length > 1 && (
@@ -620,8 +642,8 @@ export default function FooterForm({
               </div>
 
               {/* Newsletter */}
-              <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+                <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                   Newsletter
                 </h3>
                 <div className="space-y-4">
@@ -631,6 +653,7 @@ export default function FooterForm({
                     placeholder="e.g. Stay Updated"
                     register={register}
                     error={errors.newsletter_title?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <TextField
                     label="Newsletter Placeholder"
@@ -638,6 +661,7 @@ export default function FooterForm({
                     placeholder="e.g. Email address"
                     register={register}
                     error={errors.newsletter_placeholder?.message}
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                   />
                   <div className="flex items-center space-x-2">
                     <Controller
@@ -656,12 +680,18 @@ export default function FooterForm({
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={handleClose}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+              >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
                 disabled={isSubmitting || isUpdating || isUploading || isLoadingFooter}
+                className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
               >
                 {isSubmitting || isUpdating || isUploading
                   ? "Updating..."

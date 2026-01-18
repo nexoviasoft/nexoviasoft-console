@@ -59,9 +59,9 @@ export default function OurTeamDetailPage() {
     return (
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-            <p className="text-gray-500">Loading team member details...</p>
+          <div className="text-center text-white">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4"></div>
+            <p className="text-white">Loading team member details...</p>
           </div>
         </div>
       </div>
@@ -72,9 +72,13 @@ export default function OurTeamDetailPage() {
     return (
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <p className="text-red-500 mb-4">Failed to load team member</p>
-            <Button onClick={() => router.back()} variant="outline">
+          <div className="text-center text-white">
+            <p className="mb-4">Failed to load team member</p>
+            <Button
+              onClick={() => router.back()}
+              variant="outline"
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+            >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Go Back
             </Button>
@@ -92,13 +96,25 @@ export default function OurTeamDetailPage() {
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      active: { label: "Active", variant: "default", className: "bg-green-100 text-green-700" },
-      inactive: { label: "Inactive", variant: "secondary", className: "bg-gray-100 text-gray-700" },
-      "on-leave": { label: "On Leave", variant: "secondary", className: "bg-yellow-100 text-yellow-700" },
+      active: {
+        label: "Active",
+        variant: "default",
+        className: "bg-emerald-500/20 text-white border border-emerald-400/60",
+      },
+      inactive: {
+        label: "Inactive",
+        variant: "secondary",
+        className: "bg-slate-500/20 text-white border border-slate-400/60",
+      },
+      "on-leave": {
+        label: "On Leave",
+        variant: "secondary",
+        className: "bg-amber-500/20 text-white border border-amber-400/60",
+      },
     };
     const config = statusConfig[status] || statusConfig.inactive;
     return (
-      <Badge className={config.className}>
+      <Badge className={`${config.className} font-medium shadow-none`}>
         {config.label}
       </Badge>
     );
@@ -106,14 +122,22 @@ export default function OurTeamDetailPage() {
 
   const getRoleBadge = (role) => {
     const roleConfig = {
-      Employee: { className: "bg-blue-100 text-blue-700" },
-      Manager: { className: "bg-purple-100 text-purple-700" },
-      Admin: { className: "bg-red-100 text-red-700" },
-      HR: { className: "bg-orange-100 text-orange-700" },
+      Employee: {
+        className: "bg-sky-500/15 text-white border border-sky-400/60",
+      },
+      Manager: {
+        className: "bg-purple-500/15 text-white border border-purple-400/60",
+      },
+      Admin: {
+        className: "bg-rose-500/15 text-white border border-rose-400/60",
+      },
+      HR: {
+        className: "bg-emerald-500/15 text-white border border-emerald-400/60",
+      },
     };
     const config = roleConfig[role] || roleConfig.Employee;
     return (
-      <Badge className={config.className}>
+      <Badge className={`${config.className} font-medium shadow-none`}>
         {role}
       </Badge>
     );
@@ -123,7 +147,7 @@ export default function OurTeamDetailPage() {
   const initials = `${teamMember.firstName?.[0] || ""}${teamMember.lastName?.[0] || ""}`.toUpperCase();
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <div className="max-w-[1600px] w-full mx-auto px-4 py-8 text-white">
       {/* Hidden ID Card for PDF generation */}
       <div className="fixed -left-[9999px] -top-[9999px] opacity-0 pointer-events-none">
         {teamMember && (
@@ -141,7 +165,7 @@ export default function OurTeamDetailPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.back()} 
-          className="gap-2"
+          className="gap-2 glass-button border border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Team Members
@@ -149,14 +173,14 @@ export default function OurTeamDetailPage() {
         <div className="flex items-center gap-3">
           <Button 
             variant="default" 
-            className="gap-2 bg-blue-600 hover:bg-blue-700"
+            className="gap-2 bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             onClick={handleDownloadIdCard}
           >
             <Download className="w-4 h-4" />
             Download ID Card
           </Button>
           <Link href={`/admin/our-team?edit=${teamMemberId}`}>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white">
               <Edit className="w-4 h-4" />
               Edit Member
             </Button>
@@ -165,12 +189,12 @@ export default function OurTeamDetailPage() {
       </div>
 
       {/* Hero Section with Profile */}
-      <Card className="mb-6 overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8">
+      <Card className="mb-6 overflow-hidden glass-card border-white/20">
+        <div className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] p-8">
           <div className="flex items-start gap-6">
-            <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
+            <Avatar className="w-32 h-32 border-4 border-white/80 shadow-lg">
               <AvatarImage src={teamMember.profileImage} alt={fullName} />
-              <AvatarFallback className="text-3xl bg-white text-gray-700">
+              <AvatarFallback className="text-3xl bg-black text-white">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -181,10 +205,10 @@ export default function OurTeamDetailPage() {
               </div>
               <h1 className="text-4xl font-bold mb-2">{fullName}</h1>
               {teamMember.position && (
-                <p className="text-xl text-white/90 mb-2">{teamMember.position}</p>
+                <p className="text-xl text-white mb-2">{teamMember.position}</p>
               )}
               {teamMember.employeeId && (
-                <p className="text-lg text-white/80">ID: {teamMember.employeeId}</p>
+                <p className="text-lg text-white">ID: {teamMember.employeeId}</p>
               )}
             </div>
           </div>
@@ -197,7 +221,7 @@ export default function OurTeamDetailPage() {
           {/* Basic Information */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <User className="w-5 h-5" />
                 Basic Information
               </CardTitle>
@@ -205,25 +229,25 @@ export default function OurTeamDetailPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-gray-400 mt-1" />
+                  <Mail className="w-5 h-5 text-white mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="font-medium">{teamMember.email || "N/A"}</p>
+                    <p className="text-sm text-white">Email</p>
+                    <p className="font-medium text-white">{teamMember.email || "N/A"}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="w-5 h-5 text-gray-400 mt-1" />
+                  <Phone className="w-5 h-5 text-white mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Phone</p>
-                    <p className="font-medium">{teamMember.phone || "N/A"}</p>
+                    <p className="text-sm text-white">Phone</p>
+                    <p className="font-medium text-white">{teamMember.phone || "N/A"}</p>
                   </div>
                 </div>
                 {teamMember.dateOfBirth && (
                   <div className="flex items-start gap-3">
-                    <Calendar className="w-5 h-5 text-gray-400 mt-1" />
+                    <Calendar className="w-5 h-5 text-white mt-1" />
                     <div>
-                      <p className="text-sm text-gray-500">Date of Birth</p>
-                      <p className="font-medium">
+                      <p className="text-sm text-white">Date of Birth</p>
+                      <p className="font-medium text-white">
                         {new Date(teamMember.dateOfBirth).toLocaleDateString()}
                       </p>
                     </div>
@@ -231,10 +255,10 @@ export default function OurTeamDetailPage() {
                 )}
                 {teamMember.hireDate && (
                   <div className="flex items-start gap-3">
-                    <Calendar className="w-5 h-5 text-gray-400 mt-1" />
+                    <Calendar className="w-5 h-5 text-white mt-1" />
                     <div>
-                      <p className="text-sm text-gray-500">Hire Date</p>
-                      <p className="font-medium">
+                      <p className="text-sm text-white">Hire Date</p>
+                      <p className="font-medium text-white">
                         {new Date(teamMember.hireDate).toLocaleDateString()}
                       </p>
                     </div>
@@ -247,7 +271,7 @@ export default function OurTeamDetailPage() {
           {/* Employment Information */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-white">
                 <Briefcase className="w-5 h-5" />
                 Employment Information
               </CardTitle>
@@ -255,34 +279,34 @@ export default function OurTeamDetailPage() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
+                  <Briefcase className="w-5 h-5 text-white mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Position</p>
-                    <p className="font-medium">{teamMember.position || "N/A"}</p>
+                    <p className="text-sm text-white">Position</p>
+                    <p className="font-medium text-white">{teamMember.position || "N/A"}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-gray-400 mt-1" />
+                  <Shield className="w-5 h-5 text-white mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Role</p>
-                    <div className="mt-1">
+                    <p className="text-sm text-white">Role</p>
+                    <div className="mt-1 text-white">
                       {getRoleBadge(teamMember.role)}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Building2 className="w-5 h-5 text-gray-400 mt-1" />
+                  <Building2 className="w-5 h-5 text-white mt-1" />
                   <div>
-                    <p className="text-sm text-gray-500">Department</p>
-                    <p className="font-medium">{getDepartmentName()}</p>
+                    <p className="text-sm text-white">Department</p>
+                    <p className="font-medium text-white">{getDepartmentName()}</p>
                   </div>
                 </div>
                 {teamMember.salary && (
                   <div className="flex items-start gap-3">
-                    <DollarSign className="w-5 h-5 text-gray-400 mt-1" />
+                    <DollarSign className="w-5 h-5 text-white mt-1" />
                     <div>
-                      <p className="text-sm text-gray-500">Salary</p>
-                      <p className="font-medium">
+                      <p className="text-sm text-white">Salary</p>
+                      <p className="font-medium text-white">
                         ${teamMember.salary.toLocaleString()}
                       </p>
                     </div>
@@ -296,17 +320,17 @@ export default function OurTeamDetailPage() {
           {(teamMember.address || teamMember.city || teamMember.state || teamMember.country) && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <MapPin className="w-5 h-5 text-white" />
                   Address Information
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-gray-400 mt-1" />
-                  <div className="space-y-1">
+                  <MapPin className="w-5 h-5 text-white mt-1" />
+                  <div className="space-y-1 text-white">
                     {teamMember.address && <p className="font-medium">{teamMember.address}</p>}
-                    <p className="text-gray-700">
+                    <p className="text-white">
                       {[
                         teamMember.city,
                         teamMember.state,
@@ -324,27 +348,27 @@ export default function OurTeamDetailPage() {
           {(teamMember.emergencyContactName || teamMember.emergencyContactPhone) && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <AlertCircle className="w-5 h-5" />
                   Emergency Contact
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
                   {teamMember.emergencyContactName && (
                     <div className="flex items-start gap-3">
-                      <User className="w-5 h-5 text-gray-400 mt-1" />
+                      <User className="w-5 h-5 text-white mt-1" />
                       <div>
-                        <p className="text-sm text-gray-500">Contact Name</p>
+                        <p className="text-sm text-white">Contact Name</p>
                         <p className="font-medium">{teamMember.emergencyContactName}</p>
                       </div>
                     </div>
                   )}
                   {teamMember.emergencyContactPhone && (
                     <div className="flex items-start gap-3">
-                      <Phone className="w-5 h-5 text-gray-400 mt-1" />
+                      <Phone className="w-5 h-5 text-white mt-1" />
                       <div>
-                        <p className="text-sm text-gray-500">Contact Phone</p>
+                        <p className="text-sm text-white">Contact Phone</p>
                         <p className="font-medium">{teamMember.emergencyContactPhone}</p>
                       </div>
                     </div>
@@ -358,13 +382,13 @@ export default function OurTeamDetailPage() {
           {teamMember.bio && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <User className="w-5 h-5" />
                   Biography
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 leading-relaxed">{teamMember.bio}</p>
+                <p className="text-white leading-relaxed">{teamMember.bio}</p>
               </CardContent>
             </Card>
           )}
@@ -373,13 +397,13 @@ export default function OurTeamDetailPage() {
           {teamMember.skills && Array.isArray(teamMember.skills) && teamMember.skills.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <Code className="w-5 h-5" />
                   Skills
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 text-white">
                   {teamMember.skills.map((skill, index) => (
                     <Badge key={index} variant="secondary" className="text-sm">
                       {skill}
@@ -396,21 +420,21 @@ export default function OurTeamDetailPage() {
           {/* Status Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Status</CardTitle>
+              <CardTitle className="text-white">Status</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm text-gray-500 mb-2">Current Status</p>
+                <p className="text-sm text-white mb-2">Current Status</p>
                 {getStatusBadge(teamMember.status)}
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-2">Role</p>
+                <p className="text-sm text-white mb-2">Role</p>
                 {getRoleBadge(teamMember.role)}
               </div>
               {teamMember.employeeId && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Employee ID</p>
-                  <p className="font-medium">{teamMember.employeeId}</p>
+                  <p className="text-sm text-white mb-1">Employee ID</p>
+                  <p className="font-medium text-white">{teamMember.employeeId}</p>
                 </div>
               )}
             </CardContent>
@@ -419,12 +443,12 @@ export default function OurTeamDetailPage() {
           {/* Quick Info */}
           <Card>
             <CardHeader>
-              <CardTitle>Quick Info</CardTitle>
+              <CardTitle className="text-white">Quick Info</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
+            <CardContent className="space-y-3 text-sm text-white/80">
               {teamMember.hireDate && (
                 <div>
-                  <p className="text-gray-500 mb-1">Hire Date</p>
+                  <p className="text-white mb-1">Hire Date</p>
                   <p className="font-medium">
                     {new Date(teamMember.hireDate).toLocaleDateString()}
                   </p>
@@ -432,13 +456,13 @@ export default function OurTeamDetailPage() {
               )}
               {teamMember.departmentId && (
                 <div>
-                  <p className="text-gray-500 mb-1">Department</p>
+                  <p className="text-white mb-1">Department</p>
                   <p className="font-medium">{getDepartmentName()}</p>
                 </div>
               )}
               {teamMember.salary && (
                 <div>
-                  <p className="text-gray-500 mb-1">Salary</p>
+                  <p className="text-white mb-1">Salary</p>
                   <p className="font-medium">${teamMember.salary.toLocaleString()}</p>
                 </div>
               )}

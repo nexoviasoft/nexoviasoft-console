@@ -69,7 +69,7 @@ function OurServiceContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => router.push(`/landing/our-service/${service.id || service._id}`)}
           title="View Details"
         >
@@ -78,7 +78,7 @@ function OurServiceContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => handleEdit(service)}
           title="Edit"
         >
@@ -87,7 +87,7 @@ function OurServiceContent() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
           onClick={() => handleDeleteClick(service)}
           title="Delete"
           disabled={isDeleting}
@@ -139,11 +139,14 @@ function OurServiceContent() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
+    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+      <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Our Services</CardTitle>
-          <Button onClick={handleAdd}>
+          <CardTitle className="text-white">Our Services</CardTitle>
+          <Button
+            onClick={handleAdd}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Service
           </Button>

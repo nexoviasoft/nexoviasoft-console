@@ -65,11 +65,11 @@ const initialCandidates = [
 ];
 
 const stages = [
-  { id: "applied", label: "Applied", color: "bg-gray-100" },
-  { id: "screening", label: "Screening", color: "bg-blue-100" },
-  { id: "interview", label: "Interview", color: "bg-yellow-100" },
-  { id: "offer", label: "Offer", color: "bg-green-100" },
-  { id: "hired", label: "Hired", color: "bg-purple-100" }
+  { id: "applied", label: "Applied", color: "bg-white/5 border-white/10" },
+  { id: "screening", label: "Screening", color: "bg-white/5 border-white/10" },
+  { id: "interview", label: "Interview", color: "bg-white/5 border-white/10" },
+  { id: "offer", label: "Offer", color: "bg-white/5 border-white/10" },
+  { id: "hired", label: "Hired", color: "bg-white/5 border-white/10" }
 ];
 
 export default function CandidatePipeline({ onSelectCandidate }) {
@@ -104,11 +104,14 @@ export default function CandidatePipeline({ onSelectCandidate }) {
           onDragOver={handleDragOver}
           onDrop={(e) => handleDrop(e, stage.id)}
         >
-          <Card className={`${stage.color} border-2`}>
+          <Card className={`glass-card ${stage.color}`}>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-semibold flex items-center justify-between">
+              <CardTitle className="text-sm font-semibold flex items-center justify-between text-white">
                 <span>{stage.label}</span>
-                <Badge variant="secondary" className="ml-2">
+                <Badge
+                  variant="secondary"
+                  className="ml-2 bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                >
                   {getCandidatesByStage(stage.id).length}
                 </Badge>
               </CardTitle>
@@ -119,25 +122,27 @@ export default function CandidatePipeline({ onSelectCandidate }) {
                   key={candidate.id}
                   draggable
                   onDragStart={(e) => handleDragStart(e, candidate.id)}
-                  className="cursor-move hover:shadow-md transition-shadow bg-white"
+                  className="cursor-move hover:shadow-md transition-shadow bg-white/5 border border-white/10"
                   onClick={() => onSelectCandidate(candidate)}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3 mb-3">
                       <Avatar>
-                        <AvatarFallback className="bg-purple-100 text-purple-600">
+                        <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76]">
                           {candidate.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 truncate">
+                        <h4 className="font-semibold text-sm text-white truncate">
                           {candidate.name}
                         </h4>
-                        <p className="text-xs text-gray-500 truncate">{candidate.position}</p>
+                        <p className="text-xs text-white/70 truncate">
+                          {candidate.position}
+                        </p>
                       </div>
                     </div>
                     
-                    <div className="space-y-2 text-xs text-gray-600">
+                    <div className="space-y-2 text-xs text-white/70">
                       <div className="flex items-center gap-2">
                         <Mail className="w-3 h-3" />
                         <span className="truncate">{candidate.email}</span>
@@ -150,7 +155,11 @@ export default function CandidatePipeline({ onSelectCandidate }) {
                     
                     <div className="flex flex-wrap gap-1 mt-3">
                       {candidate.skills.slice(0, 3).map((skill, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
+                        <Badge
+                          key={idx}
+                          variant="outline"
+                          className="text-xs bg-white/5 border-white/20 text-white/80"
+                        >
                           {skill}
                         </Badge>
                       ))}

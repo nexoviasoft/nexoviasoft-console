@@ -205,17 +205,16 @@ export default function PricePackageForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto glass-card border-white/20 scrollbar-thin scrollbar-glass">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingPricePackage ? "Edit Price Package" : "Add New Price Package"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-6 py-4">
-            {/* Basic Information */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Basic Information
               </h3>
               
@@ -290,9 +289,8 @@ export default function PricePackageForm({
               </div>
             </div>
 
-            {/* Icon */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2">
                 Icon
               </h3>
               <ImageInput
@@ -315,10 +313,9 @@ export default function PricePackageForm({
               />
             </div>
 
-            {/* Features */}
-            <div className="space-y-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <div className="space-y-4 p-4 border border-white/10 rounded-lg bg-black/40">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <h3 className="text-lg font-semibold text-white">
                   Features
                 </h3>
                 <Button
@@ -326,6 +323,7 @@ export default function PricePackageForm({
                   variant="outline"
                   size="sm"
                   onClick={() => appendFeature("")}
+                  className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Feature
@@ -349,7 +347,7 @@ export default function PricePackageForm({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="h-10 w-10 text-red-600 hover:text-red-700 mt-6"
+                        className="h-10 w-10 text-red-400 hover:text-red-300 hover:bg-red-500/20 mt-6"
                         onClick={() => removeFeature(index)}
                       >
                         <X className="w-4 h-4" />
@@ -365,12 +363,14 @@ export default function PricePackageForm({
               type="button"
               variant="outline" 
               onClick={handleClose}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting || isUploading}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting || isUploading
                 ? isUploading

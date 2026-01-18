@@ -7,8 +7,8 @@ import BroadcastFeed from "@/components/admin/broadcast/BroadcastFeed";
 
 export default function Broadcast() {
   return (
-    <div className="bg-gray-50 px-8 py-8">
-      <div className="max-w-[1000px] w-full mx-auto">
+    <div className="px-8 py-8 min-h-screen text-white">
+      <div className="max-w-[1000px] w-full mx-auto space-y-6">
         <BroadcastHeader />
         <BroadcastStats />
         <BroadcastFeed />

@@ -141,11 +141,11 @@ export default function Dashboard() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-purple-500 rounded"></div>
+                        <div className="w-3 h-3 bg-[#EFFC76]/70 rounded"></div>
                         <span className="text-sm text-white/70">Late 12%</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-white/40 rounded"></div>
+                        <div className="w-3 h-3 bg-[#EFFC76]/40 rounded"></div>
                         <span className="text-sm text-white/70">Absent 2%</span>
                       </div>
                     </div>
@@ -179,10 +179,10 @@ export default function Dashboard() {
                                       intensity > 0.7
                                         ? "bg-[#EFFC76]"
                                         : intensity > 0.4
-                                          ? "bg-purple-500"
+                                          ? "bg-[#EFFC76]/70"
                                           : intensity > 0
-                                            ? "bg-white/20"
-                                            : "bg-white/5"
+                                            ? "bg-[#EFFC76]/40"
+                                            : "bg-[#EFFC76]/10"
                                     }`}
                                   ></div>
                                 ))}
@@ -284,7 +284,7 @@ export default function Dashboard() {
                           {Array.from({ length: 4 }).map((_, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 rounded-full bg-purple-500 border-2 border-white"
+                              className="w-6 h-6 rounded-full bg-[#EFFC76] border-2 border-white"
                             ></div>
                           ))}
                         </div>

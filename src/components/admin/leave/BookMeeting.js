@@ -11,23 +11,25 @@ export default function BookMeeting() {
     <Card className="h-full">
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">Book 1 on 1</h3>
-          <Monitor className="text-blue-500 w-5 h-5" />
+          <h3 className="text-lg font-semibold text-white">Book 1 on 1</h3>
+          <Monitor className="text-[#EFFC76] w-5 h-5" />
         </div>
 
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700">Colleagues<span className="text-red-500">*</span></label>
+            <label className="text-sm font-medium text-white/80">
+              Colleagues<span className="text-red-500">*</span>
+            </label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
               <Input 
                 placeholder='Find people with "@"' 
-                className="pl-9 bg-gray-50 border-gray-200"
+                className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#EFFC76]"
               />
             </div>
           </div>
 
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4">
+          <Button className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black mt-4 glass-button">
             Book a Meeting
           </Button>
         </div>

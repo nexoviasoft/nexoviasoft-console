@@ -26,7 +26,7 @@ const PrimaryField = ({
   return (
     <div className="flex flex-col gap-1 sm:gap-2">
       {label && (
-        <label className="text-black font-[500px] dark:text-white/50 text-xs sm:text-sm ml-1">
+        <label className="text-white/80 font-[500px] text-xs sm:text-sm ml-1">
           {label}
         </label>
       )}

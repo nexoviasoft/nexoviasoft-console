@@ -37,14 +37,14 @@ export default function FAQSection() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
       <div className="lg:col-span-2">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-bold text-white mb-6">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-gray-900 font-medium hover:text-purple-600 text-left">
+              <AccordionTrigger className="text-white font-medium hover:text-[#EFFC76] text-left">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-500">
+              <AccordionContent className="text-white/70">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -53,19 +53,19 @@ export default function FAQSection() {
       </div>
       
       <div className="lg:col-span-1">
-        <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 sticky top-8">
-           <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-              <MessageCircle className="w-6 h-6 text-purple-600" />
+        <div className="glass-card rounded-2xl p-6 border border-white/20 sticky top-8">
+           <div className="w-12 h-12 bg-[#EFFC76]/15 rounded-full flex items-center justify-center mb-4">
+              <MessageCircle className="w-6 h-6 text-[#EFFC76]" />
            </div>
-           <h3 className="text-lg font-bold text-gray-900 mb-2">Still need help?</h3>
-           <p className="text-sm text-gray-500 mb-6">
+           <h3 className="text-lg font-bold text-white mb-2">Still need help?</h3>
+           <p className="text-sm text-white/70 mb-6">
              Our support team is available 24/7 to assist you with any issues.
            </p>
-           <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+           <Button className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button">
              Contact Support
            </Button>
            <div className="mt-4 text-center">
-             <a href="#" className="text-sm text-gray-500 hover:text-purple-600 underline">
+             <a href="#" className="text-sm text-white/60 hover:text-[#EFFC76] underline">
                View System Status
              </a>
            </div>

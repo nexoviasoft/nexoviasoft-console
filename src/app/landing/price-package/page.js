@@ -44,25 +44,25 @@ export default function PricePackagePage() {
   const tableData = pricePackages.map((pricePackage) => ({
     ...pricePackage,
     type: pricePackage.type ? (
-      <span className="capitalize px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm">
+      <span className="capitalize px-2 py-1 rounded-md bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40 text-sm">
         {pricePackage.type}
       </span>
     ) : (
-      <span className="text-gray-400 text-sm italic">-</span>
+      <span className="text-white/40 text-sm italic">-</span>
     ),
     badge: pricePackage.badge ? (
-      <span className="px-2 py-1 rounded-md bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm">
+      <span className="px-2 py-1 rounded-md bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40 text-sm">
         {pricePackage.badge}
       </span>
     ) : (
-      <span className="text-gray-400 text-sm italic">-</span>
+      <span className="text-white/40 text-sm italic">-</span>
     ),
     actions: (
       <div className="flex items-center gap-2 justify-center">
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => handleView(pricePackage)}
           title="View Details"
         >
@@ -71,7 +71,7 @@ export default function PricePackagePage() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
           onClick={() => handleEdit(pricePackage)}
           title="Edit"
         >
@@ -80,7 +80,7 @@ export default function PricePackagePage() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-red-600 hover:text-red-700"
+          className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/20"
           onClick={() => handleDeleteClick(pricePackage)}
           title="Delete"
         >
@@ -131,10 +131,13 @@ export default function PricePackagePage() {
 
   return (
     <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
+      <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Price Packages</CardTitle>
-          <Button onClick={handleAdd}>
+          <CardTitle className="text-white">Price Packages</CardTitle>
+          <Button
+            onClick={handleAdd}
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Price Package
           </Button>

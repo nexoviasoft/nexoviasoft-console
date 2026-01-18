@@ -63,23 +63,23 @@ export default function Schedule() {
   };
 
   return (
-    <div className="bg-gray-50 px-8 py-8 flex flex-col">
-      <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full">
+    <div className="px-8 py-8 flex flex-col text-white">
+      <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full space-y-6">
         <ScheduleHeader onAddShift={() => setIsAddShiftDialogOpen(true)} />
         <div className="flex-1 min-h-0">
-           <ScheduleGrid />
+          <ScheduleGrid />
         </div>
       </div>
 
       {/* Add Shift Dialog */}
       <Dialog open={isAddShiftDialogOpen} onOpenChange={setIsAddShiftDialogOpen}>
-        <DialogContent className="max-w-lg glass-panel">
+        <DialogContent className="max-w-lg glass-card border-white/20 text-white">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CalendarIcon className="w-5 h-5 text-purple-600" />
+            <DialogTitle className="flex items-center gap-2 text-white">
+              <CalendarIcon className="w-5 h-5 text-[#EFFC76]" />
               Add New Shift
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-white/70">
               Schedule a new shift for an employee. All fields marked with * are required.
             </DialogDescription>
           </DialogHeader>
@@ -87,11 +87,11 @@ export default function Schedule() {
           <div className="grid gap-4 py-4">
             {/* Employee */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="shift-employee" className="text-right">
+              <Label htmlFor="shift-employee" className="text-right text-white">
                 Employee <span className="text-red-500">*</span>
               </Label>
               <Select value={newShift.employee} onValueChange={(value) => handleInputChange('employee', value)}>
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                   <SelectValue placeholder="Select employee" />
                 </SelectTrigger>
                 <SelectContent>
@@ -107,7 +107,7 @@ export default function Schedule() {
 
             {/* Date */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="shift-date" className="text-right">
+              <Label htmlFor="shift-date" className="text-right text-white">
                 Date <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -115,49 +115,49 @@ export default function Schedule() {
                 type="date"
                 value={newShift.date}
                 onChange={(e) => handleInputChange('date', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
             {/* Start Time */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="shift-start" className="text-right">
+              <Label htmlFor="shift-start" className="text-right text-white">
                 Start Time <span className="text-red-500">*</span>
               </Label>
               <div className="col-span-3 relative">
-                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
                 <Input
                   id="shift-start"
                   type="time"
                   value={newShift.startTime}
                   onChange={(e) => handleInputChange('startTime', e.target.value)}
-                  className="pl-10"
+                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
               </div>
             </div>
 
             {/* End Time */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="shift-end" className="text-right">
+              <Label htmlFor="shift-end" className="text-right text-white">
                 End Time <span className="text-red-500">*</span>
               </Label>
               <div className="col-span-3 relative">
-                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
                 <Input
                   id="shift-end"
                   type="time"
                   value={newShift.endTime}
                   onChange={(e) => handleInputChange('endTime', e.target.value)}
-                  className="pl-10"
+                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
                 />
               </div>
             </div>
 
             {/* Position */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="shift-position" className="text-right">Position</Label>
+              <Label htmlFor="shift-position" className="text-right text-white">Position</Label>
               <Select value={newShift.position} onValueChange={(value) => handleInputChange('position', value)}>
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                   <SelectValue placeholder="Select position" />
                 </SelectTrigger>
                 <SelectContent>
@@ -172,22 +172,29 @@ export default function Schedule() {
 
             {/* Notes */}
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="shift-notes" className="text-right pt-2">Notes</Label>
+              <Label htmlFor="shift-notes" className="text-right pt-2 text-white">Notes</Label>
               <Input
                 id="shift-notes"
                 value={newShift.notes}
                 onChange={(e) => handleInputChange('notes', e.target.value)}
                 placeholder="Additional notes..."
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
           </div>
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddShiftDialogOpen(false)}>
+          <DialogFooter className="border-t border-white/10 pt-4 mt-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsAddShiftDialogOpen(false)}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+            >
               Cancel
             </Button>
-            <Button onClick={handleAddShift} className="bg-purple-600 hover:bg-purple-700">
+            <Button
+              onClick={handleAddShift}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            >
               <CalendarIcon className="w-4 h-4 mr-2" />
               Add Shift
             </Button>

@@ -100,145 +100,167 @@ export default function EmployeeProfilePage({ params }) {
   };
 
   return (
-    <div className="bg-gray-50 px-8 py-6 min-h-screen">
+    <div className="px-8 py-6 min-h-screen text-white">
       <div className="max-w-[1200px] w-full mx-auto">
-        {/* Header */}
         <div className="mb-6">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => router.push('/admin/employees')}
-            className="hover:bg-white/50 mb-4"
+            className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5 mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Employees
           </Button>
         </div>
 
-        {/* Profile Card */}
         <div className="glass-card rounded-xl p-8 mb-6">
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-start gap-6">
-              <Avatar className="h-24 w-24 ring-4 ring-purple-100">
+              <Avatar className="h-24 w-24 ring-4 ring-[#EFFC76]/30">
                 <AvatarImage src={employee.avatar} alt={employee.name} />
-                <AvatarFallback className="bg-purple-100 text-purple-600 text-2xl">
+                <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-2xl">
                   {employee.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold text-gray-900">{employee.name}</h1>
-                  <Badge className="bg-green-100 text-green-700 border-green-200">
+                  <h1 className="text-3xl font-bold text-white">{employee.name}</h1>
+                  <Badge className="bg-emerald-500/15 text-emerald-200 border border-emerald-400/60">
                     {employee.status}
                   </Badge>
                 </div>
-                <p className="text-lg text-gray-600 mb-1">{employee.role}</p>
-                <p className="text-sm text-gray-500">Employee ID: {employee.employeeId}</p>
+                <p className="text-lg text-white/70 mb-1">{employee.role}</p>
+                <p className="text-sm text-white/50">Employee ID: {employee.employeeId}</p>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleEditClick}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleEditClick}
+                className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/70"
+              >
                 <Edit className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white/60 hover:text-[#EFFC76] hover:bg-white/5"
+              >
                 <MoreVertical className="w-4 h-4" />
               </Button>
             </div>
           </div>
 
-          {/* Bio */}
-          <p className="text-gray-700 leading-relaxed mb-6 max-w-3xl">
+          <p className="text-white/70 leading-relaxed mb-6 max-w-3xl">
             {employee.bio}
           </p>
 
-          {/* Contact Info Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-gray-50/50 rounded-lg">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <Mail className="w-4 h-4 text-purple-600" />
+            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Mail className="w-4 h-4 text-[#EFFC76]" />
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-1">Email</p>
-                <a href={`mailto:${employee.email}`} className="text-sm font-medium text-gray-900 hover:text-purple-600">
+                <p className="text-xs text-white/60 mb-1">Email</p>
+                <a
+                  href={`mailto:${employee.email}`}
+                  className="text-sm font-medium text-white hover:text-[#EFFC76]"
+                >
                   {employee.email}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-gray-50/50 rounded-lg">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <Phone className="w-4 h-4 text-purple-600" />
+            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Phone className="w-4 h-4 text-[#EFFC76]" />
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-1">Phone</p>
-                <a href={`tel:${employee.phone}`} className="text-sm font-medium text-gray-900 hover:text-purple-600">
+                <p className="text-xs text-white/60 mb-1">Phone</p>
+                <a
+                  href={`tel:${employee.phone}`}
+                  className="text-sm font-medium text-white hover:text-[#EFFC76]"
+                >
                   {employee.phone}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-gray-50/50 rounded-lg">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <MapPin className="w-4 h-4 text-purple-600" />
+            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
+                <MapPin className="w-4 h-4 text-[#EFFC76]" />
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-1">Location</p>
-                <p className="text-sm font-medium text-gray-900">{employee.location}</p>
+                <p className="text-xs text-white/60 mb-1">Location</p>
+                <p className="text-sm font-medium text-white/90">
+                  {employee.location}
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-gray-50/50 rounded-lg">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <Calendar className="w-4 h-4 text-purple-600" />
+            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Calendar className="w-4 h-4 text-[#EFFC76]" />
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-1">Join Date</p>
-                <p className="text-sm font-medium text-gray-900">{employee.joinDate}</p>
+                <p className="text-xs text-white/60 mb-1">Join Date</p>
+                <p className="text-sm font-medium text-white/90">
+                  {employee.joinDate}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Details Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Department & Manager */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Organization</h2>
+            <h2 className="text-lg font-bold text-white mb-4">Organization</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-500 mb-1">Department</p>
-                <Badge className="bg-purple-100 text-purple-700 border-purple-200">
+                <p className="text-sm text-white/60 mb-1">Department</p>
+                <Badge className="bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/60">
                   {employee.department}
                 </Badge>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-1">Reports To</p>
-                <p className="text-sm font-medium text-gray-900">{employee.manager}</p>
+                <p className="text-sm text-white/60 mb-1">Reports To</p>
+                <p className="text-sm font-medium text-white/90">
+                  {employee.manager}
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Skills */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Skills</h2>
+            <h2 className="text-lg font-bold text-white mb-4">Skills</h2>
             <div className="flex flex-wrap gap-2">
               {employee.skills.map((skill, index) => (
-                <Badge key={index} variant="secondary" className="bg-gray-100 text-gray-700">
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="bg-white/10 text-white/80 border-white/20"
+                >
                   {skill}
                 </Badge>
               ))}
             </div>
           </div>
 
-          {/* Projects */}
           <div className="glass-card rounded-xl p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Active Projects</h2>
+            <h2 className="text-lg font-bold text-white mb-4">
+              Active Projects
+            </h2>
             <div className="space-y-2">
               {employee.projects.map((project, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 bg-gray-50/50 rounded-lg">
-                  <Briefcase className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-700">{project}</span>
+                <div
+                  key={index}
+                  className="flex items-center gap-2 p-2 bg-black/40 border border-white/10 rounded-lg"
+                >
+                  <Briefcase className="w-4 h-4 text-[#EFFC76]" />
+                  <span className="text-sm text-white/80">{project}</span>
                 </div>
               ))}
             </div>
@@ -246,44 +268,51 @@ export default function EmployeeProfilePage({ params }) {
         </div>
       </div>
 
-      {/* Edit Profile Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-2xl glass-panel">
           <DialogHeader>
-            <DialogTitle>Edit Employee Profile</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-white">
+              Edit Employee Profile
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
               Update employee information and save changes.
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto">
-            {/* Name */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">Name</Label>
+              <Label htmlFor="name" className="text-right text-white/80">
+                Name
+              </Label>
               <Input
                 id="name"
                 value={editForm.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Role */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="role" className="text-right">Role</Label>
+              <Label htmlFor="role" className="text-right text-white/80">
+                Role
+              </Label>
               <Input
                 id="role"
                 value={editForm.role}
                 onChange={(e) => handleInputChange('role', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Department */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="department" className="text-right">Department</Label>
+              <Label
+                htmlFor="department"
+                className="text-right text-white/80"
+              >
+                Department
+              </Label>
               <Select value={editForm.department} onValueChange={(value) => handleInputChange('department', value)}>
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -297,56 +326,61 @@ export default function EmployeeProfilePage({ params }) {
               </Select>
             </div>
 
-            {/* Email */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="email" className="text-right">Email</Label>
+              <Label htmlFor="email" className="text-right text-white/80">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
                 value={editForm.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Phone */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="phone" className="text-right">Phone</Label>
+              <Label htmlFor="phone" className="text-right text-white/80">
+                Phone
+              </Label>
               <Input
                 id="phone"
                 value={editForm.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Location */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="location" className="text-right">Location</Label>
+              <Label htmlFor="location" className="text-right text-white/80">
+                Location
+              </Label>
               <Input
                 id="location"
                 value={editForm.location}
                 onChange={(e) => handleInputChange('location', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Manager */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="manager" className="text-right">Manager</Label>
+              <Label htmlFor="manager" className="text-right text-white/80">
+                Manager
+              </Label>
               <Input
                 id="manager"
                 value={editForm.manager}
                 onChange={(e) => handleInputChange('manager', e.target.value)}
-                className="col-span-3"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            {/* Status */}
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="status" className="text-right">Status</Label>
+              <Label htmlFor="status" className="text-right text-white/80">
+                Status
+              </Label>
               <Select value={editForm.status} onValueChange={(value) => handleInputChange('status', value)}>
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -357,23 +391,34 @@ export default function EmployeeProfilePage({ params }) {
               </Select>
             </div>
 
-            {/* Bio */}
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="bio" className="text-right pt-2">Bio</Label>
+              <Label
+                htmlFor="bio"
+                className="text-right pt-2 text-white/80"
+              >
+                Bio
+              </Label>
               <Textarea
                 id="bio"
                 value={editForm.bio}
                 onChange={(e) => handleInputChange('bio', e.target.value)}
-                className="col-span-3 min-h-[100px]"
+                className="col-span-3 min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditDialogOpen(false)}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
+            >
               Cancel
             </Button>
-            <Button onClick={handleSaveChanges} className="bg-purple-600 hover:bg-purple-700">
+            <Button
+              onClick={handleSaveChanges}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            >
               <Save className="w-4 h-4 mr-2" />
               Save Changes
             </Button>

@@ -4,6 +4,7 @@ const TextareaField = ({
     placeholder,
     label,
     className,
+    textareaClassName = "",
     register,
     name,
     defaultValue,
@@ -21,8 +22,8 @@ const TextareaField = ({
     return (
         <div className={`flex flex-col gap-2 ${className}`}>
             {label && (
-                <label className="text-black font-[500px] dark:text-white/50 text-[14px] ml-1">
-                    {label} {required && <span className="text-black">*</span>}
+                <label className="text-white/80 font-[500px] text-[14px] ml-1">
+                    {label} {required && <span className="text-[#EFFC76]">*</span>}
                 </label>
             )}
             <textarea
@@ -32,8 +33,8 @@ const TextareaField = ({
                 disabled={disabled}
                 rows={rows}
                 placeholder={placeholder}
-                className={`border-[1px] border-[#E4E4E7] dark:border-white/10 py-2.5 px-4 rounded-[6px] bg-white w-full outline-none focus:border-green-300/50 dark:focus:border-primary dark:text-white/90 resize-vertical min-h-[80px] ${disabled && "bg-gray-400"
-                    } ${error ? "border-red-500" : ""}`}
+                className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] py-2.5 px-4 rounded-[6px] w-full outline-none resize-vertical min-h-[80px] ${disabled && "bg-gray-400"
+                    } ${error ? "border-red-500" : ""} ${textareaClassName}`}
             />
             {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
         </div>

@@ -15,9 +15,9 @@ const COLORS = ["#10b981", "#8b5cf6", "#f59e0b", "#9ca3af"];
 
 export default function TaskDistributionChart() {
   return (
-    <Card className="shadow-sm border-gray-100 col-span-1">
+    <Card className="glass-card border-white/20 col-span-1">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Task Status</CardTitle>
+        <CardTitle className="text-lg font-semibold text-white">Task Status</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
@@ -37,10 +37,21 @@ export default function TaskDistributionChart() {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip 
-                 contentStyle={{backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(15,23,42,0.95)",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(148,163,184,0.45)",
+                  boxShadow: "0 18px 45px rgba(15,23,42,0.65)",
+                  color: "#F9FAFB",
+                }}
               />
-              <Legend verticalAlign="bottom" height={36} iconType="circle" />
+              <Legend
+                verticalAlign="bottom"
+                height={36}
+                iconType="circle"
+                wrapperStyle={{ color: "#E5E7EB", fontSize: 12 }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>

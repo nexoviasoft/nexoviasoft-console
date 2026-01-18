@@ -104,9 +104,9 @@ export default function DepartmentForm({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] glass-card border-white/20">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-white">
             {editingDepartment ? "Edit Department" : "Add New Department"}
           </DialogTitle>
         </DialogHeader>
@@ -134,12 +134,14 @@ export default function DepartmentForm({
               type="button"
               variant="outline" 
               onClick={handleClose}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting
                 ? "Saving..."
