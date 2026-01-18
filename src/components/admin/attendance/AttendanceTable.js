@@ -12,7 +12,15 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const initialData = [
   {
@@ -125,13 +133,33 @@ export default function AttendanceTable() {
                 <StatusBadge status={row.status} />
               </TableCell>
               <TableCell className="text-right">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-white/50 hover:text-[#EFFC76] hover:bg-white/5"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-white/50 hover:text-[#EFFC76] hover:bg-white/5"
+                    >
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white">
+                      <Eye className="mr-2 h-4 w-4" />
+                      <span>View Details</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white">
+                      <Edit className="mr-2 h-4 w-4" />
+                      <span>Edit Record</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10">
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableCell>
             </TableRow>
           ))}
