@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -89,6 +89,22 @@ const StatusBadge = ({ status }) => {
 };
 
 export default function AttendanceTable() {
+  const [data, setData] = useState(initialData);
+
+  const handleDelete = (id) => {
+    setData(data.filter((item) => item.id !== id));
+  };
+
+  const handleViewDetails = (name) => {
+    alert(`Viewing details for ${name}`);
+    // Future: router.push(\`/admin/attendance/\${id}\`)
+  };
+
+  const handleEdit = (name) => {
+    alert(`Editing record for ${name}`);
+    // Future: Open edit modal
+  };
+
   return (
     <div className="glass-panel rounded-2xl overflow-hidden">
       <Table>
@@ -103,7 +119,7 @@ export default function AttendanceTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {initialData.map((row) => (
+          {data.map((row) => (
             <TableRow
               key={row.id}
               className="hover:bg-white/5 cursor-pointer transition-colors"
@@ -146,15 +162,24 @@ export default function AttendanceTable() {
                   <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white">
+                    <DropdownMenuItem 
+                      className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
+                      onClick={() => handleViewDetails(row.name)}
+                    >
                       <Eye className="mr-2 h-4 w-4" />
                       <span>View Details</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white">
+                    <DropdownMenuItem 
+                      className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
+                      onClick={() => handleEdit(row.name)}
+                    >
                       <Edit className="mr-2 h-4 w-4" />
                       <span>Edit Record</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10">
+                    <DropdownMenuItem 
+                      className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
+                      onClick={() => handleDelete(row.id)}
+                    >
                       <Trash2 className="mr-2 h-4 w-4" />
                       <span>Delete</span>
                     </DropdownMenuItem>
