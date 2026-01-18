@@ -21,6 +21,7 @@ import FinanceChart from "@/components/admin/dashboard/FinanceChart";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
+  const [financePeriod, setFinancePeriod] = useState("Yearly");
   return (
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
@@ -347,13 +348,16 @@ export default function Dashboard() {
               <div className="w-full">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xl font-semibold text-white">Finance Report</h3>
-                  <button className="text-white/40 hover:text-white">
-                    <div className="flex gap-1">
-                        <div className="w-1 h-1 bg-current rounded-full"></div>
-                        <div className="w-1 h-1 bg-current rounded-full"></div>
-                        <div className="w-1 h-1 bg-current rounded-full"></div>
-                    </div>
-                  </button>
+                   <select 
+                    value={financePeriod}
+                    onChange={(e) => setFinancePeriod(e.target.value)}
+                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                  >
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Yearly">Yearly</option>
+                  </select>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -386,7 +390,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <FinanceChart />
+            <FinanceChart period={financePeriod} />
           </CardContent>
         </Card>
       </div>

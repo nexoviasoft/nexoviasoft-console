@@ -10,19 +10,44 @@ import {
   CartesianGrid
 } from "recharts";
 
-const data = [
-  { month: "Jan", income: 2400 },
-  { month: "Feb", income: 1398 },
-  { month: "Mar", income: 9800 },
-  { month: "Apr", income: 3908 },
-  { month: "May", income: 4800 },
-  { month: "Jun", income: 3800 },
-  { month: "Jul", income: 4300 },
-  { month: "Aug", income: 4300 },
-  { month: "Sep", income: 5300 },
-  { month: "Oct", income: 4300 },
-  { month: "Nov", income: 5300 },
-  { month: "Dec", income: 6300 },
+
+const weeklyData = [
+  { label: "Mon", income: 1500 },
+  { label: "Tue", income: 2300 },
+  { label: "Wed", income: 3400 },
+  { label: "Thu", income: 2900 },
+  { label: "Fri", income: 4500 },
+  { label: "Sat", income: 3200 },
+  { label: "Sun", income: 2100 },
+];
+
+const monthlyData = [
+  { label: "Week 1", income: 12000 },
+  { label: "Week 2", income: 14500 },
+  { label: "Week 3", income: 11200 },
+  { label: "Week 4", income: 16800 },
+];
+
+const quarterlyData = [
+  { label: "Q1", income: 45000 },
+  { label: "Q2", income: 52000 },
+  { label: "Q3", income: 48000 },
+  { label: "Q4", income: 61000 },
+];
+
+const yearlyData = [
+  { label: "Jan", income: 2400 },
+  { label: "Feb", income: 1398 },
+  { label: "Mar", income: 9800 },
+  { label: "Apr", income: 3908 },
+  { label: "May", income: 4800 },
+  { label: "Jun", income: 3800 },
+  { label: "Jul", income: 4300 },
+  { label: "Aug", income: 4300 },
+  { label: "Sep", income: 5300 },
+  { label: "Oct", income: 4300 },
+  { label: "Nov", income: 5300 },
+  { label: "Dec", income: 6300 },
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -40,17 +65,31 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default function FinanceChart() {
+export default function FinanceChart({ period = "Yearly" }) {
+  let data = yearlyData;
+  let barWidth = 32;
+
+  if (period === "Weekly") {
+    data = weeklyData;
+    barWidth = 48;
+  } else if (period === "Monthly") {
+    data = monthlyData;
+    barWidth = 64;
+  } else if (period === "Quarterly") {
+    data = quarterlyData;
+    barWidth = 80;
+  }
+
   return (
     <div className="h-72 w-full mt-6">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
           margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
-          barSize={32}
+          barSize={barWidth}
         >
           <XAxis 
-            dataKey="month" 
+            dataKey="label" 
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12, fontWeight: 500 }} 
@@ -59,19 +98,18 @@ export default function FinanceChart() {
           
           <Tooltip 
             content={<CustomTooltip />} 
-            cursor={{ fill: 'rgba(255,255,255,0.03)', radius: [4,4,4,4] }} // Enhanced cursor
+            cursor={{ fill: 'rgba(255,255,255,0.03)', radius: [4,4,4,4] }} 
           />
           
           {/* Background Track */}
           <Bar
             dataKey="income"
-            data={data.map(d => ({ ...d, full: 10000 }))} // Max value reference
+            data={data.map(d => ({ ...d, full: 100000 }))} // Normalized max reference
             fill="#ffffff"
             fillOpacity={0.05}
             radius={[4, 4, 4, 4]}
             tooltipType="none"
             isAnimationActive={false}
-            barSize={32}
             position="center"
           />
 
@@ -80,7 +118,6 @@ export default function FinanceChart() {
             dataKey="income"
             fill="#EFFC76"
             radius={[4, 4, 4, 4]}
-            barSize={32}
             className="hover:opacity-90 transition-opacity cursor-pointer"
           />
         </BarChart>
