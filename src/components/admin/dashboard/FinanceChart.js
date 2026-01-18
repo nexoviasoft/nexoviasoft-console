@@ -21,12 +21,10 @@ const weeklyData = [
   { label: "Sun", income: 2100 },
 ];
 
-const monthlyData = [
-  { label: "Week 1", income: 12000 },
-  { label: "Week 2", income: 14500 },
-  { label: "Week 3", income: 11200 },
-  { label: "Week 4", income: 16800 },
-];
+const monthlyData = Array.from({ length: 30 }, (_, i) => ({
+  label: String(i + 1).padStart(2, "0"),
+  income: 2000 + Math.floor(Math.random() * 5000), // Random income
+}));
 
 const quarterlyData = [
   { label: "Q1", income: 45000 },
@@ -82,46 +80,54 @@ export default function FinanceChart({ period = "Yearly" }) {
 
   return (
     <div className="h-72 w-full mt-6">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={data}
-          margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
-          barSize={barWidth}
-        >
-          <XAxis 
-            dataKey="label" 
-            axisLine={false} 
-            tickLine={false} 
-            tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12, fontWeight: 500 }} 
-            dy={10}
-          />
-          
-          <Tooltip 
-            content={<CustomTooltip />} 
-            cursor={{ fill: 'rgba(255,255,255,0.03)', radius: [4,4,4,4] }} 
-          />
-          
-          {/* Background Track */}
-          <Bar
-            dataKey="income"
-            data={data.map(d => ({ ...d, full: 100000 }))} // Normalized max reference
-            fill="#ffffff"
-            fillOpacity={0.05}
-            radius={[4, 4, 4, 4]}
-            tooltipType="none"
-            isAnimationActive={false}
-            position="center"
-          />
+      <div 
+        className={`w-full h-full ${period === "Monthly" ? "overflow-x-auto pb-4" : ""}`}
+        style={{ scrollbarWidth: 'thin' }}
+      >
+        <div style={{ width: period === "Monthly" ? "250%" : "100%", height: "100%" }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+              barSize={period === "Monthly" ? 16 : barWidth}
+            >
+              <XAxis 
+                dataKey="label" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 12, fontWeight: 500 }} 
+                dy={10}
+                interval={period === "Monthly" ? 0 : "preserveStartEnd"}
+              />
+              
+              <Tooltip 
+                content={<CustomTooltip />} 
+                cursor={{ fill: 'rgba(255,255,255,0.03)', radius: [4,4,4,4] }} 
+              />
+              
+              {/* Background Track */}
+              <Bar
+                dataKey="income"
+                data={data.map(d => ({ ...d, full: 100000 }))} // Normalized max reference
+                fill="#ffffff"
+                fillOpacity={0.05}
+                radius={[4, 4, 4, 4]}
+                tooltipType="none"
+                isAnimationActive={false}
+                position="center"
+              />
 
-          {/* Value Bar */}
-          <Bar
-            dataKey="income"
-            fill="#EFFC76"
-            radius={[4, 4, 4, 4]}
-            className="hover:opacity-90 transition-opacity cursor-pointer"
-          />
-        </BarChart>
-      </ResponsiveContainer>
+              {/* Value Bar */}
+              <Bar
+                dataKey="income"
+                fill="#EFFC76"
+                radius={[4, 4, 4, 4]}
+                className="hover:opacity-90 transition-opacity cursor-pointer"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 }
