@@ -13,6 +13,9 @@ import {
   ChevronUp,
   Calendar,
   ArrowRight,
+  UserCheck,
+  DollarSign,
+  CreditCard,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,20 +28,19 @@ export default function Dashboard() {
   return (
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
-        <div className="grid grid-cols-3 gap-6">
-
+        <div className="grid grid-cols-4 gap-6">
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
             <CardContent className="p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Total Employees</span>
+                   <span className="text-sm font-medium text-white/60">Total Customers</span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
                   <Users className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">1,298</div>
+                <div className="text-3xl font-bold text-white">21,978</div>
               </div>
                <div className="flex items-center gap-2 text-xs">
                   <span className="text-emerald-400 font-medium flex items-center gap-1">
@@ -53,14 +55,14 @@ export default function Dashboard() {
              <CardContent className="p-6">
                <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Leave Requests</span>
+                   <span className="text-sm font-medium text-white/60">Active Customers</span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <DoorOpen className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                  <UserCheck className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">123</div>
+                <div className="text-3xl font-bold text-white">10,369</div>
               </div>
                <div className="flex items-center gap-2 text-xs">
                   <span className="text-rose-400 font-medium flex items-center gap-1">
@@ -75,18 +77,40 @@ export default function Dashboard() {
             <CardContent className="p-6">
                <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Average KPI</span>
+                   <span className="text-sm font-medium text-white/60">Profit Total</span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <Star className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                  <DollarSign className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">8.8/10</div>
+                <div className="text-3xl font-bold text-white">$64,981.97</div>
               </div>
                <div className="flex items-center gap-2 text-xs">
                   <span className="text-emerald-400 font-medium flex items-center gap-1">
                     <ArrowUp className="w-3 h-3" /> 7.2%
+                  </span>
+                  <span className="text-white/40">from last month</span>
+               </div>
+            </CardContent>
+          </Card>
+
+           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+            <CardContent className="p-6">
+               <div className="flex justify-between items-start mb-2">
+                <div>
+                   <span className="text-sm font-medium text-white/60">Expense Total</span>
+                </div>
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
+                  <CreditCard className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                </div>
+              </div>
+              <div className="space-y-2 mb-2">
+                <div className="text-3xl font-bold text-white">$18,158.21</div>
+              </div>
+               <div className="flex items-center gap-2 text-xs">
+                  <span className="text-rose-400 font-medium flex items-center gap-1">
+                    <ArrowDown className="w-3 h-3" /> 2%
                   </span>
                   <span className="text-white/40">from last month</span>
                </div>
