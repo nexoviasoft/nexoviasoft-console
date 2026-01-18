@@ -109,7 +109,7 @@ export default function Projects() {
           </div>
           <Button 
             onClick={() => setShowNewProjectDialog(true)}
-            className="bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white glass-button"
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Application Project
@@ -127,7 +127,7 @@ export default function Projects() {
               {/* Project Header */}
               <div className="mb-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-lg text-white group-hover:text-sky-300 transition-colors">
+                  <h3 className="font-bold text-lg text-white group-hover:text-[#EFFC76] transition-colors">
                     {project.name}
                   </h3>
                   <span className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
@@ -139,12 +139,12 @@ export default function Projects() {
                 </p>
                 {project.applicationType && (
                   <div className="mt-3 flex items-center gap-2 text-xs text-white/70">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-sky-500/10 border border-sky-400/40 text-sky-100">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#EFFC76]/15 border border-[#EFFC76]/50 text-[#EFFC76]">
                       <Code className="w-3.5 h-3.5" />
                       <span className="font-medium">{project.applicationType}</span>
                     </span>
                     {project.platform && (
-                      <span className="px-2 py-1 rounded-full bg-white/5 border border-white/15">
+                      <span className="px-2 py-1 rounded-full bg-white/5 border border-white/20 text-white/80">
                         {project.platform}
                       </span>
                     )}
@@ -156,19 +156,19 @@ export default function Projects() {
               <div className="mb-4">
                 <div className="flex justify-between text-xs font-medium text-white/60 mb-2">
                   <span>Progress</span>
-                  <span className="text-sky-300">{project.progress}%</span>
+                  <span className="text-[#EFFC76]">{project.progress}%</span>
                 </div>
                 <Progress 
                   value={project.progress} 
                   className="h-2 bg-white/10" 
-                  indicatorClassName="bg-sky-500"
+                  indicatorClassName="bg-[#EFFC76]"
                 />
               </div>
 
               {/* Footer */}
               <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <div className="flex items-center gap-1.5 text-white/80 bg-sky-500/10 px-2 py-1 rounded-md border border-sky-400/40">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-300" />
+                <div className="flex items-center gap-1.5 text-white/80 bg-[#EFFC76]/15 px-2 py-1 rounded-md border border-[#EFFC76]/50">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#EFFC76]" />
                   <span className="text-xs font-medium">
                     {project.tasksCompleted}/{project.totalTasks} tasks
                   </span>
@@ -178,9 +178,9 @@ export default function Projects() {
                   {project.team.slice(0, 3).map((member, idx) => (
                     <Avatar
                       key={idx}
-                      className="h-7 w-7 border-2 border-black/60 ring-1 ring-sky-400/40"
+                      className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
                     >
-                      <AvatarFallback className="text-[10px] bg-sky-500/10 text-sky-200">
+                      <AvatarFallback className="text-[10px] bg-[#EFFC76]/15 text-[#EFFC76]">
                         {member.avatar}
                       </AvatarFallback>
                     </Avatar>
