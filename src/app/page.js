@@ -12,10 +12,12 @@ import {
   ChevronRight,
   ChevronUp,
   Calendar,
+  ArrowRight,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
+import FinanceChart from "@/components/admin/dashboard/FinanceChart";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
@@ -23,79 +25,56 @@ export default function Dashboard() {
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
         <div className="grid grid-cols-3 gap-6">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
-                      <Users className="w-5 h-5 text-[#EFFC76]" />
-                    </div>
-                    <span className="text-sm text-white/70">
-                      Total Employees
-                    </span>
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-1">
-                    1.298
-                  </div>
-                  <div className="flex items-center gap-1 text-sm">
-                    <span className="text-white/60">Last Week</span>
-                    <span className="font-medium flex items-center gap-1 text-emerald-400">
-                      <ArrowUp className="w-4 h-4 text-[#EFFC76]" />
-                      +2.8%
-                    </span>
-                  </div>
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                  <span className="text-sm font-medium text-white/60">Total Employees</span>
                 </div>
+              </div>
+              <div className="space-y-1 mb-6">
+                <div className="text-3xl font-bold text-white">1,298</div>
+                <div className="text-xs text-emerald-400 font-medium bg-emerald-400/10 inline-block px-2 py-1 rounded">+2.8% since last week</div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
+                View More <ArrowRight className="w-4 h-4 ml-auto" />
               </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
-                      <DoorOpen className="w-5 h-5 text-[#EFFC76]" />
-                    </div>
-                    <span className="text-sm text-white/70">
-                      Leave Requests
-                    </span>
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-1">123</div>
-                  <div className="flex items-center gap-1 text-sm">
-                    <span className="text-white/60">Last Week</span>
-                    <span className="font-medium flex items-center gap-1 text-rose-400">
-                      <ArrowDown className="w-4 h-4 text-[#EFFC76]" />
-                      -0.5%
-                    </span>
-                  </div>
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+             <CardContent className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-rose-500"></div>
+                  <span className="text-sm font-medium text-white/60">Leave Requests</span>
                 </div>
+              </div>
+              <div className="space-y-1 mb-6">
+                <div className="text-3xl font-bold text-white">123</div>
+                <div className="text-xs text-rose-400 font-medium bg-rose-400/10 inline-block px-2 py-1 rounded">-0.5% since last week</div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
+                View More <ArrowRight className="w-4 h-4 ml-auto" />
               </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
-                      <Star className="w-5 h-5 text-[#EFFC76]" />
-                    </div>
-                    <span className="text-sm text-white/70">Average KPI</span>
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-1">
-                    8.8/10
-                  </div>
-                  <div className="flex items-center gap-1 text-sm">
-                    <span className="text-white/60">Last Week</span>
-                    <span className="font-medium flex items-center gap-1 text-emerald-400">
-                      <ArrowUp className="w-4 h-4 text-[#EFFC76]" />
-                      +0.8%
-                    </span>
-                  </div>
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                  <span className="text-sm font-medium text-white/60">Average KPI</span>
                 </div>
+              </div>
+              <div className="space-y-1 mb-6">
+                <div className="text-3xl font-bold text-white">8.8/10</div>
+                <div className="text-xs text-emerald-400 font-medium bg-emerald-400/10 inline-block px-2 py-1 rounded">+0.8% since last week</div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
+                View More <ArrowRight className="w-4 h-4 ml-auto" />
               </div>
             </CardContent>
           </Card>
@@ -346,6 +325,57 @@ export default function Dashboard() {
             </Card>
           </div>
         </div>
+
+
+        {/* Finance Section */}
+        <Card className="bg-[#121212] border border-white/10">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
+              <div className="w-full">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-xl font-semibold text-white">Finance Report</h3>
+                  <button className="text-white/40 hover:text-white">
+                    <div className="flex gap-1">
+                        <div className="w-1 h-1 bg-current rounded-full"></div>
+                        <div className="w-1 h-1 bg-current rounded-full"></div>
+                        <div className="w-1 h-1 bg-current rounded-full"></div>
+                    </div>
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                  <div>
+                    <div className="text-sm text-white/50 mb-1">Weekly</div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl font-bold text-white">$24,291</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+25.0%</span>
+                    </div>
+                    <div className="text-xs text-white/40 mt-1">Compared to $1,340 last week</div>
+                  </div>
+                  
+                   <div>
+                    <div className="text-sm text-white/50 mb-1">Monthly</div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl font-bold text-white">$48,903</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+1.9%</span>
+                    </div>
+                    <div className="text-xs text-white/40 mt-1">Compared to $5,441 last month</div>
+                  </div>
+
+                   <div>
+                    <div className="text-sm text-white/50 mb-1">Yearly</div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl font-bold text-white">$198,134</span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+22%</span>
+                    </div>
+                    <div className="text-xs text-white/40 mt-1">Compared to $76,330 last year</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <FinanceChart />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
