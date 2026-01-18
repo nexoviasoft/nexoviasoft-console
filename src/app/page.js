@@ -25,57 +25,70 @@ export default function Dashboard() {
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
         <div className="grid grid-cols-3 gap-6">
+
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
             <CardContent className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                  <span className="text-sm font-medium text-white/60">Total Employees</span>
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                   <span className="text-sm font-medium text-white/60">Total Employees</span>
+                </div>
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
+                  <Users className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
-              <div className="space-y-1 mb-6">
+              <div className="space-y-2 mb-2">
                 <div className="text-3xl font-bold text-white">1,298</div>
-                <div className="text-xs text-emerald-400 font-medium bg-emerald-400/10 inline-block px-2 py-1 rounded">+2.8% since last week</div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
-                View More <ArrowRight className="w-4 h-4 ml-auto" />
-              </div>
+               <div className="flex items-center gap-2 text-xs">
+                  <span className="text-emerald-400 font-medium flex items-center gap-1">
+                    <ArrowUp className="w-3 h-3" /> 15%
+                  </span>
+                  <span className="text-white/40">from last month</span>
+               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
              <CardContent className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-rose-500"></div>
-                  <span className="text-sm font-medium text-white/60">Leave Requests</span>
+               <div className="flex justify-between items-start mb-2">
+                <div>
+                   <span className="text-sm font-medium text-white/60">Leave Requests</span>
+                </div>
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
+                  <DoorOpen className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
-              <div className="space-y-1 mb-6">
+              <div className="space-y-2 mb-2">
                 <div className="text-3xl font-bold text-white">123</div>
-                <div className="text-xs text-rose-400 font-medium bg-rose-400/10 inline-block px-2 py-1 rounded">-0.5% since last week</div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
-                View More <ArrowRight className="w-4 h-4 ml-auto" />
-              </div>
+               <div className="flex items-center gap-2 text-xs">
+                  <span className="text-rose-400 font-medium flex items-center gap-1">
+                    <ArrowDown className="w-3 h-3" /> 9%
+                  </span>
+                  <span className="text-white/40">from last month</span>
+               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
             <CardContent className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                  <span className="text-sm font-medium text-white/60">Average KPI</span>
+               <div className="flex justify-between items-start mb-2">
+                <div>
+                   <span className="text-sm font-medium text-white/60">Average KPI</span>
+                </div>
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
+                  <Star className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
-              <div className="space-y-1 mb-6">
+              <div className="space-y-2 mb-2">
                 <div className="text-3xl font-bold text-white">8.8/10</div>
-                <div className="text-xs text-emerald-400 font-medium bg-emerald-400/10 inline-block px-2 py-1 rounded">+0.8% since last week</div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[#EFFC76] transition-colors cursor-pointer">
-                View More <ArrowRight className="w-4 h-4 ml-auto" />
-              </div>
+               <div className="flex items-center gap-2 text-xs">
+                  <span className="text-emerald-400 font-medium flex items-center gap-1">
+                    <ArrowUp className="w-3 h-3" /> 7.2%
+                  </span>
+                  <span className="text-white/40">from last month</span>
+               </div>
             </CardContent>
           </Card>
         </div>
