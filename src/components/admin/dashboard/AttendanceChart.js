@@ -54,7 +54,7 @@ export default function AttendanceChart() {
         <BarChart
           data={data}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-          barSize={32}
+          barSize={48}
           stackOffset="expand" // Normalized to 100% or just standard stacked? User screen shows varying heights? 
           // User screen shows stacked blocks filling height? Or maybe not filling.
           // The previous code had height dependent on intensity. 
