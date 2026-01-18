@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AttendanceDetailsDialog from "./AttendanceDetailsDialog";
+import AttendanceEditDialog from "./AttendanceEditDialog";
 
 const initialData = [
   {
@@ -92,7 +93,7 @@ const StatusBadge = ({ status }) => {
 export default function AttendanceTable() {
   const [data, setData] = useState(initialData);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -103,9 +104,13 @@ export default function AttendanceTable() {
     setShowDetails(true);
   };
 
-  const handleEdit = (name) => {
-    alert(`Editing record for ${name}`);
-    // Future: Open edit modal
+  const handleEdit = (employee) => {
+    setSelectedEmployee(employee);
+    setShowEdit(true);
+  };
+
+  const handleSaveEdit = (updatedEmployee) => {
+    setData(data.map((item) => (item.id === updatedEmployee.id ? updatedEmployee : item)));
   };
 
   return (
@@ -114,6 +119,12 @@ export default function AttendanceTable() {
         open={showDetails} 
         onOpenChange={setShowDetails} 
         employee={selectedEmployee} 
+      />
+      <AttendanceEditDialog 
+        open={showEdit} 
+        onOpenChange={setShowEdit} 
+        employee={selectedEmployee} 
+        onSave={handleSaveEdit}
       />
       <Table>
         <TableHeader className="bg-white/5">
@@ -179,7 +190,7 @@ export default function AttendanceTable() {
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
-                      onClick={() => handleEdit(row.name)}
+                      onClick={() => handleEdit(row)}
                     >
                       <Edit className="mr-2 h-4 w-4" />
                       <span>Edit Record</span>
