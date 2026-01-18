@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Users,
   DoorOpen,
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 
 export default function Dashboard() {
+  const [period, setPeriod] = useState("Yearly");
   return (
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
@@ -108,9 +109,14 @@ export default function Dashboard() {
                   <CardTitle className="text-white">
                     Attendance Overview
                   </CardTitle>
-                  <button className="text-sm font-medium text-[#EFFC76] hover:text-[#e0ef5f]">
-                    See Detail
-                  </button>
+                  <select 
+                    value={period}
+                    onChange={(e) => setPeriod(e.target.value)}
+                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                  >
+                    <option value="Yearly">Yearly</option>
+                    <option value="Monthly">Monthly</option>
+                  </select>
                 </div>
               </CardHeader>
               <CardContent>
@@ -154,7 +160,7 @@ export default function Dashboard() {
 
 
                   <div>
-                    <AttendanceChart />
+                    <AttendanceChart period={period} />
                   </div>
                 </div>
               </CardContent>

@@ -13,14 +13,29 @@ import {
   CartesianGrid
 } from "recharts";
 
-const data = [
-  { day: "Mon", presence: 90 },
-  { day: "Tue", presence: 85 },
-  { day: "Wed", presence: 95 },
-  { day: "Thu", presence: 80 },
-  { day: "Fri", presence: 88 },
-  { day: "Sat", presence: 60 },
-  { day: "Sun", presence: 50 },
+const yearlyData = [
+  { day: "Jan", presence: 92 },
+  { day: "Feb", presence: 88 },
+  { day: "Mar", presence: 95 },
+  { day: "Apr", presence: 85 },
+  { day: "May", presence: 90 },
+  { day: "Jun", presence: 84 },
+  { day: "Jul", presence: 65 },
+  { day: "Aug", presence: 75 },
+  { day: "Sep", presence: 88 },
+  { day: "Oct", presence: 92 },
+  { day: "Nov", presence: 85 },
+  { day: "Dec", presence: 90 },
+];
+
+const monthlyData = [
+  { day: "01", presence: 85 },
+  { day: "05", presence: 88 },
+  { day: "10", presence: 92 },
+  { day: "15", presence: 75 },
+  { day: "20", presence: 89 },
+  { day: "25", presence: 95 },
+  { day: "30", presence: 90 },
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -42,7 +57,9 @@ const CustomDot = (props) => {
   );
 };
 
-export default function AttendanceChart() {
+export default function AttendanceChart({ period = "Yearly" }) {
+  const data = period === "Monthly" ? monthlyData : yearlyData;
+
   return (
     <div className="h-56 w-full mt-4">
       <ResponsiveContainer width="100%" height="100%">
@@ -66,33 +83,19 @@ export default function AttendanceChart() {
             dy={10}
           />
           
-          {/* Using a floating tooltip styled like the image (green bubble) */}
           <Tooltip 
             content={<CustomTooltip />} 
             cursor={{ fill: 'transparent' }} 
             offset={-20}
           />
 
-          {/* Background Track Bars (Max height reference, e.g., 100%) */}
           <Bar
             dataKey="presence"
-            data={data.map(d => ({ ...d, full: 100 }))} // Trick: render full height bars behind? 
-            // Actually Bar 'background' prop is easier.
-            // Let's use the main Bar with 'background' prop.
-            fill="transparent"
-            barSize={24}
-            isAnimationActive={false}
-            fillOpacity={0}
-            legendType="none"
-            tooltipType="none"
-          />
-
-          <Bar
-            dataKey="presence"
-            fill="url(#barGradient)"
-            radius={[50, 50, 50, 50]} // Fully rounded
+            // Background track
             background={{ fill: 'rgba(255,255,255,0.05)', radius: [50, 50, 50, 50] }}
-            barSize={28}
+            fill="url(#barGradient)"
+            radius={[50, 50, 50, 50]}
+            barSize={period === "Monthly" ? 32 : 16} // Adjust bar size for monthly view spacing
           />
 
           <Line
@@ -100,7 +103,7 @@ export default function AttendanceChart() {
             dataKey="presence"
             stroke="#EFFC76"
             strokeWidth={2}
-            strokeDasharray="4 4" // Dashed line
+            strokeDasharray="4 4"
             dot={<CustomDot />}
             activeDot={{ r: 6, stroke: 'white', strokeWidth: 2, fill: '#EFFC76' }}
             isAnimationActive={true}
