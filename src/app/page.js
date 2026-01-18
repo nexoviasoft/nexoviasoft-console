@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 
 export default function Dashboard() {
   return (
@@ -151,50 +152,9 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex items-end gap-2 h-32">
-                      {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-                        (day, dayIndex) => {
-                          const patterns = [
-                            [1, 1, 1, 1, 0.8, 0.6, 0.4, 0.2],
-                            [1, 1, 1, 0.9, 0.7, 0.5, 0.3, 0.1],
-                            [1, 1, 0.9, 0.8, 0.6, 0.4, 0.2, 0],
-                            [1, 1, 1, 0.9, 0.7, 0.5, 0.3, 0.1],
-                            [1, 1, 1, 1, 0.8, 0.6, 0.4, 0.2],
-                            [0.5, 0.3, 0.2, 0.1, 0, 0, 0, 0],
-                            [0.3, 0.2, 0.1, 0, 0, 0, 0, 0],
-                          ];
-                          const dayPattern = patterns[dayIndex];
 
-                          return (
-                            <div
-                              key={day}
-                              className="flex-1 flex flex-col items-center gap-1"
-                            >
-                              <div className="w-full flex flex-col gap-0.5">
-                                {dayPattern.map((intensity, hourIndex) => (
-                                  <div
-                                    key={hourIndex}
-                                    className={`h-3 rounded ${
-                                      intensity > 0.7
-                                        ? "bg-[#EFFC76]"
-                                        : intensity > 0.4
-                                          ? "bg-[#EFFC76]/70"
-                                          : intensity > 0
-                                            ? "bg-[#EFFC76]/40"
-                                            : "bg-[#EFFC76]/10"
-                                    }`}
-                                  ></div>
-                                ))}
-                              </div>
-                              <span className="text-xs text-white/50 mt-2">
-                                {day}
-                              </span>
-                            </div>
-                          );
-                        },
-                      )}
-                    </div>
+                  <div>
+                    <AttendanceChart />
                   </div>
                 </div>
               </CardContent>
