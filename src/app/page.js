@@ -21,10 +21,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 import FinanceChart from "@/components/admin/dashboard/FinanceChart";
+import { useEffect } from "react";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
   const [financePeriod, setFinancePeriod] = useState("Yearly");
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedDate = currentTime.toLocaleDateString('en-US', { 
+    month: 'long', 
+    year: 'numeric' 
+  });
+  const formattedTime = currentTime.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
   return (
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
@@ -123,9 +141,15 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">
-                    Attendance Overview
-                  </CardTitle>
+                  <div>
+                    <CardTitle className="text-white">
+                      Attendance Overview
+                    </CardTitle>
+                    <div className="text-xs text-white/50 mt-1 flex gap-2">
+                       <span>{formattedDate}</span>
+                       <span className="text-[#EFFC76]">{formattedTime}</span>
+                    </div>
+                  </div>
                   <select 
                     value={period}
                     onChange={(e) => setPeriod(e.target.value)}

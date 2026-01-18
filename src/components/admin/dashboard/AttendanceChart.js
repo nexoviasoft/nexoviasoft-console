@@ -107,7 +107,7 @@ export default function AttendanceChart({ period = "Weekly" }) {
             background={{ fill: 'rgba(255,255,255,0.05)', radius: [50, 50, 50, 50] }}
             fill="url(#barGradient)"
             radius={[50, 50, 50, 50]}
-            barSize={period === "Monthly" ? 32 : period === "Weekly" ? 48 : 16}
+            barSize={period === "Monthly" ? 8 : period === "Weekly" ? 48 : 16}
           />
 
           <Line
