@@ -93,6 +93,7 @@ const StatusBadge = ({ status }) => {
 export default function AttendanceTable() {
   const [data, setData] = useState(initialData);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const handleDelete = (id) => {
