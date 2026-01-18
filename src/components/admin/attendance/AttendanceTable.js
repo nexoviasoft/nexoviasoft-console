@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import AttendanceDetailsDialog from "./AttendanceDetailsDialog";
 
 const initialData = [
   {
@@ -90,14 +91,16 @@ const StatusBadge = ({ status }) => {
 
 export default function AttendanceTable() {
   const [data, setData] = useState(initialData);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
 
-  const handleViewDetails = (name) => {
-    alert(`Viewing details for ${name}`);
-    // Future: router.push(\`/admin/attendance/\${id}\`)
+  const handleViewDetails = (employee) => {
+    setSelectedEmployee(employee);
+    setShowDetails(true);
   };
 
   const handleEdit = (name) => {
@@ -107,6 +110,11 @@ export default function AttendanceTable() {
 
   return (
     <div className="glass-panel rounded-2xl overflow-hidden">
+      <AttendanceDetailsDialog 
+        open={showDetails} 
+        onOpenChange={setShowDetails} 
+        employee={selectedEmployee} 
+      />
       <Table>
         <TableHeader className="bg-white/5">
           <TableRow>
@@ -164,7 +172,7 @@ export default function AttendanceTable() {
                     <DropdownMenuSeparator className="bg-white/10" />
                     <DropdownMenuItem 
                       className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
-                      onClick={() => handleViewDetails(row.name)}
+                      onClick={() => handleViewDetails(row)}
                     >
                       <Eye className="mr-2 h-4 w-4" />
                       <span>View Details</span>
