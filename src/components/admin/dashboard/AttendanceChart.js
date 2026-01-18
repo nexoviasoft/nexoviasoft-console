@@ -57,8 +57,20 @@ const CustomDot = (props) => {
   );
 };
 
-export default function AttendanceChart({ period = "Yearly" }) {
-  const data = period === "Monthly" ? monthlyData : yearlyData;
+const weeklyData = [
+  { day: "Mon", presence: 90 },
+  { day: "Tue", presence: 85 },
+  { day: "Wed", presence: 95 },
+  { day: "Thu", presence: 80 },
+  { day: "Fri", presence: 88 },
+  { day: "Sat", presence: 60 },
+  { day: "Sun", presence: 50 },
+];
+
+export default function AttendanceChart({ period = "Weekly" }) {
+  let data = weeklyData;
+  if (period === "Monthly") data = monthlyData;
+  if (period === "Yearly") data = yearlyData;
 
   return (
     <div className="h-56 w-full mt-4">
@@ -95,7 +107,7 @@ export default function AttendanceChart({ period = "Yearly" }) {
             background={{ fill: 'rgba(255,255,255,0.05)', radius: [50, 50, 50, 50] }}
             fill="url(#barGradient)"
             radius={[50, 50, 50, 50]}
-            barSize={period === "Monthly" ? 32 : 16} // Adjust bar size for monthly view spacing
+            barSize={period === "Monthly" ? 32 : period === "Weekly" ? 48 : 16}
           />
 
           <Line

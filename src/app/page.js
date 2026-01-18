@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 
 export default function Dashboard() {
-  const [period, setPeriod] = useState("Yearly");
+  const [period, setPeriod] = useState("Weekly");
   return (
     <div className="px-8 py-6 text-white">
       <div className="space-y-6">
@@ -114,8 +114,9 @@ export default function Dashboard() {
                     onChange={(e) => setPeriod(e.target.value)}
                     className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
                   >
-                    <option value="Yearly">Yearly</option>
+                    <option value="Weekly">Weekly</option>
                     <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
                   </select>
                 </div>
               </CardHeader>
