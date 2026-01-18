@@ -16,12 +16,24 @@ import {
   UserCheck,
   DollarSign,
   CreditCard,
+  MoreVertical,
+  Download,
+  FileText,
+  Mail,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 import FinanceChart from "@/components/admin/dashboard/FinanceChart";
 import { useEffect } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
@@ -150,15 +162,41 @@ export default function Dashboard() {
                        <span className="text-[#EFFC76]">{formattedTime}</span>
                     </div>
                   </div>
-                  <select 
-                    value={period}
-                    onChange={(e) => setPeriod(e.target.value)}
-                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
-                  >
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Yearly">Yearly</option>
-                  </select>
+                  <div className="flex items-center gap-2">
+                    <select 
+                      value={period}
+                      onChange={(e) => setPeriod(e.target.value)}
+                      className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                    >
+                      <option value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                      <option value="Yearly">Yearly</option>
+                    </select>
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0 text-white/70 hover:text-[#EFFC76] hover:bg-[#EFFC76]/10">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48 bg-[#1A1A1A] border-white/10 text-white">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator className="bg-white/10" />
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer text-white/80 focus:text-white focus:bg-white/10">
+                          <Download className="mr-2 h-4 w-4" />
+                          <span>Export CSV</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer text-white/80 focus:text-white focus:bg-white/10">
+                          <FileText className="mr-2 h-4 w-4" />
+                          <span>Download Report</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer text-white/80 focus:text-white focus:bg-white/10">
+                          <Mail className="mr-2 h-4 w-4" />
+                          <span>Email Report</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
