@@ -19,13 +19,6 @@ import {
   FileCheck,
   User,
   ShoppingCart,
-  Briefcase,
-  Tag,
-  Package,
-  LayoutGrid,
-  Sparkles,
-  Star,
-  Wrench,
 } from "lucide-react";
 
 export const mainNavItems = [
@@ -42,8 +35,8 @@ export const mainNavItems = [
   { icon: DollarSign, label: "Payroll", id: "Payroll", href: "/admin/payroll" },
   { icon: BarChart3, label: "Reports", id: "Reports", href: "/admin/reports" },
   { icon: Radio, label: "Broadcast", id: "Broadcast", href: "/admin/broadcast" },
-  { icon: Briefcase, label: "Our Clients", id: "Our Clients", href: "/admin/our-client" },
-  { icon: Wrench, label: "Service Requests", id: "Service Requests", href: "/admin/service-request" },
+  { icon: User, label: "Our Clients", id: "Our Clients", href: "/admin/our-client" },
+  { icon: User, label: "Service Requests", id: "Service Requests", href: "/admin/service-request" },
   { icon: Settings, label: "Settings", id: "Settings", href: "/admin/settings" },
 ];
 
@@ -61,26 +54,32 @@ export const othersNavItems = [
         href: "/admin/platform-settings/home",
         children: [
           { icon: Image, label: "Carousel", id: "Carousel", href: "/landing/carousel" },
-          { icon: FileText, label: "Case Studies", id: "Case Studies", href: "/landing/case-studies" },
+          { icon: FileCheck, label: "Case Studies", id: "Case Studies", href: "/landing/case-studies" },
           { icon: DollarSign, label: "Price Packages", id: "Price Packages", href: "/landing/price-package" },
-          { icon: Star, label: "Customer Reviews", id: "Customer Reviews", href: "/landing/customer-review" },
+          { icon: FileCheck, label: "Customer Reviews", id: "Customer Reviews", href: "/landing/customer-review" },
         ]
       },
-      { icon: LayoutGrid, label: "Departments", id: "Departments", href: "/landing/departmant" },
-      { icon: Tag, label: "Categories", id: "Categories", href: "/landing/category" },
-      { icon: Sparkles, label: "Our Services", id: "Our Services", href: "/landing/our-service" },
-      { icon: Package, label: "Products", id: "Products", href: "/landing/our-product" },
+      { icon: Image, label: "Departments", id: "Departments", href: "/landing/departmant" },
+      // { icon: FileCheck, label: "Positions", id: "Positions", href: "/platform-settings/positions" },
+      // { icon: FileCheck, label: "Roles", id: "Roles", href: "/platform-settings/roles" },
+      // { icon: FileCheck, label: "Permissions", id: "Permissions", href: "/platform-settings/permissions" },
+      // { icon: FileCheck, label: "Users", id: "Users", href: "/platform-settings/users" },
+      // { icon: FileCheck, label: "Groups", id: "Groups", href: "/platform-settings/groups" },
+      // { icon: FileCheck, label: "Tags", id: "Tags", href: "/platform-settings/tags" },
+      { icon: FileCheck, label: "Categories", id: "Categories", href: "/landing/category" },
+      { icon: FileCheck, label: "Our Services", id: "Our Services", href: "/landing/our-service" },
+      { icon: FileCheck, label: "Products", id: "Products", href: "/landing/our-product" },
 
       { 
-        icon: Package, 
+        icon: Layout, 
         label: "Our Products", 
         id: "Our Products", 
         href: "/admin/platform-settings/our-product",
         children: [
-          { icon: Package, label: "SquadLog", id: "SquadLog", href: "/admin/platform-settings/our-product/squadlog" },
+          { icon: FileCheck, label: "SquadLog", id: "SquadLog", href: "/admin/platform-settings/our-product/squadlog" },
         ]
       },
-      { icon: Layout, label: "Footer", id: "Footer", href: "/landing/footer" },
+      { icon: FileCheck, label: "Footer", id: "Footer", href: "/landing/footer" },
    
     ]
   },

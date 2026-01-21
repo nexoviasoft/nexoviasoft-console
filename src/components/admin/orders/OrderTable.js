@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Search, Filter, ArrowUpRight } from "lucide-react";
+import { Search, Filter, MoreHorizontal, ArrowUpRight } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,17 +79,12 @@ const initialOrders = [
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    Completed: "bg-emerald-500/15 text-emerald-200 border-emerald-400/60",
-    "In Progress": "bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/60",
-    Review: "bg-sky-500/15 text-sky-200 border-sky-400/60",
-    Pending: "bg-amber-500/15 text-amber-200 border-amber-400/60",
+    "Completed": "bg-green-100 text-green-700 hover:bg-green-200 border-green-200",
+    "In Progress": "bg-blue-100 text-blue-700 hover:bg-blue-200 border-blue-200",
+    "Review": "bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-200",
+    "Pending": "bg-yellow-100 text-yellow-700 hover:bg-yellow-200 border-yellow-200",
   };
-  const base = "font-medium shadow-none px-2.5 py-0.5 border rounded-full";
-  return (
-    <Badge className={`${base} ${styles[status] || "bg-white/10 text-white/70 border-white/20"}`}>
-      {status}
-    </Badge>
-  );
+  return <Badge className={`${styles[status] || "bg-gray-100"} font-medium border shadow-none px-2.5 py-0.5`}>{status}</Badge>;
 };
 
 export default function OrderTable({ onViewDetails }) {
@@ -109,12 +104,13 @@ export default function OrderTable({ onViewDetails }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-xl border-white/20">
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
         <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input 
             placeholder="Search orders, clients, or services..." 
-            className="pl-9 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
+            className="pl-9 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -123,8 +119,8 @@ export default function OrderTable({ onViewDetails }) {
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 border-white/30 text-white/80 bg-black/40 hover:bg-white/10 hover:border-[#EFFC76]/60 hover:text-[#EFFC76]">
-                <Filter className="w-4 h-4" />
+              <Button variant="outline" className="gap-2 border-gray-200 text-gray-700">
+                <Filter className="w-4 h-4 text-gray-500" />
                 <span>Filter: {statusFilter}</span>
               </Button>
             </DropdownMenuTrigger>
@@ -145,68 +141,65 @@ export default function OrderTable({ onViewDetails }) {
         </div>
       </div>
 
-      <div className="glass-card rounded-xl border-white/20 overflow-hidden">
+      {/* Table */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <Table>
-          <TableHeader className="bg-white/5">
+          <TableHeader className="bg-gray-50/50">
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[100px] text-xs font-semibold text-white/60">Order ID</TableHead>
-              <TableHead className="min-w-[200px] text-xs font-semibold text-white/60">Client</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Service</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Amount</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Status</TableHead>
-              <TableHead className="w-[150px] text-xs font-semibold text-white/60">Progress</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Assigned To</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60 text-right">Action</TableHead>
+              <TableHead className="w-[100px]">Order ID</TableHead>
+              <TableHead className="min-w-[200px]">Client</TableHead>
+              <TableHead>Service</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="w-[150px]">Progress</TableHead>
+              <TableHead>Assigned To</TableHead>
+              <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order) => (
-                <TableRow key={order.id} className="group hover:bg-white/5 transition-colors">
-                  <TableCell className="font-medium text-white/60 text-xs">{order.id}</TableCell>
+                <TableRow key={order.id} className="group hover:bg-gray-50/50 transition-colors">
+                  <TableCell className="font-medium text-gray-500 text-xs">{order.id}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Avatar className="w-8 h-8 border border-white/20 bg-black/40">
+                      <Avatar className="w-8 h-8 border border-gray-100 bg-white">
                         <AvatarImage src={order.client.avatar} />
-                        <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
+                        <AvatarFallback className="bg-purple-50 text-purple-600 text-xs">
                           {order.client.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-semibold text-white text-sm">{order.client.name}</div>
-                        <div className="text-xs text-white/50">{order.client.email}</div>
+                        <div className="font-semibold text-gray-900 text-sm">{order.client.name}</div>
+                        <div className="text-xs text-gray-500">{order.client.email}</div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white/80 font-medium text-sm">{order.service}</TableCell>
-                  <TableCell className="font-semibold text-[#EFFC76]">{order.amount}</TableCell>
+                  <TableCell className="text-gray-700 font-medium text-sm">{order.service}</TableCell>
+                  <TableCell className="font-semibold text-gray-900">{order.amount}</TableCell>
                   <TableCell>
                     <StatusBadge status={order.status} />
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1.5">
-                      <div className="flex justify-between text-xs text-white/60">
+                      <div className="flex justify-between text-xs text-gray-500">
                         <span>{order.progress}%</span>
                       </div>
-                      <Progress
-                        value={order.progress}
-                        className="h-1.5 bg-white/10"
-                        indicatorClassName={
-                          order.status === "Completed" ? "bg-emerald-400" : "bg-[#EFFC76]"
-                        }
-                      />
+                      <Progress value={order.progress} className="h-1.5 bg-gray-100" indicatorClassName={
+                        order.status === "Completed" ? "bg-green-500" : "bg-purple-600"
+                      } />
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex -space-x-2">
                        {order.assignedTo.map((initials, i) => (
-                         <Avatar key={i} className="w-6 h-6 border-2 border-black/60 ring-1 ring-[#EFFC76]/40">
-                           <AvatarFallback className="text-[10px] bg-[#EFFC76]/10 text-[#EFFC76] font-medium">
+                         <Avatar key={i} className="w-6 h-6 border-2 border-white ring-1 ring-gray-100">
+                           <AvatarFallback className="text-[10px] bg-gray-100 text-gray-600 font-medium">
                              {initials}
                            </AvatarFallback>
                          </Avatar>
                        ))}
-                       {order.assignedTo.length === 0 && <span className="text-xs text-white/50 italic">Unassigned</span>}
+                       {order.assignedTo.length === 0 && <span className="text-xs text-gray-400 italic">Unassigned</span>}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
@@ -214,7 +207,7 @@ export default function OrderTable({ onViewDetails }) {
                       size="sm" 
                       variant="outline" 
                       onClick={() => onViewDetails(order)}
-                      className="h-8 gap-1.5 text-xs font-medium text-[#EFFC76] border border-[#EFFC76]/60 bg-[#EFFC76]/10 hover:bg-[#EFFC76]/20 hover:text-black hover:border-[#EFFC76] glass-button"
+                      className="h-8 gap-1.5 text-xs font-medium text-gray-700 border-gray-200 hover:text-purple-700 hover:border-purple-200 hover:bg-purple-50"
                     >
                       View Details
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -224,9 +217,9 @@ export default function OrderTable({ onViewDetails }) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} className="h-32 text-center text-white/60">
+                <TableCell colSpan={8} className="h-32 text-center text-gray-500">
                   <div className="flex flex-col items-center justify-center gap-2">
-                    <Search className="w-6 h-6 text-white/30" />
+                    <Search className="w-6 h-6 text-gray-300" />
                     <p>No orders found matching your criteria.</p>
                   </div>
                 </TableCell>

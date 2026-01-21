@@ -43,7 +43,7 @@ export default function PayrollHeader() {
           </Button>
         </div>
 
-        <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button">
+        <Button className="bg-white hover:bg-white/90 text-black gap-2 glass-button">
           <PlayCircle className="w-4 h-4" />
           <span>Run Payroll</span>
         </Button>

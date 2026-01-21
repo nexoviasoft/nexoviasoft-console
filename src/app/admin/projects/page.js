@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Code, Plus } from "lucide-react";
+import { CheckCircle2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import NewProjectDialog from "@/components/admin/projects/NewProjectDialog";
 
@@ -15,8 +15,6 @@ const projects = [
     description: "Complete overhaul of company website with modern UI/UX",
     status: "In Progress",
     progress: 65,
-    applicationType: "Web Application",
-    platform: "Marketing Site",
     team: [
       { name: "Sarah J", avatar: "SJ" },
       { name: "Mike C", avatar: "MC" },
@@ -32,8 +30,6 @@ const projects = [
     description: "Native iOS and Android app for customer portal",
     status: "In Progress",
     progress: 40,
-    applicationType: "Mobile Application",
-    platform: "iOS & Android",
     team: [
       { name: "David K", avatar: "DK" },
       { name: "Lisa A", avatar: "LA" }
@@ -48,8 +44,6 @@ const projects = [
     description: "Integrate third-party payment and analytics APIs",
     status: "Planning",
     progress: 15,
-    applicationType: "Backend Service",
-    platform: "REST API",
     team: [
       { name: "John D", avatar: "JD" },
       { name: "Anna M", avatar: "AM" }
@@ -64,8 +58,6 @@ const projects = [
     description: "Migrate from PostgreSQL to MongoDB for better scalability",
     status: "Completed",
     progress: 100,
-    applicationType: "Database Layer",
-    platform: "MongoDB Cluster",
     team: [
       { name: "Tom W", avatar: "TW" }
     ],
@@ -84,9 +76,9 @@ export default function Projects() {
       case "Completed":
         return "bg-emerald-500/20 text-emerald-300 border border-emerald-400/50";
       case "In Progress":
-        return "bg-sky-500/20 text-sky-200 border border-sky-400/60";
+        return "bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/60";
       case "Planning":
-        return "bg-indigo-500/20 text-indigo-200 border border-indigo-400/60";
+        return "bg-purple-500/20 text-purple-200 border border-purple-400/60";
       default:
         return "bg-white/10 text-white/70 border border-white/20";
     }
@@ -104,7 +96,7 @@ export default function Projects() {
           <div>
             <h1 className="text-2xl font-bold text-white">Projects</h1>
             <p className="text-sm text-white/60">
-              Manage your product, mobile and backend applications in one place
+              Manage your projects with customizable Kanban boards
             </p>
           </div>
           <Button 
@@ -112,7 +104,7 @@ export default function Projects() {
             className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
           >
             <Plus className="w-4 h-4 mr-2" />
-            New Application Project
+            New Project
           </Button>
         </div>
 
@@ -137,19 +129,6 @@ export default function Projects() {
                 <p className="text-sm text-white/70 line-clamp-2 leading-relaxed">
                   {project.description}
                 </p>
-                {project.applicationType && (
-                  <div className="mt-3 flex items-center gap-2 text-xs text-white/70">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#EFFC76]/15 border border-[#EFFC76]/50 text-[#EFFC76]">
-                      <Code className="w-3.5 h-3.5" />
-                      <span className="font-medium">{project.applicationType}</span>
-                    </span>
-                    {project.platform && (
-                      <span className="px-2 py-1 rounded-full bg-white/5 border border-white/20 text-white/80">
-                        {project.platform}
-                      </span>
-                    )}
-                  </div>
-                )}
               </div>
 
               {/* Progress */}
@@ -160,14 +139,14 @@ export default function Projects() {
                 </div>
                 <Progress 
                   value={project.progress} 
-                  className="h-2 bg-white/10" 
+                  className="h-2 bg-[#EFFC76]" 
                   indicatorClassName="bg-[#EFFC76]"
                 />
               </div>
 
               {/* Footer */}
               <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <div className="flex items-center gap-1.5 text-white/80 bg-[#EFFC76]/15 px-2 py-1 rounded-md border border-[#EFFC76]/50">
+                <div className="flex items-center gap-1.5 text-white/70 bg-white/5 px-2 py-1 rounded-md border border-white/15">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#EFFC76]" />
                   <span className="text-xs font-medium">
                     {project.tasksCompleted}/{project.totalTasks} tasks
@@ -178,9 +157,9 @@ export default function Projects() {
                   {project.team.slice(0, 3).map((member, idx) => (
                     <Avatar
                       key={idx}
-                      className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
+                      className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#EFFC76]/30"
                     >
-                      <AvatarFallback className="text-[10px] bg-[#EFFC76]/15 text-[#EFFC76]">
+                      <AvatarFallback className="text-[10px] bg-[#EFFC76]/10 text-[#EFFC76]">
                         {member.avatar}
                       </AvatarFallback>
                     </Avatar>

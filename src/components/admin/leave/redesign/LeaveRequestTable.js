@@ -93,122 +93,98 @@ export default function LeaveRequestTable() {
   );
 
   const getStatusBadge = (status) => {
-    if (status === "approved") {
-      return (
-        <Badge className="bg-emerald-500/15 text-emerald-200 border border-emerald-400/60">
-          Approved
-        </Badge>
-      );
+    switch (status) {
+      case "approved":
+        return <Badge className="bg-emerald-500/15 text-emerald-600 hover:bg-emerald-500/25 border-emerald-200">Approved</Badge>;
+      case "rejected":
+        return <Badge className="bg-red-500/15 text-red-600 hover:bg-red-500/25 border-red-200">Rejected</Badge>;
+      default:
+        return <Badge className="bg-amber-500/15 text-amber-600 hover:bg-amber-500/25 border-amber-200">Pending</Badge>;
     }
-    if (status === "rejected") {
-      return (
-        <Badge className="bg-rose-500/15 text-rose-200 border border-rose-400/60">
-          Rejected
-        </Badge>
-      );
-    }
-    return (
-      <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60">
-        Pending
-      </Badge>
-    );
   };
 
   return (
-    <Card className="border-none glass-card">
+    <Card className="border-none shadow-md bg-white/50 backdrop-blur-sm">
       <CardHeader>
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <CardTitle className="text-white">Leave Requests</CardTitle>
-            <CardDescription className="text-white/70">
-              Manage and review team leave applications
-            </CardDescription>
-          </div>
-          <div className="relative w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/40" />
-            <Input
-              type="text"
-              placeholder="Search requests..."
-              className="pl-9 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+        <div className="flex items-center justify-between">
+            <div>
+                <CardTitle>Leave Requests</CardTitle>
+                <CardDescription>Manage and review team leave applications</CardDescription>
+            </div>
+            <div className="relative w-64">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                type="text"
+                placeholder="Search requests..."
+                className="pl-9 bg-white"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border border-white/15 bg-black/40 overflow-hidden">
+        <div className="rounded-md border bg-white overflow-hidden">
           <Table>
-            <TableHeader className="bg-white/5">
+            <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="text-xs font-semibold text-white/60">Employee</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Leave Type</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Duration</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Days</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Status</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60 text-right">
-                  Actions
-                </TableHead>
+                <TableHead>Employee</TableHead>
+                <TableHead>Leave Type</TableHead>
+                <TableHead>Duration</TableHead>
+                <TableHead>Days</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredRequests.map((req) => (
-                <TableRow key={req.id} className="hover:bg-white/5 transition-colors">
+                <TableRow key={req.id} className="hover:bg-gray-50/50 transition-colors">
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9 border border-white/10 bg-black/40">
+                      <Avatar className="h-9 w-9 border-2 border-white shadow-sm">
                         <AvatarImage src={req.employee.avatar} />
-                        <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] font-medium">
-                          {req.employee.name.charAt(0)}
+                        <AvatarFallback className="bg-purple-100 text-purple-700 font-medium">
+                            {req.employee.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium text-white">{req.employee.name}</div>
-                        <div className="text-xs text-white/60">{req.employee.role}</div>
+                        <div className="font-medium text-gray-900">{req.employee.name}</div>
+                        <div className="text-xs text-gray-500">{req.employee.role}</div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col">
-                      <span className="font-medium text-white/90">{req.type}</span>
-                      <span className="text-xs text-white/60">{req.reason}</span>
+                     <div className="flex flex-col">
+                        <span className="font-medium text-gray-700">{req.type}</span>
+                        <span className="text-xs text-gray-400">{req.reason}</span>
+                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                        <Clock className="w-3.5 h-3.5 text-gray-400" />
+                        {req.duration}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-white/70 text-sm">
-                      <Clock className="w-3.5 h-3.5 text-white/40" />
-                      {req.duration}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <span className="font-medium text-white">{req.days} days</span>
+                    <span className="font-medium text-gray-900">{req.days} days</span>
                   </TableCell>
                   <TableCell>{getStatusBadge(req.status)}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-8 w-8 p-0 hover:bg-white/5 text-white/60 hover:text-[#EFFC76]"
-                        >
+                        <Button variant="ghost" className="h-8 w-8 p-0 hover:bg-gray-100">
                           <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
+                          <MoreHorizontal className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-[160px]">
-                        <DropdownMenuItem
-                          onClick={() => handleStatusChange(req.id, "approved")}
-                          className="text-emerald-300 focus:text-emerald-200 focus:bg-emerald-500/20 cursor-pointer"
-                        >
-                          <CheckCircle2 className="mr-2 h-4 w-4" />
-                          Approve
+                        <DropdownMenuItem onClick={() => handleStatusChange(req.id, "approved")} className="text-emerald-600 focus:text-emerald-700 focus:bg-emerald-50 cursor-pointer">
+                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                            Approve
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusChange(req.id, "rejected")}
-                          className="text-rose-300 focus:text-rose-200 focus:bg-rose-500/20 cursor-pointer"
-                        >
-                          <XCircle className="mr-2 h-4 w-4" />
-                          Reject
+                        <DropdownMenuItem onClick={() => handleStatusChange(req.id, "rejected")} className="text-red-600 focus:text-red-700 focus:bg-red-50 cursor-pointer">
+                            <XCircle className="mr-2 h-4 w-4" />
+                            Reject
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -216,14 +192,11 @@ export default function LeaveRequestTable() {
                 </TableRow>
               ))}
               {filteredRequests.length === 0 && (
-                <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className="h-24 text-center text-white/60"
-                  >
-                    No requests found matching your search.
-                  </TableCell>
-                </TableRow>
+                  <TableRow>
+                      <TableCell colSpan={6} className="h-24 text-center text-gray-500">
+                          No requests found matching your search.
+                      </TableCell>
+                  </TableRow>
               )}
             </TableBody>
           </Table>

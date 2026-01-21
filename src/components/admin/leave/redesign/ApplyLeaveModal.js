@@ -11,6 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -40,15 +41,15 @@ export default function ApplyLeaveModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button">
+        <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md shadow-purple-200">
             <Plus className="w-4 h-4 mr-2" />
             Apply for Leave
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] glass-card border-white/20">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-white">Apply for Leave</DialogTitle>
-          <DialogDescription className="text-white/70">
+          <DialogTitle>Apply for Leave</DialogTitle>
+          <DialogDescription>
             Submit your leave request. Your manager will be notified.
           </DialogDescription>
         </DialogHeader>
@@ -56,11 +57,9 @@ export default function ApplyLeaveModal() {
           <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="type" className="text-white/80">
-                      Leave Type
-                    </Label>
+                    <Label htmlFor="type">Leave Type</Label>
                     <Select required>
-                        <SelectTrigger className="bg-black/40 border-white/20 text-white">
+                        <SelectTrigger>
                         <SelectValue placeholder="Select type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -72,11 +71,9 @@ export default function ApplyLeaveModal() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="duration" className="text-white/80">
-                      Duration
-                    </Label>
+                    <Label htmlFor="duration">Duration</Label>
                     <Select defaultValue="full">
-                        <SelectTrigger className="bg-black/40 border-white/20 text-white">
+                        <SelectTrigger>
                         <SelectValue placeholder="Duration" />
                         </SelectTrigger>
                         <SelectContent>
@@ -89,22 +86,18 @@ export default function ApplyLeaveModal() {
               </div>
 
             <div className="space-y-2">
-              <Label className="text-white/80">Date Range</Label>
+              <Label>Date Range</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-full justify-start text-left font-normal glass-button border-white/30 text-black",
-                      !date && "text-white/60"
+                      "w-full justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4 text-black" />
-                    {date ? (
-                      format(date, "PPP")
-                    ) : (
-                      <span className="text-white/60">Pick a date</span>
-                    )}
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -119,32 +112,20 @@ export default function ApplyLeaveModal() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="reason" className="text-white/80">
-                Reason
-              </Label>
+              <Label htmlFor="reason">Reason</Label>
               <Textarea
                 id="reason"
                 placeholder="Please describe the reason for your leave..."
-                className="min-h-[100px] bg-black/40 border-white/20 text-white placeholder:text-white/40"
+                className="min-h-[100px]"
                 required
               />
             </div>
           </div>
           <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-              className="glass-button border-white/30 text-white"
-            >
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
-            >
-              Submit Request
-            </Button>
+            <Button type="submit" className="bg-purple-600 hover:bg-purple-700">Submit Request</Button>
           </DialogFooter>
         </form>
       </DialogContent>

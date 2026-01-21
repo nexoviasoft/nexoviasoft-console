@@ -22,8 +22,8 @@ export default function RecruitmentPage() {
   };
 
   return (
-    <div className=" px-8 py-8">
-      <div className=" mx-auto">
+    <div className="bg-gray-50 px-8 py-8">
+      <div className="max-w-7xl mx-auto">
         <RecruitmentHeader 
           activeTab={activeTab} 
           onTabChange={setActiveTab}

@@ -12,51 +12,38 @@ import ProjectComments from "./ProjectComments";
 
 export default function ProjectDetails({ project, onBack }) {
   return (
-    <div className="space-y-6 text-white">
-      <Button
-        variant="ghost"
-        onClick={onBack}
-        className="gap-2 text-white/70 hover:text-[#EFFC76] hover:bg-white/5"
-      >
-        <ArrowLeft className="w-4 h-4 mr-1 text-[#EFFC76]" />
+    <div className="space-y-6">
+      <Button variant="ghost" onClick={onBack} className="gap-2">
+        <ArrowLeft className="w-4 h-4" />
         Back to Projects
       </Button>
 
-      <div className="glass-card rounded-xl p-6 border-white/20">
+      <div className="bg-white rounded-lg border p-6">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              {project.name}
-            </h1>
-            <p className="text-white/70">{project.description}</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.name}</h1>
+            <p className="text-gray-600">{project.description}</p>
           </div>
-          <Badge
-            className={
-              project.status === "Completed"
-                ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/60"
-                : project.status === "In Progress"
-                ? "bg-sky-500/15 text-sky-200 border border-sky-400/60"
-                : "bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60"
-            }
-          >
+          <Badge className={
+            project.status === "Completed" ? "bg-green-100 text-green-700" :
+            project.status === "In Progress" ? "bg-blue-100 text-blue-700" :
+            "bg-yellow-100 text-yellow-700"
+          }>
             {project.status}
           </Badge>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 pt-4 border-t border-white/10">
+        <div className="grid grid-cols-3 gap-6 pt-4 border-t">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#EFFC76]/15 rounded-lg border border-[#EFFC76]/40">
-              <Users className="w-5 h-5 text-[#EFFC76]" />
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <Users className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-xs text-white/60">Team Members</p>
+              <p className="text-xs text-gray-500">Team Members</p>
               <div className="flex -space-x-2 mt-1">
                 {project.team.map((member, idx) => (
-                  <Avatar
-                    key={idx}
-                    className="h-6 w-6 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
-                  >
-                    <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
+                  <Avatar key={idx} className="h-6 w-6 border-2 border-white">
+                    <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
                       {member.avatar}
                     </AvatarFallback>
                   </Avatar>
@@ -66,24 +53,22 @@ export default function ProjectDetails({ project, onBack }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/10 rounded-lg border border-white/20">
-              <Calendar className="w-5 h-5 text-white" />
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Calendar className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-xs text-white/60">Due Date</p>
-              <p className="font-medium text-white">{project.dueDate}</p>
+              <p className="text-xs text-gray-500">Due Date</p>
+              <p className="font-medium">{project.dueDate}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/10 rounded-lg border border-white/20">
-              <Target className="w-5 h-5 text-white" />
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Target className="w-5 h-5 text-green-600" />
             </div>
             <div>
-              <p className="text-xs text-white/60">Progress</p>
-              <p className="font-medium text-[#EFFC76]">
-                {project.progress}% Complete
-              </p>
+              <p className="text-xs text-gray-500">Progress</p>
+              <p className="font-medium">{project.progress}% Complete</p>
             </div>
           </div>
         </div>
