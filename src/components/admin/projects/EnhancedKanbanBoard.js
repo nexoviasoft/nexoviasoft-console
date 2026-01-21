@@ -453,13 +453,13 @@ export default function EnhancedKanbanBoard() {
       <div className="flex flex-col h-full gap-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">
+            <p className="text-xs font-medium text-white uppercase">
               Template
             </p>
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-white/70">
               {currentTemplate ? currentTemplate.name : "Select a template"}
             </p>
-            <p className="text-xs text-gray-500 max-w-xl">
+            <p className="text-xs text-white/60 max-w-xl">
               {currentTemplate
                 ? currentTemplate.description
                 : "Choose the project template that best matches your workflow."}
@@ -470,6 +470,7 @@ export default function EnhancedKanbanBoard() {
             variant="outline"
             size="sm"
             onClick={() => setShowTemplateDialog(true)}
+            className="border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10"
           >
             {currentTemplate ? "Change Template" : "Select Template"}
           </Button>
@@ -488,10 +489,10 @@ export default function EnhancedKanbanBoard() {
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-gray-700 text-sm uppercase">
+                  <span className="font-semibold text-white text-sm uppercase">
                     {column.title}
                   </span>
-                  <span className="bg-gray-200 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                  <span className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs font-medium px-2 py-0.5 rounded-full border border-[#EFFC76]/40">
                     {tasks[column.id]?.length || 0}
                   </span>
                 </div>
@@ -524,35 +525,35 @@ export default function EnhancedKanbanBoard() {
                 >
                   <CardContent className="p-4 space-y-3">
                     <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-semibold text-gray-900 leading-tight">
+                      <h4 className="font-semibold text-white leading-tight">
                         {task.title}
                       </h4>
                     </div>
 
                     {task.desc && (
-                      <p className="text-xs text-gray-500 line-clamp-2">
+                      <p className="text-xs text-white/60 line-clamp-2">
                         {task.desc}
                       </p>
                     )}
 
                     <PriorityBadge priority={task.priority} />
 
-                    <div className="pt-2 flex items-center justify-between border-t border-gray-100 mt-2">
+                    <div className="pt-2 flex items-center justify-between border-t border-white/10 mt-2">
                       <div className="flex -space-x-2">
                         {task.assignees.map((initials, index) => (
-                          <Avatar
-                            key={initials + index}
-                            className="w-6 h-6 border-2 border-white"
-                          >
-                            <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
-                              {initials}
-                            </AvatarFallback>
-                          </Avatar>
+                      <Avatar
+                        key={initials + index}
+                        className="w-6 h-6 border-2 border-white"
+                      >
+                        <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
                         ))}
                       </div>
                       <button
                         type="button"
-                        className="flex items-center gap-1 text-gray-400 hover:text-purple-600 text-xs"
+                        className="flex items-center gap-1 text-gray-400 hover:text-[#EFFC76] text-xs"
                         onClick={(event) => {
                           event.stopPropagation();
                           setExpandedCommentTaskId((prev) =>
@@ -569,14 +570,14 @@ export default function EnhancedKanbanBoard() {
                       <div className="mt-3 space-y-2 border-t border-gray-100 pt-2">
                         <div className="space-y-1 max-h-24 overflow-y-auto">
                           {(taskComments[task.id] || []).length === 0 && (
-                            <p className="text-xs text-gray-400">
+                            <p className="text-xs text-white/70">
                               No comments yet. Start the discussion for this task.
                             </p>
                           )}
                           {(taskComments[task.id] || []).map((comment) => (
                             <div
                               key={comment.id}
-                              className="text-xs text-gray-700 bg-gray-50 rounded-md px-2 py-1"
+                              className="text-xs text-white/70 bg-white/5 border border-white/10 rounded-md px-2 py-1"
                             >
                               <span className="font-medium mr-1">
                                 {comment.author}:
@@ -618,7 +619,7 @@ export default function EnhancedKanbanBoard() {
 
               <button
                 type="button"
-                className="flex items-center gap-2 text-gray-500 hover:text-purple-600 py-2 w-full justify-center border border-dashed border-gray-300 rounded-lg transition-colors"
+                className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span className="text-sm font-medium">Add Task</span>
@@ -629,7 +630,7 @@ export default function EnhancedKanbanBoard() {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-80 shrink-0 flex items-center gap-2 text-gray-500 hover:text-purple-600 py-4 justify-center border-2 border-dashed border-gray-300 rounded-lg transition-colors"
+            className="w-80 shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Custom Column</span>
@@ -638,7 +639,7 @@ export default function EnhancedKanbanBoard() {
       </div>
 
       <Dialog open={showColumnDialog} onOpenChange={setShowColumnDialog}>
-        <DialogContent>
+        <DialogContent className="glass-card border-white/20 text-white">
           <DialogHeader>
             <DialogTitle>Add Custom Column</DialogTitle>
           </DialogHeader>
@@ -657,10 +658,15 @@ export default function EnhancedKanbanBoard() {
               type="button"
               variant="outline"
               onClick={() => setShowColumnDialog(false)}
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
             >
               Cancel
             </Button>
-            <Button type="button" onClick={handleAddColumn}>
+            <Button
+              type="button"
+              onClick={handleAddColumn}
+              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            >
               Add Column
             </Button>
           </div>
@@ -668,7 +674,7 @@ export default function EnhancedKanbanBoard() {
       </Dialog>
 
       <Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-xl glass-card border-white/20 text-white">
           <DialogHeader>
             <DialogTitle>{activeTask?.title}</DialogTitle>
           </DialogHeader>
@@ -676,12 +682,12 @@ export default function EnhancedKanbanBoard() {
           {activeTask && (
             <div className="space-y-6">
               {activeTask.desc && (
-                <p className="text-sm text-gray-600">{activeTask.desc}</p>
+                <p className="text-sm text-white/70">{activeTask.desc}</p>
               )}
 
               <div className="flex items-center justify-between">
                 <PriorityBadge priority={activeTask.priority} />
-                <span className="text-xs text-gray-500 uppercase">
+                <span className="text-xs text-white/60 uppercase">
                   {
                     columns.find(
                       (column) => column.id === activeTask.columnId
@@ -691,7 +697,7 @@ export default function EnhancedKanbanBoard() {
               </div>
 
               <div className="space-y-3">
-                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-white/70 uppercase tracking-wide">
                   Assignees
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -704,12 +710,12 @@ export default function EnhancedKanbanBoard() {
                         onClick={() => toggleAssignee(initials)}
                         className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs border ${
                           selected
-                            ? "bg-purple-50 border-purple-300 text-purple-700"
-                            : "bg-gray-50 border-gray-200 text-gray-600"
+                            ? "bg-[#EFFC76]/20 border-[#EFFC76]/70 text-[#EFFC76]"
+                            : "bg-white/5 border-white/20 text-white/70"
                         }`}
                       >
                         <Avatar className="w-6 h-6 border border-white">
-                          <AvatarFallback className="bg-purple-100 text-purple-600 text-xs">
+                          <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
                             {initials}
                           </AvatarFallback>
                         </Avatar>
@@ -793,13 +799,13 @@ export default function EnhancedKanbanBoard() {
             </div>
           </div>
           <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-end">
-             <Button 
-                variant="outline" 
-                onClick={() => setShowTemplateDialog(false)}
-                className="mr-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-             >
-               Cancel
-             </Button>
+            <Button
+              variant="outline"
+              onClick={() => setShowTemplateDialog(false)}
+              className="mr-2 border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10"
+            >
+              Cancel
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
