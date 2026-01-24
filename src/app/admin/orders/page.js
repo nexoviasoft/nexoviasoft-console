@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import OrderStats from "@/components/admin/orders/OrderStats";
 import OrderTable from "@/components/admin/orders/OrderTable";
@@ -17,8 +16,8 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="px-8 py-6 flex flex-col min-h-screen text-white">
-      <div className="max-w-[1600px] w-full mx-auto space-y-8">
+    <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
+      <div className="max-w-[1600px] w-full mx-auto space-y-6 md:space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight">
