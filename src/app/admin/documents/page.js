@@ -13,6 +13,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { LayoutTemplate, Receipt, FileText } from "lucide-react";
 
 export default function DocumentsPage() {
   const [currentView, setCurrentView] = useState(null); // null, "invoice", "letter"
@@ -33,18 +34,20 @@ export default function DocumentsPage() {
   const isEditing = currentView === "invoice" || currentView === "letter";
 
   return (
-    <div className="px-8 py-8 min-h-screen flex flex-col text-white">
-      <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
-        <DocumentsHeader />
+    <div className="px-4 py-4 md:px-8 md:py-8 min-h-screen flex flex-col text-white">
+      <div className=" max-w-[1600px] w-full mx-auto flex flex-col gap-6">
+        {!isEditing && <DocumentsHeader />}
 
         <div className="flex-1">
           {!isEditing && (
-            <div className="glass-card border-dashed border-white/30 flex flex-col items-center justify-center py-16 px-6 text-center">
-              <h2 className="text-lg font-semibold text-white mb-2">
+            <div className="glass-card border-dashed border-white/30 flex flex-col items-center justify-center py-8 md:py-16 px-6 text-center">
+              <h2 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                <LayoutTemplate className="w-5 h-5 text-[#EFFC76]" />
                 Start with a template
               </h2>
-              <p className="text-sm text-white/70 mb-6 max-w-md">
-                Select a template to open the immersive editor for invoices and letters.
+              <p className="text-sm text-white/70 mb-4 md:mb-6 max-w-md">
+                Select a template to open the immersive editor for invoices and
+                letters.
               </p>
               <Button
                 onClick={() => setIsTemplateOpen(true)}
@@ -57,13 +60,15 @@ export default function DocumentsPage() {
 
           {currentView === "invoice" && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Receipt className="w-5 h-5 text-[#EFFC76]" />
                     Invoice editor
                   </h2>
                   <p className="text-sm text-white/70">
-                    Customize the selected invoice template in an immersive view.
+                    Customize the selected invoice template in an immersive
+                    view.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -86,7 +91,7 @@ export default function DocumentsPage() {
                 </div>
               </div>
 
-              <div className="glass-card rounded-xl p-6">
+              <div className="glass-card rounded-xl p-4 md:p-6">
                 <InvoiceBuilder
                   template={selectedTemplate}
                   onBack={handleCloseEditor}
@@ -97,13 +102,15 @@ export default function DocumentsPage() {
 
           {currentView === "letter" && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-[#EFFC76]" />
                     Letter editor
                   </h2>
                   <p className="text-sm text-white/70">
-                    Edit your letter content in a focused, full-width experience.
+                    Edit your letter content in a focused, full-width
+                    experience.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -126,7 +133,7 @@ export default function DocumentsPage() {
                 </div>
               </div>
 
-              <div className="glass-card rounded-xl p-6">
+              <div className="glass-card rounded-xl p-4 md:p-6">
                 <LetterBuilder
                   template={selectedTemplate}
                   onBack={handleCloseEditor}
@@ -138,10 +145,10 @@ export default function DocumentsPage() {
       </div>
 
       <Dialog open={isTemplateOpen} onOpenChange={setIsTemplateOpen}>
-        <DialogContent className="max-w-3xl glass-panel border-white/20 p-8">
-          <TemplateSelector 
-            onSelect={handleSelectTemplate} 
-            onCancel={() => setIsTemplateOpen(false)} 
+        <DialogContent className="w-[95%] max-w-3xl  md:max-h-[85vh] glass-panel border-white/20 p-0 overflow-hidden flex flex-col rounded-xl">
+          <TemplateSelector
+            onSelect={handleSelectTemplate}
+            onCancel={() => setIsTemplateOpen(false)}
           />
         </DialogContent>
       </Dialog>

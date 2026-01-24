@@ -69,11 +69,11 @@ export default function InvoiceBuilder({ template, onBack }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between no-print">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
         <Button
           variant="ghost"
           onClick={onBack}
-          className="gap-2 text-white/80 hover:bg-white/10"
+          className="gap-2 text-white/80 hover:bg-white/10 hover:text-white"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Gallery
         </Button>
@@ -81,13 +81,13 @@ export default function InvoiceBuilder({ template, onBack }) {
           <Button
             variant="outline"
             onClick={() => toast.success("Draft saved!")}
-            className="glass-button border-white/30 text-black"
+            className="glass-button bg-[#EFFC76] hover:bg-[#dbe665] text-black"
           >
             Save Draft
           </Button>
           <Button
             onClick={handlePrint}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#EFFC76] hover:bg-[#dbe665] text-black shadow-[0_0_15px_rgba(239,252,118,0.3)] transition-all duration-300"
           >
             <Printer className="w-4 h-4 mr-2" /> Print PDF
           </Button>
@@ -96,12 +96,12 @@ export default function InvoiceBuilder({ template, onBack }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Editor Form */}
-        <Card className="no-print h-fit">
+        <Card className="no-print h-fit glass-card border-white/10">
             <CardHeader>
-                <CardTitle className="text-white">Invoice Details</CardTitle>
+                <CardTitle className="text-white flex items-center gap-2">Invoice Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label className="text-white/80">Invoice No.</Label>
                         <Input
@@ -155,35 +155,37 @@ export default function InvoiceBuilder({ template, onBack }) {
                         </Button>
                     </div>
                     {invoiceData.items.map((item, idx) => (
-                        <div key={idx} className="flex gap-2 items-start">
+                        <div key={idx} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center bg-white/5 p-2 rounded-md sm:bg-transparent sm:p-0">
                              <Input 
-                                className="flex-1 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                className="flex-1 w-full bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
                                 placeholder="Description" 
                                 value={item.description} 
                                 onChange={(e) => updateItem(idx, 'description', e.target.value)} 
                              />
-                             <Input 
-                                className="w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
-                                type="number" 
-                                placeholder="Qty" 
-                                value={item.quantity} 
-                                onChange={(e) => updateItem(idx, 'quantity', e.target.value)} 
-                             />
-                             <Input 
-                                className="w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
-                                type="number" 
-                                placeholder="Rate" 
-                                value={item.rate} 
-                                onChange={(e) => updateItem(idx, 'rate', e.target.value)} 
-                             />
-                             <Button
-                               variant="ghost"
-                               size="icon"
-                               className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                               onClick={() => removeItem(idx)}
-                             >
-                                <Trash2 className="w-4 h-4" />
-                             </Button>
+                             <div className="flex gap-2 w-full sm:w-auto">
+                               <Input 
+                                  className="w-full sm:w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                  type="number" 
+                                  placeholder="Qty" 
+                                  value={item.quantity} 
+                                  onChange={(e) => updateItem(idx, 'quantity', e.target.value)} 
+                               />
+                               <Input 
+                                  className="w-full sm:w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                  type="number" 
+                                  placeholder="Rate" 
+                                  value={item.rate} 
+                                  onChange={(e) => updateItem(idx, 'rate', e.target.value)} 
+                               />
+                               <Button
+                                 variant="ghost"
+                                 size="icon"
+                                 className="text-red-400 hover:text-red-300 hover:bg-red-500/10 shrink-0"
+                                 onClick={() => removeItem(idx)}
+                               >
+                                  <Trash2 className="w-4 h-4" />
+                               </Button>
+                             </div>
                         </div>
                     ))}
                 </div>
@@ -191,67 +193,128 @@ export default function InvoiceBuilder({ template, onBack }) {
         </Card>
 
         {/* Live Preview / Printable Area */}
-        <div className="glass-card border-white/20 rounded-lg p-8 min-h-[600px] text-sm text-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 aspect-[1/1.4] mx-auto print:mx-0">
-            <div className="flex justify-between items-start mb-12">
+        <div className="glass-card border-white/20 rounded-lg p-6 md:p-8 min-h-[500px] md:min-h-[600px] text-sm text-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 w-full mx-auto print:mx-0 overflow-x-auto">
+            <div className="min-w-[600px] md:min-w-0 flex flex-col h-full justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold mb-2">INVOICE</h1>
-                    <div className="text-white/70">#{invoiceData.invoiceNumber}</div>
-                </div>
-                <div className="text-right">
-                    <div className="font-bold text-lg text-[#EFFC76] tracking-wide">SquadLog Inc.</div>
-                    <div className="text-white/60 text-xs mt-1">
-                        123 Tech Park, Suite 400<br/>
-                        San Francisco, CA 94107s
+                    {/* Header Section */}
+                    <div className="flex justify-between items-start mb-12">
+                        <div>
+                            <h1 className="text-5xl font-bold mb-2 tracking-tight">INVOICE</h1>
+                            <div className="text-white/70 text-lg">Invoice No: <span className="text-white font-semibold">#{invoiceData.invoiceNumber}</span></div>
+                        </div>
+                        <div className="text-right">
+                            <div className="font-bold text-xl text-[#EFFC76] tracking-wide mb-2">MD SAMSUDDOHA SOJIB</div>
+                            <div className="text-white/60 text-xs leading-relaxed">
+                                Full Stack Developer<br/>
+                                www.fiverr.com<br/>
+                                Rangpur City, Bangladesh
+                            </div>
+                            <Separator className="my-2 bg-white/20 ml-auto w-32" />
+                        </div>
+                    </div>
+
+                    {/* Meta Info Section */}
+                    <div className="grid grid-cols-2 gap-12 mb-8">
+                        <div className="space-y-2 mt-4">
+                            <div className="flex gap-12">
+                                <span className="text-white/60 min-w-[80px]">Date</span>
+                                <span className="font-medium">: {invoiceData.date}</span>
+                            </div>
+                            <div className="flex gap-12">
+                                <span className="text-white/60 min-w-[80px]">Due Date</span>
+                                <span className="font-medium">: {invoiceData.date}</span>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <div className="font-bold text-white mb-2">Bill To:</div>
+                            <div className="font-bold text-lg mb-1">{invoiceData.clientName || "MMM Ventures Group B.V."}</div>
+                            <div className="text-white/60 whitespace-pre-wrap text-sm leading-relaxed">
+                                {invoiceData.clientAddress || "Randstad 22 46\n1316BZ ALMERE\nThe Netherlands"}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Items Card Container */}
+                    <div className="bg-[#1E1E2E]/80 backdrop-blur-sm rounded-3xl p-8 mb-8 border border-white/5 shadow-xl print:bg-[#1E1E2E] print:break-inside-avoid">
+                        {/* Table Header Pills */}
+                        <div className="flex justify-between gap-4 mb-8">
+                            <div className="flex-1">
+                                <span className="bg-[#EFFC76] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
+                            </div>
+                            <div className="w-24 text-center">
+                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Qty</span>
+                            </div>
+                            <div className="w-32 text-center">
+                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Price</span>
+                            </div>
+                            <div className="w-32 text-center">
+                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Total</span>
+                            </div>
+                        </div>
+
+                        {/* Items List */}
+                        <div className="space-y-6 mb-8">
+                            {invoiceData.items.map((item, i) => (
+                                <div key={i} className="flex justify-between gap-4 items-center text-base py-2">
+                                    <div className="flex-1 font-medium text-white/90 pl-4">{item.description || "—"}</div>
+                                    <div className="w-24 text-center text-white/80">{item.quantity}</div>
+                                    <div className="w-32 text-center text-white/80">${item.rate}</div>
+                                    <div className="w-32 text-center font-bold text-white">
+                                        ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
+                                    </div>
+                                </div>
+                            ))}
+                            {invoiceData.items.length === 0 && (
+                                <div className="text-center text-white/40 py-8 italic">No items added</div>
+                            )}
+                        </div>
+
+                        <Separator className="bg-white/10 mb-8" />
+
+                        {/* Totals Section */}
+                        <div className="flex justify-end">
+                            <div className="w-full max-w-sm space-y-4">
+                                <div className="flex justify-between text-white/80 text-base">
+                                    <span>Subtotal</span>
+                                    <span className="font-bold text-white text-lg">${calculateTotal().toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between text-white/80 text-base">
+                                    <span>Sales Tax (free)</span>
+                                    <span className="font-bold text-white text-lg">$0.00</span>
+                                </div>
+                                <Separator className="bg-white/10 my-2" />
+                                <div className="flex justify-between items-center pt-2">
+                                    <span className="font-medium text-lg">Grand Total</span>
+                                    <span className="text-3xl font-bold text-[#EFFC76]">${calculateTotal().toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-12 mb-12">
-                <div>
-                    <div className="text-xs font-semibold text-white/60 uppercase mb-2">Billed To:</div>
-                    <div className="font-semibold">{invoiceData.clientName || "[Client Name]"}</div>
-                    <div className="text-white/70 whitespace-pre-wrap">{invoiceData.clientAddress || "[Address]"}</div>
-                </div>
-                <div className="text-right">
-                    <div className="text-xs font-semibold text-white/60 uppercase mb-2">Date:</div>
-                    <div className="font-semibold">{invoiceData.date}</div>
-                </div>
-            </div>
-
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[50%]">Item Description</TableHead>
-                        <TableHead className="text-right">Qty</TableHead>
-                        <TableHead className="text-right">Rate</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {invoiceData.items.map((item, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{item.description || "—"}</TableCell>
-                            <TableCell className="text-right">{item.quantity}</TableCell>
-                            <TableCell className="text-right">${item.rate}</TableCell>
-                            <TableCell className="text-right font-medium">
-                                ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-
-            <div className="flex justify-end mt-6 pt-6 border-t">
-                <div className="w-1/3 space-y-2">
-                    <div className="flex justify-between text-base font-bold">
-                        <span>Total:</span>
-                        <span className="text-[#EFFC76]">${calculateTotal().toFixed(2)}</span>
+                {/* Footer Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-auto pt-4 items-end">
+                    <div>
+                        <span className="bg-[#EFFC76] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(239,252,118,0.3)]">Payment Information</span>
+                        <div className="space-y-3 text-sm text-white/80 pl-2">
+                            <div className="flex gap-8">
+                                <span className="min-w-[60px] font-medium text-white">Wise</span>
+                                <span>: European Account</span>
+                            </div>
+                            <div className="flex gap-8">
+                                <span className="min-w-[60px] font-medium text-white">IBAN</span>
+                                <span>: BE54 9679 3485 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="md:text-left">
+                        <div className="font-bold text-white mb-4 text-lg">Terms and Conditions:</div>
+                        <ul className="text-sm text-white/70 space-y-2 list-disc pl-5">
+                            <li>Payment constitutes acceptance.</li>
+                            <li>Payment must be made within 7 days to avoid late fees.</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            
-            <div className="mt-12 pt-8 border-t text-xs text-white/60 text-center">
-                Thank you for your business. Please process payment within 30 days.
             </div>
         </div>
       </div>
