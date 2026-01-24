@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, ChevronRight, Search } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronRight, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mainNavItems, othersNavItems } from "./navigationData";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const [mainExpanded, setMainExpanded] = useState(true);
   const [othersExpanded, setOthersExpanded] = useState(true);
   const [expandedItems, setExpandedItems] = useState({});
@@ -160,12 +160,32 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 h-screen flex flex-col border-r border-white/10 bg-black/40 backdrop-blur-2xl text-white shadow-[0_0_40px_rgba(0,0,0,0.7)]">
-      <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-xl">
+    <>
+      {/* Mobile Backdrop */}
+      <div 
+        className={cn(
+          "fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={onClose}
+      />
+
+      <div className={cn(
+        "fixed lg:static inset-y-0 left-0 z-50 w-64 h-screen flex flex-col border-r border-white/10 bg-[#0A0A0A] lg:bg-black/40 backdrop-blur-2xl text-white shadow-[0_0_40px_rgba(0,0,0,0.7)] transition-transform duration-300 ease-in-out lg:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        {/* Mobile Close Button */}
+        <button 
+          onClick={onClose}
+          className="absolute top-2 right-2 p-2 lg:hidden text-white/50 hover:text-white z-50"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-xl ">
         <div className="flex items-center gap-3 mb-4 group">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#EFFC76] to-[#cddb5e] rounded-lg flex items-center justify-center shadow-md shadow-[0_0_24px_rgba(239,252,118,0.6)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-            <div className="w-5 h-5 bg-white rounded-sm"></div>
-          </div>
+          <img src="/customIcon.png" className="w-10 h-9  "></img>
+
           <div className="flex-1">
             <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
               SquadLog Console
@@ -243,6 +263,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

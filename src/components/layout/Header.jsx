@@ -8,25 +8,34 @@ import {
   User,
   ChevronLeft,
   ChevronRight,
+  Menu,
 } from "lucide-react";
 
-const Header = ({ title = "Squadlog", subtitle }) => {
+const Header = ({ title = "Squadlog", subtitle, onMenuClick }) => {
   const defaultSubtitle =
     subtitle ||
     "An overview of key HR metrics and quick insights on employee activity.";
 
   return (
-    <header className="relative bg-white/5 backdrop-blur-xl border-b border-white/10 px-8 py-6 text-white">
+    <header className="relative bg-white/5 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 py-4 lg:py-6 text-white">
       <div className="absolute inset-y-0 left-0 w-1 bg-[#EFFC76] rounded-r-full shadow-[0_0_18px_rgba(239,252,118,0.6)]" />
       <div className="absolute inset-y-0 right-0 w-1 bg-[#EFFC76] rounded-l-full shadow-[0_0_18px_rgba(239,252,118,0.6)]" />
-      <div className="flex items-start justify-between mb-4 relative z-10">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-1">{title}</h1>
-          <p className="text-white/70 text-sm">{defaultSubtitle}</p>
-        </div>
+      <div className="flex items-center lg:items-start justify-between mb-0 lg:mb-4 relative z-10 gap-4">
         <div className="flex items-center gap-4">
+          <button 
+            onClick={onMenuClick}
+            className="lg:hidden p-2 -ml-2 text-white/70 hover:text-[#EFFC76] transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-white mb-1">{title}</h1>
+            <p className="text-white/70 text-sm hidden sm:block">{defaultSubtitle}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 lg:gap-4">
           {/* Date Range Picker */}
-          <div className="flex items-center gap-2 px-4 py-2 border border-white/20 rounded-lg bg-white/5">
+          <div className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/20 rounded-lg bg-white/5">
             <button className="text-[#EFFC76] hover:brightness-110">
               <ChevronLeft className="w-4 h-4 text-[#EFFC76]" />
             </button>
