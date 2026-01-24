@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Mail, Phone, Eye, MoreVertical, Edit, Trash2 } from "lucide-react";
+import { Mail, Phone, Eye, MoreVertical, Edit, Trash2, User, Briefcase, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const initialEmployees = [
@@ -94,21 +94,33 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
     <div className="glass-card rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-white/5 border-b border-white/10">
+          <thead className="bg-[#EFFC76]/10 border-b border-white/10">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
-                Employee
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#EFFC76] uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Employee
+                </div>
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
-                Role
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#EFFC76] uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  Role
+                </div>
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
-                Department
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#EFFC76] uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4" />
+                  Department
+                </div>
               </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white/70 uppercase tracking-wider">
-                Contact
+              <th className="px-6 py-4 text-left text-xs font-semibold text-[#EFFC76] uppercase tracking-wider">
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Contact
+                </div>
               </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-white/70 uppercase tracking-wider">
+              <th className="px-6 py-4 text-right text-xs font-semibold text-[#EFFC76] uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -117,7 +129,7 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
             {filteredEmployees.map((employee) => (
               <tr 
                 key={employee.id} 
-                className="hover:bg-white/5 transition-colors"
+                className="group hover:bg-[#EFFC76]/5 transition-colors border-b border-white/10 last:border-0"
               >
                 {/* Employee Info */}
                 <td className="px-6 py-4">
@@ -182,29 +194,29 @@ export default function EmployeeGrid({ searchQuery, departmentFilter }) {
                     
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-white hover:text-[#EFFC76] hover:bg-[#EFFC76]/10 data-[state=open]:text-[#EFFC76] data-[state=open]:bg-[#EFFC76]/10">
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem onClick={() => router.push(`/admin/employees/${employee.id}`)}>
+                      <DropdownMenuContent align="end" className="w-48 glass-card border-[#EFFC76]/20 bg-black/90 text-white">
+                        <DropdownMenuItem className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer" onClick={() => router.push(`/admin/employees/${employee.id}`)}>
                           <Eye className="mr-2 h-4 w-4" />
                           View Profile
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = `mailto:${employee.email}`}>
+                        <DropdownMenuItem className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer" onClick={() => window.location.href = `mailto:${employee.email}`}>
                           <Mail className="mr-2 h-4 w-4" />
                           Send Email
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = `tel:${employee.phone}`}>
+                        <DropdownMenuItem className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer" onClick={() => window.location.href = `tel:${employee.phone}`}>
                           <Phone className="mr-2 h-4 w-4" />
                           Call
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-white/10" />
+                        <DropdownMenuItem className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">
                           <Edit className="mr-2 h-4 w-4" />
                           Edit Employee
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem className="text-red-400 focus:bg-red-500/10 focus:text-red-400 cursor-pointer">
                           <Trash2 className="mr-2 h-4 w-4" />
                           Remove Employee
                         </DropdownMenuItem>
