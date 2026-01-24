@@ -161,11 +161,10 @@ const Sidebar = () => {
 
   return (
     <div className="w-64 h-screen flex flex-col border-r border-white/10 bg-black/40 backdrop-blur-2xl text-white shadow-[0_0_40px_rgba(0,0,0,0.7)]">
-      <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-xl ">
         <div className="flex items-center gap-3 mb-4 group">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#EFFC76] to-[#cddb5e] rounded-lg flex items-center justify-center shadow-md shadow-[0_0_24px_rgba(239,252,118,0.6)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-            <div className="w-5 h-5 bg-white rounded-sm"></div>
-          </div>
+          <img src="/customIcon.png" className="w-10 h-9  "></img>
+
           <div className="flex-1">
             <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
               SquadLog Console
