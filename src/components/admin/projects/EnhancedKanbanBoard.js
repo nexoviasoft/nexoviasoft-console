@@ -418,7 +418,7 @@ const KanbanColumn = ({
 }) => {
   return (
     <div
-      className="w-[85vw] md:w-80 flex flex-col gap-4 first:pl-1 last:pr-1"
+      className="w-[42vw] md:w-80 shrink-0 flex flex-col gap-4 first:pl-1 last:pr-1"
       onDragOver={onDragOver}
       onDrop={(event) => onDrop(event, column.id)}
     >
@@ -737,7 +737,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-80 shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+            className="w-[42vw] md:w-[32vw] shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Custom Column</span>
@@ -837,33 +837,23 @@ export default function EnhancedKanbanBoard({ applicationType }) {
       </Dialog>
 
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
-        <DialogContent className="max-w-4xl bg-white p-0 gap-0 border border-gray-100 shadow-2xl sm:rounded-xl overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
+        <DialogContent className="max-w-4xl glass-card border-white/20 text-white p-0 gap-0 shadow-2xl sm:rounded-xl overflow-hidden backdrop-blur-xl bg-black/80">
+          <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
             <div>
-              <DialogTitle className="text-xl font-semibold text-gray-900 tracking-tight">
+              <DialogTitle className="text-xl font-semibold text-white tracking-tight">
                 Choose a template
               </DialogTitle>
-              <div className="text-sm text-gray-500 mt-1">
+              <div className="text-sm text-white/60 mt-1">
                 Select a workflow to get started. You can customize columns
                 later.
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowTemplateDialog(false)}
-              className="rounded-full text-gray-400 hover:text-gray-900"
-            >
-              <X className="w-4 h-4" />
-            </Button>
           </div>
 
-          <div className="p-6 overflow-y-auto max-h-[65vh] bg-gray-50/30">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="p-6 overflow-y-auto max-h-[65vh] bg-black/20">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => {
                 let Icon = ListTodo;
-                // Using a more minimal, monochrome approach for icons or subtle colors
-                // Mapping remains the same, but styling will be cleaner
                 if (template.id === "scrum") Icon = Boxes;
                 if (template.id === "kanban") Icon = Layout;
                 if (template.id === "bug_tracking") Icon = MessageSquare;
@@ -882,31 +872,37 @@ export default function EnhancedKanbanBoard({ applicationType }) {
                     key={template.id}
                     type="button"
                     onClick={() => handleSelectTemplate(template.id)}
-                    className={`group relative flex flex-col items-start text-left p-5 rounded-lg border transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-900 ${
+                    className={`group relative flex flex-col items-start text-left p-3 md:p-5 rounded-lg border transition-all duration-200 outline-none ${
                       isSelected
-                        ? "bg-white border-gray-900 shadow-sm ring-1 ring-gray-900"
-                        : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                        ? `bg-white/5 ${theme.border} shadow-lg`
+                        : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10"
                     }`}
                   >
                     <div className="flex items-center justify-between w-full mb-4">
                       <div
-                        className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${isSelected ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"}`}
+                        className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${
+                          isSelected
+                            ? `${theme.bg} text-black`
+                            : "bg-white/10 text-white/60 group-hover:bg-white/20 group-hover:text-white"
+                        }`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
                       {isSelected && (
-                        <div className="text-gray-900">
-                          <CheckCircle2 className="w-5 h-5 fill-current text-white" />
+                        <div className={`${theme.text}`}>
+                          <CheckCircle2 className="w-5 h-5 fill-current" />
                         </div>
                       )}
                     </div>
 
                     <h4
-                      className={`text-sm font-semibold mb-1.5 ${isSelected ? "text-gray-900" : "text-gray-900"}`}
+                      className={`text-sm font-semibold mb-1.5 ${
+                        isSelected ? "text-white" : "text-white/90"
+                      }`}
                     >
                       {template.name}
                     </h4>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-white/50 leading-relaxed line-clamp-2">
                       {template.description}
                     </p>
                   </button>
@@ -914,11 +910,11 @@ export default function EnhancedKanbanBoard({ applicationType }) {
               })}
             </div>
           </div>
-          <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-end">
+          <div className="px-6 py-4 border-t border-white/10 flex justify-end bg-black/20">
             <Button
               variant="outline"
               onClick={() => setShowTemplateDialog(false)}
-              className="mr-2 border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10"
+              className={`mr-2 bg-transparent ${theme.border} ${theme.text} hover:bg-white/5`}
             >
               Cancel
             </Button>

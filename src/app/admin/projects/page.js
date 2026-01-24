@@ -158,17 +158,17 @@ export default function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {projects.map((project) => (
             <div
               key={project.id}
               onClick={() => handleProjectClick(project.id)}
-              className="glass-card rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group"
+              className="glass-card rounded-xl p-4 md:p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group"
             >
               {/* Project Header */}
-              <div className="mb-4">
+              <div className="mb-3 md:mb-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-lg text-white group-hover:text-[#EFFC76] transition-colors">
+                  <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#EFFC76] transition-colors line-clamp-1">
                     {project.name}
                   </h3>
                   <span
