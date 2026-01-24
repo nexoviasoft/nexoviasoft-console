@@ -16,6 +16,10 @@ import {
   UserCheck,
   DollarSign,
   CreditCard,
+  Activity,
+  ClipboardList,
+  CalendarClock,
+  BarChart3,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -166,10 +170,11 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-white">
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <ClipboardList className="w-5 h-5 text-[#EFFC76]" />
                       Attendance Overview
                     </CardTitle>
-                    <div className="text-xs text-white/50 mt-1 flex gap-2">
+                    <div className="text-xs text-white/50 mt-1 flex gap-2 pl-7">
                       <span>{formattedDate}</span>
                       <span className="text-[#EFFC76]">{formattedTime}</span>
                     </div>
@@ -239,13 +244,28 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Activity</CardTitle>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-[#EFFC76]" />
+                    Activity
+                  </CardTitle>
+                  <div className=" block md:hidden">
+                    <div className="flex  items-center gap-2  ">
+                      <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
+                        <span>Filter</span>
+                      </button>
+                      <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
+                        <span>Sort By</span>
+                        <ChevronUp className="w-4 h-4 text-[#EFFC76]" />
+                      </button>
+                    </div>
+                  </div>
+
                   <button className="text-sm font-medium text-[#EFFC76] hover:text-[#e0ef5f]">
                     See Detail
                   </button>
                 </div>
               </CardHeader>
-              
+
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
@@ -277,14 +297,16 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    <div className="flex  items-center gap-2  ">
-                      <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
-                        <span>Filter</span>
-                      </button>
-                      <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
-                        <span>Sort By</span>
-                        <ChevronUp className="w-4 h-4 text-[#EFFC76]" />
-                      </button>
+                    <div className="hidden md:block self-end xl:self-auto">
+                      <div className="flex items-center gap-2">
+                        <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
+                          <span>Filter</span>
+                        </button>
+                        <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
+                          <span>Sort By</span>
+                          <ChevronUp className="w-4 h-4 text-[#EFFC76]" />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -307,7 +329,10 @@ export default function Dashboard() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-white">Your Next Agenda</CardTitle>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <CalendarClock className="w-5 h-5 text-[#EFFC76]" />
+                  Your Next Agenda
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -429,7 +454,8 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
               <div className="w-full">
                 <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+                    <BarChart3 className="w-6 h-6 text-[#EFFC76]" />
                     Finance Report
                   </h3>
 
@@ -456,11 +482,11 @@ export default function Dashboard() {
                   </select>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
                   <div>
                     <div className="text-sm text-white/50 mb-1">Weekly</div>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">
+                      <span className=" text-xl md:text-3xl font-bold text-white">
                         $24,291
                       </span>
                       <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
@@ -475,7 +501,7 @@ export default function Dashboard() {
                   <div>
                     <div className="text-sm text-white/50 mb-1">Monthly</div>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">
+                      <span className="text-xl md:text-3xl font-bold text-white">
                         $48,903
                       </span>
                       <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
@@ -490,7 +516,7 @@ export default function Dashboard() {
                   <div>
                     <div className="text-sm text-white/50 mb-1">Yearly</div>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">
+                      <span className="text-xl md:text-3xl font-bold text-white">
                         $198,134
                       </span>
                       <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
