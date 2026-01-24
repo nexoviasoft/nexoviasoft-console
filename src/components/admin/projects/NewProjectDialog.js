@@ -33,7 +33,7 @@ export default function NewProjectDialog({ open, onOpenChange }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] glass-card border-white/20 text-white">
+      <DialogContent className="sm:max-w-[600px] bg-[#0A0A0A] border-white/20 text-white shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-white">Create New Project</DialogTitle>
           <DialogDescription className="text-white/70">
@@ -51,7 +51,7 @@ export default function NewProjectDialog({ open, onOpenChange }) {
                 <SelectTrigger className="bg-black/40 border border-white/20 text-white">
                   <SelectValue placeholder="Select a project template" />
                 </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
+                <SelectContent className="max-h-[300px] bg-[#1E1E2E] border-white/20 text-white">
                   {projectTemplates.map((template) => (
                     <SelectItem key={template.id} value={template.id}>
                       {template.name}
@@ -100,7 +100,7 @@ export default function NewProjectDialog({ open, onOpenChange }) {
               <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                 <SelectValue placeholder="Select a team" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#1E1E2E] border-white/20 text-white">
                 <SelectItem value="design">Design Team</SelectItem>
                 <SelectItem value="development">Development Team</SelectItem>
                 <SelectItem value="marketing">Marketing Team</SelectItem>
@@ -119,7 +119,7 @@ export default function NewProjectDialog({ open, onOpenChange }) {
               <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                 <SelectValue placeholder="Select project lead" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#1E1E2E] border-white/20 text-white">
                 <SelectItem value="sojib">Sojib (You)</SelectItem>
                 <SelectItem value="alex">Alex Johnson</SelectItem>
                 <SelectItem value="maria">Maria Garcia</SelectItem>

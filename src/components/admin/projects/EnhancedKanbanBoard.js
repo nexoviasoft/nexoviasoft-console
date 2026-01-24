@@ -12,7 +12,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MoreHorizontal, MessageSquare, Plus, X, ListTodo, Boxes, Layout, Code2, Megaphone, Palette, Users, DollarSign, Settings, Calendar, CheckCircle2 } from "lucide-react";
+import {
+  MoreHorizontal,
+  MessageSquare,
+  Plus,
+  X,
+  ListTodo,
+  Boxes,
+  Layout,
+  Code2,
+  Megaphone,
+  Palette,
+  Users,
+  DollarSign,
+  Settings,
+  Calendar,
+  CheckCircle2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const templates = [
@@ -91,8 +107,7 @@ const templates = [
   {
     id: "marketing",
     name: "Marketing",
-    description:
-      "Campaign management, content calendars, and lead tracking.",
+    description: "Campaign management, content calendars, and lead tracking.",
     columns: [
       { id: "todo", title: "Ideas", isCustom: false, order: 1 },
       { id: "inprogress", title: "Planning", isCustom: false, order: 2 },
@@ -127,8 +142,7 @@ const templates = [
   {
     id: "sales",
     name: "Sales",
-    description:
-      "Sales pipelines, opportunity tracking, and deal management.",
+    description: "Sales pipelines, opportunity tracking, and deal management.",
     columns: [
       { id: "todo", title: "Leads", isCustom: false, order: 1 },
       { id: "inprogress", title: "Contacted", isCustom: false, order: 2 },
@@ -151,8 +165,7 @@ const templates = [
   {
     id: "task_tracking",
     name: "Task Tracking",
-    description:
-      "Simple task organization for individuals or teams.",
+    description: "Simple task organization for individuals or teams.",
     columns: [
       { id: "todo", title: "To-Do", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -163,8 +176,7 @@ const templates = [
   {
     id: "event_planning",
     name: "Event Planning",
-    description:
-      "Managing event timelines, responsibilities, and logistics.",
+    description: "Managing event timelines, responsibilities, and logistics.",
     columns: [
       { id: "todo", title: "Planning", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -175,8 +187,7 @@ const templates = [
   {
     id: "fdd",
     name: "Feature-Driven Development (FDD)",
-    description:
-      "Organizing work around feature delivery.",
+    description: "Organizing work around feature delivery.",
     columns: [
       { id: "todo", title: "Feature List", isCustom: false, order: 1 },
       { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -187,8 +198,7 @@ const templates = [
   {
     id: "tdd",
     name: "Test-Driven Development (TDD)",
-    description:
-      "Supporting test-first development workflows.",
+    description: "Supporting test-first development workflows.",
     columns: [
       { id: "todo", title: "Tests Planned", isCustom: false, order: 1 },
       { id: "inprogress", title: "Tests Written", isCustom: false, order: 2 },
@@ -211,7 +221,7 @@ const templates = [
 ];
 
 const initialColumns = templates.find(
-  (template) => template.id === "project_management"
+  (template) => template.id === "project_management",
 )?.columns || [
   { id: "todo", title: "To-Do", isCustom: false, order: 1 },
   { id: "inprogress", title: "In Progress", isCustom: false, order: 2 },
@@ -283,7 +293,187 @@ const PriorityBadge = ({ priority }) => {
   );
 };
 
-export default function EnhancedKanbanBoard() {
+const KanbanTaskCard = ({
+  task,
+  columnId,
+  theme,
+  onDragStart,
+  onOpenTask,
+  expandedCommentTaskId,
+  setExpandedCommentTaskId,
+  getCommentCount,
+  taskComments,
+  newComments,
+  handleCommentInputChange,
+  handleAddComment,
+}) => {
+  return (
+    <Card
+      className={` border bg-black/40 ${theme.border} rounded-xl`}
+      draggable
+      onDragStart={(event) => onDragStart(event, task, columnId)}
+      onClick={() => onOpenTask(task, columnId)}
+    >
+      <CardContent className="p-3 md:p-4 space-y-2 md:space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="font-semibold text-white leading-tight text-sm md:text-base">
+            {task.title}
+          </h4>
+        </div>
+
+        {task.desc && (
+          <p className="text-xs text-white/60 line-clamp-1 md:line-clamp-2">
+            {task.desc}
+          </p>
+        )}
+
+        <PriorityBadge priority={task.priority} />
+
+        <div className="pt-2 flex items-center justify-between border-t border-white/10 mt-2">
+          <div className="flex -space-x-2">
+            {task.assignees.map((initials, index) => (
+              <Avatar
+                key={initials + index}
+                className="w-6 h-6 border-2 border-white"
+              >
+                <AvatarFallback className={`${theme.bg} ${theme.text} text-xs`}>
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={`flex items-center gap-1 text-gray-400 hover:${theme.text} text-xs`}
+            onClick={(event) => {
+              event.stopPropagation();
+              setExpandedCommentTaskId((prev) =>
+                prev === task.id ? null : task.id,
+              );
+            }}
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+            <span>{getCommentCount(task.id)}</span>
+          </button>
+        </div>
+
+        {expandedCommentTaskId === task.id && (
+          <div className="mt-3 space-y-2 border-t border-gray-100 pt-2">
+            <div className="space-y-1 max-h-24 overflow-y-auto">
+              {(taskComments[task.id] || []).length === 0 && (
+                <p className="text-xs text-white/70">
+                  No comments yet. Start the discussion for this task.
+                </p>
+              )}
+              {(taskComments[task.id] || []).map((comment) => (
+                <div
+                  key={comment.id}
+                  className="text-xs text-white/70 bg-white/5 border border-white/10 rounded-md px-2 py-1"
+                >
+                  <span className="font-medium mr-1">{comment.author}:</span>
+                  <span>{comment.text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-1">
+              <Textarea
+                rows={2}
+                placeholder="Add a comment..."
+                className="text-xs"
+                value={newComments[task.id] || ""}
+                onChange={(event) =>
+                  handleCommentInputChange(task.id, event.target.value)
+                }
+                onClick={(event) => event.stopPropagation()}
+              />
+              <div className="flex justify-end">
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-7 px-3 text-xs"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleAddComment(task.id);
+                  }}
+                >
+                  Comment
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+const KanbanColumn = ({
+  column,
+  tasks,
+  theme,
+  onDragOver,
+  onDrop,
+  onDeleteColumn,
+  ...taskProps
+}) => {
+  return (
+    <div
+      className="w-[85vw] md:w-80 flex flex-col gap-4 first:pl-1 last:pr-1"
+      onDragOver={onDragOver}
+      onDrop={(event) => onDrop(event, column.id)}
+    >
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-white text-sm uppercase">
+            {column.title}
+          </span>
+          <span
+            className={`text-xs font-medium px-2 py-0.5 rounded-full border ${theme.badge}`}
+          >
+            {tasks.length}
+          </span>
+        </div>
+        <div className="flex items-center gap-1">
+          {column.isCustom && (
+            <button
+              type="button"
+              onClick={() => onDeleteColumn(column.id)}
+              className="text-gray-400 hover:text-red-600 p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            type="button"
+            className="text-gray-400 hover:text-gray-600 p-1"
+          >
+            <MoreHorizontal className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {tasks.map((task) => (
+        <KanbanTaskCard
+          key={task.id}
+          task={task}
+          columnId={column.id}
+          theme={theme}
+          {...taskProps}
+        />
+      ))}
+
+      <button
+        type="button"
+        className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+      >
+        <Plus className="w-4 h-4" />
+        <span className="text-sm font-medium">Add Task</span>
+      </button>
+    </div>
+  );
+};
+
+export default function EnhancedKanbanBoard({ applicationType }) {
   const [columns, setColumns] = useState(initialColumns);
   const [tasks, setTasks] = useState(initialTasks);
   const [showColumnDialog, setShowColumnDialog] = useState(false);
@@ -294,10 +484,63 @@ export default function EnhancedKanbanBoard() {
   const [taskComments, setTaskComments] = useState({});
   const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
   const [newComments, setNewComments] = useState({});
-  const [selectedTemplateId, setSelectedTemplateId] = useState("project_management");
+  const [selectedTemplateId, setSelectedTemplateId] =
+    useState("project_management");
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
+
+  const getThemeColor = (type) => {
+    switch (type) {
+      case "Web Application":
+        return {
+          text: "text-purple-300",
+          bg: "bg-purple-500/10",
+          border: "border-purple-500/20",
+          hoverBorder: "hover:border-purple-500/50",
+          badge: "bg-purple-500/15 text-purple-300 border-purple-400/30",
+          icon: "text-purple-400",
+        };
+      case "Mobile Application":
+        return {
+          text: "text-orange-300",
+          bg: "bg-orange-500/10",
+          border: "border-orange-500/20",
+          hoverBorder: "hover:border-orange-500/50",
+          badge: "bg-orange-500/15 text-orange-300 border-orange-400/30",
+          icon: "text-orange-400",
+        };
+      case "Backend Service":
+        return {
+          text: "text-blue-300",
+          bg: "bg-blue-500/10",
+          border: "border-blue-500/20",
+          hoverBorder: "hover:border-blue-500/50",
+          badge: "bg-blue-500/15 text-blue-300 border-blue-400/30",
+          icon: "text-blue-400",
+        };
+      case "Database Layer":
+        return {
+          text: "text-emerald-300",
+          bg: "bg-emerald-500/10",
+          border: "border-emerald-500/20",
+          hoverBorder: "hover:border-emerald-500/50",
+          badge: "bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
+          icon: "text-emerald-400",
+        };
+      default:
+        return {
+          text: "text-[#EFFC76]",
+          bg: "bg-[#EFFC76]/10",
+          border: "border-[#EFFC76]/20",
+          hoverBorder: "hover:border-[#EFFC76]/50",
+          badge: "bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/30",
+          icon: "text-[#EFFC76]",
+        };
+    }
+  };
+
+  const theme = getThemeColor(applicationType);
 
   const handleAddColumn = () => {
     if (!newColumnName.trim()) return;
@@ -351,14 +594,14 @@ export default function EnhancedKanbanBoard() {
 
     const nextTasks = { ...tasks };
     nextTasks[sourceColumn] = nextTasks[sourceColumn].filter(
-      (item) => item.id !== task.id
+      (item) => item.id !== task.id,
     );
     nextTasks[targetColumn] = [...(nextTasks[targetColumn] || []), task];
 
     setTasks(nextTasks);
     setDraggedTask(null);
     const columnTitle = columns.find(
-      (column) => column.id === targetColumn
+      (column) => column.id === targetColumn,
     )?.title;
     if (columnTitle) {
       toast.success(`Task moved to ${columnTitle}`);
@@ -392,7 +635,7 @@ export default function EnhancedKanbanBoard() {
                   ? task.assignees.filter((value) => value !== initials)
                   : [...task.assignees, initials],
               }
-            : task
+            : task,
         );
       });
       return next;
@@ -445,187 +688,51 @@ export default function EnhancedKanbanBoard() {
   };
 
   const currentTemplate = templates.find(
-    (template) => template.id === selectedTemplateId
+    (template) => template.id === selectedTemplateId,
   );
 
   return (
     <>
       <div className="flex flex-col h-full gap-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-white uppercase">
-              Template
-            </p>
-            <p className="text-sm font-semibold text-white/70">
-              {currentTemplate ? currentTemplate.name : "Select a template"}
-            </p>
-            <p className="text-xs text-white/60 max-w-xl">
-              {currentTemplate
-                ? currentTemplate.description
-                : "Choose the project template that best matches your workflow."}
-            </p>
-          </div>
+        <div className="flex justify-end absolute top-0 right-0 md:static">
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={() => setShowTemplateDialog(true)}
-            className="border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10"
+            className={` bg-[#E0EF5F]  text-black px-2 md:px-3`}
           >
-            {currentTemplate ? "Change Template" : "Select Template"}
+            <Layout className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
+            <span className="inline">
+              {currentTemplate ? "Change Template" : "Select Template"}
+            </span>
           </Button>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto pb-4 h-full items-start">
-        {columns
-          .slice()
-          .sort((a, b) => a.order - b.order)
-          .map((column) => (
-            <div
-              key={column.id}
-              className="w-80 shrink-0 flex flex-col gap-4"
-              onDragOver={handleDragOver}
-              onDrop={(event) => handleDrop(event, column.id)}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white text-sm uppercase">
-                    {column.title}
-                  </span>
-                  <span className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs font-medium px-2 py-0.5 rounded-full border border-[#EFFC76]/40">
-                    {tasks[column.id]?.length || 0}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1">
-                  {column.isCustom && (
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteColumn(column.id)}
-                      className="text-gray-400 hover:text-red-600 p-1"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    className="text-gray-400 hover:text-gray-600 p-1"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {(tasks[column.id] || []).map((task) => (
-                <Card
-                  key={task.id}
-                  className="cursor-move hover:shadow-md transition-shadow"
-                  draggable
-                  onDragStart={(event) => handleDragStart(event, task, column.id)}
-                  onClick={() => handleOpenTask(task, column.id)}
-                >
-                  <CardContent className="p-4 space-y-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="font-semibold text-white leading-tight">
-                        {task.title}
-                      </h4>
-                    </div>
-
-                    {task.desc && (
-                      <p className="text-xs text-white/60 line-clamp-2">
-                        {task.desc}
-                      </p>
-                    )}
-
-                    <PriorityBadge priority={task.priority} />
-
-                    <div className="pt-2 flex items-center justify-between border-t border-white/10 mt-2">
-                      <div className="flex -space-x-2">
-                        {task.assignees.map((initials, index) => (
-                      <Avatar
-                        key={initials + index}
-                        className="w-6 h-6 border-2 border-white"
-                      >
-                        <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
-                          {initials}
-                        </AvatarFallback>
-                      </Avatar>
-                        ))}
-                      </div>
-                      <button
-                        type="button"
-                        className="flex items-center gap-1 text-gray-400 hover:text-[#EFFC76] text-xs"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setExpandedCommentTaskId((prev) =>
-                            prev === task.id ? null : task.id
-                          );
-                        }}
-                      >
-                        <MessageSquare className="w-3.5 h-3.5" />
-                        <span>{getCommentCount(task.id)}</span>
-                      </button>
-                    </div>
-
-                    {expandedCommentTaskId === task.id && (
-                      <div className="mt-3 space-y-2 border-t border-gray-100 pt-2">
-                        <div className="space-y-1 max-h-24 overflow-y-auto">
-                          {(taskComments[task.id] || []).length === 0 && (
-                            <p className="text-xs text-white/70">
-                              No comments yet. Start the discussion for this task.
-                            </p>
-                          )}
-                          {(taskComments[task.id] || []).map((comment) => (
-                            <div
-                              key={comment.id}
-                              className="text-xs text-white/70 bg-white/5 border border-white/10 rounded-md px-2 py-1"
-                            >
-                              <span className="font-medium mr-1">
-                                {comment.author}:
-                              </span>
-                              <span>{comment.text}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="space-y-1">
-                          <Textarea
-                            rows={2}
-                            placeholder="Add a comment..."
-                            className="text-xs"
-                            value={newComments[task.id] || ""}
-                            onChange={(event) =>
-                              handleCommentInputChange(task.id, event.target.value)
-                            }
-                            onClick={(event) => event.stopPropagation()}
-                          />
-                          <div className="flex justify-end">
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="h-7 px-3 text-xs"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleAddComment(task.id);
-                              }}
-                            >
-                              Comment
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-
-              <button
-                type="button"
-                className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="text-sm font-medium">Add Task</span>
-              </button>
-            </div>
-          ))}
+        <div className="pb-4 h-full flex items-start gap-4 overflow-x-auto snap-x snap-mandatory md:snap-none">
+          {columns
+            .slice()
+            .sort((a, b) => a.order - b.order)
+            .map((column) => (
+              <KanbanColumn
+                key={column.id}
+                column={column}
+                tasks={tasks[column.id] || []}
+                theme={theme}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onDeleteColumn={handleDeleteColumn}
+                onDragStart={handleDragStart}
+                onOpenTask={handleOpenTask}
+                expandedCommentTaskId={expandedCommentTaskId}
+                setExpandedCommentTaskId={setExpandedCommentTaskId}
+                getCommentCount={getCommentCount}
+                taskComments={taskComments}
+                newComments={newComments}
+                handleCommentInputChange={handleCommentInputChange}
+                handleAddComment={handleAddComment}
+              />
+            ))}
 
           <button
             type="button"
@@ -689,9 +796,8 @@ export default function EnhancedKanbanBoard() {
                 <PriorityBadge priority={activeTask.priority} />
                 <span className="text-xs text-white/60 uppercase">
                   {
-                    columns.find(
-                      (column) => column.id === activeTask.columnId
-                    )?.title
+                    columns.find((column) => column.id === activeTask.columnId)
+                      ?.title
                   }
                 </span>
               </div>
@@ -733,35 +839,41 @@ export default function EnhancedKanbanBoard() {
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
         <DialogContent className="max-w-4xl bg-white p-0 gap-0 border border-gray-100 shadow-2xl sm:rounded-xl overflow-hidden">
           <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white">
-             <div>
-                <DialogTitle className="text-xl font-semibold text-gray-900 tracking-tight">
-                  Choose a template
-                </DialogTitle>
-                <div className="text-sm text-gray-500 mt-1">
-                  Select a workflow to get started. You can customize columns later.
-                </div>
-             </div>
-             <Button variant="ghost" size="icon" onClick={() => setShowTemplateDialog(false)} className="rounded-full text-gray-400 hover:text-gray-900">
-                <X className="w-4 h-4" />
-             </Button>
+            <div>
+              <DialogTitle className="text-xl font-semibold text-gray-900 tracking-tight">
+                Choose a template
+              </DialogTitle>
+              <div className="text-sm text-gray-500 mt-1">
+                Select a workflow to get started. You can customize columns
+                later.
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowTemplateDialog(false)}
+              className="rounded-full text-gray-400 hover:text-gray-900"
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </div>
-          
+
           <div className="p-6 overflow-y-auto max-h-[65vh] bg-gray-50/30">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => {
                 let Icon = ListTodo;
                 // Using a more minimal, monochrome approach for icons or subtle colors
                 // Mapping remains the same, but styling will be cleaner
-                if (template.id === 'scrum') Icon = Boxes;
-                if (template.id === 'kanban') Icon = Layout;
-                if (template.id === 'bug_tracking') Icon = MessageSquare;
-                if (template.id === 'devops') Icon = Code2;
-                if (template.id === 'marketing') Icon = Megaphone;
-                if (template.id === 'design') Icon = Palette;
-                if (template.id === 'hr') Icon = Users;
-                if (template.id === 'sales') Icon = DollarSign;
-                if (template.id === 'operations') Icon = Settings;
-                if (template.id === 'event_planning') Icon = Calendar;
+                if (template.id === "scrum") Icon = Boxes;
+                if (template.id === "kanban") Icon = Layout;
+                if (template.id === "bug_tracking") Icon = MessageSquare;
+                if (template.id === "devops") Icon = Code2;
+                if (template.id === "marketing") Icon = Megaphone;
+                if (template.id === "design") Icon = Palette;
+                if (template.id === "hr") Icon = Users;
+                if (template.id === "sales") Icon = DollarSign;
+                if (template.id === "operations") Icon = Settings;
+                if (template.id === "event_planning") Icon = Calendar;
 
                 const isSelected = selectedTemplateId === template.id;
 
@@ -777,17 +889,21 @@ export default function EnhancedKanbanBoard() {
                     }`}
                   >
                     <div className="flex items-center justify-between w-full mb-4">
-                        <div className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${isSelected ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-gray-200'}`}>
-                            <Icon className="w-4 h-4" />
+                      <div
+                        className={`w-8 h-8 rounded-md flex items-center justify-center transition-colors ${isSelected ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"}`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      {isSelected && (
+                        <div className="text-gray-900">
+                          <CheckCircle2 className="w-5 h-5 fill-current text-white" />
                         </div>
-                        {isSelected && (
-                           <div className="text-gray-900">
-                             <CheckCircle2 className="w-5 h-5 fill-current text-white" />
-                           </div>
-                        )}
+                      )}
                     </div>
 
-                    <h4 className={`text-sm font-semibold mb-1.5 ${isSelected ? 'text-gray-900' : 'text-gray-900'}`}>
+                    <h4
+                      className={`text-sm font-semibold mb-1.5 ${isSelected ? "text-gray-900" : "text-gray-900"}`}
+                    >
                       {template.name}
                     </h4>
                     <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
