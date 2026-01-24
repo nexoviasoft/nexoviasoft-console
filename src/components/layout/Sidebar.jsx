@@ -162,20 +162,22 @@ const Sidebar = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Mobile Backdrop */}
-      <div 
+      <div
         className={cn(
           "fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
         onClick={onClose}
       />
 
-      <div className={cn(
-        "fixed lg:static inset-y-0 left-0 z-50 w-64 h-screen flex flex-col border-r border-white/10 bg-[#0A0A0A] lg:bg-black/40 backdrop-blur-2xl text-white shadow-[0_0_40px_rgba(0,0,0,0.7)] transition-transform duration-300 ease-in-out lg:translate-x-0",
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
+      <div
+        className={cn(
+          "fixed lg:static inset-y-0 left-0 z-50 w-64 h-screen flex flex-col border-r border-white/10 bg-[#0A0A0A] lg:bg-black/40 backdrop-blur-2xl text-white shadow-[0_0_40px_rgba(0,0,0,0.7)] transition-transform duration-300 ease-in-out lg:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
         {/* Mobile Close Button */}
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-2 right-2 p-2 lg:hidden text-white/50 hover:text-white z-50"
         >
@@ -183,86 +185,90 @@ const Sidebar = ({ isOpen, onClose }) => {
         </button>
 
         <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-xl ">
-        <div className="flex items-center gap-3 mb-4 group">
-          <img src="/customIcon.png" className="w-10 h-9  "></img>
+          <div className="flex items-center gap-3 mb-4 group">
+            <img src="/customIcon.png" className="w-10 h-9  "></img>
 
-          <div className="flex-1">
-            <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
-              SquadLog Console
+            <div className="flex-1">
+              <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
+                SquadLog Console
+              </div>
+              <div className="text-xs text-white/60">Dashboard</div>
             </div>
-            <div className="text-xs text-white/60">Dashboard</div>
+            <button className="text-white/50 lg:block hidden hover:text-[#EFFC76] transition-colors duration-200 hover:scale-110">
+              <ChevronDown className="w-4 h-4 transition-transform duration-200" />
+            </button>
           </div>
-          <button className="text-white/50 hover:text-[#EFFC76] transition-colors duration-200 hover:scale-110">
-            <ChevronDown className="w-4 h-4 transition-transform duration-200" />
-          </button>
-        </div>
-        <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 transition-colors duration-200 group-focus-within:text-[#EFFC76]" />
-          <input
-            type="text"
-            placeholder="Quick search..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm 
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 transition-colors duration-200 group-focus-within:text-[#EFFC76]" />
+            <input
+              type="text"
+              placeholder="Quick search..."
+              className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm 
                      focus:outline-none focus:ring-2 focus:ring-[#EFFC76]/40 focus:border-[#EFFC76]/60 
                      transition-all duration-200 hover:border-[#EFFC76]/40 hover:bg-white/10
                      placeholder:text-white/40 text-white"
-          />
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-glass">
-        <div className="mb-6">
-          <button
-            onClick={() => setMainExpanded(!mainExpanded)}
-            className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
-                     hover:text-[#EFFC76] transition-all duration-200"
-          >
-            <span className="transition-colors duration-200">MAIN</span>
-            <ChevronDown
-              className={cn(
-                "w-4 h-4 transition-all duration-300 ease-in-out",
-                mainExpanded ? "rotate-180" : "rotate-0",
-                "text-white/40 group-hover:text-[#EFFC76]",
-              )}
             />
-          </button>
-          <div
-            className={cn(
-              "overflow-hidden transition-all duration-300 ease-in-out",
-              mainExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0",
-            )}
-          >
-            <div className="space-y-1">{mainNavItems.map(renderNavItem)}</div>
           </div>
         </div>
 
-        <div>
-          <button
-            onClick={() => setOthersExpanded(!othersExpanded)}
-            className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
+        <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-glass">
+          <div className="mb-6">
+            <button
+              onClick={() => setMainExpanded(!mainExpanded)}
+              className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
                      hover:text-[#EFFC76] transition-all duration-200"
-          >
-            <span className="transition-colors duration-200">OTHERS</span>
-            <ChevronDown
+            >
+              <span className="transition-colors duration-200">MAIN</span>
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-all duration-300 ease-in-out",
+                  mainExpanded ? "rotate-180" : "rotate-0",
+                  "text-white/40 group-hover:text-[#EFFC76]",
+                )}
+              />
+            </button>
+            <div
               className={cn(
-                "w-4 h-4 transition-all duration-300 ease-in-out",
-                othersExpanded ? "rotate-180" : "rotate-0",
-                "text-white/40 group-hover:text-[#EFFC76]",
+                "overflow-hidden transition-all duration-300 ease-in-out",
+                mainExpanded
+                  ? "max-h-[2000px] opacity-100"
+                  : "max-h-0 opacity-0",
               )}
-            />
-          </button>
-          <div
-            className={cn(
-              "overflow-hidden transition-all duration-300 ease-in-out",
-              othersExpanded
-                ? "max-h-[2000px] opacity-100"
-                : "max-h-0 opacity-0",
-            )}
-          >
-            <div className="space-y-1">{othersNavItems.map(renderNavItem)}</div>
+            >
+              <div className="space-y-1">{mainNavItems.map(renderNavItem)}</div>
+            </div>
+          </div>
+
+          <div>
+            <button
+              onClick={() => setOthersExpanded(!othersExpanded)}
+              className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
+                     hover:text-[#EFFC76] transition-all duration-200"
+            >
+              <span className="transition-colors duration-200">OTHERS</span>
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-all duration-300 ease-in-out",
+                  othersExpanded ? "rotate-180" : "rotate-0",
+                  "text-white/40 group-hover:text-[#EFFC76]",
+                )}
+              />
+            </button>
+            <div
+              className={cn(
+                "overflow-hidden transition-all duration-300 ease-in-out",
+                othersExpanded
+                  ? "max-h-[2000px] opacity-100"
+                  : "max-h-0 opacity-0",
+              )}
+            >
+              <div className="space-y-1">
+                {othersNavItems.map(renderNavItem)}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

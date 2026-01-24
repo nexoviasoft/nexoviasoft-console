@@ -35,109 +35,133 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  const formattedDate = currentTime.toLocaleDateString('en-US', { 
-    month: 'long', 
-    year: 'numeric' 
+  const formattedDate = currentTime.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
   });
-  const formattedTime = currentTime.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit'
+  const formattedTime = currentTime.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
   });
   return (
-    <div className="px-8 py-6 text-white">
+    <div className="px-4 py-4 md:px-8 md:py-6 text-white">
       <div className="space-y-6">
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
-            <CardContent className="p-6">
+            <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Total Customers</span>
+                  <span className=" text-sm  md:font-medium text-white/60">
+                    Total Customers
+                  </span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
                   <Users className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">21,978</div>
+                <div className=" text-xl md:text-3xl font-bold text-white">
+                  21,978
+                </div>
               </div>
-               <div className="flex items-center gap-2 text-xs">
-                  <span className="text-emerald-400 font-medium flex items-center gap-1">
-                    <ArrowUp className="w-3 h-3" /> 15%
-                  </span>
-                  <span className="text-white/40">from last month</span>
-               </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-emerald-400 font-medium flex items-center gap-1">
+                  <ArrowUp className="w-3 h-3 text-xs" /> 15%
+                </span>
+                <span className="text-white/40 md:text-xs text-[10px]">
+                  from last month
+                </span>
+              </div>
             </CardContent>
           </Card>
 
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
-             <CardContent className="p-6">
-               <div className="flex justify-between items-start mb-2">
+            <CardContent className="md:p-6">
+              <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Active Customers</span>
+                  <span className="text-sm font-medium text-white/60">
+                    Active Customers
+                  </span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
                   <UserCheck className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">10,369</div>
+                <div className="text-xl md:text-3xl font-bold text-white">
+                  10,369
+                </div>
               </div>
-               <div className="flex items-center gap-2 text-xs">
-                  <span className="text-rose-400 font-medium flex items-center gap-1">
-                    <ArrowDown className="w-3 h-3" /> 9%
-                  </span>
-                  <span className="text-white/40">from last month</span>
-               </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-rose-400 font-medium flex items-center gap-1">
+                  <ArrowDown className="w-3 h-3" /> 9%
+                </span>
+                <span className="text-white/40 md:text-xs text-[10px]">
+                  from last month
+                </span>
+              </div>
             </CardContent>
           </Card>
 
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
-            <CardContent className="p-6">
-               <div className="flex justify-between items-start mb-2">
+            <CardContent className="md:p-6">
+              <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Profit Total</span>
+                  <span className="text-sm font-medium text-white/60">
+                    Profit Total
+                  </span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
                   <DollarSign className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">$64,981.97</div>
+                <div className="ttext-xl md:text-3xl font-bold text-white">
+                  $64,981.97
+                </div>
               </div>
-               <div className="flex items-center gap-2 text-xs">
-                  <span className="text-emerald-400 font-medium flex items-center gap-1">
-                    <ArrowUp className="w-3 h-3" /> 7.2%
-                  </span>
-                  <span className="text-white/40">from last month</span>
-               </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-emerald-400 font-medium flex items-center gap-1">
+                  <ArrowUp className="w-3 h-3" /> 7.2%
+                </span>
+                <span className="text-white/40 md:text-xs text-[10px]">
+                  from last month
+                </span>
+              </div>
             </CardContent>
           </Card>
 
-           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
-            <CardContent className="p-6">
-               <div className="flex justify-between items-start mb-2">
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+            <CardContent className="md:p-6">
+              <div className="flex justify-between items-start mb-2">
                 <div>
-                   <span className="text-sm font-medium text-white/60">Expense Total</span>
+                  <span className="text-sm font-medium text-white/60">
+                    Expense Total
+                  </span>
                 </div>
                 <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
                   <CreditCard className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="text-3xl font-bold text-white">$18,158.21</div>
+                <div className="text-xl md:text-3xl font-bold text-white">
+                  $18,158.21
+                </div>
               </div>
-               <div className="flex items-center gap-2 text-xs">
-                  <span className="text-rose-400 font-medium flex items-center gap-1">
-                    <ArrowDown className="w-3 h-3" /> 2%
-                  </span>
-                  <span className="text-white/40">from last month</span>
-               </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-rose-400 font-medium flex items-center gap-1">
+                  <ArrowDown className="w-3 h-3" /> 2%
+                </span>
+                <span className="text-white/40 md:text-xs text-[10px]">
+                  from last month
+                </span>
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-2 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -146,60 +170,64 @@ export default function Dashboard() {
                       Attendance Overview
                     </CardTitle>
                     <div className="text-xs text-white/50 mt-1 flex gap-2">
-                       <span>{formattedDate}</span>
-                       <span className="text-[#EFFC76]">{formattedTime}</span>
+                      <span>{formattedDate}</span>
+                      <span className="text-[#EFFC76]">{formattedTime}</span>
                     </div>
                   </div>
-                    <select 
-                      value={period}
-                      onChange={(e) => setPeriod(e.target.value)}
-                      className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
-                    >
-                      <option value="Weekly">Weekly</option>
-                      <option value="Monthly">Monthly</option>
-                      <option value="Yearly">Yearly</option>
-                    </select>
+                  <select
+                    value={period}
+                    onChange={(e) => setPeriod(e.target.value)}
+                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                  >
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                  </select>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  <div className="grid grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                     <div>
-                      <div className="text-3xl font-bold text-[#EFFC76] mb-1">
+                      <div className="text-xl md:text-3xl font-bold text-[#EFFC76] mb-1">
                         89.2%
                       </div>
-                      <div className="text-sm text-white/70 mb-1">
+                      <div className=" text-[13px] md:text-sm text-white/70 mb-1">
                         Attendance Rate
                       </div>
                       <div className="text-xs text-[#EFFC76]">+2.8%</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-white mb-1">
+                      <div className=" text-xl md:text-3xl font-bold text-white mb-1">
                         1261/1.298
                       </div>
-                      <div className="text-sm text-white/70 mb-1">
+                      <div className="text-[13px] md:text-sm text-white/70 mb-1">
                         Today&apos;s Attendance
                       </div>
                       <div className="text-xs text-[#EFFC76]">+1.2%</div>
                     </div>
-                    <div className="space-y-2">
+
+                    <div className=" flex gap-2 items-center col-span-4 md:space-y-2">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76] rounded"></div>
-                        <span className="text-sm text-white/70">
+                        <span className="text-[12px] md:text-sm text-white/70">
                           On-Time 86%
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76]/70 rounded"></div>
-                        <span className="text-sm text-white/70">Late 12%</span>
+                        <span className="text-[12px] md:text-sm text-white/70">
+                          Late 12%
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76]/40 rounded"></div>
-                        <span className="text-sm text-white/70">Absent 2%</span>
+                        <span className="text-[12px] md:text-sm text-white/70">
+                          Absent 2%
+                        </span>
                       </div>
                     </div>
                   </div>
-
 
                   <div>
                     <AttendanceChart period={period} />
@@ -217,32 +245,39 @@ export default function Dashboard() {
                   </button>
                 </div>
               </CardHeader>
+              
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <select className="px-3 py-2 border border-white/20 rounded-lg text-sm bg-white/5 text-white">
-                        <option>Last 7 Days</option>
-                      </select>
-                      <div className="flex items-center gap-2 px-3 py-2 border border-white/20 rounded-lg bg-white/5">
-                        <Calendar className="w-4 h-4 text-[#EFFC76]" />
-                        <span className="text-sm text-white/80">
-                          1 Jan - 7 Jan
-                        </span>
+                  <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 overflow-x-auto pb-2 sm:pb-0">
+                      <div className=" grid  grid-cols-2 items-center gap-5 md:gap-2 ">
+                        <select className="px-3 py-2 border border-[#EFFC76]/20 rounded-lg text-sm bg-[#EFFC76]/10 text-[#EFFC76] w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-[#EFFC76]">
+                          <option className="bg-[#121212] text-white">
+                            Last 7 Days
+                          </option>
+                        </select>
+                        <div className="flex items-center gap-2 px-3 py-2 border border-white/20 rounded-lg bg-white/5 whitespace-nowrap">
+                          <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                          <span className="text-sm text-white/80">
+                            1 Jan - 7 Jan
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <button className="px-4 py-2 bg-[#EFFC76] text-black text-sm rounded-lg">
+
+                      <div className="flex items-center gap-1 w-full sm:w-auto overflow-x-auto">
+                        <button className="px-4 py-2 bg-[#EFFC76] text-black text-sm rounded-lg whitespace-nowrap">
                           Attendance
                         </button>
-                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10">
+                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10 whitespace-nowrap">
                           Leave Request
                         </button>
-                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10">
+                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10 whitespace-nowrap">
                           Finance
                         </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+
+                    <div className="flex  items-center gap-2  ">
                       <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
                         <span>Filter</span>
                       </button>
@@ -253,8 +288,8 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <div className="border-t border-white/10 pt-4">
-                    <div className="grid grid-cols-7 gap-4 text-xs font-medium text-white/60 uppercase tracking-wider pb-3">
+                  <div className="border-t border-white/10 pt-4 overflow-x-auto">
+                    <div className="grid grid-cols-7 gap-4 text-xs font-medium text-white/60 uppercase tracking-wider pb-3 min-w-[800px]">
                       <div>ID Employee</div>
                       <div>Name</div>
                       <div>Department</div>
@@ -388,52 +423,83 @@ export default function Dashboard() {
           </div>
         </div>
 
-
         {/* Finance Section */}
         <Card className="bg-[#121212] border border-white/10">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
               <div className="w-full">
                 <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-xl font-semibold text-white">Finance Report</h3>
-                   <select 
+                  <h3 className="text-xl font-semibold text-white">
+                    Finance Report
+                  </h3>
+
+                  <select
                     value={financePeriod}
                     onChange={(e) => setFinancePeriod(e.target.value)}
                     className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
                   >
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Quarterly">Quarterly</option>
-                    <option value="Yearly">Yearly</option>
+                    <option value="Weekly" className="bg-[#121212] text-white">
+                      Weekly
+                    </option>
+                    <option value="Monthly" className="bg-[#121212] text-white">
+                      Monthly
+                    </option>
+                    <option
+                      value="Quarterly"
+                      className="bg-[#121212] text-white"
+                    >
+                      Quarterly
+                    </option>
+                    <option value="Yearly" className="bg-[#121212] text-white">
+                      Yearly
+                    </option>
                   </select>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                   <div>
                     <div className="text-sm text-white/50 mb-1">Weekly</div>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">$24,291</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+25.0%</span>
+                      <span className="text-3xl font-bold text-white">
+                        $24,291
+                      </span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
+                        +25.0%
+                      </span>
                     </div>
-                    <div className="text-xs text-white/40 mt-1">Compared to $1,340 last week</div>
-                  </div>
-                  
-                   <div>
-                    <div className="text-sm text-white/50 mb-1">Monthly</div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">$48,903</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+1.9%</span>
+                    <div className="text-xs text-white/40 mt-1">
+                      Compared to $1,340 last week
                     </div>
-                    <div className="text-xs text-white/40 mt-1">Compared to $5,441 last month</div>
                   </div>
 
-                   <div>
+                  <div>
+                    <div className="text-sm text-white/50 mb-1">Monthly</div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl font-bold text-white">
+                        $48,903
+                      </span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
+                        +1.9%
+                      </span>
+                    </div>
+                    <div className="text-xs text-white/40 mt-1">
+                      Compared to $5,441 last month
+                    </div>
+                  </div>
+
+                  <div>
                     <div className="text-sm text-white/50 mb-1">Yearly</div>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold text-white">$198,134</span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+22%</span>
+                      <span className="text-3xl font-bold text-white">
+                        $198,134
+                      </span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
+                        +22%
+                      </span>
                     </div>
-                    <div className="text-xs text-white/40 mt-1">Compared to $76,330 last year</div>
+                    <div className="text-xs text-white/40 mt-1">
+                      Compared to $76,330 last year
+                    </div>
                   </div>
                 </div>
               </div>

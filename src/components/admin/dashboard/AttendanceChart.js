@@ -70,12 +70,15 @@ export default function AttendanceChart({ period = "Weekly" }) {
   return (
 
     <div className="h-56 w-full mt-4">
-      {/* Scroll wrapper logic: Only scroll if period is Monthly */}
       <div 
-        className={`w-full h-full ${period === "Monthly" ? "overflow-x-auto pb-4" : ""}`}
+        className="w-full h-full overflow-x-auto pb-4"
         style={{ scrollbarWidth: 'thin' }}
       >
-        <div style={{ width: period === "Monthly" ? "250%" : "100%", height: "100%" }}>
+        <div style={{ 
+          width: period === "Monthly" ? "250%" : "100%", 
+          minWidth: period === "Weekly" ? "500px" : period === "Yearly" ? "600px" : "100%",
+          height: "100%" 
+        }}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={data}

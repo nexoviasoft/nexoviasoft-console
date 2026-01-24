@@ -79,10 +79,14 @@ export default function FinanceChart({ period = "Yearly" }) {
   return (
     <div className="h-72 w-full mt-6">
       <div 
-        className={`w-full h-full ${["Monthly", "Quarterly"].includes(period) ? "overflow-x-auto pb-4" : ""}`}
+        className="w-full h-full overflow-x-auto pb-4"
         style={{ scrollbarWidth: 'thin' }}
       >
-        <div style={{ width: period === "Quarterly" ? "750%" : period === "Monthly" ? "250%" : "100%", height: "100%" }}>
+        <div style={{ 
+          width: period === "Quarterly" ? "750%" : period === "Monthly" ? "250%" : "100%", 
+          minWidth: period === "Weekly" ? "500px" : period === "Yearly" ? "700px" : "100%",
+          height: "100%" 
+        }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}
