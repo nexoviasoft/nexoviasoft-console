@@ -4,6 +4,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Users } from "lucide-react";
 
 const awayMembers = [
   {
@@ -37,7 +38,10 @@ export default function WhoIsAway() {
     <Card className="border-none glass-card">
       <CardHeader className="pb-3 border-b border-white/10">
         <div className="flex items-center justify-between">
-            <CardTitle className="text-lg text-white">Who&apos;s Away</CardTitle>
+            <CardTitle className="text-lg text-white flex items-center gap-2">
+              <Users className="w-5 h-5 text-[#EFFC76]" />
+              Who&apos;s Away
+            </CardTitle>
             <Badge
               variant="secondary"
               className="bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/50"

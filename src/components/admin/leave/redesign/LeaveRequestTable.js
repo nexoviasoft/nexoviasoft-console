@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MoreHorizontal, CheckCircle2, XCircle, Clock } from "lucide-react";
+import { Search, MoreHorizontal, CheckCircle2, XCircle, Clock, FileText } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -117,14 +117,17 @@ export default function LeaveRequestTable() {
   return (
     <Card className="border-none glass-card">
       <CardHeader>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <CardTitle className="text-white">Leave Requests</CardTitle>
+            <CardTitle className="text-white flex items-center gap-2">
+              <FileText className="w-5 h-5 text-[#EFFC76]" />
+              Leave Requests
+            </CardTitle>
             <CardDescription className="text-white/70">
               Manage and review team leave applications
             </CardDescription>
           </div>
-          <div className="relative w-64">
+          <div className="relative w-full md:w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/40" />
             <Input
               type="text"
@@ -137,8 +140,8 @@ export default function LeaveRequestTable() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border border-white/15 bg-black/40 overflow-hidden">
-          <Table>
+        <div className="rounded-md border border-white/15 bg-black/40 overflow-hidden overflow-x-auto">
+          <Table className="min-w-[800px]">
             <TableHeader className="bg-white/5">
               <TableRow>
                 <TableHead className="text-xs font-semibold text-white/60">Employee</TableHead>
@@ -195,7 +198,7 @@ export default function LeaveRequestTable() {
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[160px]">
+                      <DropdownMenuContent align="end" className="w-[160px] glass-card border-[#EFFC76]/20 bg-black/90 text-white">
                         <DropdownMenuItem
                           onClick={() => handleStatusChange(req.id, "approved")}
                           className="text-emerald-300 focus:text-emerald-200 focus:bg-emerald-500/20 cursor-pointer"
