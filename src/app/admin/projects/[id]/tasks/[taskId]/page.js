@@ -191,9 +191,28 @@ export default function TaskDetailsPage({ params }) {
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Status</span>
                    </div>
-                   <div className="px-3 py-1.5 rounded-md bg-white/10 border border-white/10 text-center font-medium">
-                     {task.status}
-                   </div>
+                   <Select 
+                    value={task.status} 
+                    onValueChange={(value) => setTask({ ...task, status: value })}
+                   >
+                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                      {[
+                        "To-Do", 
+                        "In Progress", 
+                        "Review", 
+                        "Complete",
+                        "Brief", // Example custom
+                        "In Design" // Example custom
+                      ].map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <Separator className="bg-white/10" />
