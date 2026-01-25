@@ -12,6 +12,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   MoreHorizontal,
@@ -29,6 +36,9 @@ import {
   Settings,
   Calendar,
   CheckCircle2,
+  Briefcase,
+  Tag,
+  Clock,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -415,6 +425,7 @@ const KanbanColumn = ({
   onDragOver,
   onDrop,
   onDeleteColumn,
+  onAddTask,
   ...taskProps
 }) => {
   return (
@@ -465,6 +476,7 @@ const KanbanColumn = ({
 
       <button
         type="button"
+        onClick={() => onAddTask(column.id)}
         className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
       >
         <Plus className="w-4 h-4" />
@@ -489,8 +501,21 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
   const [selectedTemplateId, setSelectedTemplateId] =
     useState("project_management");
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
+  
+  // Add Task Dialog State
+  const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
+  const [activeColumnId, setActiveColumnId] = useState(null);
+  const [newTaskData, setNewTaskData] = useState({
+    title: "",
+    desc: "",
+    priority: "medium",
+    dueDate: "",
+    team: "",
+    assignees: [],
+  });
 
   const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
+  const teamsList = ["Development", "Design", "Marketing", "Product", "Operations", "QA"];
 
   const getThemeColor = (type) => {
     switch (type) {
@@ -608,6 +633,45 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     if (columnTitle) {
       toast.success(`Task moved to ${columnTitle}`);
     }
+  };
+
+  const handleAddTask = (columnId) => {
+    setActiveColumnId(columnId);
+    setNewTaskData({
+      title: "",
+      desc: "",
+      priority: "medium",
+      dueDate: "",
+      team: "",
+      assignees: [],
+    });
+    setAddTaskDialogOpen(true);
+  };
+
+  const handleCreateTask = () => {
+    if (!newTaskData.title.trim()) {
+      toast.error("Task title is required");
+      return;
+    }
+
+    const newTask = {
+      id: `task_${Date.now()}`,
+      title: newTaskData.title,
+      desc: newTaskData.desc,
+      priority: newTaskData.priority,
+      status: "To-Do",
+      dueDate: newTaskData.dueDate,
+      team: newTaskData.team,
+      assignees: newTaskData.assignees,
+    };
+
+    setTasks((prev) => ({
+      ...prev,
+      [activeColumnId]: [...(prev[activeColumnId] || []), newTask],
+    }));
+
+    setAddTaskDialogOpen(false);
+    toast.success("New task created");
   };
 
   const handleSelectTemplate = (templateId) => {
@@ -734,6 +798,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                 newComments={newComments}
                 handleCommentInputChange={handleCommentInputChange}
                 handleAddComment={handleAddComment}
+                onAddTask={handleAddTask}
               />
             ))}
 
@@ -838,6 +903,250 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={addTaskDialogOpen} onOpenChange={setAddTaskDialogOpen}>
+        <DialogContent className="max-w-xl glass-card border-white/20 text-white">
+          <DialogHeader>
+            <DialogTitle>Add New Task</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+               <label className="text-sm text-white/60 font-medium">Task Title</label>
+               <Input
+                placeholder="e.g., Redesign Login Page"
+                value={newTaskData.title}
+                onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })}
+               />
+            </div>
+            
+            <div className="space-y-2">
+               <label className="text-sm text-white/60 font-medium">Description</label>
+               <Textarea
+                placeholder="Add task details..."
+                value={newTaskData.desc}
+                onChange={(e) => setNewTaskData({ ...newTaskData, desc: e.target.value })}
+                className="resize-none min-h-[100px]"
+               />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2">
+                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                    <Tag className="w-3.5 h-3.5" /> Priority
+                  </label>
+                  <Select 
+                    value={newTaskData.priority}
+                    onValueChange={(value) => setNewTaskData({ ...newTaskData, priority: value })}
+                  >
+                    <SelectTrigger className="bg-white/5 border-white/10">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+               </div>
+
+               <div className="space-y-2">
+                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> Due Date
+                  </label>
+                  <Input
+                    type="date"
+                    className="bg-white/5 border-white/10 [color-scheme:dark]"
+                    value={newTaskData.dueDate}
+                    onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })}
+                  />
+               </div>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                  <Briefcase className="w-3.5 h-3.5" /> Team
+                </label>
+                <Select 
+                  value={newTaskData.team}
+                  onValueChange={(value) => setNewTaskData({ ...newTaskData, team: value })}
+                >
+                  <SelectTrigger className="bg-white/5 border-white/10">
+                    <SelectValue placeholder="Select Team" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                    {teamsList.map(team => (
+                      <SelectItem key={team} value={team}>{team}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" /> Assignees
+                </label>
+                <div className="flex flex-wrap gap-2">
+                    {availableMembers.map((initials) => {
+                      const isSelected = newTaskData.assignees.includes(initials);
+                      return (
+                         <button
+                           key={initials}
+                           type="button"
+                           onClick={() => {
+                             if (isSelected) {
+                               setNewTaskData({ 
+                                 ...newTaskData, 
+                                 assignees: newTaskData.assignees.filter(a => a !== initials) 
+                               });
+                             } else {
+                               setNewTaskData({ 
+                                 ...newTaskData, 
+                                 assignees: [...newTaskData.assignees, initials] 
+                               });
+                             }
+                           }}
+                           className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${
+                             isSelected ? "bg-[#EFFC76]/20 border-[#EFFC76] text-[#EFFC76]" : "bg-white/5 border-white/10 text-white/50"
+                           }`}
+                         >
+                            <Avatar className="w-5 h-5">
+                              <AvatarFallback className="text-[10px] bg-white/10">{initials}</AvatarFallback>
+                            </Avatar>
+                            {initials}
+                         </button>
+                      );
+                    })}
+                </div>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+             <Button variant="outline" onClick={() => setAddTaskDialogOpen(false)} className="border-white/10 hover:bg-white/5">Cancel</Button>
+             <Button onClick={handleCreateTask} className="bg-[#EFFC76] text-black hover:bg-[#dce865]">Create Task</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={addTaskDialogOpen} onOpenChange={setAddTaskDialogOpen}>
+        <DialogContent className="max-w-xl glass-card border-white/20 text-white">
+          <DialogHeader>
+            <DialogTitle>Add New Task</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+               <label className="text-sm text-white/60 font-medium">Task Title</label>
+               <Input
+                placeholder="e.g., Redesign Login Page"
+                value={newTaskData.title}
+                onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })}
+               />
+            </div>
+            
+            <div className="space-y-2">
+               <label className="text-sm text-white/60 font-medium">Description</label>
+               <Textarea
+                placeholder="Add task details..."
+                value={newTaskData.desc}
+                onChange={(e) => setNewTaskData({ ...newTaskData, desc: e.target.value })}
+                className="resize-none min-h-[100px]"
+               />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2">
+                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                    <Tag className="w-3.5 h-3.5" /> Priority
+                  </label>
+                  <Select 
+                    value={newTaskData.priority}
+                    onValueChange={(value) => setNewTaskData({ ...newTaskData, priority: value })}
+                  >
+                    <SelectTrigger className="bg-white/5 border-white/10">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+               </div>
+
+               <div className="space-y-2">
+                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> Due Date
+                  </label>
+                  <Input
+                    type="date"
+                    className="bg-white/5 border-white/10 [color-scheme:dark]"
+                    value={newTaskData.dueDate}
+                    onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })}
+                  />
+               </div>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                  <Briefcase className="w-3.5 h-3.5" /> Team
+                </label>
+                <Select 
+                  value={newTaskData.team}
+                  onValueChange={(value) => setNewTaskData({ ...newTaskData, team: value })}
+                >
+                  <SelectTrigger className="bg-white/5 border-white/10">
+                    <SelectValue placeholder="Select Team" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                    {teamsList.map(team => (
+                      <SelectItem key={team} value={team}>{team}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" /> Assignees
+                </label>
+                <div className="flex flex-wrap gap-2">
+                    {availableMembers.map((initials) => {
+                      const isSelected = newTaskData.assignees.includes(initials);
+                      return (
+                         <button
+                           key={initials}
+                           type="button"
+                           onClick={() => {
+                             if (isSelected) {
+                               setNewTaskData({ 
+                                 ...newTaskData, 
+                                 assignees: newTaskData.assignees.filter(a => a !== initials) 
+                               });
+                             } else {
+                               setNewTaskData({ 
+                                 ...newTaskData, 
+                                 assignees: [...newTaskData.assignees, initials] 
+                               });
+                             }
+                           }}
+                           className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${
+                             isSelected ? "bg-[#EFFC76]/20 border-[#EFFC76] text-[#EFFC76]" : "bg-white/5 border-white/10 text-white/50"
+                           }`}
+                         >
+                            <Avatar className="w-5 h-5">
+                              <AvatarFallback className="text-[10px] bg-white/10">{initials}</AvatarFallback>
+                            </Avatar>
+                            {initials}
+                         </button>
+                      );
+                    })}
+                </div>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+             <Button variant="outline" onClick={() => setAddTaskDialogOpen(false)} className="border-white/10 hover:bg-white/5">Cancel</Button>
+             <Button onClick={handleCreateTask} className="bg-[#EFFC76] text-black hover:bg-[#dce865]">Create Task</Button>
+          </div>
         </DialogContent>
       </Dialog>
 
