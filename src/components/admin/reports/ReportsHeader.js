@@ -14,22 +14,22 @@ export default function ReportsHeader() {
   });
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-2">
       <div>
-        <h1 className="text-2xl font-bold text-white">Reports</h1>
-        <p className="text-sm text-white/70 mt-1">
+        <h1 className="text-xl sm:text-2xl font-bold text-white">Reports</h1>
+        <p className="text-xs sm:text-sm text-white/70 mt-1">
           Analyze business performance and team efficiency.
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="w-[260px] justify-start text-left font-normal bg-white/5 border border-white/20 text-white hover:bg-white/10 glass-button"
+              className="w-full sm:w-[260px] justify-start text-left font-normal bg-white/5 border border-white/20 text-white hover:bg-white/10 glass-button h-9 sm:h-10 text-xs sm:text-sm"
             >
-              <Calendar className="mr-2 h-4 w-4 text-[#EFFC76]" />
+              <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[#EFFC76]" />
               {date?.from ? (
                 date.to ? (
                   <>
@@ -55,18 +55,20 @@ export default function ReportsHeader() {
           </PopoverContent>
         </Popover>
         
-        <Button
-          variant="outline"
-          className="glass-button border border-white/20 bg-transparent text-white/80 hover:bg-white/10 hover:text-white"
-        >
-          <Filter className="w-4 h-4 mr-2" />
-          Filter
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            className="flex-1 sm:flex-none glass-button border border-white/20 bg-transparent text-white/80 hover:bg-white/10 hover:text-white h-9 sm:h-10 text-xs sm:text-sm"
+          >
+            <Filter className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+            Filter
+          </Button>
 
-        <Button className="bg-white hover:bg-white/90 text-black border border-white/30 shadow-sm gap-2 glass-button">
-          <Download className="w-4 h-4" />
-          <span>Export</span>
-        </Button>
+          <Button className="flex-1 sm:flex-none bg-[#EFFC76] hover:bg-[#e0ef5f] text-black border-none shadow-sm gap-2 glass-button h-9 sm:h-10 text-xs sm:text-sm">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span>Export</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
