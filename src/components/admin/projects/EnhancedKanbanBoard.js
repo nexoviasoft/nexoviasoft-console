@@ -415,7 +415,6 @@ const KanbanColumn = ({
   onDragOver,
   onDrop,
   onDeleteColumn,
-  onAddTask,
   ...taskProps
 }) => {
   return (
@@ -466,7 +465,6 @@ const KanbanColumn = ({
 
       <button
         type="button"
-        onClick={() => onAddTask(column.id)}
         className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
       >
         <Plus className="w-4 h-4" />
@@ -612,23 +610,6 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     }
   };
 
-  const handleAddTask = (columnId) => {
-    const newTask = {
-      id: `task_${Date.now()}`,
-      title: "New Task",
-      desc: "Add a description...",
-      priority: "medium",
-      assignees: [],
-    };
-
-    setTasks((prev) => ({
-      ...prev,
-      [columnId]: [...(prev[columnId] || []), newTask],
-    }));
-
-    toast.success("New task added");
-  };
-
   const handleSelectTemplate = (templateId) => {
     const template = templates.find((item) => item.id === templateId);
     if (!template) return;
@@ -753,7 +734,6 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                 newComments={newComments}
                 handleCommentInputChange={handleCommentInputChange}
                 handleAddComment={handleAddComment}
-                onAddTask={handleAddTask}
               />
             ))}
 
