@@ -5,7 +5,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Calendar, FileText, AlertTriangle, Star, UserPlus, PartyPopper, Rocket, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar,
+  FileText,
+  AlertTriangle,
+  Star,
+  UserPlus,
+  PartyPopper,
+  Rocket,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const templates = [
   {
@@ -30,7 +41,7 @@ Agenda:
 Please come prepared with your updates.
 
 Best regards,
-[Your Name]`
+[Your Name]`,
   },
   {
     id: "project-update",
@@ -58,7 +69,7 @@ Here's the weekly status update for [Project Name]:
 Next week's focus: [Goals]
 
 Thanks,
-[Your Name]`
+[Your Name]`,
   },
   {
     id: "server-alert",
@@ -84,7 +95,7 @@ Current Actions:
 We will provide updates every [X] minutes.
 
 Incident Response Team
-[Your Name]`
+[Your Name]`,
   },
   {
     id: "performance-review",
@@ -111,7 +122,7 @@ Looking forward to our discussion.
 
 Best regards,
 [Manager Name]
-HR Department`
+HR Department`,
   },
   {
     id: "welcome-new-hire",
@@ -144,7 +155,7 @@ Your buddy: [Buddy Name] will help you get settled in.
 We're excited to have you on board!
 
 Best regards,
-[HR Manager]`
+[HR Manager]`,
   },
   {
     id: "holiday-announcement",
@@ -173,7 +184,7 @@ For urgent matters during the holiday:
 Enjoy your time off!
 
 Best regards,
-[Management]`
+[Management]`,
   },
   {
     id: "deploy-successful",
@@ -209,8 +220,8 @@ Great news! We've successfully deployed Release [Version] to production.
 Please monitor your areas and report any issues immediately.
 
 DevOps Team
-[Your Name]`
-  }
+[Your Name]`,
+  },
 ];
 
 const ITEMS_PER_PAGE = 3;
@@ -220,16 +231,20 @@ export default function TemplateList({ onSelectTemplate }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Filter templates based on search
-  const filteredTemplates = templates.filter(template =>
-    template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    template.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    template.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTemplates = templates.filter(
+    (template) =>
+      template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.subject.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredTemplates.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedTemplates = filteredTemplates.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedTemplates = filteredTemplates.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
+  );
 
   // Reset to page 1 when search changes
   React.useEffect(() => {
@@ -253,32 +268,43 @@ export default function TemplateList({ onSelectTemplate }) {
       </div>
 
       {/* Templates Grid */}
-      <div className="space-y-3">
+      <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
         {paginatedTemplates.length > 0 ? (
           paginatedTemplates.map((template) => (
-            <Card 
+            <Card
               key={template.id}
               className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-[#EFFC76] group"
               onClick={() => onSelectTemplate(template)}
             >
-              <CardContent className="p-5">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[#EFFC76]/15 rounded-xl group-hover:bg-[#EFFC76]/25 transition-colors">
-                    <template.icon className="w-5 h-5 text-[#EFFC76]" />
+              <CardContent className="p-2 sm:p-5">
+                <div className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4">
+                  <div className="flex w-full sm:w-auto justify-between items-start">
+                    <div className="p-1.5 sm:p-3 bg-[#EFFC76]/15 rounded-lg sm:rounded-xl group-hover:bg-[#EFFC76]/25 transition-colors">
+                      <template.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#EFFC76]" />
+                    </div>
+                    {/* Badge moved here for mobile to save vertical space */}
+                    <Badge
+                      variant="secondary"
+                      className="sm:hidden text-[10px] bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 px-1.5 py-0 h-5"
+                    >
+                      {template.category}
+                    </Badge>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-semibold text-white group-hover:text-[#EFFC76] transition-colors">
+                  
+                  <div className="flex-1 min-w-0 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                      <h4 className="font-semibold text-white group-hover:text-[#EFFC76] transition-colors text-xs sm:text-base truncate">
                         {template.title}
                       </h4>
+                      {/* Badge shown normally on desktop */}
                       <Badge
                         variant="secondary"
-                        className="text-xs bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                        className="hidden sm:inline-flex text-xs bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 w-fit"
                       >
                         {template.category}
                       </Badge>
                     </div>
-                    <p className="text-sm text-white/70 line-clamp-1">
+                    <p className="text-[10px] sm:text-sm text-white/70 line-clamp-2 sm:line-clamp-1 leading-tight">
                       {template.subject}
                     </p>
                   </div>
@@ -299,15 +325,17 @@ export default function TemplateList({ onSelectTemplate }) {
       {totalPages > 1 && (
         <div className="flex items-center justify-between pt-2">
           <p className="text-sm text-white/70">
-            Showing {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredTemplates.length)} of {filteredTemplates.length}
+            Showing {startIndex + 1}-
+            {Math.min(startIndex + ITEMS_PER_PAGE, filteredTemplates.length)} of{" "}
+            {filteredTemplates.length}
           </p>
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="bg-white hover:bg-white/90 text-black"
+              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none disabled:bg-[#EFFC76]/50 disabled:text-black/50"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
@@ -317,9 +345,11 @@ export default function TemplateList({ onSelectTemplate }) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              }
               disabled={currentPage === totalPages}
-              className="bg-white hover:bg-white/90 text-black"
+              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none disabled:bg-[#EFFC76]/50 disabled:text-black/50"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>

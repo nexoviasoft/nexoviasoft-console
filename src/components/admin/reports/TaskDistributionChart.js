@@ -11,13 +11,13 @@ const data = [
   { name: "Backlog", value: 200 },
 ];
 
-const COLORS = ["#10b981", "#8b5cf6", "#f59e0b", "#9ca3af"];
+const COLORS = ["#10b981", "#8b5cf6", "#EFFC76", "#9ca3af"];
 
 export default function TaskDistributionChart() {
   return (
     <Card className="glass-card border-white/20 col-span-1">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-white">Task Status</CardTitle>
+        <CardTitle className="text-base sm:text-lg font-semibold text-white">Task Status</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">

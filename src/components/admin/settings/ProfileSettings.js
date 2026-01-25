@@ -10,10 +10,10 @@ import { Camera } from "lucide-react";
 
 export default function ProfileSettings() {
   return (
-    <div className="max-w-2xl glass-card border-white/20 p-6 rounded-xl">
-      <div className="flex items-center gap-6 mb-8">
+    <div className="max-w-2xl glass-card border-white/20 p-4 sm:p-6 rounded-xl">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6 mb-8">
         <div className="relative group cursor-pointer">
-          <Avatar className="w-24 h-24 border-4 border-[#EFFC76] shadow-sm">
+          <Avatar className="w-20 h-20 sm:w-24 sm:h-24 border-4 border-[#EFFC76] shadow-sm mx-auto sm:mx-0">
             <AvatarImage src="/avatars/01.png" />
             <AvatarFallback className="bg-[#EFFC76] text-black">DI</AvatarFallback>
           </Avatar>
@@ -26,7 +26,7 @@ export default function ProfileSettings() {
           <p className="text-sm text-white/70 mb-2">
             Upload a new avatar. Recommended size 400x400px.
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 justify-center sm:justify-start">
              <Button
               variant="outline"
               size="sm"

@@ -37,19 +37,19 @@ export default function BroadcastStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
       {stats.map((stat, index) => (
         <Card key={index} className="border-white/20">
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-[#EFFC76]/10 border border-[#EFFC76]/40 flex items-center justify-center">
-              <stat.icon className="w-6 h-6 text-[#EFFC76]" />
+          <CardContent className="p-4 sm:p-6 flex items-center gap-3 sm:gap-4">
+            <div className="p-2 sm:p-3 rounded-xl bg-[#EFFC76]/10 border border-[#EFFC76]/40 flex items-center justify-center">
+              <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#EFFC76]" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white/60">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-white leading-none mt-1">
+              <p className="text-xs sm:text-sm font-medium text-white/60">{stat.label}</p>
+              <h3 className="text-xl sm:text-2xl font-bold text-white leading-none mt-1">
                 {stat.value}
               </h3>
-              <p className="text-xs text-white/60 mt-1">
+              <p className="text-[10px] sm:text-xs text-white/60 mt-1">
                 {stat.subtext}
               </p>
             </div>

@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MoreHorizontal, CheckCircle2, XCircle, Clock, FileText } from "lucide-react";
+import { Search, MoreHorizontal, CheckCircle2, XCircle, Clock, FileText, User, Calendar, Activity } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -127,12 +127,12 @@ export default function LeaveRequestTable() {
               Manage and review team leave applications
             </CardDescription>
           </div>
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/40" />
+          <div className="flex items-center gap-2 w-full md:w-64 bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
+            <Search className="w-4 h-4 text-white/40" />
             <Input
               type="text"
               placeholder="Search requests..."
-              className="pl-9 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
+              className="border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 h-8 text-sm text-white placeholder:text-white/40 w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -140,51 +140,74 @@ export default function LeaveRequestTable() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border border-white/15 bg-black/40 overflow-hidden overflow-x-auto">
+        <div className="bg-[#1A1A1A] rounded-xl sm:rounded-2xl overflow-hidden overflow-x-auto border border-white/5">
           <Table className="min-w-[800px]">
-            <TableHeader className="bg-white/5">
-              <TableRow>
-                <TableHead className="text-xs font-semibold text-white/60">Employee</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Leave Type</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Duration</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Days</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60">Status</TableHead>
-                <TableHead className="text-xs font-semibold text-white/60 text-right">
-                  Actions
+            <TableHeader className="bg-[#1A1A1A]">
+              <TableRow className="border-white/5 hover:bg-transparent">
+                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-[#EFFC76]" />
+                    Employee
+                  </div>
                 </TableHead>
+                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-[#EFFC76]" />
+                    Leave Type
+                  </div>
+                </TableHead>
+                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                    Duration
+                  </div>
+                </TableHead>
+                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-[#EFFC76]" />
+                    Days
+                  </div>
+                </TableHead>
+                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-[#EFFC76]" />
+                    Status
+                  </div>
+                </TableHead>
+                <TableHead className="text-right text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredRequests.map((req) => (
-                <TableRow key={req.id} className="hover:bg-white/5 transition-colors">
+                <TableRow key={req.id} className="hover:bg-white/5 transition-colors border-white/5 group">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9 border border-white/10 bg-black/40">
                         <AvatarImage src={req.employee.avatar} />
-                        <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] font-medium">
+                        <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] font-medium">
                           {req.employee.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium text-white">{req.employee.name}</div>
-                        <div className="text-xs text-white/60">{req.employee.role}</div>
+                        <div className="font-medium text-white group-hover:text-[#EFFC76] transition-colors">{req.employee.name}</div>
+                        <div className="text-xs text-white/60 group-hover:text-[#EFFC76]/70 transition-colors">{req.employee.role}</div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
-                      <span className="font-medium text-white/90">{req.type}</span>
-                      <span className="text-xs text-white/60">{req.reason}</span>
+                      <span className="font-medium text-white/90 group-hover:text-[#EFFC76] transition-colors">{req.type}</span>
+                      <span className="text-xs text-white/60 group-hover:text-[#EFFC76]/70 transition-colors">{req.reason}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-white/70 text-sm">
-                      <Clock className="w-3.5 h-3.5 text-white/40" />
+                    <div className="flex items-center gap-2 text-white/70 text-sm group-hover:text-[#EFFC76] transition-colors">
+                      <Clock className="w-3.5 h-3.5 text-white/40 group-hover:text-[#EFFC76] transition-colors" />
                       {req.duration}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium text-white">{req.days} days</span>
+                    <span className="font-medium text-white group-hover:text-[#EFFC76] transition-colors">{req.days} days</span>
                   </TableCell>
                   <TableCell>{getStatusBadge(req.status)}</TableCell>
                   <TableCell className="text-right">

@@ -18,7 +18,7 @@ export default function RevenueChart() {
   return (
     <Card className="glass-card border-white/20 col-span-1 lg:col-span-2">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-white">Revenue Trend</CardTitle>
+        <CardTitle className="text-base sm:text-lg font-semibold text-white">Revenue Trend</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">

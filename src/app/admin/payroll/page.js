@@ -7,8 +7,8 @@ import PayrollTable from "@/components/admin/payroll/PayrollTable";
 
 export default function Payroll() {
   return (
-    <div className="px-8 py-8 min-h-screen text-white">
-      <div className="max-w-[1600px] w-full mx-auto space-y-6">
+    <div className="px-4 py-4 sm:px-8 sm:py-8 min-h-screen text-white">
+      <div className="max-w-[1600px] w-full mx-auto space-y-4 sm:space-y-6">
         <PayrollHeader />
         <PayrollStats />
         <PayrollTable />

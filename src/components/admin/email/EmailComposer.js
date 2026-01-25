@@ -67,7 +67,7 @@ export default function EmailComposer({ selectedTemplate }) {
               variant="ghost" 
               size="sm"
               onClick={handleReset}
-              className="gap-2 bg-white hover:bg-white/90 text-black"
+              className="gap-2 bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
             >
               <RefreshCw className="w-4 h-4" />
               Reset Template
