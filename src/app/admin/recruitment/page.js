@@ -9,7 +9,7 @@ import JobDetails from "@/components/admin/recruitment/JobDetails";
 import InterviewScheduler from "@/components/admin/recruitment/InterviewScheduler";
 
 export default function RecruitmentPage() {
-  const [activeTab, setActiveTab] = useState('jobs');
+  const [activeTab, setActiveTab] = useState("jobs");
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null);
 
@@ -22,38 +22,28 @@ export default function RecruitmentPage() {
   };
 
   return (
-    <div className=" px-8 py-8">
-      <div className=" mx-auto">
-        <RecruitmentHeader 
-          activeTab={activeTab} 
-          onTabChange={setActiveTab}
-        />
-        
+    <div className="px-4 sm:px-8 py-4 sm:py-8">
+      <div className="mx-auto max-w-[1600px]">
+        <RecruitmentHeader activeTab={activeTab} onTabChange={setActiveTab} />
 
-        
-        {activeTab === 'jobs' && (
-          selectedJob ? (
-            <JobDetails 
-              job={selectedJob} 
-              onBack={() => setSelectedJob(null)}
-            />
+        {activeTab === "jobs" &&
+          (selectedJob ? (
+            <JobDetails job={selectedJob} onBack={() => setSelectedJob(null)} />
           ) : (
             <JobPostings onViewDetails={(job) => setSelectedJob(job)} />
-          )
-        )}
-        
-        {activeTab === 'candidates' && (
-          selectedCandidate ? (
-            <CandidateDetails 
-              candidate={selectedCandidate} 
+          ))}
+
+        {activeTab === "candidates" &&
+          (selectedCandidate ? (
+            <CandidateDetails
+              candidate={selectedCandidate}
               onBack={handleBackToPipeline}
             />
           ) : (
             <CandidatePipeline onSelectCandidate={handleSelectCandidate} />
-          )
-        )}
-        
-        {activeTab === 'calendar' && <InterviewScheduler />}
+          ))}
+
+        {activeTab === "calendar" && <InterviewScheduler />}
       </div>
     </div>
   );

@@ -97,11 +97,11 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {jobs.map((job) => (
           <Card key={job.id} className="glass-card border-white/20 hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex justify-between items-start mb-2">
+            <CardHeader className="p-3 sm:p-6 pb-2 sm:pb-3">
+              <div className="flex justify-between items-start mb-2 gap-2">
                 <Badge
                   variant={job.status === 'Active' ? 'default' : 'secondary'}
-                  className="bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                  className="bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 text-[10px] sm:text-xs shrink-0"
                 >
                   {job.status}
                 </Badge>
@@ -109,38 +109,40 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-white/70 hover:bg-white/10"
+                    className="h-6 w-6 sm:h-8 sm:w-8 text-white/70 hover:bg-white/10"
                     onClick={() => handleEdit(job)}
                   >
-                    <Edit className="w-4 h-4" />
+                    <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                   </Button>
                 </div>
               </div>
-              <CardTitle className="text-lg text-white">{job.title}</CardTitle>
+              <CardTitle className="text-sm sm:text-lg text-white truncate">{job.title}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <Briefcase className="w-4 h-4" />
-                {job.department}
+            <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0 space-y-2 sm:space-y-3">
+              <div className="grid grid-cols-2 sm:flex sm:flex-col gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-white/70">
+                  <Briefcase className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                  <span className="truncate">{job.department}</span>
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-white/70">
+                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                  <span className="truncate">{job.location}</span>
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-white/70 col-span-2 sm:col-span-1">
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                  <span className="truncate">{job.type}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <MapPin className="w-4 h-4" />
-                {job.location}
-              </div>
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <Clock className="w-4 h-4" />
-                {job.type}
-              </div>
-              <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                <div className="flex items-center gap-2 text-sm font-medium text-[#EFFC76]">
-                  <Users className="w-4 h-4" />
+              <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-white/10">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-[#EFFC76]">
+                  <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   {job.applicants} applicants
                 </div>
                 <Button 
                   variant="outline" 
                   size="sm"
                   onClick={() => onViewDetails && onViewDetails(job)}
-                  className="bg-white hover:bg-white/90 text-black"
+                  className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none h-7 sm:h-9 text-[10px] sm:text-sm px-2 sm:px-4"
                 >
                   View Details
                 </Button>
@@ -216,13 +218,13 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
             <Button
               variant="outline"
               onClick={() => setShowDialog(false)}
-              className="bg-white hover:bg-white/90 text-black"
+              className="border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 bg-transparent hover:text-[#EFFC76]"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSave}
-              className="bg-white hover:bg-white/90 text-black"
+              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
             >
               {editingJob ? 'Update Job' : 'Post Job'}
             </Button>
