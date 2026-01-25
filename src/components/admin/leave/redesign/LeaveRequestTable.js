@@ -127,12 +127,12 @@ export default function LeaveRequestTable() {
               Manage and review team leave applications
             </CardDescription>
           </div>
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/40" />
+          <div className="flex items-center gap-2 w-full md:w-64 bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
+            <Search className="w-4 h-4 text-white/40" />
             <Input
               type="text"
               placeholder="Search requests..."
-              className="pl-9 bg-black/40 border border-[#EFFC76] text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
+              className="border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 h-8 text-sm text-white placeholder:text-white/40 w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -184,7 +184,7 @@ export default function LeaveRequestTable() {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9 border border-white/10 bg-black/40">
                         <AvatarImage src={req.employee.avatar} />
-                        <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] font-medium">
+                        <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] font-medium">
                           {req.employee.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>

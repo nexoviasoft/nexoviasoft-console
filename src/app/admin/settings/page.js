@@ -8,37 +8,37 @@ import { User, Bell, Shield, Wallet } from "lucide-react";
 
 export default function Settings() {
   return (
-    <div className="px-8 py-8">
+    <div className="px-4 sm:px-8 py-4 sm:py-8">
       <div className="max-w-[1600px] w-full mx-auto">
-            <h1 className="text-3xl font-bold text-white mb-6">Settings</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6">Settings</h1>
             
             <Tabs defaultValue="profile" className="w-full">
-              <div className="border-b border-white/10 mb-8">
-                <TabsList className="bg-transparent h-auto p-0 space-x-8">
+              <div className="border-b border-white/10 mb-6 sm:mb-8 overflow-x-auto">
+                <TabsList className="bg-transparent h-auto p-0 flex w-max sm:w-full gap-4 sm:gap-8">
                   <TabsTrigger 
                     value="profile" 
-                    className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2"
+                    className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-2 sm:px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2 text-xs sm:text-base"
                   >
                     <User className="w-4 h-4 text-[#EFFC76]" />
                     Profile
                   </TabsTrigger>
                   <TabsTrigger 
                     value="notifications" 
-                     className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2"
+                    className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-2 sm:px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2 text-xs sm:text-base"
                   >
                     <Bell className="w-4 h-4 text-[#EFFC76]" />
                     Notifications
                   </TabsTrigger>
                   <TabsTrigger 
                     value="security" 
-                     className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2"
+                    className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-2 sm:px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2 text-xs sm:text-base"
                   >
                     <Shield className="w-4 h-4 text-[#EFFC76]" />
                     Security
                   </TabsTrigger>
                    <TabsTrigger 
                     value="billing" 
-                     className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2"
+                    className="bg-transparent data-[state=active]:bg-transparent border-0 border-b-2 border-transparent data-[state=active]:border-[#EFFC76] rounded-none px-2 sm:px-0 py-3 text-white/60 data-[state=active]:text-white flex items-center gap-2 text-xs sm:text-base"
                   >
                     <Wallet className="w-4 h-4 text-[#EFFC76]" />
                     Billing
