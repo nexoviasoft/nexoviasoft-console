@@ -13,7 +13,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Download, MoreHorizontal, Send, Search } from "lucide-react";
+import {
+  Download,
+  MoreHorizontal,
+  Send,
+  Search,
+  User,
+  DollarSign,
+  TrendingUp,
+  TrendingDownIcon,
+  Wallet,
+  Activity,
+} from "lucide-react";
 
 const payrollData = [
   {
@@ -103,18 +114,19 @@ const StatusBadge = ({ status }) => {
 export default function PayrollTable() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = payrollData.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    employee.role.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = payrollData.filter(
+    (employee) =>
+      employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.role.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 w-full sm:max-w-sm bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
         <Search className="w-4 h-4 text-white/40" />
-        <Input 
-          type="text" 
-          placeholder="Search employees..." 
+        <Input
+          type="text"
+          placeholder="Search employees..."
           className="border-0 bg-transparent shadow-none focus-visible:ring-0 px-0 h-8 text-sm text-white placeholder:text-white/40 w-full"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -123,15 +135,47 @@ export default function PayrollTable() {
 
       <div className="bg-[#1A1A1A] rounded-xl sm:rounded-2xl overflow-hidden overflow-x-auto border border-white/5">
         <Table>
-          <TableHeader className="bg-white/5">
-            <TableRow className="border-white/5">
-              <TableHead className="w-[200px] sm:w-[300px] text-white/70 text-xs sm:text-sm">Employee</TableHead>
-              <TableHead className="text-white/70 text-xs sm:text-sm">Base Salary</TableHead>
-              <TableHead className="text-white/70 text-xs sm:text-sm">Bonus</TableHead>
-              <TableHead className="text-white/70 text-xs sm:text-sm">Deductions</TableHead>
-              <TableHead className="font-bold text-white text-xs sm:text-sm">Net Pay</TableHead>
-              <TableHead className="text-white/70 text-xs sm:text-sm">Status</TableHead>
-              <TableHead className="text-right text-white/70 text-xs sm:text-sm">Actions</TableHead>
+          <TableHeader className="bg-[#1A1A1A]">
+            <TableRow className="border-white/5 hover:bg-transparent">
+              <TableHead className="w-[200px] sm:w-[300px] text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-[#EFFC76]" />
+                  Employee
+                </div>
+              </TableHead>
+              <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-[#EFFC76]" />
+                  Base Salary
+                </div>
+              </TableHead>
+              <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-[#EFFC76]" />
+                  Bonus
+                </div>
+              </TableHead>
+              <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <TrendingDownIcon className="w-4 h-4 text-[#EFFC76]" />
+                  Deductions
+                </div>
+              </TableHead>
+              <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <Wallet className="w-4 h-4 text-[#EFFC76]" />
+                  Net Pay
+                </div>
+              </TableHead>
+              <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[#EFFC76]" />
+                  Status
+                </div>
+              </TableHead>
+              <TableHead className="text-right text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -139,7 +183,7 @@ export default function PayrollTable() {
               filteredData.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="hover:bg-white/5 cursor-pointer transition-colors border-white/5"
+                  className="hover:bg-white/5 cursor-pointer transition-colors border-white/5 group"
                 >
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2 sm:gap-3">
@@ -150,18 +194,22 @@ export default function PayrollTable() {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-semibold text-white text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">{row.name}</div>
-                        <div className="text-[10px] sm:text-xs text-white/60 truncate max-w-[100px] sm:max-w-none">{row.role}</div>
+                        <div className="font-semibold text-white text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none group-hover:text-[#EFFC76] transition-colors">
+                          {row.name}
+                        </div>
+                        <div className="text-[10px] sm:text-xs text-white/60 truncate max-w-[100px] sm:max-w-none group-hover:text-[#EFFC76]/70 transition-colors">
+                          {row.role}
+                        </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white/80 font-medium text-xs sm:text-sm whitespace-nowrap">
+                  <TableCell className="text-white/80 font-medium text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
                     {row.salary}
                   </TableCell>
-                  <TableCell className="text-emerald-300 font-medium text-xs sm:text-sm whitespace-nowrap">
+                  <TableCell className="text-emerald-300 font-medium text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
                     {row.bonus}
                   </TableCell>
-                  <TableCell className="text-rose-300 font-medium text-xs sm:text-sm whitespace-nowrap">
+                  <TableCell className="text-rose-300 font-medium text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
                     {row.deductions}
                   </TableCell>
                   <TableCell className="font-bold text-[#EFFC76] text-xs sm:text-sm whitespace-nowrap">
@@ -201,7 +249,10 @@ export default function PayrollTable() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center text-white/60 text-sm">
+                <TableCell
+                  colSpan={7}
+                  className="h-24 text-center text-white/60 text-sm"
+                >
                   No employees found matching "{searchTerm}"
                 </TableCell>
               </TableRow>
