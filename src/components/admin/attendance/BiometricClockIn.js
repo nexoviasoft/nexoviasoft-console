@@ -132,8 +132,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('FaceID')} 
                     disabled={isLoading}
-                    className="border-black hover:bg-[#EFFC76]/10 
-                    text-black"
+                    className="border-white/20 bg-[#EFFC76]/10  hover:bg-[#EFFC76]/10 
+                    text-[#EFFC76] hover:text-[#EFFC76] hover:border-[#EFFC76]/50"
                 >
                     <ScanFace className="w-4 h-4 mr-2" />
                     Setup FaceID
@@ -142,8 +142,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('Fingerprint')} 
                     disabled={isLoading}
-                    className="border-black hover:bg-[#EFFC76]/10 
-                    text-black"
+                    className="border-white/20 bg-[#EFFC76]/10 hover:bg-[#EFFC76]/10 
+                    text-white text-[#EFFC76] hover:text-[#EFFC76] hover:border-[#EFFC76]/50"
                 >
                     <Fingerprint className="w-4 h-4 mr-2" />
                     Setup Fingerprint

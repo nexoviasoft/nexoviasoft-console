@@ -22,13 +22,13 @@ export default function ProjectDetails({ project, onBack }) {
         Back to Projects
       </Button>
 
-      <div className="glass-card rounded-xl p-6 border-white/20">
-        <div className="flex items-start justify-between mb-4">
+      <div className="glass-card rounded-xl p-4 md:p-6 border-white/20">
+        <div className="flex items-start justify-between mb-3 md:mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2">
               {project.name}
             </h1>
-            <p className="text-white/70">{project.description}</p>
+            <p className="text-sm md:text-base text-white/70 line-clamp-1 md:line-clamp-none">{project.description}</p>
           </div>
           <Badge
             className={
@@ -43,7 +43,7 @@ export default function ProjectDetails({ project, onBack }) {
           </Badge>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 pt-4 border-t border-white/10">
+        <div className="grid grid-cols-3 gap-2 md:gap-6 pt-3 md:pt-4 border-t border-white/10">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-[#EFFC76]/15 rounded-lg border border-[#EFFC76]/40">
               <Users className="w-5 h-5 text-[#EFFC76]" />
@@ -105,7 +105,7 @@ export default function ProjectDetails({ project, onBack }) {
         </TabsContent>
         
         <TabsContent value="comments" className="mt-6">
-          <ProjectComments projectId={project.id} />
+          <ProjectComments projectId={project.id} applicationType={project.applicationType} />
         </TabsContent>
       </Tabs>
     </div>

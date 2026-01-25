@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Bell } from "lucide-react";
+import { Bell, FileStack } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -10,7 +10,10 @@ export default function DocumentsHeader() {
     <div className="flex flex-col gap-4 mb-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Document Generator</h1>
+          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+            <FileStack className="w-6 h-6 text-[#EFFC76]" />
+            Document Generator
+          </h1>
           <p className="text-sm text-white/60">Create official documents, invoices, and letters.</p>
         </div>
         

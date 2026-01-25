@@ -23,23 +23,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
-  ArrowLeft, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
+import {
+  ArrowLeft,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
   Briefcase,
   Edit,
   MoreVertical,
-  Save
+  Save,
+  User,
+  Building,
+  Users,
+  Activity,
+  FileText,
 } from "lucide-react";
 import { toast } from "sonner";
 
 // Mock employee data - in real app, fetch based on params.id
 const getEmployee = (id) => {
   const employees = {
-    "1": {
+    1: {
       id: 1,
       name: "Dipa Inhouse",
       role: "Visual Designer",
@@ -54,9 +59,9 @@ const getEmployee = (id) => {
       status: "Active",
       bio: "Passionate visual designer with 5+ years of experience in creating stunning user interfaces and brand identities.",
       skills: ["UI Design", "Figma", "Adobe XD", "Illustration", "Branding"],
-      projects: ["Website Redesign", "Mobile App UI", "Brand Guidelines"]
+      projects: ["Website Redesign", "Mobile App UI", "Brand Guidelines"],
     },
-    "2": {
+    2: {
       id: 2,
       name: "Jane Cooper",
       role: "Product Manager",
@@ -71,8 +76,8 @@ const getEmployee = (id) => {
       status: "Active",
       bio: "Strategic product manager focused on delivering user-centric solutions.",
       skills: ["Product Strategy", "Agile", "User Research", "Data Analysis"],
-      projects: ["API Integration", "Mobile App Development"]
-    }
+      projects: ["API Integration", "Mobile App Development"],
+    },
   };
   return employees[id] || employees["1"];
 };
@@ -96,17 +101,17 @@ export default function EmployeeProfilePage({ params }) {
   };
 
   const handleInputChange = (field, value) => {
-    setEditForm(prev => ({ ...prev, [field]: value }));
+    setEditForm((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
-    <div className="px-8 py-6 min-h-screen text-white">
+    <div className="px-4 py-4 md:px-8 md:py-6 min-h-screen text-white">
       <div className="max-w-[1200px] w-full mx-auto">
         <div className="mb-6">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => router.push('/admin/employees')}
+            onClick={() => router.push("/admin/employees")}
             className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5 mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -114,27 +119,36 @@ export default function EmployeeProfilePage({ params }) {
           </Button>
         </div>
 
-        <div className="glass-card rounded-xl p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-start gap-6">
-              <Avatar className="h-24 w-24 ring-4 ring-[#EFFC76]/30">
+        <div className="glass-card rounded-xl p-4 md:p-8 mb-6">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-6 md:gap-0 mb-6">
+            <div className="flex flex-row items-center gap-4 md:gap-6 w-full md:w-auto text-left">
+              <Avatar className="h-16 w-16 md:h-24 md:w-24 ring-4 ring-[#EFFC76]/30">
                 <AvatarImage src={employee.avatar} alt={employee.name} />
-                <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-2xl">
-                  {employee.name.split(' ').map(n => n[0]).join('')}
+                <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-xl md:text-2xl">
+                  {employee.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold text-white">{employee.name}</h1>
+                <div className="flex flex-row items-center gap-3 mb-1 md:mb-2">
+                  <h1 className="text-xl md:text-3xl font-bold text-white">
+                    {employee.name}
+                  </h1>
                   <Badge className="bg-emerald-500/15 text-emerald-200 border border-emerald-400/60">
                     {employee.status}
                   </Badge>
                 </div>
-                <p className="text-lg text-white/70 mb-1">{employee.role}</p>
-                <p className="text-sm text-white/50">Employee ID: {employee.employeeId}</p>
+                <p className="text-sm md:text-lg text-white/70 mb-0.5 md:mb-1">
+                  {employee.role}
+                </p>
+                <p className="text-xs md:text-sm text-white/50">
+                  Employee ID: {employee.employeeId}
+                </p>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full md:w-auto justify-start md:justify-end">
               <Button
                 variant="outline"
                 size="sm"
@@ -158,56 +172,64 @@ export default function EmployeeProfilePage({ params }) {
             {employee.bio}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
-              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
-                <Mail className="w-4 h-4 text-[#EFFC76]" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="flex items-center gap-3 p-3 md:p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-1.5 md:p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#EFFC76]" />
               </div>
-              <div>
-                <p className="text-xs text-white/60 mb-1">Email</p>
+              <div className="overflow-hidden">
+                <p className="text-[10px] md:text-xs text-white/60 mb-0.5 md:mb-1">
+                  Email
+                </p>
                 <a
                   href={`mailto:${employee.email}`}
-                  className="text-sm font-medium text-white hover:text-[#EFFC76]"
+                  className="block text-xs md:text-sm font-medium text-white hover:text-[#EFFC76] truncate"
                 >
                   {employee.email}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
-              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
-                <Phone className="w-4 h-4 text-[#EFFC76]" />
+            <div className="flex items-center gap-3 p-3 md:p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-1.5 md:p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Phone className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#EFFC76]" />
               </div>
-              <div>
-                <p className="text-xs text-white/60 mb-1">Phone</p>
+              <div className="overflow-hidden">
+                <p className="text-[10px] md:text-xs text-white/60 mb-0.5 md:mb-1">
+                  Phone
+                </p>
                 <a
                   href={`tel:${employee.phone}`}
-                  className="text-sm font-medium text-white hover:text-[#EFFC76]"
+                  className="block text-xs md:text-sm font-medium text-white hover:text-[#EFFC76] truncate"
                 >
                   {employee.phone}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
-              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
-                <MapPin className="w-4 h-4 text-[#EFFC76]" />
+            <div className="flex items-center gap-3 p-3 md:p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-1.5 md:p-2 bg-[#EFFC76]/15 rounded-lg">
+                <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#EFFC76]" />
               </div>
-              <div>
-                <p className="text-xs text-white/60 mb-1">Location</p>
-                <p className="text-sm font-medium text-white/90">
+              <div className="overflow-hidden">
+                <p className="text-[10px] md:text-xs text-white/60 mb-0.5 md:mb-1">
+                  Location
+                </p>
+                <p className="block text-xs md:text-sm font-medium text-white/90 truncate">
                   {employee.location}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-black/40 border border-white/15 rounded-lg">
-              <div className="p-2 bg-[#EFFC76]/15 rounded-lg">
-                <Calendar className="w-4 h-4 text-[#EFFC76]" />
+            <div className="flex items-center gap-3 p-3 md:p-4 bg-black/40 border border-white/15 rounded-lg">
+              <div className="p-1.5 md:p-2 bg-[#EFFC76]/15 rounded-lg">
+                <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#EFFC76]" />
               </div>
-              <div>
-                <p className="text-xs text-white/60 mb-1">Join Date</p>
-                <p className="text-sm font-medium text-white/90">
+              <div className="overflow-hidden">
+                <p className="text-[10px] md:text-xs text-white/60 mb-0.5 md:mb-1">
+                  Join Date
+                </p>
+                <p className="block text-xs md:text-sm font-medium text-white/90 truncate">
                   {employee.joinDate}
                 </p>
               </div>
@@ -215,7 +237,7 @@ export default function EmployeeProfilePage({ params }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="glass-card rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-4">Organization</h2>
             <div className="space-y-4">
@@ -269,7 +291,7 @@ export default function EmployeeProfilePage({ params }) {
       </div>
 
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl glass-panel">
+        <DialogContent className="w-[95vw] max-w-2xl glass-panel max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-white">
               Edit Employee Profile
@@ -279,135 +301,218 @@ export default function EmployeeProfilePage({ params }) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right text-white/80">
+          <div className="grid gap-4 py-4 overflow-y-auto pr-2">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="name"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <User className="w-4 h-4 text-[#EFFC76]" />
                 Name
               </Label>
               <Input
                 id="name"
                 value={editForm.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="role" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="role"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <Briefcase className="w-4 h-4 text-[#EFFC76]" />
                 Role
               </Label>
               <Input
                 id="role"
                 value={editForm.role}
-                onChange={(e) => handleInputChange('role', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("role", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
               <Label
                 htmlFor="department"
-                className="text-right text-white/80"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
               >
+                <Building className="w-4 h-4 text-[#EFFC76]" />
                 Department
               </Label>
-              <Select value={editForm.department} onValueChange={(value) => handleInputChange('department', value)}>
-                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
+              <Select
+                value={editForm.department}
+                onValueChange={(value) =>
+                  handleInputChange("department", value)
+                }
+              >
+                <SelectTrigger className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Design">Design</SelectItem>
-                  <SelectItem value="Engineering">Engineering</SelectItem>
-                  <SelectItem value="Product">Product</SelectItem>
-                  <SelectItem value="Marketing">Marketing</SelectItem>
-                  <SelectItem value="HR">HR</SelectItem>
-                  <SelectItem value="Sales">Sales</SelectItem>
+                <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
+                  <SelectItem
+                    value="Design"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Design
+                  </SelectItem>
+                  <SelectItem
+                    value="Engineering"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Engineering
+                  </SelectItem>
+                  <SelectItem
+                    value="Product"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Product
+                  </SelectItem>
+                  <SelectItem
+                    value="Marketing"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Marketing
+                  </SelectItem>
+                  <SelectItem
+                    value="HR"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    HR
+                  </SelectItem>
+                  <SelectItem
+                    value="Sales"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Sales
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="email" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="email"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <Mail className="w-4 h-4 text-[#EFFC76]" />
                 Email
               </Label>
               <Input
                 id="email"
                 type="email"
                 value={editForm.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="phone" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="phone"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <Phone className="w-4 h-4 text-[#EFFC76]" />
                 Phone
               </Label>
               <Input
                 id="phone"
                 value={editForm.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="location" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="location"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <MapPin className="w-4 h-4 text-[#EFFC76]" />
                 Location
               </Label>
               <Input
                 id="location"
                 value={editForm.location}
-                onChange={(e) => handleInputChange('location', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("location", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="manager" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="manager"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <Users className="w-4 h-4 text-[#EFFC76]" />
                 Manager
               </Label>
               <Input
                 id="manager"
                 value={editForm.manager}
-                onChange={(e) => handleInputChange('manager', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("manager", e.target.value)}
+                className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="status" className="text-right text-white/80">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+              <Label
+                htmlFor="status"
+                className="text-left sm:text-right text-white/80 flex items-center sm:justify-end gap-2"
+              >
+                <Activity className="w-4 h-4 text-[#EFFC76]" />
                 Status
               </Label>
-              <Select value={editForm.status} onValueChange={(value) => handleInputChange('status', value)}>
-                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
+              <Select
+                value={editForm.status}
+                onValueChange={(value) => handleInputChange("status", value)}
+              >
+                <SelectTrigger className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Active">Active</SelectItem>
-                  <SelectItem value="On Leave">On Leave</SelectItem>
-                  <SelectItem value="Inactive">Inactive</SelectItem>
+                <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
+                  <SelectItem
+                    value="Active"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Active
+                  </SelectItem>
+                  <SelectItem
+                    value="On Leave"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    On Leave
+                  </SelectItem>
+                  <SelectItem
+                    value="Inactive"
+                    className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer"
+                  >
+                    Inactive
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-start gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-4 items-start gap-2 sm:gap-4">
               <Label
                 htmlFor="bio"
-                className="text-right pt-2 text-white/80"
+                className="text-left sm:text-right pt-2 text-white/80 flex items-center sm:justify-end gap-2"
               >
+                <FileText className="w-4 h-4 text-[#EFFC76]" />
                 Bio
               </Label>
               <Textarea
                 id="bio"
                 value={editForm.bio}
-                onChange={(e) => handleInputChange('bio', e.target.value)}
-                className="col-span-3 min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                onChange={(e) => handleInputChange("bio", e.target.value)}
+                className="col-span-1 sm:col-span-3 min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="flex flex-row w-full">
             <Button
               variant="outline"
               onClick={() => setIsEditDialogOpen(false)}

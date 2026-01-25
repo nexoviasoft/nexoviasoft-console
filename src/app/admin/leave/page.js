@@ -6,13 +6,16 @@ import LeaveRequestTable from "@/components/admin/leave/redesign/LeaveRequestTab
 import WhoIsAway from "@/components/admin/leave/redesign/WhoIsAway";
 import ApplyLeaveModal from "@/components/admin/leave/redesign/ApplyLeaveModal";
 
+import { Calendar } from "lucide-react";
+
 export default function LeaveManagement() {
   return (
-    <div className="px-8 py-8 min-h-screen text-white">
+    <div className="px-4 py-4 md:px-8 md:py-8 min-h-screen text-white">
       <div className="max-w-[1600px] mx-auto space-y-8 animate-in fade-in duration-500">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+              <Calendar className="w-6 h-6 text-[#EFFC76]" />
               Leave Management
             </h1>
             <p className="text-sm text-white/70 mt-1">

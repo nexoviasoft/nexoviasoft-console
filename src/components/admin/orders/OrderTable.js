@@ -146,24 +146,25 @@ export default function OrderTable({ onViewDetails }) {
       </div>
 
       <div className="glass-card rounded-xl border-white/20 overflow-hidden">
-        <Table>
-          <TableHeader className="bg-white/5">
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[100px] text-xs font-semibold text-white/60">Order ID</TableHead>
-              <TableHead className="min-w-[200px] text-xs font-semibold text-white/60">Client</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Service</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Amount</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Status</TableHead>
-              <TableHead className="w-[150px] text-xs font-semibold text-white/60">Progress</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60">Assigned To</TableHead>
-              <TableHead className="text-xs font-semibold text-white/60 text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredOrders.length > 0 ? (
-              filteredOrders.map((order) => (
-                <TableRow key={order.id} className="group hover:bg-white/5 transition-colors">
-                  <TableCell className="font-medium text-white/60 text-xs">{order.id}</TableCell>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-[#EFFC76]/10">
+              <TableRow className="hover:bg-transparent border-white/10">
+                <TableHead className="w-[100px] text-xs font-semibold text-[#EFFC76]">Order ID</TableHead>
+                <TableHead className="min-w-[200px] text-xs font-semibold text-[#EFFC76]">Client</TableHead>
+                <TableHead className="text-xs font-semibold text-[#EFFC76]">Service</TableHead>
+                <TableHead className="text-xs font-semibold text-[#EFFC76]">Amount</TableHead>
+                <TableHead className="text-xs font-semibold text-[#EFFC76]">Status</TableHead>
+                <TableHead className="w-[150px] text-xs font-semibold text-[#EFFC76]">Progress</TableHead>
+                <TableHead className="text-xs font-semibold text-[#EFFC76]">Assigned To</TableHead>
+                <TableHead className="text-xs font-semibold text-[#EFFC76] text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredOrders.length > 0 ? (
+                filteredOrders.map((order) => (
+                  <TableRow key={order.id} className="group hover:bg-[#EFFC76]/5 transition-colors border-white/10">
+                    <TableCell className="font-medium text-white/60 text-xs">{order.id}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="w-8 h-8 border border-white/20 bg-black/40">
@@ -234,6 +235,7 @@ export default function OrderTable({ onViewDetails }) {
             )}
           </TableBody>
         </Table>
+        </div>
       </div>
     </div>
   );

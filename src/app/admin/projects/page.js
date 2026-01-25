@@ -4,7 +4,17 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Code, Plus } from "lucide-react";
+import {
+  CheckCircle2,
+  Code,
+  Plus,
+  FolderKanban,
+  Globe,
+  Smartphone,
+  Server,
+  Database,
+  Layout,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import NewProjectDialog from "@/components/admin/projects/NewProjectDialog";
 
@@ -20,11 +30,11 @@ const projects = [
     team: [
       { name: "Sarah J", avatar: "SJ" },
       { name: "Mike C", avatar: "MC" },
-      { name: "Emily R", avatar: "ER" }
+      { name: "Emily R", avatar: "ER" },
     ],
     dueDate: "2026-02-15",
     tasksCompleted: 13,
-    totalTasks: 20
+    totalTasks: 20,
   },
   {
     id: 2,
@@ -36,11 +46,11 @@ const projects = [
     platform: "iOS & Android",
     team: [
       { name: "David K", avatar: "DK" },
-      { name: "Lisa A", avatar: "LA" }
+      { name: "Lisa A", avatar: "LA" },
     ],
     dueDate: "2026-03-01",
     tasksCompleted: 8,
-    totalTasks: 20
+    totalTasks: 20,
   },
   {
     id: 3,
@@ -52,11 +62,11 @@ const projects = [
     platform: "REST API",
     team: [
       { name: "John D", avatar: "JD" },
-      { name: "Anna M", avatar: "AM" }
+      { name: "Anna M", avatar: "AM" },
     ],
     dueDate: "2026-02-28",
     tasksCompleted: 3,
-    totalTasks: 20
+    totalTasks: 20,
   },
   {
     id: 4,
@@ -66,13 +76,11 @@ const projects = [
     progress: 100,
     applicationType: "Database Layer",
     platform: "MongoDB Cluster",
-    team: [
-      { name: "Tom W", avatar: "TW" }
-    ],
+    team: [{ name: "Tom W", avatar: "TW" }],
     dueDate: "2026-01-10",
     tasksCompleted: 15,
-    totalTasks: 15
-  }
+    totalTasks: 15,
+  },
 ];
 
 export default function Projects() {
@@ -92,24 +100,57 @@ export default function Projects() {
     }
   };
 
+  const getAppTypeColor = (type) => {
+    switch (type) {
+      case "Web Application":
+        return "bg-purple-500/15 text-purple-300 border border-purple-400/50";
+      case "Mobile Application":
+        return "bg-orange-500/15 text-orange-300 border border-orange-400/50";
+      case "Backend Service":
+        return "bg-blue-500/15 text-blue-300 border border-blue-400/50";
+      case "Database Layer":
+        return "bg-emerald-500/15 text-emerald-300 border border-emerald-400/50";
+      default:
+        return "bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/50";
+    }
+  };
+
+  const getAppTypeIcon = (type) => {
+    switch (type) {
+      case "Web Application":
+        return <Globe className="w-3.5 h-3.5" />;
+      case "Mobile Application":
+        return <Smartphone className="w-3.5 h-3.5" />;
+      case "Backend Service":
+        return <Server className="w-3.5 h-3.5" />;
+      case "Database Layer":
+        return <Database className="w-3.5 h-3.5" />;
+      default:
+        return <Code className="w-3.5 h-3.5" />;
+    }
+  };
+
   const handleProjectClick = (projectId) => {
     router.push(`/admin/projects/${projectId}`);
   };
 
   return (
-    <div className="px-8 py-6 flex flex-col min-h-screen text-white">
+    <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Projects</h1>
-            <p className="text-sm text-white/60">
+            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <FolderKanban className="w-6 h-6 text-[#EFFC76]" />
+              Projects
+            </h1>
+            <p className="text-sm text-white/60 mt-1">
               Manage your product, mobile and backend applications in one place
             </p>
           </div>
-          <Button 
+          <Button
             onClick={() => setShowNewProjectDialog(true)}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button w-full md:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Application Project
@@ -117,20 +158,22 @@ export default function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {projects.map((project) => (
-            <div 
+            <div
               key={project.id}
               onClick={() => handleProjectClick(project.id)}
-              className="glass-card rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group"
+              className="glass-card rounded-xl p-4 md:p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group"
             >
               {/* Project Header */}
-              <div className="mb-4">
+              <div className="mb-3 md:mb-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-bold text-lg text-white group-hover:text-[#EFFC76] transition-colors">
+                  <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#EFFC76] transition-colors line-clamp-1">
                     {project.name}
                   </h3>
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
+                  <span
+                    className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}
+                  >
                     {project.status}
                   </span>
                 </div>
@@ -138,13 +181,20 @@ export default function Projects() {
                   {project.description}
                 </p>
                 {project.applicationType && (
-                  <div className="mt-3 flex items-center gap-2 text-xs text-white/70">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#EFFC76]/15 border border-[#EFFC76]/50 text-[#EFFC76]">
-                      <Code className="w-3.5 h-3.5" />
-                      <span className="font-medium">{project.applicationType}</span>
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/70">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full ${getAppTypeColor(
+                        project.applicationType,
+                      )}`}
+                    >
+                      {getAppTypeIcon(project.applicationType)}
+                      <span className="font-medium">
+                        {project.applicationType}
+                      </span>
                     </span>
                     {project.platform && (
-                      <span className="px-2 py-1 rounded-full bg-white/5 border border-white/20 text-white/80">
+                      <span className="px-2 py-1 rounded-full bg-white/5 border border-white/20 text-white/80 flex items-center gap-1.5">
+                        <Layout className="w-3.5 h-3.5" />
                         {project.platform}
                       </span>
                     )}
@@ -153,27 +203,27 @@ export default function Projects() {
               </div>
 
               {/* Progress */}
-              <div className="mb-4">
+              <div className="mb-3 md:mb-4">
                 <div className="flex justify-between text-xs font-medium text-white/60 mb-2">
                   <span>Progress</span>
                   <span className="text-[#EFFC76]">{project.progress}%</span>
                 </div>
-                <Progress 
-                  value={project.progress} 
-                  className="h-2 bg-white/10" 
+                <Progress
+                  value={project.progress}
+                  className="h-1.5 md:h-2 bg-white/10"
                   indicatorClassName="bg-[#EFFC76]"
                 />
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
+              <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-white/10">
                 <div className="flex items-center gap-1.5 text-white/80 bg-[#EFFC76]/15 px-2 py-1 rounded-md border border-[#EFFC76]/50">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#EFFC76]" />
                   <span className="text-xs font-medium">
                     {project.tasksCompleted}/{project.totalTasks} tasks
                   </span>
                 </div>
-                
+
                 <div className="flex -space-x-2">
                   {project.team.slice(0, 3).map((member, idx) => (
                     <Avatar
@@ -199,9 +249,9 @@ export default function Projects() {
         </div>
       </div>
 
-      <NewProjectDialog 
-        open={showNewProjectDialog} 
-        onOpenChange={setShowNewProjectDialog} 
+      <NewProjectDialog
+        open={showNewProjectDialog}
+        onOpenChange={setShowNewProjectDialog}
       />
     </div>
   );

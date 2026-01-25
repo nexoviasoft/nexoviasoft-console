@@ -19,7 +19,7 @@ export default function AttendanceHeader() {
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
         <div className="flex items-center rounded-lg border border-white/15 bg-white/5 backdrop-blur-xl p-1 shadow-[0_0_24px_rgba(0,0,0,0.45)]">
           <Button
             variant="ghost"

@@ -65,7 +65,7 @@ const initialData = [
     workHours: "9h 5m",
     status: "On Time",
   },
-   {
+  {
     id: 5,
     name: "Robert Fox",
     role: "Backend Developer",
@@ -79,7 +79,8 @@ const initialData = [
 
 const StatusBadge = ({ status }) => {
   const styles = {
-    "On Time": "bg-emerald-500/20 text-emerald-300 border border-emerald-400/40",
+    "On Time":
+      "bg-emerald-500/20 text-emerald-300 border border-emerald-400/40",
     Late: "bg-orange-500/20 text-orange-300 border border-orange-400/40",
     Absent: "bg-red-500/20 text-red-300 border border-red-400/40",
   };
@@ -111,11 +112,15 @@ export default function AttendanceTable() {
   };
 
   const handleSaveEdit = (updatedEmployee) => {
-    setData(data.map((item) => (item.id === updatedEmployee.id ? updatedEmployee : item)));
+    setData(
+      data.map((item) =>
+        item.id === updatedEmployee.id ? updatedEmployee : item,
+      ),
+    );
   };
 
   return (
-    <div className="glass-panel rounded-2xl overflow-hidden">
+    <div className="glass-panel rounded-2xl overflow-hidden border border-white/10">
       <AttendanceDetailsDialog 
         open={showDetails} 
         onOpenChange={setShowDetails} 
@@ -127,35 +132,36 @@ export default function AttendanceTable() {
         employee={selectedEmployee} 
         onSave={handleSaveEdit}
       />
-      <Table>
-        <TableHeader className="bg-white/5">
-          <TableRow>
-            <TableHead className="w-[300px] text-white/70">Employee</TableHead>
-            <TableHead className="text-white/70">Check In</TableHead>
-            <TableHead className="text-white/70">Check Out</TableHead>
-            <TableHead className="text-white/70">Work Hours</TableHead>
-            <TableHead className="text-white/70">Status</TableHead>
-            <TableHead className="text-right text-white/70">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow
-              key={row.id}
-              className="hover:bg-white/5 cursor-pointer transition-colors"
-            >
-              <TableCell className="font-medium">
-                <div className="flex items-center gap-3">
-                  <Avatar className="w-9 h-9 border border-white/20">
-                    <AvatarImage src={row.avatar} />
-                    <AvatarFallback>{row.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold text-white">{row.name}</div>
-                    <div className="text-xs text-white/60">{row.role}</div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader className="bg-[#EFFC76]/10">
+            <TableRow className="hover:bg-transparent border-white/10">
+              <TableHead className="w-[300px] text-[#EFFC76] font-semibold">Employee</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Check In</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Check Out</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Work Hours</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Status</TableHead>
+              <TableHead className="text-right text-[#EFFC76] font-semibold">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow
+                key={row.id}
+                className="hover:bg-[#EFFC76]/5 cursor-pointer transition-colors border-white/10"
+              >
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-9 h-9 border border-[#EFFC76]/20">
+                      <AvatarImage src={row.avatar} />
+                      <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76]">{row.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold text-white">{row.name}</div>
+                      <div className="text-xs text-white/60">{row.role}</div>
+                    </div>
                   </div>
-                </div>
-              </TableCell>
+                </TableCell>
               <TableCell className="text-white/80 font-medium">
                 {row.checkIn}
               </TableCell>
@@ -179,24 +185,27 @@ export default function AttendanceTable() {
                       <MoreHorizontal className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-[#1A1A1A] border-white/10 text-white"
+                  >
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
                       onClick={() => handleViewDetails(row)}
                     >
                       <Eye className="mr-2 h-4 w-4" />
                       <span>View Details</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
                       onClick={() => handleEdit(row)}
                     >
                       <Edit className="mr-2 h-4 w-4" />
                       <span>Edit Record</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
                       onClick={() => handleDelete(row.id)}
                     >
@@ -210,6 +219,7 @@ export default function AttendanceTable() {
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 }
