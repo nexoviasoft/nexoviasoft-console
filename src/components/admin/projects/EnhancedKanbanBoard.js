@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -473,7 +474,8 @@ const KanbanColumn = ({
   );
 };
 
-export default function EnhancedKanbanBoard({ applicationType }) {
+export default function EnhancedKanbanBoard({ applicationType, projectId }) {
+  const router = useRouter();
   const [columns, setColumns] = useState(initialColumns);
   const [tasks, setTasks] = useState(initialTasks);
   const [showColumnDialog, setShowColumnDialog] = useState(false);
@@ -617,8 +619,9 @@ export default function EnhancedKanbanBoard({ applicationType }) {
   };
 
   const handleOpenTask = (task, columnId) => {
-    setActiveTask({ ...task, columnId });
-    setTaskDialogOpen(true);
+    // setActiveTask({ ...task, columnId });
+    // setTaskDialogOpen(true);
+    router.push(`/admin/projects/${projectId}/tasks/${task.id}`);
   };
 
   const toggleAssignee = (initials) => {
