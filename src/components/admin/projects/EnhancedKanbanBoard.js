@@ -737,10 +737,14 @@ export default function EnhancedKanbanBoard({ applicationType }) {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-[42vw] md:w-[32vw] shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+            className="w-[42vw] md:w-80 shrink-0 flex flex-col items-center gap-4 py-12 justify-center rounded-xl border-4 border-dotted border-[#EFFC76]/40 text-[#EFFC76] hover:bg-[#EFFC76]/5 hover:border-[#EFFC76]/70 transition-all duration-300 group"
           >
-            <Plus className="w-5 h-5" />
-            <span className="font-medium">Add Custom Column</span>
+            <div className="p-4 rounded-full bg-[#EFFC76]/10 group-hover:bg-[#EFFC76]/20 transition-colors">
+              <Plus className="w-12 h-12 md:w-16 md:h-16 opacity-80" />
+            </div>
+            <span className="font-semibold text-lg md:text-xl">
+              Add Custom Column
+            </span>
           </button>
         </div>
       </div>
