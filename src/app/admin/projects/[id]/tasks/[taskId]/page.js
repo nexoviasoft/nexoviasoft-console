@@ -19,6 +19,7 @@ import {
   Trash2,
   User,
   Users,
+  Briefcase,
 } from "lucide-react";
 import {
   Select,
@@ -38,6 +39,7 @@ const getTask = (id) => {
     desc: "Create initial design concepts and wireframes for the new homepage. Focus on modern aesthetics and user experience.",
     priority: "high",
     assignees: ["SJ", "MC"],
+    team: "Design",
     status: "In Progress",
     dueDate: "2024-03-15",
     comments: [
@@ -54,6 +56,7 @@ const priorities = [
 ];
 
 const assigneesList = ["SJ", "MC", "ER", "DK", "LA", "JD"];
+const teamsList = ["Development", "Design", "Marketing", "Product", "Operations", "QA"];
 
 export default function TaskDetailsPage({ params }) {
   const router = useRouter();
@@ -234,6 +237,31 @@ export default function TaskDetailsPage({ params }) {
                             <div className={`w-2 h-2 rounded-full ${p.color.split(' ')[0]}`} />
                             {p.label}
                           </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Separator className="bg-white/10" />
+
+                {/* Team */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-white/60 mb-1">
+                    <Briefcase className="w-4 h-4" />
+                    <span>Team</span>
+                  </div>
+                   <Select 
+                    value={task.team} 
+                    onValueChange={(value) => setTask({ ...task, team: value })}
+                   >
+                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
+                      <SelectValue placeholder="Select Team" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
+                      {teamsList.map((team) => (
+                        <SelectItem key={team} value={team}>
+                          {team}
                         </SelectItem>
                       ))}
                     </SelectContent>
