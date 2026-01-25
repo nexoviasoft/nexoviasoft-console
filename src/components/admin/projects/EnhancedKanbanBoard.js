@@ -737,7 +737,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-[42vw] md:w-80 shrink-0 h-52 flex flex-col items-center gap-4 justify-center rounded-xl border-4 border-dotted border-[#EFFC76]/40 text-[#EFFC76] hover:bg-[#EFFC76]/5 hover:border-[#EFFC76]/70 transition-all duration-300 group mt-10"
+            className="w-[42vw] md:w-80 shrink-0 h-48 flex flex-col items-center gap-4 justify-center rounded-xl border-4 border-dotted border-[#EFFC76]/40 text-[#EFFC76] hover:bg-[#EFFC76]/5 hover:border-[#EFFC76]/70 transition-all duration-300 group mt-10"
           >
             <div className="p-4 rounded-full bg-[#EFFC76]/10 group-hover:bg-[#EFFC76]/20 transition-colors">
               <Plus className="w-10 h-10 opacity-80" />
