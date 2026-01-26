@@ -268,7 +268,7 @@ export default function TemplateList({ onSelectTemplate }) {
       </div>
 
       {/* Templates Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {paginatedTemplates.length > 0 ? (
           paginatedTemplates.map((template) => (
             <Card
@@ -276,7 +276,7 @@ export default function TemplateList({ onSelectTemplate }) {
               className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-[#EFFC76] group"
               onClick={() => onSelectTemplate(template)}
             >
-              <CardContent className="p-2 sm:p-5">
+              <CardContent className="p-5">
                 <div className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4">
                   <div className="flex w-full sm:w-auto justify-between items-start">
                     <div className="p-1.5 sm:p-3 bg-[#EFFC76]/15 rounded-lg sm:rounded-xl group-hover:bg-[#EFFC76]/25 transition-colors">

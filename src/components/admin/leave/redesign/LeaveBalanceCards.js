@@ -29,10 +29,10 @@ export default function LeaveBalanceCards() {
     },
     {
       title: "Unpaid Leave",
-      used: 0,
-      total: "N/A",
+      used: 34,
+      total: 15,
       icon: AlertCircle,
-      trend: "0 days",
+      trend: "4 Dayes",
     },
   ];
 

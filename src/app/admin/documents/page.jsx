@@ -145,11 +145,13 @@ export default function DocumentsPage() {
       </div>
 
       <Dialog open={isTemplateOpen} onOpenChange={setIsTemplateOpen}>
-        <DialogContent className="w-[95%] max-w-3xl  md:max-h-[85vh] glass-panel border-white/20 p-0 overflow-hidden flex flex-col rounded-xl">
-          <TemplateSelector
-            onSelect={handleSelectTemplate}
-            onCancel={() => setIsTemplateOpen(false)}
-          />
+        <DialogContent className="w-[95%] max-w-3xl max-h-[85vh] flex flex-col justify-center items-center glass-panel border-white/20 p-0 overflow-hidden rounded-xl">
+          <div className="w-full h-full">
+            <TemplateSelector
+              onSelect={handleSelectTemplate}
+              onCancel={() => setIsTemplateOpen(false)}
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </div>
