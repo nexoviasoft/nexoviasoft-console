@@ -20,8 +20,8 @@ export default function PayrollHeader() {
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="flex items-center glass-card rounded-xl px-2 py-1 border-white/20">
+      <div className="flex flex-col sm:flex-row mb-5 items-center gap-3 w-full md:w-auto">
+        <div className="flex items-center justify-between w-full sm:w-auto glass-card rounded-xl px-2 py-1 border-white/20">
           <Button
             variant="ghost"
             size="icon"
@@ -43,7 +43,7 @@ export default function PayrollHeader() {
           </Button>
         </div>
 
-        <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button">
+        <Button className="w-full sm:w-auto bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button">
           <PlayCircle className="w-4 h-4" />
           <span>Run Payroll</span>
         </Button>
