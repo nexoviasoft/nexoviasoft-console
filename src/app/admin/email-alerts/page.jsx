@@ -11,7 +11,7 @@ export default function EmailAlertsPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   return (
-    <div className="px-8 py-8 min-h-screen flex flex-col text-white">
+    <div className=" px-4 md:px-8 py-8 min-h-screen flex flex-col text-white">
       <div className="max-w-[1600px] w-full mx-auto space-y-6">
         <EmailHeader onConfigureClick={() => setShowConfig(true)} />
 

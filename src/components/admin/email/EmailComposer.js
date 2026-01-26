@@ -111,13 +111,13 @@ export default function EmailComposer({ selectedTemplate }) {
           <Button 
             variant="outline"
             onClick={() => setEmailData({ to: "", subject: "", body: "" })}
-            className="bg-white hover:bg-white/90 text-black"
+            className="glass-button border-white/10 text-black "
           >
             Clear
           </Button>
           <Button 
             onClick={handleSend}
-            className="bg-white hover:bg-white/90 text-black gap-2"
+            className="bg-[#EFFC76] hover:bg-[#dbe665] text-black gap-2 shadow-lg shadow-[#EFFC76]/20"
           >
             <Send className="w-4 h-4" />
             Send Email
