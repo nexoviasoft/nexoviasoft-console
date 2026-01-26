@@ -21,9 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Video, Copy, Check, Clock, Users, Calendar as CalendarIcon } from "lucide-react";
+import { Video, Copy, Check, Clock, Users, Calendar as CalendarIcon, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { generateMeetingLink, copyToClipboard } from "@/lib/generateMeetingLink";
+import EmailTemplateEditor from "./EmailTemplateEditor";
 
 // Mock team members data - in production, this would come from an API
 const TEAM_MEMBERS = [
@@ -58,6 +59,8 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
 
   const [copiedLink, setCopiedLink] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showEmailEditor, setShowEmailEditor] = useState(false);
+  const [emailTemplate, setEmailTemplate] = useState(null);
 
   // Generate meeting link when dialog opens
   useEffect(() => {
@@ -333,6 +336,44 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
                 )}
               </Button>
             </div>
+          </div>
+
+          {/* Email Template Customization */}
+          <div className="border-t border-white/10 pt-4">
+            <button
+              type="button"
+              onClick={() => setShowEmailEditor(!showEmailEditor)}
+              className="w-full flex items-center justify-between p-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-200 group"
+            >
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-[#EFFC76]" />
+                <span className="text-sm font-semibold text-white">Customize Email Notification</span>
+                <span className="text-xs text-white/50">(Optional)</span>
+              </div>
+              {showEmailEditor ? (
+                <ChevronUp className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
+              )}
+            </button>
+
+            {showEmailEditor && (
+              <div className="mt-4 p-4 rounded-lg border border-white/10 bg-black/20">
+                <EmailTemplateEditor
+                  meetingData={{
+                    topic: meetingData.topic,
+                    description: meetingData.description,
+                    dateTime: meetingData.date && meetingData.time
+                      ? `${new Date(meetingData.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at ${new Date(`2000-01-01T${meetingData.time}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`
+                      : undefined,
+                    duration: meetingData.duration,
+                    meetingLink: meetingData.meetingLink,
+                    organizerName: "Current User", // In production, get from auth context
+                  }}
+                  onTemplateChange={setEmailTemplate}
+                />
+              </div>
+            )}
           </div>
         </div>
 
