@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { ChevronLeft, ChevronRight, Plus, Upload } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Upload, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format, addDays, startOfWeek } from "date-fns";
 
-export default function ScheduleHeader({ onAddShift }) {
+export default function ScheduleHeader({ onAddShift, onScheduleMeeting }) {
   const [currentDate, setCurrentDate] = React.useState(new Date());
   
   const startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
@@ -47,6 +47,14 @@ export default function ScheduleHeader({ onAddShift }) {
         >
           <Upload className="w-4 h-4 mr-2 text-[#EFFC76]" />
           <span className="font-medium">Publish</span>
+        </Button>
+        <Button
+          variant="outline"
+          className="glass-button border border-white/30 bg-white/10 text-white hover:bg-white/15"
+          onClick={onScheduleMeeting}
+        >
+          <Video className="w-4 h-4 mr-2 text-[#EFFC76]" />
+          <span className="font-medium">Schedule Meeting</span>
         </Button>
         <Button
           className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"

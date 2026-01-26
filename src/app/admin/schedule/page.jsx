@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import ScheduleHeader from "@/components/admin/schedule/ScheduleHeader";
 import ScheduleGrid from "@/components/admin/schedule/ScheduleGrid";
+import ScheduleMeetingDialog from "@/components/admin/schedule/ScheduleMeetingDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +27,7 @@ import { toast } from "sonner";
 
 export default function Schedule() {
   const [isAddShiftDialogOpen, setIsAddShiftDialogOpen] = useState(false);
+  const [isScheduleMeetingDialogOpen, setIsScheduleMeetingDialogOpen] = useState(false);
   const [newShift, setNewShift] = useState({
     employee: "",
     date: "",
@@ -62,10 +64,47 @@ export default function Schedule() {
     setIsAddShiftDialogOpen(false);
   };
 
+  const handleScheduleMeeting = async (meetingData) => {
+    // In real app, this would make API calls to:
+    // 1. POST /api/meetings/create - Save meeting to database
+    // 2. POST /api/meetings/notify - Send email notifications
+    
+    console.log("Meeting scheduled:", meetingData);
+    
+    // Mock API call for email notifications
+    // In production, replace with actual API call:
+    /*
+    try {
+      const response = await fetch('/api/meetings/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meetingId: meetingData.meetingId,
+          topic: meetingData.topic,
+          description: meetingData.description,
+          dateTime: meetingData.dateTime,
+          duration: meetingData.duration,
+          meetingLink: meetingData.meetingLink,
+          attendees: meetingData.attendees.map(a => a.email),
+          organizer: 'current-user@squadlog.com' // Get from auth context
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to send notifications');
+    } catch (error) {
+      console.error('Error sending meeting notifications:', error);
+      toast.error('Failed to send email notifications');
+    }
+    */
+  };
+
   return (
     <div className="px-8 py-8 flex flex-col text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full space-y-6">
-        <ScheduleHeader onAddShift={() => setIsAddShiftDialogOpen(true)} />
+        <ScheduleHeader 
+          onAddShift={() => setIsAddShiftDialogOpen(true)} 
+          onScheduleMeeting={() => setIsScheduleMeetingDialogOpen(true)}
+        />
         <div className="flex-1 min-h-0">
           <ScheduleGrid />
         </div>
@@ -201,6 +240,13 @@ export default function Schedule() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Schedule Meeting Dialog */}
+      <ScheduleMeetingDialog
+        open={isScheduleMeetingDialogOpen}
+        onOpenChange={setIsScheduleMeetingDialogOpen}
+        onSubmit={handleScheduleMeeting}
+      />
     </div>
   );
 }
