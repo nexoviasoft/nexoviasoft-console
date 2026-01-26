@@ -45,7 +45,7 @@ export default function ApplyLeaveModal() {
             Apply for Leave
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[95vw] max-w-[500px] glass-card border-white/20">
+      <DialogContent className="w-[calc(100vw-2.5rem)] mx-auto max-w-[500px] glass-card border-white/20">
         <DialogHeader>
           <DialogTitle className="text-white">Apply for Leave</DialogTitle>
           <DialogDescription className="text-white/70">
@@ -54,7 +54,7 @@ export default function ApplyLeaveModal() {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="type" className="text-white/80 flex items-center gap-2">
                       <Briefcase className="w-4 h-4 text-[#EFFC76]" />
@@ -141,7 +141,7 @@ export default function ApplyLeaveModal() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="glass-button border-white/30 text-white"
+              className="glass-button border-white/30 bg-white/5 text-white hover:bg-[#EFFC76]/20 hover:text-[#EFFC76] hover:border-[#EFFC76]/30"
             >
               Cancel
             </Button>
