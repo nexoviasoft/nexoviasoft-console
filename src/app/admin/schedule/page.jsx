@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import ScheduleHeader from "@/components/admin/schedule/ScheduleHeader";
 import ScheduleGrid from "@/components/admin/schedule/ScheduleGrid";
 import ScheduleMeetingDialog from "@/components/admin/schedule/ScheduleMeetingDialog";
+import MeetingHistoryCard from "@/components/admin/schedule/MeetingHistoryCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,12 +23,88 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar as CalendarIcon, Clock } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, Search, History } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Schedule() {
   const [isAddShiftDialogOpen, setIsAddShiftDialogOpen] = useState(false);
   const [isScheduleMeetingDialogOpen, setIsScheduleMeetingDialogOpen] = useState(false);
+  
+  // Meeting History State
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Mock meeting data - in production, fetch from API
+  const [meetings] = useState([
+    {
+      id: "1",
+      meetingId: "m-2026-01-28-001",
+      topic: "Sprint Planning - Q1 2026",
+      description: "Discuss goals, priorities, and deliverables for Q1 sprint",
+      dateTime: "2026-01-28T14:00:00",
+      duration: 60,
+      meetingLink: "https://squadlog.com/meetings/m-2026-01-28-001",
+      status: "upcoming",
+      organizer: "John Doe",
+      attendees: [
+        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
+        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
+        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
+      ],
+      createdAt: "2026-01-26T10:00:00",
+    },
+    {
+      id: "2",
+      meetingId: "m-2026-01-29-002",
+      topic: "Design Review - Landing Page",
+      description: "Review new landing page designs and provide feedback",
+      dateTime: "2026-01-29T10:30:00",
+      duration: 45,
+      meetingLink: "https://squadlog.com/meetings/m-2026-01-29-002",
+      status: "upcoming",
+      organizer: "Sarah Johnson",
+      attendees: [
+        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
+        { id: "4", name: "Theresa Webb", email: "theresa@squadlog.com", avatar: "/avatars/04.png" },
+      ],
+      createdAt: "2026-01-25T15:30:00",
+    },
+    {
+      id: "3",
+      meetingId: "m-2026-01-25-003",
+      topic: "Team Standup",
+      description: "Daily standup to sync on progress and blockers",
+      dateTime: "2026-01-25T09:00:00",
+      duration: 15,
+      meetingLink: "https://squadlog.com/meetings/m-2026-01-25-003",
+      status: "completed",
+      organizer: "Mike Chen",
+      attendees: [
+        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
+        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
+        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
+        { id: "5", name: "Robert Fox", email: "robert@squadlog.com", avatar: "/avatars/05.png" },
+        { id: "6", name: "Cody Fisher", email: "cody@squadlog.com", avatar: "/avatars/06.png" },
+      ],
+      createdAt: "2026-01-24T08:00:00",
+    },
+    {
+      id: "4",
+      meetingId: "m-2026-01-24-004",
+      topic: "Client Presentation - Project Demo",
+      description: "Present project progress and demo new features to client",
+      dateTime: "2026-01-24T16:00:00",
+      duration: 90,
+      meetingLink: "https://squadlog.com/meetings/m-2026-01-24-004",
+      status: "completed",
+      organizer: "Emily Davis",
+      attendees: [
+        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
+        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
+      ],
+      createdAt: "2026-01-20T11:00:00",
+    },
+  ]);
   const [newShift, setNewShift] = useState({
     employee: "",
     date: "",
@@ -98,6 +175,20 @@ export default function Schedule() {
     */
   };
 
+  // Filter and search meetings
+  const filteredMeetings = meetings.filter((meeting) => {
+    // Filter by status
+    const matchesStatus = filterStatus === "all" || meeting.status === filterStatus;
+    
+    // Filter by search query
+    const matchesSearch = 
+      searchQuery === "" ||
+      meeting.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      meeting.description?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesStatus && matchesSearch;
+  });
+
   return (
     <div className="px-8 py-8 flex flex-col text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full space-y-6">
@@ -107,6 +198,93 @@ export default function Schedule() {
         />
         <div className="flex-1 min-h-0">
           <ScheduleGrid />
+        </div>
+
+        {/* Meeting History Section */}
+        <div className="mt-8">
+          <div className="flex items-center gap-3 mb-6">
+            <History className="w-6 h-6 text-[#EFFC76]" />
+            <h2 className="text-xl md:text-2xl font-bold text-white">Meeting History</h2>
+            <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/30">
+              {filteredMeetings.length} {filteredMeetings.length === 1 ? "Meeting" : "Meetings"}
+            </span>
+          </div>
+
+          {/* Filters and Search */}
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-6">
+            {/* Status Filter Tabs */}
+            <div className="flex items-center gap-2 p-1 rounded-lg border border-white/15 bg-white/5 backdrop-blur-xl w-fit">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setFilterStatus("all")}
+                className={`text-sm ${
+                  filterStatus === "all"
+                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                All
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setFilterStatus("upcoming")}
+                className={`text-sm ${
+                  filterStatus === "upcoming"
+                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Upcoming
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setFilterStatus("completed")}
+                className={`text-sm ${
+                  filterStatus === "completed"
+                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Completed
+              </Button>
+            </div>
+
+            {/* Search */}
+            <div className="relative w-full md:w-80">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
+              <Input
+                type="text"
+                placeholder="Search meetings..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              />
+            </div>
+          </div>
+
+          {/* Meeting Cards Grid */}
+          {filteredMeetings.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {filteredMeetings.map((meeting) => (
+                <MeetingHistoryCard key={meeting.id} meeting={meeting} />
+              ))}
+            </div>
+          ) : (
+            <div className="glass-panel rounded-2xl p-12 text-center">
+              <History className="w-16 h-16 text-white/20 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-white/70 mb-2">No meetings found</h3>
+              <p className="text-sm text-white/50">
+                {searchQuery
+                  ? "Try adjusting your search query"
+                  : filterStatus === "all"
+                  ? "Schedule your first meeting to get started"
+                  : `No ${filterStatus} meetings at the moment`}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
