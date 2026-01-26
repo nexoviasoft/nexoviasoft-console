@@ -84,7 +84,7 @@ export default function Employees() {
       </div>
 
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="max-w-2xl glass-panel">
+        <DialogContent className="max-w-2xl glass-panel w-[calc(100vw-2.5rem)] mx-auto rounded-xl border border-white/10">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-white">
               <UserPlus className="w-5 h-5 text-[#EFFC76]" />
@@ -96,22 +96,22 @@ export default function Employees() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-name" className="text-right text-white/80">
+          <div className="grid grid-cols-2 gap-4 py-4 max-h-[60vh] overflow-y-auto">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="add-name" className="text-white/80">
                 Name <span className="text-red-500">*</span>
-              </Label>
+              </Label> 
               <Input
                 id="add-name"
                 value={newEmployee.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 placeholder="John Doe"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-email" className="text-right text-white/80">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="add-email" className="text-white/80">
                 Email <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -120,12 +120,12 @@ export default function Employees() {
                 value={newEmployee.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 placeholder="john.doe@squadlog.com"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-role" className="text-right text-white/80">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="add-role" className="text-white/80">
                 Role
               </Label>
               <Input
@@ -133,14 +133,14 @@ export default function Employees() {
                 value={newEmployee.role}
                 onChange={(e) => handleInputChange("role", e.target.value)}
                 placeholder="Software Engineer"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="flex flex-col gap-2">
               <Label
                 htmlFor="add-department"
-                className="text-right text-white/80"
+                className="text-white/80"
               >
                 Department <span className="text-red-500">*</span>
               </Label>
@@ -150,7 +150,7 @@ export default function Employees() {
                   handleInputChange("department", value)
                 }
               >
-                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
@@ -165,8 +165,8 @@ export default function Employees() {
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-phone" className="text-right text-white/80">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="add-phone" className="text-white/80">
                 Phone
               </Label>
               <Input
@@ -174,14 +174,14 @@ export default function Employees() {
                 value={newEmployee.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
                 placeholder="+1 234 567 890"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="flex flex-col gap-2">
               <Label
                 htmlFor="add-location"
-                className="text-right text-white/80"
+                className="text-white/80"
               >
                 Location
               </Label>
@@ -190,12 +190,12 @@ export default function Employees() {
                 value={newEmployee.location}
                 onChange={(e) => handleInputChange("location", e.target.value)}
                 placeholder="New York, USA"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="add-manager" className="text-right text-white/80">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="add-manager" className="text-white/80">
                 Manager
               </Label>
               <Input
@@ -203,14 +203,14 @@ export default function Employees() {
                 value={newEmployee.manager}
                 onChange={(e) => handleInputChange("manager", e.target.value)}
                 placeholder="Manager Name"
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
 
-            <div className="grid grid-cols-4 items-start gap-4">
+            <div className="flex flex-col gap-2 col-span-2">
               <Label
                 htmlFor="add-bio"
-                className="text-right pt-2 text-white/80"
+                className="text-white/80"
               >
                 Bio
               </Label>
@@ -219,7 +219,7 @@ export default function Employees() {
                 value={newEmployee.bio}
                 onChange={(e) => handleInputChange("bio", e.target.value)}
                 placeholder="Brief description about the employee..."
-                className="col-span-3 min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
               />
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function Employees() {
             <Button
               variant="outline"
               onClick={() => setIsAddDialogOpen(false)}
-              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10"
+              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-[#EFFC76]/20 hover:text-[#EFFC76] hover:border-[#EFFC76]/30"
             >
               Cancel
             </Button>
