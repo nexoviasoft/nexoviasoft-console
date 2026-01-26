@@ -737,7 +737,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-[42vw] md:w-[32vw] shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+            className="w-[42vw] md:w-[32vw] mt-13  shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Custom Column</span>
@@ -781,7 +781,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
       </Dialog>
 
       <Dialog open={taskDialogOpen} onOpenChange={setTaskDialogOpen}>
-        <DialogContent className="max-w-xl glass-card border-white/20 text-white">
+        <DialogContent className="w-[calc(100vw-32px)] sm:w-full max-w-xl glass-card border-white/20 text-white">
           <DialogHeader>
             <DialogTitle>{activeTask?.title}</DialogTitle>
           </DialogHeader>
@@ -850,7 +850,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
             </div>
           </div>
 
-          <div className="p-6 overflow-y-auto max-h-[45vh] bg-black/20">
+          <div className="px-6 py-4 overflow-y-auto max-h-[360px] bg-black/20">
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => {
                 let Icon = ListTodo;

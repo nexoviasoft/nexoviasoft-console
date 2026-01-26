@@ -22,31 +22,43 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Calendar, User, Mail, DollarSign } from "lucide-react";
 import OrderChat from "./OrderChat";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export default function OrderDetailsSheet({ order, open, onOpenChange }) {
   const [status, setStatus] = useState(order?.status ?? "Pending");
   const [progress, setProgress] = useState([order?.progress ?? 0]);
   const [assigned, setAssigned] = useState(order?.assignedTo ?? []);
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   if (!order) return null;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-xl flex flex-col p-0 gap-0 glass-panel text-white">
+      <SheetContent
+        side={isDesktop ? "right" : "bottom"}
+        className={`
+          flex flex-col p-0 gap-0 glass-panel text-white border-white/10 shadow-2xl transition-all duration-300
+          fixed z-50
+          ${isDesktop 
+            ? "top-5 right-5 h-[calc(100vh-2.5rem)] w-[500px] !max-w-none rounded-2xl border" 
+            : "bottom-5 inset-x-0 mx-auto w-[calc(100vw-2.5rem)] h-[calc(100vh-2.5rem)] rounded-2xl border"
+          }
+        `}
+      >
         <div className="px-6 py-6 border-b border-white/10 bg-black/40">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center mt-4 justify-between mb-2">
             <Badge className="text-xs font-mono text-[#EFFC76] bg-[#EFFC76]/10 border border-[#EFFC76]/40">
               {order.id}
             </Badge>
             <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger className="w-[160px] h-8 text-xs font-medium border-white/20 bg-black/40 text-white/80">
+              <SelectTrigger className="w-[140px] sm:w-[240px] h-8 text-xs font-medium border-[#EFFC76]/30 bg-[#EFFC76]/5 text-[#EFFC76] focus:ring-[#EFFC76]/50">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Pending">Pending</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
-                <SelectItem value="Review">Review</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
+              <SelectContent className="bg-black/95 border-[#EFFC76]/20 text-white backdrop-blur-xl">
+                <SelectItem value="Pending" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Pending</SelectItem>
+                <SelectItem value="In Progress" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">In Progress</SelectItem>
+                <SelectItem value="Review" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Review</SelectItem>
+                <SelectItem value="Completed" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Completed</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -211,23 +223,24 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
           </Tabs>
         </div>
 
-        <SheetFooter className="px-6 py-4 border-t border-white/10 bg-black/60 sm:justify-between">
+        <SheetFooter className="px-6 py-4 border-t border-white/10 bg-black/60 flex flex-col sm:flex-row gap-3 sm:justify-between pb-safe">
           <Button
             variant="outline"
-            className="text-red-400 hover:bg-red-500/10 hover:text-red-300 border-red-500/40"
+          className="w-full sm:w-auto text-white border-white/10
+             bg-[#EFFC76]/10 hover:bg-[#EFFC76]/10 hover:text-[#EFFC76] hover:border-[#EFFC76]/30 transition-colors"
           >
             Cancel Order
           </Button>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <SheetClose asChild>
               <Button
-                variant="ghost"
-                className="text-white/80 hover:bg-white/10"
+                variant="outline"
+                className="w-full sm:w-auto text-[#EFFC76] border-[#EFFC76]/30 bg-[#EFFC76]/5 hover:bg-[#EFFC76]/10 hover:text-[#EFFC76]"
               >
                 Close
               </Button>
             </SheetClose>
-            <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button">
+            <Button className="w-full sm:w-auto bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold shadow-[0_0_15px_rgba(239,252,118,0.25)] border-0">
               Save Changes
             </Button>
           </div>
