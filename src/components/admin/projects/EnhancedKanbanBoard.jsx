@@ -700,7 +700,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
             variant="outline"
             size="sm"
             onClick={() => setShowTemplateDialog(true)}
-            className={` bg-[#E0EF5F]  text-black px-2 md:px-3`}
+            className={` bg-[#E0EF5F]  text-black px-6`}
           >
             <Layout className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
             <span className="inline">
@@ -837,7 +837,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
       </Dialog>
 
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
-        <DialogContent className="max-w-4xl glass-card border-white/20 text-white p-0 gap-0 shadow-2xl sm:rounded-xl overflow-hidden backdrop-blur-xl bg-black/80">
+        <DialogContent className="w-[calc(100vw-32px)] sm:w-full max-w-4xl glass-card border-white/20 text-white p-0 gap-0 shadow-2xl sm:rounded-xl overflow-hidden backdrop-blur-xl bg-black/80">
           <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
             <div>
               <DialogTitle className="text-xl font-semibold text-white tracking-tight">
@@ -850,7 +850,7 @@ export default function EnhancedKanbanBoard({ applicationType }) {
             </div>
           </div>
 
-          <div className="p-6 overflow-y-auto max-h-[65vh] bg-black/20">
+          <div className="p-6 overflow-y-auto max-h-[45vh] bg-black/20">
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {templates.map((template) => {
                 let Icon = ListTodo;
