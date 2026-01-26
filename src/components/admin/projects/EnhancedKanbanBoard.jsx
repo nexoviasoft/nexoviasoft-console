@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useCreateTaskMutation, useGetTasksQuery, useMoveTaskMutation } from "@/api/admin/projects/tasksApi";
+import { useCreateTaskCommentMutation } from "@/api/admin/projects/taskCommentsApi";
+import { useGetColumnsQuery, useCreateColumnMutation, useDeleteColumnMutation } from "@/api/admin/projects/columnsApi";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
+import { useGetDepartmentsQuery } from "@/api/landing/department/departmentApi";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -240,50 +245,46 @@ const initialColumns = templates.find(
   { id: "complete", title: "Complete", isCustom: false, order: 4 },
 ];
 
-const initialTasks = {
-  todo: [
-    {
-      id: "1",
-      title: "Design Homepage Mockup",
-      desc: "Create initial design concepts",
-      priority: "high",
-      assignees: ["SJ", "MC"],
-    },
-    {
-      id: "2",
-      title: "Setup Development Environment",
-      desc: "Configure local dev environment",
-      priority: "medium",
-      assignees: ["DK"],
-    },
-  ],
-  inprogress: [
-    {
-      id: "3",
-      title: "Implement Authentication",
-      desc: "Add login and signup flows",
-      priority: "high",
-      assignees: ["ER", "LA"],
-    },
-  ],
-  review: [
-    {
-      id: "5",
-      title: "QA Review for Onboarding",
-      desc: "Verify flows before release",
-      priority: "medium",
-      assignees: ["SJ"],
-    },
-  ],
-  complete: [
-    {
-      id: "4",
-      title: "Project Kickoff Meeting",
-      desc: "Initial team alignment",
-      priority: "low",
-      assignees: ["SJ"],
-    },
-  ],
+// Helper function to transform API tasks into the format expected by the component
+const transformTasksFromAPI = (apiTasks, columns) => {
+  if (!apiTasks || !Array.isArray(apiTasks)) {
+    return {};
+  }
+  
+  const tasksByColumn = {};
+  
+  // Initialize all columns with empty arrays
+  columns.forEach(column => {
+    tasksByColumn[column.id] = [];
+  });
+  
+  // Group tasks by columnId
+  apiTasks.forEach(task => {
+    const columnId = task.columnId || 'todo'; // Default to 'todo' if no columnId
+    if (!tasksByColumn[columnId]) {
+      tasksByColumn[columnId] = [];
+    }
+    
+    tasksByColumn[columnId].push({
+      id: String(task.id),
+      title: task.title || "",
+      desc: task.description || "",
+      priority: task.priority || "medium",
+      status: task.status || "todo",
+      assignees: task.assignees || [],
+      dueDate: task.dueDate || "",
+      team: task.team || "",
+      columnId: task.columnId || columnId,
+      order: task.order || 0,
+    });
+  });
+  
+  // Sort tasks by order within each column
+  Object.keys(tasksByColumn).forEach(columnId => {
+    tasksByColumn[columnId].sort((a, b) => (a.order || 0) - (b.order || 0));
+  });
+  
+  return tasksByColumn;
 };
 
 const PriorityBadge = ({ priority }) => {
@@ -487,19 +488,209 @@ const KanbanColumn = ({
 };
 
 export default function EnhancedKanbanBoard({ applicationType, projectId }) {
+  // STRICT VALIDATION - Ensure props are primitives only
+  // Convert applicationType to string
+  let safeApplicationType = '';
+  if (typeof applicationType === 'string') {
+    safeApplicationType = applicationType;
+  } else if (applicationType && typeof applicationType === 'object') {
+    console.error('ERROR: applicationType is an object!', applicationType);
+    safeApplicationType = String(applicationType.name || applicationType.value || '');
+  } else {
+    safeApplicationType = String(applicationType || '');
+  }
+  
+  // Convert projectId to number
+  let safeProjectId = 0;
+  if (typeof projectId === 'number' && !isNaN(projectId) && isFinite(projectId)) {
+    safeProjectId = projectId;
+  } else if (typeof projectId === 'string') {
+    const num = parseInt(projectId, 10);
+    safeProjectId = isNaN(num) ? 0 : num;
+  } else if (projectId && typeof projectId === 'object') {
+    console.error('ERROR: projectId is an object!', projectId);
+    const numId = projectId.id || projectId.value || projectId.projectId;
+    if (numId !== undefined && numId !== null) {
+      const num = typeof numId === 'number' ? numId : parseInt(String(numId), 10);
+      safeProjectId = isNaN(num) ? 0 : num;
+    }
+  }
+  
+  // Early return if invalid
+  if (!safeProjectId || safeProjectId <= 0) {
+    return (
+      <div className="text-white/60 text-center py-8">
+        Invalid project ID
+      </div>
+    );
+  }
+  
   const router = useRouter();
-  const [columns, setColumns] = useState(initialColumns);
-  const [tasks, setTasks] = useState(initialTasks);
+  const [createTask, { isLoading: isCreatingTask }] = useCreateTaskMutation();
+  const [createTaskComment, { isLoading: isCreatingComment }] = useCreateTaskCommentMutation();
+  const [moveTask, { isLoading: isMovingTask }] = useMoveTaskMutation();
+  const [createColumn, { isLoading: isCreatingColumn }] = useCreateColumnMutation();
+  const [deleteColumn, { isLoading: isDeletingColumn }] = useDeleteColumnMutation();
+  
+  // Fetch columns from API if projectId is provided
+  const { data: columnsResponse, isLoading: isLoadingColumns, refetch: refetchColumns } = useGetColumnsQuery(
+    safeProjectId,
+    { skip: !safeProjectId || safeProjectId <= 0 }
+  );
+  
+  // Fetch tasks from API if projectId is provided
+  const { data: tasksResponse, isLoading: isLoadingTasks, refetch: refetchTasks } = useGetTasksQuery(
+    safeProjectId,
+    { skip: !safeProjectId || safeProjectId <= 0 }
+  );
+  
+  // Fetch team members and departments from API
+  const { data: teamMembersResponse } = useGetOurTeamQuery();
+  const { data: departmentsResponse } = useGetDepartmentsQuery();
+  
+  // Extract data from API responses
+  const teamMembers = Array.isArray(teamMembersResponse) 
+    ? teamMembersResponse 
+    : (teamMembersResponse?.data || []);
+  
+  const departments = Array.isArray(departmentsResponse) 
+    ? departmentsResponse 
+    : (departmentsResponse?.data || []);
+  
+  // Transform API columns to component format (convert numeric id to string)
+  // Merge default columns with API columns to ensure defaults are always shown
+  const transformedColumns = useMemo(() => {
+    // Always start with default columns
+    const defaultColumns = [...initialColumns];
+    
+    // If we have API columns, add custom ones
+    if (projectId && columnsResponse) {
+      const apiColumns = Array.isArray(columnsResponse) 
+        ? columnsResponse 
+        : (columnsResponse?.data || []);
+      
+      if (apiColumns.length > 0) {
+        // Get default column titles for comparison
+        const defaultTitles = new Set(defaultColumns.map(col => col.title.toLowerCase()));
+        
+        // Filter out custom columns (those not matching default titles)
+        const customColumns = apiColumns
+          .filter(column => {
+            // Only include if it's marked as custom OR doesn't match any default title
+            return column.isCustom || !defaultTitles.has(column.title.toLowerCase());
+          })
+          .map(column => ({
+            id: String(column.id), // Convert numeric id to string
+            title: column.title,
+            isCustom: column.isCustom !== false, // Default to true if not specified
+            order: column.order || defaultColumns.length + 1,
+          }));
+        
+        // Merge: default columns first, then custom columns
+        return [...defaultColumns, ...customColumns].sort((a, b) => {
+          // Default columns (isCustom: false) come first, sorted by their order
+          if (!a.isCustom && !b.isCustom) {
+            return (a.order || 0) - (b.order || 0);
+          }
+          // Custom columns come after defaults
+          if (a.isCustom !== b.isCustom) {
+            return a.isCustom ? 1 : -1;
+          }
+          // Sort custom columns by order
+          return (a.order || 0) - (b.order || 0);
+        });
+      }
+    }
+    
+    // Return default columns if no API data
+    return defaultColumns;
+  }, [columnsResponse, projectId]);
+  
+  const [columns, setColumns] = useState(transformedColumns);
+  
+  // Update columns when API data changes
+  useEffect(() => {
+    setColumns(transformedColumns);
+  }, [transformedColumns]);
+  
+  // Extract tasks from API response
+  const apiTasks = Array.isArray(tasksResponse) 
+    ? tasksResponse 
+    : (tasksResponse?.data || []);
+  
+  // Transform API tasks into component format
+  const transformedTasks = useMemo(() => {
+    if (safeProjectId) {
+      // If we have a projectId, use API data (even if empty)
+      return transformTasksFromAPI(apiTasks, columns);
+    }
+    // Return empty tasks if no projectId (for demo/mock mode)
+    const emptyTasks = {};
+    columns.forEach(col => {
+      emptyTasks[col.id] = [];
+    });
+    return emptyTasks;
+  }, [apiTasks, columns, safeProjectId]);
+  
+  // Initialize tasks state - use ref to prevent infinite loops
+  const tasksRef = React.useRef(transformedTasks);
+  const [tasks, setTasks] = useState(transformedTasks);
+  
+  // Extract and transform comments from API tasks
+  const transformedComments = useMemo(() => {
+    if (!safeProjectId || !apiTasks || !Array.isArray(apiTasks)) {
+      return {};
+    }
+    
+    const commentsByTask = {};
+    apiTasks.forEach(task => {
+      if (task.comments && Array.isArray(task.comments) && task.comments.length > 0) {
+        commentsByTask[String(task.id)] = task.comments.map(comment => ({
+          id: String(comment.id),
+          author: comment.author || "Unknown",
+          text: comment.content || "",
+          createdAt: comment.createdAt,
+        }));
+      }
+    });
+    
+    return commentsByTask;
+  }, [apiTasks, safeProjectId]);
+  
+  const commentsRef = React.useRef(transformedComments);
+  const [taskComments, setTaskComments] = useState(transformedComments);
+  
+  // Update tasks only when apiTasks or columns actually change
+  useEffect(() => {
+    const newTasks = transformTasksFromAPI(apiTasks, columns);
+    const newTasksStr = JSON.stringify(newTasks);
+    const currentTasksStr = JSON.stringify(tasksRef.current);
+    
+    if (newTasksStr !== currentTasksStr) {
+      tasksRef.current = newTasks;
+      setTasks(newTasks);
+    }
+  }, [apiTasks, columns]);
+  
+  // Update comments only when apiTasks actually change
+  useEffect(() => {
+    const newCommentsStr = JSON.stringify(transformedComments);
+    const currentCommentsStr = JSON.stringify(commentsRef.current);
+    
+    if (newCommentsStr !== currentCommentsStr) {
+      commentsRef.current = transformedComments;
+      setTaskComments(transformedComments);
+    }
+  }, [apiTasks]);
+  
   const [showColumnDialog, setShowColumnDialog] = useState(false);
   const [newColumnName, setNewColumnName] = useState("");
   const [draggedTask, setDraggedTask] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
-  const [taskComments, setTaskComments] = useState({});
   const [expandedCommentTaskId, setExpandedCommentTaskId] = useState(null);
   const [newComments, setNewComments] = useState({});
-  const [selectedTemplateId, setSelectedTemplateId] =
-    useState("project_management");
+  const [selectedTemplateId, setSelectedTemplateId] = useState("project_management");
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
   
   // Add Task Dialog State
@@ -513,9 +704,43 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     team: "",
     assignees: [],
   });
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
 
-  const availableMembers = ["SJ", "MC", "ER", "DK", "LA", "JD", "AM", "TW"];
-  const teamsList = ["Development", "Design", "Marketing", "Product", "Operations", "QA"];
+  // Create assignees list from team members (format: initials)
+  // Filter by selected department if a department is selected
+  const availableMembers = useMemo(() => {
+    let filteredMembers = teamMembers;
+    
+    // Filter by selected department if one is selected
+    if (selectedDepartmentId) {
+      filteredMembers = teamMembers.filter(member => 
+        member.departmentId === Number(selectedDepartmentId)
+      );
+    }
+    
+    return filteredMembers.map((member) => {
+      const initials = (member.firstName?.[0] || '') + (member.lastName?.[0] || '') || 'TM';
+      return {
+        id: member.id,
+        initials,
+        name: `${member.firstName} ${member.lastName}`,
+        fullName: `${member.firstName} ${member.lastName}`,
+        departmentId: member.departmentId,
+      };
+    });
+  }, [teamMembers, selectedDepartmentId]);
+  
+  // Create teams list from departments (department names)
+  const teamsList = useMemo(() => {
+    return departments.map((dept) => dept.name);
+  }, [departments]);
+  
+  // Reset team member selection when department changes
+  useEffect(() => {
+    if (selectedDepartmentId) {
+      setNewTaskData(prev => ({ ...prev, assignees: [] }));
+    }
+  }, [selectedDepartmentId]);
 
   const getThemeColor = (type) => {
     switch (type) {
@@ -569,33 +794,102 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
 
   const theme = getThemeColor(applicationType);
 
-  const handleAddColumn = () => {
+  const handleAddColumn = async () => {
     if (!newColumnName.trim()) return;
 
-    const newColumn = {
-      id: `custom_${Date.now()}`,
-      title: newColumnName,
-      isCustom: true,
-      order: columns.length + 1,
-    };
+    // If projectId is provided, use API
+    if (projectId) {
+      try {
+        const columnData = {
+          projectId: Number(projectId),
+          title: newColumnName.trim(),
+          isCustom: true,
+          order: columns.length + 1,
+        };
 
-    setColumns([...columns, newColumn]);
-    setTasks({ ...tasks, [newColumn.id]: [] });
-    setNewColumnName("");
-    setShowColumnDialog(false);
-    toast.success("Column added successfully");
+        const result = await createColumn(columnData).unwrap();
+        
+        // Transform API response to component format
+        const newColumn = {
+          id: String(result.id),
+          title: result.title,
+          isCustom: result.isCustom || true,
+          order: result.order || columns.length + 1,
+        };
+
+        // Optimistically update UI
+        setColumns([...columns, newColumn]);
+        setTasks({ ...tasks, [newColumn.id]: [] });
+        
+        // Refetch columns to get latest data
+        if (refetchColumns) {
+          await refetchColumns();
+        }
+
+        setNewColumnName("");
+        setShowColumnDialog(false);
+        toast.success("Column added successfully");
+      } catch (error) {
+        console.error("Failed to create column:", error);
+        toast.error("Failed to create column");
+      }
+    } else {
+      // Fallback to local state if no projectId
+      const newColumn = {
+        id: `custom_${Date.now()}`,
+        title: newColumnName,
+        isCustom: true,
+        order: columns.length + 1,
+      };
+
+      setColumns([...columns, newColumn]);
+      setTasks({ ...tasks, [newColumn.id]: [] });
+      setNewColumnName("");
+      setShowColumnDialog(false);
+      toast.success("Column added successfully");
+    }
   };
 
-  const handleDeleteColumn = (columnId) => {
+  const handleDeleteColumn = async (columnId) => {
     if (tasks[columnId]?.length > 0) {
       toast.error("Cannot delete column with tasks");
       return;
     }
-    setColumns(columns.filter((column) => column.id !== columnId));
-    const nextTasks = { ...tasks };
-    delete nextTasks[columnId];
-    setTasks(nextTasks);
-    toast.success("Column deleted");
+
+    // If projectId is provided, use API
+    if (projectId) {
+      try {
+        const columnIdNum = Number(columnId);
+        
+        await deleteColumn({ 
+          id: columnIdNum, 
+          projectId: Number(projectId) 
+        }).unwrap();
+
+        // Optimistically update UI
+        setColumns(columns.filter((column) => column.id !== columnId));
+        const nextTasks = { ...tasks };
+        delete nextTasks[columnId];
+        setTasks(nextTasks);
+
+        // Refetch columns to get latest data
+        if (refetchColumns) {
+          await refetchColumns();
+        }
+
+        toast.success("Column deleted");
+      } catch (error) {
+        console.error("Failed to delete column:", error);
+        toast.error("Failed to delete column");
+      }
+    } else {
+      // Fallback to local state if no projectId
+      setColumns(columns.filter((column) => column.id !== columnId));
+      const nextTasks = { ...tasks };
+      delete nextTasks[columnId];
+      setTasks(nextTasks);
+      toast.success("Column deleted");
+    }
   };
 
   const handleDragStart = (event, task, sourceColumn) => {
@@ -608,7 +902,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     event.dataTransfer.dropEffect = "move";
   };
 
-  const handleDrop = (event, targetColumn) => {
+  const handleDrop = async (event, targetColumn) => {
     event.preventDefault();
     if (!draggedTask) return;
 
@@ -619,24 +913,66 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
       return;
     }
 
+    // Optimistically update UI
     const nextTasks = { ...tasks };
     nextTasks[sourceColumn] = nextTasks[sourceColumn].filter(
       (item) => item.id !== task.id,
     );
     nextTasks[targetColumn] = [...(nextTasks[targetColumn] || []), task];
-
     setTasks(nextTasks);
     setDraggedTask(null);
+
     const columnTitle = columns.find(
       (column) => column.id === targetColumn,
     )?.title;
-    if (columnTitle) {
-      toast.success(`Task moved to ${columnTitle}`);
+
+    // If projectId is provided, use API
+    if (projectId) {
+      try {
+        // Calculate new order (position in target column)
+        const targetTasks = nextTasks[targetColumn] || [];
+        const newOrder = targetTasks.length - 1; // Last position in the column
+
+        const moveData = {
+          taskId: Number(task.id),
+          newColumnId: targetColumn,
+          newOrder: newOrder,
+          projectId: Number(projectId), // Include projectId for cache invalidation
+        };
+
+        await moveTask(moveData).unwrap();
+
+        // Refetch tasks to get the latest data
+        if (refetchTasks) {
+          await refetchTasks();
+        }
+
+        if (columnTitle) {
+          toast.success(`Task moved to ${columnTitle}`);
+        }
+      } catch (error) {
+        console.error("Failed to move task:", error);
+        toast.error("Failed to move task. Reverting...");
+        
+        // Revert optimistic update
+        const revertedTasks = { ...tasks };
+        revertedTasks[sourceColumn] = [...(revertedTasks[sourceColumn] || []), task];
+        revertedTasks[targetColumn] = revertedTasks[targetColumn].filter(
+          (item) => item.id !== task.id,
+        );
+        setTasks(revertedTasks);
+      }
+    } else {
+      // Fallback to local state if no projectId
+      if (columnTitle) {
+        toast.success(`Task moved to ${columnTitle}`);
+      }
     }
   };
 
   const handleAddTask = (columnId) => {
     setActiveColumnId(columnId);
+    setSelectedDepartmentId("");
     setNewTaskData({
       title: "",
       desc: "",
@@ -648,30 +984,70 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     setAddTaskDialogOpen(true);
   };
 
-  const handleCreateTask = () => {
+  const handleCreateTask = async () => {
     if (!newTaskData.title.trim()) {
       toast.error("Task title is required");
       return;
     }
 
-    const newTask = {
-      id: `task_${Date.now()}`,
-      title: newTaskData.title,
-      desc: newTaskData.desc,
-      priority: newTaskData.priority,
-      status: "To-Do",
-      dueDate: newTaskData.dueDate,
-      team: newTaskData.team,
-      assignees: newTaskData.assignees,
-    };
+    // If projectId is provided, use API
+    if (projectId) {
+      try {
+        const taskData = {
+          projectId: Number(projectId),
+          title: newTaskData.title,
+          description: newTaskData.desc || undefined,
+          priority: newTaskData.priority,
+          status: "todo",
+          columnId: activeColumnId,
+          dueDate: newTaskData.dueDate || undefined,
+          team: newTaskData.team || undefined,
+          assignees: newTaskData.assignees || [],
+        };
 
-    setTasks((prev) => ({
-      ...prev,
-      [activeColumnId]: [...(prev[activeColumnId] || []), newTask],
-    }));
+        const result = await createTask(taskData).unwrap();
+        
+        // Refetch tasks from API to get the latest data
+        if (refetchTasks) {
+          await refetchTasks();
+        }
 
-    setAddTaskDialogOpen(false);
-    toast.success("New task created");
+        setAddTaskDialogOpen(false);
+        setSelectedDepartmentId("");
+        setNewTaskData({
+          title: "",
+          desc: "",
+          priority: "medium",
+          dueDate: "",
+          team: "",
+          assignees: [],
+        });
+        toast.success("New task created");
+      } catch (error) {
+        console.error("Failed to create task:", error);
+        toast.error("Failed to create task");
+      }
+    } else {
+      // Use local state if no projectId
+      const newTask = {
+        id: `task_${Date.now()}`,
+        title: newTaskData.title,
+        desc: newTaskData.desc,
+        priority: newTaskData.priority,
+        status: "To-Do",
+        dueDate: newTaskData.dueDate,
+        team: newTaskData.team,
+        assignees: newTaskData.assignees,
+      };
+
+      setTasks((prev) => ({
+        ...prev,
+        [activeColumnId]: [...(prev[activeColumnId] || []), newTask],
+      }));
+
+      setAddTaskDialogOpen(false);
+      toast.success("New task created");
+    }
   };
 
   const handleSelectTemplate = (templateId) => {
@@ -727,27 +1103,72 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     }));
   };
 
-  const handleAddComment = (taskId) => {
+  const handleAddComment = async (taskId) => {
     const text = newComments[taskId]?.trim();
     if (!text) return;
 
-    setTaskComments((prev) => {
-      const existing = prev[taskId] || [];
-      const nextComment = {
-        id: String(Date.now()),
-        author: "You",
-        text,
-      };
-      return {
-        ...prev,
-        [taskId]: [...existing, nextComment],
-      };
-    });
+    // If projectId is provided, use API
+    if (projectId) {
+      try {
+        const commentData = {
+          taskId: Number(taskId),
+          author: "You", // TODO: Get from auth context
+          content: text,
+        };
 
-    setNewComments((prev) => ({
-      ...prev,
-      [taskId]: "",
-    }));
+        const result = await createTaskComment(commentData).unwrap();
+        
+        // Add to local state immediately for optimistic update
+        const newComment = {
+          id: String(result.id),
+          author: result.author || "You",
+          text: result.content || text,
+          createdAt: result.createdAt,
+        };
+
+        setTaskComments((prev) => {
+          const existing = prev[taskId] || [];
+          return {
+            ...prev,
+            [taskId]: [...existing, newComment],
+          };
+        });
+
+        // Refetch tasks to get latest comments
+        if (refetchTasks) {
+          await refetchTasks();
+        }
+
+        setNewComments((prev) => ({
+          ...prev,
+          [taskId]: "",
+        }));
+        
+        toast.success("Comment added");
+      } catch (error) {
+        console.error("Failed to create comment:", error);
+        toast.error("Failed to add comment");
+      }
+    } else {
+      // Fallback to local state if no projectId
+      setTaskComments((prev) => {
+        const existing = prev[taskId] || [];
+        const nextComment = {
+          id: String(Date.now()),
+          author: "You",
+          text,
+        };
+        return {
+          ...prev,
+          [taskId]: [...existing, nextComment],
+        };
+      });
+
+      setNewComments((prev) => ({
+        ...prev,
+        [taskId]: "",
+      }));
+    }
   };
 
   const getCommentCount = (taskId) => {
@@ -877,25 +1298,26 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                   Assignees
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {availableMembers.map((initials) => {
-                    const selected = activeTask.assignees.includes(initials);
+                  {availableMembers.map((member) => {
+                    const selected = activeTask.assignees.includes(member.initials);
                     return (
                       <button
-                        key={initials}
+                        key={member.id}
                         type="button"
-                        onClick={() => toggleAssignee(initials)}
+                        onClick={() => toggleAssignee(member.initials)}
                         className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs border ${
                           selected
                             ? "bg-[#EFFC76]/20 border-[#EFFC76]/70 text-[#EFFC76]"
                             : "bg-white/5 border-white/20 text-white/70"
                         }`}
+                        title={member.fullName}
                       >
                         <Avatar className="w-6 h-6 border border-white">
                           <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
-                            {initials}
+                            {member.initials}
                           </AvatarFallback>
                         </Avatar>
-                        <span>{initials}</span>
+                        <span>{member.initials}</span>
                       </button>
                     );
                   })}
@@ -1022,130 +1444,24 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
             </div>
           </div>
           <div className="flex justify-end gap-2">
-             <Button variant="outline" onClick={() => setAddTaskDialogOpen(false)} className="border-white/10 hover:bg-white/5">Cancel</Button>
-             <Button onClick={handleCreateTask} className="bg-[#EFFC76] text-black hover:bg-[#dce865]">Create Task</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={addTaskDialogOpen} onOpenChange={setAddTaskDialogOpen}>
-        <DialogContent className="max-w-xl glass-card border-white/20 text-white">
-          <DialogHeader>
-            <DialogTitle>Add New Task</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-6 py-4">
-            <div className="space-y-2">
-               <label className="text-sm text-white/60 font-medium">Task Title</label>
-               <Input
-                placeholder="e.g., Redesign Login Page"
-                value={newTaskData.title}
-                onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })}
-               />
-            </div>
-            
-            <div className="space-y-2">
-               <label className="text-sm text-white/60 font-medium">Description</label>
-               <Textarea
-                placeholder="Add task details..."
-                value={newTaskData.desc}
-                onChange={(e) => setNewTaskData({ ...newTaskData, desc: e.target.value })}
-                className="resize-none min-h-[100px]"
-               />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-               <div className="space-y-2">
-                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
-                    <Tag className="w-3.5 h-3.5" /> Priority
-                  </label>
-                  <Select 
-                    value={newTaskData.priority}
-                    onValueChange={(value) => setNewTaskData({ ...newTaskData, priority: value })}
-                  >
-                    <SelectTrigger className="bg-white/5 border-white/10">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="low">Low</SelectItem>
-                    </SelectContent>
-                  </Select>
-               </div>
-
-               <div className="space-y-2">
-                  <label className="text-sm text-white/60 font-medium flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" /> Due Date
-                  </label>
-                  <Input
-                    type="date"
-                    className="bg-white/5 border-white/10 [color-scheme:dark]"
-                    value={newTaskData.dueDate}
-                    onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })}
-                  />
-               </div>
-            </div>
-
-            <div className="space-y-2">
-                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
-                  <Briefcase className="w-3.5 h-3.5" /> Team
-                </label>
-                <Select 
-                  value={newTaskData.team}
-                  onValueChange={(value) => setNewTaskData({ ...newTaskData, team: value })}
-                >
-                  <SelectTrigger className="bg-white/5 border-white/10">
-                    <SelectValue placeholder="Select Team" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                    {teamsList.map(team => (
-                      <SelectItem key={team} value={team}>{team}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-            </div>
-
-            <div className="space-y-2">
-                <label className="text-sm text-white/60 font-medium flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5" /> Assignees
-                </label>
-                <div className="flex flex-wrap gap-2">
-                    {availableMembers.map((initials) => {
-                      const isSelected = newTaskData.assignees.includes(initials);
-                      return (
-                         <button
-                           key={initials}
-                           type="button"
-                           onClick={() => {
-                             if (isSelected) {
-                               setNewTaskData({ 
-                                 ...newTaskData, 
-                                 assignees: newTaskData.assignees.filter(a => a !== initials) 
-                               });
-                             } else {
-                               setNewTaskData({ 
-                                 ...newTaskData, 
-                                 assignees: [...newTaskData.assignees, initials] 
-                               });
-                             }
-                           }}
-                           className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${
-                             isSelected ? "bg-[#EFFC76]/20 border-[#EFFC76] text-[#EFFC76]" : "bg-white/5 border-white/10 text-white/50"
-                           }`}
-                         >
-                            <Avatar className="w-5 h-5">
-                              <AvatarFallback className="text-[10px] bg-white/10">{initials}</AvatarFallback>
-                            </Avatar>
-                            {initials}
-                         </button>
-                      );
-                    })}
-                </div>
-            </div>
-          </div>
-          <div className="flex justify-end gap-2">
-             <Button variant="outline" onClick={() => setAddTaskDialogOpen(false)} className="border-white/10 hover:bg-white/5">Cancel</Button>
-             <Button onClick={handleCreateTask} className="bg-[#EFFC76] text-black hover:bg-[#dce865]">Create Task</Button>
+             <Button 
+               variant="outline" 
+               onClick={() => {
+                 setAddTaskDialogOpen(false);
+                 setSelectedDepartmentId("");
+               }} 
+               className="border-white/10 hover:bg-white/5"
+               disabled={isCreatingTask}
+             >
+               Cancel
+             </Button>
+             <Button 
+               onClick={handleCreateTask} 
+               className="bg-[#EFFC76] text-black hover:bg-[#dce865]"
+               disabled={isCreatingTask}
+             >
+               {isCreatingTask ? "Creating..." : "Create Task"}
+             </Button>
           </div>
         </DialogContent>
       </Dialog>

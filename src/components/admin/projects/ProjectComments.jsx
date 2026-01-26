@@ -1,46 +1,115 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, AtSign } from "lucide-react";
 import { toast } from "sonner";
+import { useGetProjectCommentsQuery, useCreateProjectCommentMutation } from "@/api/admin/projects/projectCommentsApi";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
 
-const employees = [
-  { id: 1, name: "Sarah Johnson", username: "sarah.j" },
-  { id: 2, name: "Mike Chen", username: "mike.c" },
-  { id: 3, name: "Emily Rodriguez", username: "emily.r" },
-  { id: 4, name: "David Kim", username: "david.k" },
-  { id: 5, name: "Lisa Anderson", username: "lisa.a" },
-];
-
-const initialComments = [
-  {
-    id: 1,
-    author: "Sarah Johnson",
-    content:
-      "Great progress on the UI components! @mike.c can you review the design system?",
-    timestamp: "2026-01-15 10:30 AM",
-    mentions: ["mike.c"],
-  },
-  {
-    id: 2,
-    author: "Mike Chen",
-    content:
-      "@sarah.j Looks good! I've approved the PR. @emily.r please test on mobile devices.",
-    timestamp: "2026-01-15 11:45 AM",
-    mentions: ["sarah.j", "emily.r"],
-  },
-];
+// Helper function to get current user name (placeholder - replace with actual auth context)
+const getCurrentUserName = () => {
+  // TODO: Replace with actual auth context
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('userName') || localStorage.getItem('user');
+    if (stored) {
+      try {
+        const user = typeof stored === 'string' ? JSON.parse(stored) : stored;
+        return user.name || user.firstName + ' ' + user.lastName || 'Current User';
+      } catch {
+        return stored || 'Current User';
+      }
+    }
+  }
+  return 'Current User';
+};
 
 export default function ProjectComments({ projectId, applicationType }) {
-  const [comments, setComments] = useState(initialComments);
+  // Fetch comments from API
+  const { data: commentsResponse, isLoading: isLoadingComments, refetch: refetchComments } = useGetProjectCommentsQuery(
+    Number(projectId),
+    { skip: !projectId }
+  );
+  
+  // Fetch team members for mentions
+  const { data: teamMembersResponse } = useGetOurTeamQuery();
+  
+  // Create comment mutation
+  const [createProjectComment, { isLoading: isCreatingComment }] = useCreateProjectCommentMutation();
+  
+  // Extract data from API responses
+  const apiComments = Array.isArray(commentsResponse) 
+    ? commentsResponse 
+    : (commentsResponse?.data || []);
+  
+  const teamMembers = Array.isArray(teamMembersResponse) 
+    ? teamMembersResponse 
+    : (teamMembersResponse?.data || []);
+  
+  // Transform API comments to component format
+  const transformedComments = useMemo(() => {
+    if (!apiComments || !Array.isArray(apiComments)) {
+      return [];
+    }
+    
+    return apiComments.map(comment => ({
+      id: comment.id,
+      author: comment.author || 'Unknown',
+      content: comment.content || '',
+      timestamp: comment.createdAt 
+        ? new Date(comment.createdAt).toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })
+        : new Date().toLocaleString(),
+      mentions: comment.mentions || [],
+      createdAt: comment.createdAt,
+    }));
+  }, [apiComments]);
+  
+  // Transform team members for mentions
+  const employees = useMemo(() => {
+    return teamMembers.map(member => {
+      const firstName = member.firstName || '';
+      const lastName = member.lastName || '';
+      const fullName = `${firstName} ${lastName}`.trim();
+      // Create username from first name and last initial
+      const username = `${firstName.toLowerCase()}.${lastName?.[0]?.toLowerCase() || ''}`;
+      
+      return {
+        id: member.id,
+        name: fullName || 'Team Member',
+        username: username || `member.${member.id}`,
+      };
+    });
+  }, [teamMembers]);
+  
+  // Use a ref to track the previous transformedComments to avoid infinite loops
+  const prevTransformedCommentsRef = useRef();
+  const [comments, setComments] = useState(() => {
+    prevTransformedCommentsRef.current = transformedComments;
+    return transformedComments;
+  });
   const [newComment, setNewComment] = useState("");
   const [showMentions, setShowMentions] = useState(false);
   const [mentionSearch, setMentionSearch] = useState("");
   const [cursorPosition, setCursorPosition] = useState(0);
+  
+  // Update comments when API data changes - only if actually different
+  useEffect(() => {
+    const commentsString = JSON.stringify(transformedComments);
+    const prevCommentsString = JSON.stringify(prevTransformedCommentsRef.current);
+    if (commentsString !== prevCommentsString) {
+      prevTransformedCommentsRef.current = transformedComments;
+      setComments(transformedComments);
+    }
+  }, [transformedComments]);
 
   const getThemeColor = (type) => {
     switch (type) {
@@ -138,20 +207,62 @@ export default function ProjectComments({ projectId, applicationType }) {
     setShowMentions(false);
   };
 
-  const handleSubmit = () => {
-    if (newComment.trim()) {
+  const handleSubmit = async () => {
+    if (!newComment.trim()) {
+      toast.error("Please enter a comment");
+      return;
+    }
+    
+    if (!projectId) {
+      toast.error("Project ID is required");
+      return;
+    }
+    
+    try {
+      // Extract mentions from comment text
       const mentions =
         newComment.match(/@(\w+\.?\w+)/g)?.map((m) => m.substring(1)) || [];
-      const comment = {
-        id: comments.length + 1,
-        author: "Current User",
-        content: newComment,
-        timestamp: new Date().toLocaleString(),
-        mentions,
+      
+      const commentData = {
+        projectId: Number(projectId),
+        author: getCurrentUserName(),
+        content: newComment.trim(),
+        mentions: mentions.length > 0 ? mentions : undefined,
       };
-      setComments([...comments, comment]);
+      
+      const result = await createProjectComment(commentData).unwrap();
+      
+      // Optimistically add to local state
+      const newCommentObj = {
+        id: result.id,
+        author: result.author || getCurrentUserName(),
+        content: result.content || newComment.trim(),
+        timestamp: result.createdAt 
+          ? new Date(result.createdAt).toLocaleString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })
+          : new Date().toLocaleString(),
+        mentions: result.mentions || mentions,
+        createdAt: result.createdAt,
+      };
+      
+      setComments([...comments, newCommentObj]);
       setNewComment("");
+      setShowMentions(false);
+      
+      // Refetch comments to get latest data
+      if (refetchComments) {
+        await refetchComments();
+      }
+      
       toast.success("Comment posted!");
+    } catch (error) {
+      console.error("Failed to create comment:", error);
+      toast.error("Failed to post comment. Please try again.");
     }
   };
 
@@ -215,9 +326,10 @@ export default function ProjectComments({ projectId, applicationType }) {
               <Button
                 onClick={handleSubmit}
                 className={`gap-2 ${theme.button}`}
+                disabled={isCreatingComment || !newComment.trim()}
               >
                 <Send className="w-4 h-4" />
-                Post Comment
+                {isCreatingComment ? "Posting..." : "Post Comment"}
               </Button>
             </div>
           </div>
@@ -228,7 +340,13 @@ export default function ProjectComments({ projectId, applicationType }) {
         <h3 className="font-semibold text-lg text-white">
           Comments ({comments.length})
         </h3>
-        {comments.map((comment) => (
+        
+        {isLoadingComments ? (
+          <div className="text-white/50 text-sm py-4">Loading comments...</div>
+        ) : comments.length === 0 ? (
+          <div className="text-white/50 text-sm py-4">No comments yet. Be the first to comment!</div>
+        ) : (
+          comments.map((comment) => (
           <Card
             key={comment.id}
             className={`border ${theme.border} bg-black/40`}
@@ -272,7 +390,8 @@ export default function ProjectComments({ projectId, applicationType }) {
               </div>
             </CardContent>
           </Card>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

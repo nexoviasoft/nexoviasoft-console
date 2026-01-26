@@ -3,7 +3,11 @@
  * Handles file uploads to backend API
  */
 
+<<<<<<< HEAD
 const API_BASE_URL = 'https://squadlog-cdn.up.railway.app'
+=======
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+>>>>>>> f4f24797 (add cdn url)
 const UPLOAD_ENDPOINT = '/upload/image'
 /**
 

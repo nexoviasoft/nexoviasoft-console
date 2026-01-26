@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,24 +30,11 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-
-// Mock data to simulate fetching
-const getTask = (id) => {
-  return {
-    id: id,
-    title: "Design Homepage Mockup",
-    desc: "Create initial design concepts and wireframes for the new homepage. Focus on modern aesthetics and user experience.",
-    priority: "high",
-    assignees: ["SJ", "MC"],
-    team: "Design",
-    status: "In Progress",
-    dueDate: "2024-03-15",
-    comments: [
-      { id: 1, author: "Sarah Jones", text: "Make sure to include the new branding colors.", time: "2h ago", initials: "SJ" },
-      { id: 2, author: "Mike Chen", text: "I'll start on the wireframes tomorrow.", time: "1h ago", initials: "MC" },
-    ],
-  };
-};
+import { useGetTaskByIdQuery, useUpdateTaskMutation } from "@/api/admin/projects/tasksApi";
+import { useCreateTaskCommentMutation } from "@/api/admin/projects/taskCommentsApi";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
+import { useGetDepartmentsQuery } from "@/api/landing/department/departmentApi";
+import { toast } from "sonner";
 
 const priorities = [
   { value: "high", label: "High", color: "text-red-400 bg-red-400/10" },
@@ -55,36 +42,149 @@ const priorities = [
   { value: "low", label: "Low", color: "text-green-400 bg-green-400/10" },
 ];
 
-const assigneesList = ["SJ", "MC", "ER", "DK", "LA", "JD"];
-const teamsList = ["Development", "Design", "Marketing", "Product", "Operations", "QA"];
-
 export default function TaskDetailsPage({ params }) {
   const router = useRouter();
-  const [task, setTask] = useState(getTask(params.taskId));
+  const { id: projectId, taskId } = use(params);
+  const { data: taskResponse, isLoading, error } = useGetTaskByIdQuery(Number(taskId));
+  const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
+  const [createTaskComment, { isLoading: isCreatingComment }] = useCreateTaskCommentMutation();
+  
+  // Fetch team members and departments
+  const { data: teamMembersResponse } = useGetOurTeamQuery();
+  const { data: departmentsResponse } = useGetDepartmentsQuery();
+  
+  // Extract data from API responses
+  const task = Array.isArray(taskResponse) 
+    ? taskResponse[0] 
+    : (taskResponse?.data || taskResponse);
+  
+  const teamMembers = Array.isArray(teamMembersResponse) 
+    ? teamMembersResponse 
+    : (teamMembersResponse?.data || []);
+  
+  const departments = Array.isArray(departmentsResponse) 
+    ? departmentsResponse 
+    : (departmentsResponse?.data || []);
+  
   const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [localTitle, setLocalTitle] = useState("");
+  const [localDescription, setLocalDescription] = useState("");
+  
+  // Update local state when task data changes
+  useEffect(() => {
+    if (task) {
+      setLocalTitle(task.title || "");
+      setLocalDescription(task.description || task.desc || "");
+      if (task?.comments && Array.isArray(task.comments)) {
+        setComments(task.comments);
+      }
+    }
+  }, [task]);
+  
+  // Create assignees list from team members (format: initials)
+  const availableMembers = React.useMemo(() => {
+    return teamMembers.map((member) => {
+      const initials = (member.firstName?.[0] || '') + (member.lastName?.[0] || '') || 'TM';
+      return {
+        id: member.id,
+        initials,
+        name: `${member.firstName} ${member.lastName}`,
+        fullName: `${member.firstName} ${member.lastName}`,
+      };
+    });
+  }, [teamMembers]);
+  
+  // Create teams list from departments (department names)
+  const teamsList = React.useMemo(() => {
+    return departments.map((dept) => dept.name);
+  }, [departments]);
+  
+  // Get current assignees as initials array
+  const currentAssignees = React.useMemo(() => {
+    if (!task?.assignees || !Array.isArray(task.assignees)) return [];
+    return task.assignees;
+  }, [task]);
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center">
+        <div className="text-white/60">Loading task...</div>
+      </div>
+    );
+  }
+  
+  if (error || !task) {
+    return (
+      <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center">
+        <div className="text-red-400">Failed to load task</div>
+      </div>
+    );
+  }
 
-  const handlePriorityChange = (value) => {
-    setTask({ ...task, priority: value });
+  const handlePriorityChange = async (value) => {
+    try {
+      await updateTask({
+        id: Number(taskId),
+        priority: value,
+        projectId: Number(projectId),
+      }).unwrap();
+      toast.success("Priority updated");
+    } catch (error) {
+      console.error("Failed to update priority:", error);
+      toast.error("Failed to update priority");
+    }
+  };
+  
+  const handleStatusChange = async (status) => {
+    try {
+      await updateTask({
+        id: Number(taskId),
+        status,
+        projectId: Number(projectId),
+      }).unwrap();
+      toast.success("Status updated");
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      toast.error("Failed to update status");
+    }
   };
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!newComment.trim()) return;
-    const comment = {
-      id: Date.now(),
-      author: "You",
-      text: newComment,
-      time: "Just now",
-      initials: "YO",
-    };
-    setTask({ ...task, comments: [...task.comments, comment] });
-    setNewComment("");
+    
+    try {
+      const result = await createTaskComment({
+        taskId: Number(taskId),
+        author: "You", // TODO: Get from auth context
+        content: newComment.trim(),
+      }).unwrap();
+      
+      setComments(prev => [...prev, result]);
+      setNewComment("");
+      toast.success("Comment added");
+    } catch (error) {
+      console.error("Failed to add comment:", error);
+      toast.error("Failed to add comment");
+    }
   };
 
-  const handleToggleAssignee = (initials) => {
-    if (task.assignees.includes(initials)) {
-      setTask({ ...task, assignees: task.assignees.filter((a) => a !== initials) });
-    } else {
-      setTask({ ...task, assignees: [...task.assignees, initials] });
+  const handleToggleAssignee = async (initials) => {
+    const isAssigned = currentAssignees.includes(initials);
+    const newAssignees = isAssigned
+      ? currentAssignees.filter(a => a !== initials)
+      : [...currentAssignees, initials];
+    
+    try {
+      await updateTask({
+        id: Number(taskId),
+        assignees: newAssignees,
+        projectId: Number(projectId),
+      }).unwrap();
+      toast.success(isAssigned ? "Assignee removed" : "Assignee added");
+    } catch (error) {
+      console.error("Failed to update assignees:", error);
+      toast.error("Failed to update assignees");
     }
   };
 
@@ -112,18 +212,48 @@ export default function TaskDetailsPage({ params }) {
             {/* Title & Description */}
             <div className="space-y-4">
               <Input
-                value={task.title}
-                onChange={(e) => setTask({ ...task, title: e.target.value })}
+                value={localTitle}
+                onChange={(e) => setLocalTitle(e.target.value)}
+                onBlur={async (e) => {
+                  if (e.target.value !== task.title) {
+                    try {
+                      await updateTask({
+                        id: Number(taskId),
+                        title: e.target.value,
+                        projectId: Number(projectId),
+                      }).unwrap();
+                    } catch (error) {
+                      console.error("Failed to update title:", error);
+                      setLocalTitle(task.title || "");
+                    }
+                  }
+                }}
                 className="text-3xl font-bold bg-transparent border-none p-0 h-auto focus-visible:ring-0 placeholder:text-white/20"
                 placeholder="Task Title"
+                disabled={isUpdating}
               />
               <div className="space-y-2">
                 <label className="text-sm text-white/50 font-medium ml-1">Description</label>
                 <Textarea
-                  value={task.desc}
-                  onChange={(e) => setTask({ ...task, desc: e.target.value })}
+                  value={localDescription}
+                  onChange={(e) => setLocalDescription(e.target.value)}
+                  onBlur={async (e) => {
+                    if (e.target.value !== (task.description || task.desc)) {
+                      try {
+                        await updateTask({
+                          id: Number(taskId),
+                          description: e.target.value,
+                          projectId: Number(projectId),
+                        }).unwrap();
+                      } catch (error) {
+                        console.error("Failed to update description:", error);
+                        setLocalDescription(task.description || task.desc || "");
+                      }
+                    }
+                  }}
                   className="bg-white/5 border-white/10 min-h-[150px] resize-none focus-visible:ring-[#EFFC76]/50"
                   placeholder="Add a more detailed description..."
+                  disabled={isUpdating}
                 />
               </div>
             </div>
@@ -133,28 +263,40 @@ export default function TaskDetailsPage({ params }) {
               <div className="flex items-center gap-2 text-lg font-semibold border-b border-white/10 pb-2">
                 <MessageSquare className="w-5 h-5 text-[#EFFC76]" />
                 <h3>Comments</h3>
-                <span className="text-sm text-white/50 bg-white/10 px-2 py-0.5 rounded-full">{task.comments.length}</span>
+                <span className="text-sm text-white/50 bg-white/10 px-2 py-0.5 rounded-full">{comments.length}</span>
               </div>
 
               <div className="space-y-4">
-                {task.comments.map((comment) => (
-                  <div key={comment.id} className="flex gap-4 group">
-                    <Avatar className="w-8 h-8 border border-white/20">
-                      <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
-                        {comment.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm">{comment.author}</span>
-                        <span className="text-xs text-white/40">{comment.time}</span>
+                {comments.length === 0 ? (
+                  <p className="text-sm text-white/50">No comments yet. Start the discussion.</p>
+                ) : (
+                  comments.map((comment) => {
+                    const authorName = comment.author || "Unknown";
+                    const initials = authorName.split(' ').map(n => n[0]).join('').toUpperCase() || 'U';
+                    return (
+                      <div key={comment.id} className="flex gap-4 group">
+                        <Avatar className="w-8 h-8 border border-white/20">
+                          <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
+                            {initials}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 space-y-1">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-sm">{authorName}</span>
+                            {comment.createdAt && (
+                              <span className="text-xs text-white/40">
+                                {new Date(comment.createdAt).toLocaleDateString()}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-white/80 bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5">
+                            {comment.content || comment.text}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-sm text-white/80 bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5">
-                        {comment.text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  })
+                )}
               </div>
 
               <div className="flex gap-3 items-start">
@@ -173,9 +315,10 @@ export default function TaskDetailsPage({ params }) {
                           onClick={handleAddComment}
                           className="bg-[#EFFC76] text-black hover:bg-[#dce865]"
                           size="sm"
+                          disabled={!newComment.trim() || isCreatingComment}
                         >
                           <Send className="w-4 h-4 mr-2" />
-                          Comment
+                          {isCreatingComment ? "Adding..." : "Comment"}
                         </Button>
                     </div>
                 </div>
@@ -195,8 +338,9 @@ export default function TaskDetailsPage({ params }) {
                     <span>Status</span>
                    </div>
                    <Select 
-                    value={task.status} 
-                    onValueChange={(value) => setTask({ ...task, status: value })}
+                    value={task.status || "todo"} 
+                    onValueChange={handleStatusChange}
+                    disabled={isUpdating}
                    >
                     <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
                       <SelectValue />
@@ -226,7 +370,7 @@ export default function TaskDetailsPage({ params }) {
                     <Tag className="w-4 h-4" />
                     <span>Priority</span>
                   </div>
-                  <Select value={task.priority} onValueChange={handlePriorityChange}>
+                  <Select value={task.priority || "medium"} onValueChange={handlePriorityChange} disabled={isUpdating}>
                     <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
                       <SelectValue />
                     </SelectTrigger>
@@ -279,27 +423,41 @@ export default function TaskDetailsPage({ params }) {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {task.assignees.map((assignee) => (
-                        <div key={assignee} className="flex items-center gap-1.5 bg-white/10 pr-2 pl-1 py-1 rounded-full border border-white/10">
+                    {currentAssignees.map((assigneeInitials) => {
+                      const member = availableMembers.find(m => m.initials === assigneeInitials);
+                      return (
+                        <div key={assigneeInitials} className="flex items-center gap-1.5 bg-white/10 pr-2 pl-1 py-1 rounded-full border border-white/10">
                             <Avatar className="w-6 h-6">
                                 <AvatarFallback className="text-[10px] bg-[#EFFC76]/20 text-[#EFFC76]">
-                                    {assignee}
+                                    {assigneeInitials}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="text-xs">{assignee}</span>
-                            <button onClick={() => handleToggleAssignee(assignee)} className="hover:text-red-400">
+                            <span className="text-xs" title={member?.fullName}>{assigneeInitials}</span>
+                            <button 
+                              onClick={() => handleToggleAssignee(assigneeInitials)} 
+                              className="hover:text-red-400"
+                              disabled={isUpdating}
+                            >
                                 <Trash2 className="w-3 h-3" />
                             </button>
                         </div>
-                    ))}
-                    <Select onValueChange={handleToggleAssignee}>
+                      );
+                    })}
+                    <Select 
+                      onValueChange={handleToggleAssignee}
+                      disabled={isUpdating}
+                    >
                         <SelectTrigger className="w-6 h-6 rounded-full p-0 bg-transparent border-dashed border-white/30 hover:border-[#EFFC76] text-white/50 hover:text-[#EFFC76] flex items-center justify-center">
                              <Plus className="w-4 h-4" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                             {assigneesList.filter(a => !task.assignees.includes(a)).map(a => (
-                                 <SelectItem key={a} value={a}>{a}</SelectItem>
-                             ))}
+                             {availableMembers
+                               .filter(m => !currentAssignees.includes(m.initials))
+                               .map(member => (
+                                 <SelectItem key={member.id} value={member.initials} title={member.fullName}>
+                                   {member.initials} - {member.name}
+                                 </SelectItem>
+                               ))}
                         </SelectContent>
                     </Select>
                   </div>
@@ -313,10 +471,25 @@ export default function TaskDetailsPage({ params }) {
                     <Calendar className="w-4 h-4" />
                     <span>Due Date</span>
                    </div>
-                   <Button variant="outline" className="w-full justify-start text-left font-normal bg-white/5 border-white/10 hover:bg-white/10 hover:text-white">
-                     <Clock className="mr-2 h-4 w-4 opacity-50" />
-                     {task.dueDate}
-                   </Button>
+                   <Input
+                     type="date"
+                     value={task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : ""}
+                     onChange={async (e) => {
+                       try {
+                         await updateTask({
+                           id: Number(taskId),
+                           dueDate: e.target.value,
+                           projectId: Number(projectId),
+                         }).unwrap();
+                         toast.success("Due date updated");
+                       } catch (error) {
+                         console.error("Failed to update due date:", error);
+                         toast.error("Failed to update due date");
+                       }
+                     }}
+                     className="bg-white/5 border-white/10 text-white [color-scheme:dark]"
+                     disabled={isUpdating}
+                   />
                 </div>
 
               </CardContent>

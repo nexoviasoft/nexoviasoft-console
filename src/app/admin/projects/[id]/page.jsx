@@ -1,46 +1,79 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import EnhancedKanbanBoard from "@/components/admin/projects/EnhancedKanbanBoard";
 import ProjectComments from "@/components/admin/projects/ProjectComments";
-
-// Mock project data - in real app, fetch based on params.id
-const getProject = (id) => {
-  const projects = {
-    1: {
-      id: 1,
-      name: "Website Redesign",
-      description: "Complete overhaul of company website with modern UI/UX",
-      applicationType: "Web Application",
-    },
-    2: {
-      id: 2,
-      name: "Mobile App Development",
-      description: "Native iOS and Android app for customer portal",
-      applicationType: "Mobile Application",
-    },
-    3: {
-      id: 3,
-      name: "API Integration",
-      description: "Integrate third-party payment and analytics APIs",
-      applicationType: "Backend Service",
-    },
-    4: {
-      id: 4,
-      name: "Database Migration",
-      description: "Migrate from PostgreSQL to MongoDB for better scalability",
-      applicationType: "Database Layer",
-    },
-  };
-  return projects[id] || projects["1"];
-};
+import { useGetProjectByIdQuery } from "@/api/admin/projects/projectsApi";
 
 export default function ProjectDetailPage({ params }) {
   const router = useRouter();
-  const project = getProject(params.id);
+  const { id } = use(params);
+  const { data: projectResponse, isLoading, error } = useGetProjectByIdQuery(Number(id));
+  
+  // Simple extraction
+  const project = Array.isArray(projectResponse) 
+    ? projectResponse[0] 
+    : (projectResponse?.data || projectResponse);
+
+  if (isLoading) {
+    return (
+      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
+        <div className="text-white/60">Loading project...</div>
+      </div>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
+        <div className="text-red-400">Failed to load project</div>
+      </div>
+    );
+  }
+
+  // Ensure we extract primitives only - validate and convert
+  const projectId = React.useMemo(() => {
+    if (!project?.id) return null;
+    const id = project.id;
+    if (typeof id === 'number') return id;
+    if (typeof id === 'string') {
+      const num = parseInt(id, 10);
+      return isNaN(num) ? null : num;
+    }
+    // If it's an object, don't use it
+    if (typeof id === 'object') {
+      console.error('Project ID is an object!', id);
+      return null;
+    }
+    return null;
+  }, [project?.id]);
+  
+  const applicationType = React.useMemo(() => {
+    if (!project?.applicationType) return '';
+    const appType = project.applicationType;
+    if (typeof appType === 'string') return appType;
+    // If it's an object, don't use it
+    if (typeof appType === 'object') {
+      console.error('Application type is an object!', appType);
+      return '';
+    }
+    return String(appType || '');
+  }, [project?.applicationType]);
+  
+  const projectName = React.useMemo(() => {
+    if (!project?.name) return 'Project';
+    const name = project.name;
+    if (typeof name === 'string') return name;
+    // If it's an object, don't use it
+    if (typeof name === 'object') {
+      console.error('Project name is an object!', name);
+      return 'Project';
+    }
+    return String(name || 'Project');
+  }, [project?.name]);
 
   return (
     <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
@@ -77,25 +110,29 @@ export default function ProjectDetailPage({ params }) {
             <div className="hidden md:block h-6 w-px bg-white/20" />
             <div>
               <h1 className=" text-md md:text-2xl font-bold text-white">
-                {project.name}
+                {projectName}
               </h1>
-              {/* <p className="text-sm text-white/60">{project.description}</p> */}
+              {/* <p className="text-sm text-white/60">{project?.description}</p> */}
             </div>
           </div>
         </div>
 
         {/* glass-card rounded-xl p-4 md:p-6 flex-1 min-h-[600px] overflow-hidden */}
         <div className="">
-          <EnhancedKanbanBoard 
-            applicationType={project.applicationType} 
-            projectId={project.id} 
-          />
+          {projectId && projectId > 0 && typeof applicationType === 'string' && (
+            <EnhancedKanbanBoard 
+              applicationType={applicationType} 
+              projectId={projectId} 
+            />
+          )}
         </div>
 
         {/* Comments Section */}
         {/* glass-card rounded-xl p-4 md:p-6 */}
         <div className="">
-          <ProjectComments projectId={project.id} />
+          {projectId && projectId > 0 && (
+            <ProjectComments projectId={projectId} />
+          )}
         </div>
       </div>
     </div>
