@@ -564,7 +564,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     const defaultColumns = [...initialColumns];
     
     // If we have API columns, add custom ones
-    if (projectId && columnsResponse) {
+    if (safeProjectId && columnsResponse) {
       const apiColumns = Array.isArray(columnsResponse) 
         ? columnsResponse 
         : (columnsResponse?.data || []);
@@ -604,7 +604,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     
     // Return default columns if no API data
     return defaultColumns;
-  }, [columnsResponse, projectId]);
+  }, [columnsResponse, safeProjectId]);
   
   const [columns, setColumns] = useState(transformedColumns);
   
@@ -624,7 +624,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
       // If we have a projectId, use API data (even if empty)
       return transformTasksFromAPI(apiTasks, columns);
     }
-    // Return empty tasks if no projectId (for demo/mock mode)
+    // Return empty tasks if no safeProjectId (for demo/mock mode)
     const emptyTasks = {};
     columns.forEach(col => {
       emptyTasks[col.id] = [];
@@ -792,16 +792,16 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     }
   };
 
-  const theme = getThemeColor(applicationType);
+  const theme = getThemeColor(safeApplicationType);
 
   const handleAddColumn = async () => {
     if (!newColumnName.trim()) return;
 
-    // If projectId is provided, use API
-    if (projectId) {
+    // If safeProjectId is provided, use API
+    if (safeProjectId) {
       try {
         const columnData = {
-          projectId: Number(projectId),
+          projectId: safeProjectId,
           title: newColumnName.trim(),
           isCustom: true,
           order: columns.length + 1,
@@ -834,7 +834,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         toast.error("Failed to create column");
       }
     } else {
-      // Fallback to local state if no projectId
+      // Fallback to local state if no safeProjectId
       const newColumn = {
         id: `custom_${Date.now()}`,
         title: newColumnName,
@@ -856,14 +856,14 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
       return;
     }
 
-    // If projectId is provided, use API
-    if (projectId) {
+    // If safeProjectId is provided, use API
+    if (safeProjectId) {
       try {
         const columnIdNum = Number(columnId);
         
         await deleteColumn({ 
           id: columnIdNum, 
-          projectId: Number(projectId) 
+          projectId: safeProjectId 
         }).unwrap();
 
         // Optimistically update UI
@@ -883,7 +883,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         toast.error("Failed to delete column");
       }
     } else {
-      // Fallback to local state if no projectId
+      // Fallback to local state if no safeProjectId
       setColumns(columns.filter((column) => column.id !== columnId));
       const nextTasks = { ...tasks };
       delete nextTasks[columnId];
@@ -926,8 +926,8 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
       (column) => column.id === targetColumn,
     )?.title;
 
-    // If projectId is provided, use API
-    if (projectId) {
+    // If safeProjectId is provided, use API
+    if (safeProjectId) {
       try {
         // Calculate new order (position in target column)
         const targetTasks = nextTasks[targetColumn] || [];
@@ -937,7 +937,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
           taskId: Number(task.id),
           newColumnId: targetColumn,
           newOrder: newOrder,
-          projectId: Number(projectId), // Include projectId for cache invalidation
+          projectId: safeProjectId, // Include projectId for cache invalidation
         };
 
         await moveTask(moveData).unwrap();
@@ -963,7 +963,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         setTasks(revertedTasks);
       }
     } else {
-      // Fallback to local state if no projectId
+      // Fallback to local state if no safeProjectId
       if (columnTitle) {
         toast.success(`Task moved to ${columnTitle}`);
       }
@@ -990,11 +990,11 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
       return;
     }
 
-    // If projectId is provided, use API
-    if (projectId) {
+    // If safeProjectId is provided, use API
+    if (safeProjectId) {
       try {
         const taskData = {
-          projectId: Number(projectId),
+          projectId: safeProjectId,
           title: newTaskData.title,
           description: newTaskData.desc || undefined,
           priority: newTaskData.priority,
@@ -1028,7 +1028,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         toast.error("Failed to create task");
       }
     } else {
-      // Use local state if no projectId
+      // Use local state if no safeProjectId
       const newTask = {
         id: `task_${Date.now()}`,
         title: newTaskData.title,
@@ -1061,7 +1061,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
   const handleOpenTask = (task, columnId) => {
     // setActiveTask({ ...task, columnId });
     // setTaskDialogOpen(true);
-    router.push(`/admin/projects/${projectId}/tasks/${task.id}`);
+    router.push(`/admin/projects/${safeProjectId}/tasks/${task.id}`);
   };
 
   const toggleAssignee = (initials) => {
@@ -1107,8 +1107,8 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
     const text = newComments[taskId]?.trim();
     if (!text) return;
 
-    // If projectId is provided, use API
-    if (projectId) {
+    // If safeProjectId is provided, use API
+    if (safeProjectId) {
       try {
         const commentData = {
           taskId: Number(taskId),
@@ -1150,7 +1150,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         toast.error("Failed to add comment");
       }
     } else {
-      // Fallback to local state if no projectId
+      // Fallback to local state if no safeProjectId
       setTaskComments((prev) => {
         const existing = prev[taskId] || [];
         const nextComment = {
@@ -1410,22 +1410,22 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                   <Users className="w-3.5 h-3.5" /> Assignees
                 </label>
                 <div className="flex flex-wrap gap-2">
-                    {availableMembers.map((initials) => {
-                      const isSelected = newTaskData.assignees.includes(initials);
+                    {availableMembers.map((member) => {
+                      const isSelected = newTaskData.assignees.includes(member.initials);
                       return (
                          <button
-                           key={initials}
+                           key={member.id}
                            type="button"
                            onClick={() => {
                              if (isSelected) {
                                setNewTaskData({ 
                                  ...newTaskData, 
-                                 assignees: newTaskData.assignees.filter(a => a !== initials) 
+                                 assignees: newTaskData.assignees.filter(a => a !== member.initials) 
                                });
                              } else {
                                setNewTaskData({ 
                                  ...newTaskData, 
-                                 assignees: [...newTaskData.assignees, initials] 
+                                 assignees: [...newTaskData.assignees, member.initials] 
                                });
                              }
                            }}
@@ -1434,9 +1434,9 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                            }`}
                          >
                             <Avatar className="w-5 h-5">
-                              <AvatarFallback className="text-[10px] bg-white/10">{initials}</AvatarFallback>
+                              <AvatarFallback className="text-[10px] bg-white/10">{member.initials}</AvatarFallback>
                             </Avatar>
-                            {initials}
+                            {member.initials}
                          </button>
                       );
                     })}

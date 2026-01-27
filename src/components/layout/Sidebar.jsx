@@ -1,17 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp, ChevronRight, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mainNavItems, othersNavItems } from "./navigationData";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { filterNavItemsByRole } from "@/lib/utils/roleAccess";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [mainExpanded, setMainExpanded] = useState(true);
   const [othersExpanded, setOthersExpanded] = useState(true);
   const [expandedItems, setExpandedItems] = useState({});
   const pathname = usePathname();
+  const { userRole, isLoading: authLoading } = useAuth();
+
+  // Filter navigation items based on user role
+  const filteredMainNavItems = useMemo(() => {
+    if (authLoading || !userRole) return [];
+    return filterNavItemsByRole(mainNavItems, userRole);
+  }, [userRole, authLoading]);
+
+  const filteredOthersNavItems = useMemo(() => {
+    if (authLoading || !userRole) return [];
+    return filterNavItemsByRole(othersNavItems, userRole);
+  }, [userRole, authLoading]);
 
   // Recursive function to check if any child (at any level) is active
   const hasActiveChildRecursive = (item) => {
@@ -36,9 +50,9 @@ const Sidebar = ({ isOpen, onClose }) => {
         }
       });
     };
-    checkAndExpand(mainNavItems);
-    checkAndExpand(othersNavItems);
-  }, [pathname]);
+    checkAndExpand(filteredMainNavItems);
+    checkAndExpand(filteredOthersNavItems);
+  }, [pathname, filteredMainNavItems, filteredOthersNavItems]);
 
   const toggleItem = (itemId) => {
     setExpandedItems((prev) => ({
@@ -235,7 +249,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   : "max-h-0 opacity-0",
               )}
             >
-              <div className="space-y-1">{mainNavItems.map(renderNavItem)}</div>
+              <div className="space-y-1">{filteredMainNavItems.map(renderNavItem)}</div>
             </div>
           </div>
 
@@ -263,7 +277,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               )}
             >
               <div className="space-y-1">
-                {othersNavItems.map(renderNavItem)}
+                {filteredOthersNavItems.map(renderNavItem)}
               </div>
             </div>
           </div>

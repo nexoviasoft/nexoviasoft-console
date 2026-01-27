@@ -18,23 +18,8 @@ export default function ProjectDetailPage({ params }) {
     ? projectResponse[0] 
     : (projectResponse?.data || projectResponse);
 
-  if (isLoading) {
-    return (
-      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
-        <div className="text-white/60">Loading project...</div>
-      </div>
-    );
-  }
-
-  if (error || !project) {
-    return (
-      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
-        <div className="text-red-400">Failed to load project</div>
-      </div>
-    );
-  }
-
   // Ensure we extract primitives only - validate and convert
+  // All hooks must be called before any conditional returns
   const projectId = React.useMemo(() => {
     if (!project?.id) return null;
     const id = project.id;
@@ -74,6 +59,22 @@ export default function ProjectDetailPage({ params }) {
     }
     return String(name || 'Project');
   }, [project?.name]);
+
+  if (isLoading) {
+    return (
+      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
+        <div className="text-white/60">Loading project...</div>
+      </div>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <div className="px-4 py-4 md:px-8 md:py-6 flex items-center justify-center min-h-screen text-white">
+        <div className="text-red-400">Failed to load project</div>
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">

@@ -26,6 +26,8 @@ import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
 import FinanceChart from "@/components/admin/dashboard/FinanceChart";
 import { useEffect } from "react";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
@@ -48,7 +50,9 @@ export default function Dashboard() {
     minute: "2-digit",
   });
   return (
-    <div className="px-4 py-4 md:px-8 md:py-6 text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-4 py-4 md:px-8 md:py-6 text-white">
       <div className="space-y-6">
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
@@ -534,6 +538,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-    </div>
+        </div>
+      </AppLayout>
+    </PrivateRoute>
   );
 }

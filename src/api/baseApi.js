@@ -5,11 +5,11 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001',
   // ttps://squadlog-backend.up.railway.app
   prepareHeaders: (headers, { getState }) => {
-    // Get token from state if you have auth state
-    // const token = getState()?.auth?.token;
-    // if (token) {
-    //   headers.set('authorization', `Bearer ${token}`);
-    // }
+    // Get token from localStorage
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
     
     // Set default headers
     headers.set('Content-Type', 'application/json');
@@ -22,6 +22,7 @@ export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery,
   tagTypes: [
+    'Auth',
     'User',
     'Employee',
     'Project',

@@ -1,7 +1,8 @@
 import { Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/lib/StoreProvider";
-import AppLayout from "@/components/layout/AppLayout";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { Toaster } from "sonner";
 
 const baiJamjuree = Bai_Jamjuree({
   variable: "--font-bai-jamjuree",
@@ -21,14 +22,12 @@ export default function RootLayout({ children }) {
         className={`${baiJamjuree.className} ${baiJamjuree.variable} antialiased`}
       >
         <StoreProvider>
-          <AppLayout>
-            <div className="flex flex-col py-5 min-h-screen">
-              {children}
-            </div>
-          </AppLayout>
+          <AuthProvider>
+            {children}
+            <Toaster position="top-right" richColors />
+          </AuthProvider>
         </StoreProvider>
       </body>
-
     </html>
   );
 }
