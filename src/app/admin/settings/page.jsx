@@ -5,10 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileSettings from "@/components/admin/settings/ProfileSettings";
 import NotificationSettings from "@/components/admin/settings/NotificationSettings";
 import { User, Bell, Shield, Wallet } from "lucide-react";
-
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 export default function Settings() {
   return (
-    <div className="px-4 sm:px-8 py-4 sm:py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-4 sm:px-8 py-4 sm:py-8">
       <div className="max-w-[1600px] w-full mx-auto">
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6">Settings</h1>
             
@@ -72,5 +75,7 @@ export default function Settings() {
             </Tabs>
           </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

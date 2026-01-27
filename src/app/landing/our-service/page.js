@@ -13,6 +13,8 @@ import {
   useGetOurServicesQuery, 
   useDeleteOurServiceMutation,
 } from "@/api/landing/our-service/ourServiceApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 function OurServiceContent() {
   const router = useRouter();
@@ -139,7 +141,9 @@ function OurServiceContent() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white">Our Services</CardTitle>
@@ -193,6 +197,8 @@ function OurServiceContent() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }
 

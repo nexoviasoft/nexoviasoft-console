@@ -26,7 +26,8 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 import ConfirmActionModal from "@/components/modal/ConfirmActionModal";
-
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 export default function OurClientDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -104,7 +105,9 @@ export default function OurClientDetailPage() {
     : "CL";
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Header with Back Button and Edit */}
       <div className="flex items-center justify-between mb-6">
         <Button
@@ -369,5 +372,7 @@ export default function OurClientDetailPage() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

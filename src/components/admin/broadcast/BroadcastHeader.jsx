@@ -5,8 +5,12 @@ import { Plus, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateBroadcastDialog from "@/components/admin/broadcast/CreateBroadcastDialog";
 
-export default function BroadcastHeader() {
+export default function BroadcastHeader({ dashboard }) {
   const [open, setOpen] = React.useState(false);
+
+  const draftsCount =
+    dashboard?.draftsCount ??
+    (Array.isArray(dashboard?.drafts) ? dashboard.drafts.length : 0);
 
   return (
     <>
@@ -26,7 +30,7 @@ export default function BroadcastHeader() {
             variant="outline"
             className="glass-button bg-white/5 border border-white/20 text-[#EFFC76] hover:bg-white/10 h-9 sm:h-10 text-xs sm:text-sm"
           >
-            Drafts (2)
+            Drafts ({draftsCount})
           </Button>
           <Button
             onClick={() => setOpen(true)}

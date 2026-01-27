@@ -27,6 +27,8 @@ export default function Attendance() {
       checkOut: a.checkOut || "-",
       workHours: a.workHours || "-",
       status: a.status || "Absent",
+      approved: a.approved || false,
+      date: a.createdAt || null,
     })) || [];
 
   return (

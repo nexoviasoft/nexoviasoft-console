@@ -12,6 +12,8 @@ import {
   useGetDepartmentsQuery, 
   useDeleteDepartmentMutation 
 } from "@/api/landing/department/departmentApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function DepartmentPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -94,7 +96,9 @@ export default function DepartmentPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white">Departments</CardTitle>
@@ -142,5 +146,7 @@ export default function DepartmentPage() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

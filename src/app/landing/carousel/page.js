@@ -12,6 +12,8 @@ import {
   useGetHeroCarouselsQuery, 
   useDeleteHeroCarouselMutation 
 } from "@/api/landing/hero-carousel/heroCarouselApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function CarouselPage() {
   const [showDialog, setShowDialog] = useState(false);
@@ -121,7 +123,9 @@ export default function CarouselPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Hero Carousel</CardTitle>
@@ -166,5 +170,7 @@ export default function CarouselPage() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

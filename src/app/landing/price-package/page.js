@@ -13,6 +13,8 @@ import {
   useGetPricePackagesQuery, 
   useDeletePricePackageMutation 
 } from "@/api/landing/price-package/pricePackageApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function PricePackagePage() {
   const router = useRouter();
@@ -130,7 +132,9 @@ export default function PricePackagePage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto">
       <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white">Price Packages</CardTitle>
@@ -178,5 +182,7 @@ export default function PricePackagePage() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

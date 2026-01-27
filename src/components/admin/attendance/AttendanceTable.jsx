@@ -99,6 +99,20 @@ const StatusBadge = ({ status }) => {
   );
 };
 
+const ApprovedBadge = ({ approved }) => {
+  return (
+    <Badge
+      className={`font-medium shadow-none ${
+        approved
+          ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30"
+          : "bg-orange-500/15 text-orange-200 border border-orange-400/30"
+      }`}
+    >
+      {approved ? "Approved" : "Pending"}
+    </Badge>
+  );
+};
+
 export default function AttendanceTable({ rows }) {
   const [data, setData] = useState(rows?.length ? rows : initialData);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -110,6 +124,33 @@ export default function AttendanceTable({ rows }) {
   const [approveAttendance] = useApproveAttendanceMutation();
   const { userRole } = useAuth();
   const isAdmin = userRole === "admin";
+
+  const computeWorkHours = (checkIn, checkOut) => {
+    if (!checkIn || !checkOut) return "";
+
+    const parse = (value) => {
+      // Support "HH:MM" and "HH:MM AM/PM"
+      let date;
+      if (value.toLowerCase().includes("am") || value.toLowerCase().includes("pm")) {
+        date = new Date(`1970-01-01 ${value}`);
+      } else {
+        date = new Date(`1970-01-01T${value}`);
+      }
+      if (isNaN(date.getTime())) return null;
+      return date;
+    };
+
+    const start = parse(checkIn);
+    const end = parse(checkOut);
+    if (!start || !end) return "";
+
+    const diffMs = end.getTime() - start.getTime();
+    if (diffMs <= 0) return "";
+
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+    return `${hours}h ${minutes}m`;
+  };
 
   React.useEffect(() => {
     if (rows) {
@@ -132,6 +173,17 @@ export default function AttendanceTable({ rows }) {
   };
 
   const handleSaveEdit = async (updatedEmployee) => {
+    // Auto compute work hours from times if possible
+    const calculatedWorkHours = computeWorkHours(
+      updatedEmployee.checkIn,
+      updatedEmployee.checkOut
+    );
+    if (calculatedWorkHours) {
+      updatedEmployee = {
+        ...updatedEmployee,
+        workHours: calculatedWorkHours,
+      };
+    }
     // Optimistic local update
     setData((prev) =>
       prev.map((item) =>
@@ -158,11 +210,16 @@ export default function AttendanceTable({ rows }) {
 
   const handleCreate = async (formData) => {
     try {
+      const calculatedWorkHours = computeWorkHours(
+        formData.checkIn,
+        formData.checkOut
+      );
+
       await createAttendance({
         checkIn: formData.checkIn,
         checkOut: formData.checkOut,
         status: formData.status,
-        workHours: formData.workHours,
+        workHours: calculatedWorkHours || formData.workHours,
       }).unwrap();
       toast.success("Attendance added successfully.");
     } catch (error) {
@@ -221,11 +278,13 @@ export default function AttendanceTable({ rows }) {
         <Table>
           <TableHeader className="bg-[#EFFC76]/10">
             <TableRow className="hover:bg-transparent border-white/10">
-              <TableHead className="w-[300px] text-[#EFFC76] font-semibold">Employee</TableHead>
+              <TableHead className="w-[220px] text-[#EFFC76] font-semibold">Employee</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Date</TableHead>
               <TableHead className="text-[#EFFC76] font-semibold">Check In</TableHead>
               <TableHead className="text-[#EFFC76] font-semibold">Check Out</TableHead>
               <TableHead className="text-[#EFFC76] font-semibold">Work Hours</TableHead>
               <TableHead className="text-[#EFFC76] font-semibold">Status</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Approved</TableHead>
               <TableHead className="text-right text-[#EFFC76] font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -247,6 +306,11 @@ export default function AttendanceTable({ rows }) {
                     </div>
                   </div>
                 </TableCell>
+              <TableCell className="text-white/70">
+                {row.date
+                  ? new Date(row.date).toLocaleDateString()
+                  : "-"}
+              </TableCell>
               <TableCell className="text-white/80 font-medium">
                 {row.checkIn}
               </TableCell>
@@ -258,6 +322,9 @@ export default function AttendanceTable({ rows }) {
               </TableCell>
               <TableCell>
                 <StatusBadge status={row.status} />
+              </TableCell>
+              <TableCell>
+                <ApprovedBadge approved={!!row.approved} />
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>

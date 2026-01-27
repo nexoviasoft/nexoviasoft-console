@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { useGetOurProductByIdQuery } from "@/api/landing/our-product/ourProductApi";
 import { useGetCategoriesQuery } from "@/api/landing/category/categoryApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function OurProductDetailPage() {
   const params = useParams();
@@ -88,7 +90,9 @@ export default function OurProductDetailPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Back Button */}
       <Button 
         variant="ghost" 
@@ -282,5 +286,7 @@ export default function OurProductDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

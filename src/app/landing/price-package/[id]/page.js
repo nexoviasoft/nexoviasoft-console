@@ -18,7 +18,8 @@ import {
   Tag
 } from "lucide-react";
 import { useGetPricePackageByIdQuery } from "@/api/landing/price-package/pricePackageApi";
-
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 export default function PricePackageDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -71,7 +72,9 @@ export default function PricePackageDetailPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Back Button */}
       <Button 
         variant="ghost" 
@@ -312,5 +315,7 @@ export default function PricePackageDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

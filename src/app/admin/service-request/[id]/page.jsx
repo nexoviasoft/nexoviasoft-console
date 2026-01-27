@@ -23,7 +23,8 @@ import {
 } from "lucide-react";
 import { useGetServiceRequestByIdQuery } from "@/api/admin/service-request/serviceRequestApi";
 import Link from "next/link";
-
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 export default function ServiceRequestDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -83,7 +84,9 @@ export default function ServiceRequestDetailPage() {
   const pricePackage = serviceRequest.pricePackage;
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Header with Back Button and Edit */}
       <div className="flex items-center justify-between mb-6">
         <Button 
@@ -448,5 +451,7 @@ export default function ServiceRequestDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

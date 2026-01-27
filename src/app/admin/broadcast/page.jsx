@@ -15,13 +15,13 @@ export default function Broadcast() {
     <PrivateRoute>
       <AppLayout>
         <div className="px-4 py-4 sm:px-8 sm:py-8 min-h-screen text-white">
-      <div className="max-w-[1000px] w-full mx-auto space-y-4 sm:space-y-6">
-        <BroadcastHeader />
-        <BroadcastStats dashboard={data} />
-        <BroadcastFeed dashboard={data} />
-      </div>
-    </div>
-    </AppLayout>
+          <div className="max-w-[1000px] w-full mx-auto space-y-4 sm:space-y-6">
+            <BroadcastHeader dashboard={data} />
+            <BroadcastStats dashboard={data} />
+            <BroadcastFeed dashboard={data} />
+          </div>
+        </div>
+      </AppLayout>
     </PrivateRoute>
   );
 }

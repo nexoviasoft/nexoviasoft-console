@@ -29,6 +29,8 @@ import { useGetDepartmentsQuery } from "@/api/landing/department/departmentApi";
 import Link from "next/link";
 import IdCard from "@/components/admin/froms/our-team/IdCard";
 import { generateIdCardPdf } from "@/utils/idCardPdf";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function OurTeamDetailPage() {
   const params = useParams();
@@ -147,7 +149,9 @@ export default function OurTeamDetailPage() {
   const initials = `${teamMember.firstName?.[0] || ""}${teamMember.lastName?.[0] || ""}`.toUpperCase();
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8 text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8 text-white">
       {/* Hidden ID Card for PDF generation */}
       <div className="fixed -left-[9999px] -top-[9999px] opacity-0 pointer-events-none">
         {teamMember && (
@@ -471,5 +475,7 @@ export default function OurTeamDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

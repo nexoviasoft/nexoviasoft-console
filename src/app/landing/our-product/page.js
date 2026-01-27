@@ -13,6 +13,8 @@ import {
   useGetOurProductsQuery, 
   useDeleteOurProductMutation,
 } from "@/api/landing/our-product/ourProductApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 function OurProductContent() {
   const router = useRouter();
@@ -146,7 +148,9 @@ function OurProductContent() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto">
       <Card className="glass-card border-white/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white">Our Products</CardTitle>
@@ -200,6 +204,8 @@ function OurProductContent() {
         loading={isDeleting}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }
 

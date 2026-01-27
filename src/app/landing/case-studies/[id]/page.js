@@ -23,6 +23,8 @@ import {
 import { useGetCaseStudyByIdQuery } from "@/api/landing/case-studies/caseStudiesApi";
 import { useGetCategoriesQuery } from "@/api/landing/category/categoryApi";
 import { useGetClientsQuery } from "@/api/landing/client/clientApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function CaseStudyDetailPage() {
   const params = useParams();
@@ -98,7 +100,9 @@ export default function CaseStudyDetailPage() {
   const clientName = getClientName();
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Back Button */}
       <Button 
         variant="ghost" 
@@ -392,5 +396,7 @@ export default function CaseStudyDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

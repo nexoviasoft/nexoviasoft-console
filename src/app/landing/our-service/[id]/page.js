@@ -17,7 +17,8 @@ import {
 } from "lucide-react";
 import { useGetOurServiceByIdQuery } from "@/api/landing/our-service/ourServiceApi";
 import { useGetCategoriesQuery } from "@/api/landing/category/categoryApi";
-
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 export default function OurServiceDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -72,7 +73,9 @@ export default function OurServiceDetailPage() {
   const categoryName = getCategoryName();
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
       {/* Back Button */}
       <Button
         variant="ghost"
@@ -298,5 +301,7 @@ export default function OurServiceDetailPage() {
         </div>
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }
