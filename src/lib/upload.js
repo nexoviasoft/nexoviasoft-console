@@ -1,8 +1,9 @@
 /**
  * Image Upload Utility Functions
- * Handles file uploads to backend API
+ * Handles file uploads to the backend API
  */
 
+<<<<<<< HEAD
 // Prefer a dedicated upload/CDN URL if provided, otherwise fall back to the CDN,
 // and finally localhost for local development.
 const API_BASE_URL =
@@ -12,7 +13,11 @@ const API_BASE_URL =
   "https://squadlog-cdn.up.railway.app";
 const UPLOAD_ENDPOINT = '/upload/image'
 /**
+=======
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://squadlog-backend.up.railway.app'
+>>>>>>> 932f6199 (update hook)
 
+/**
  * Upload an image file to the backend
  * @param {File} file - The file to upload
  * @param {string} folder - Optional folder name (kept for compatibility, not used by API)
@@ -23,7 +28,7 @@ export const uploadToCDN = async (file, folder = 'documents') => {
         const formData = new FormData()
         formData.append('file', file)
 
-        const url = `${API_BASE_URL}${UPLOAD_ENDPOINT}`
+        const url = `${API_BASE_URL}/upload/image`
 
         const response = await fetch(url, {
             method: 'POST',
@@ -42,10 +47,9 @@ export const uploadToCDN = async (file, folder = 'documents') => {
         }
 
         // Return the URL from the response
-        // Response format: { success: true, url: "http://localhost:8000/uploads/...", ... }
         return data.url
     } catch (error) {
-        console.error('Image Upload Error:', error)
+        console.error('Upload Error:', error)
         throw new Error(error.message || 'Failed to upload file')
     }
 }
