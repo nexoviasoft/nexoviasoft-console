@@ -3,19 +3,7 @@
  * Handles file uploads to the backend API
  */
 
-<<<<<<< HEAD
-// Prefer a dedicated upload/CDN URL if provided, otherwise fall back to the CDN,
-// and finally localhost for local development.
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_UPLOAD_URL ||
-  process.env.NEXT_PUBLIC_CDN_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://squadlog-cdn.up.railway.app";
-const UPLOAD_ENDPOINT = '/upload/image'
-/**
-=======
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://squadlog-backend.up.railway.app'
->>>>>>> 932f6199 (update hook)
 
 /**
  * Upload an image file to the backend
