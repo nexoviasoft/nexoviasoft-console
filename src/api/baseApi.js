@@ -2,15 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Base API configuration
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001',
+  baseUrl: 'https://squadlog-backend.up.railway.app',
   // ttps://squadlog-backend.up.railway.app
+  // /...
   prepareHeaders: (headers, { getState }) => {
     // Get token from localStorage
     const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
-    
+
     // Set default headers
     headers.set('Content-Type', 'application/json');
     return headers;
