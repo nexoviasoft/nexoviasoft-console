@@ -6,11 +6,44 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Printer, Download, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Printer, Download, Plus, Trash2, Mail, Send } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
+import { useCreateDocumentMutation, useUpdateDocumentMutation, useSendDocumentByEmailMutation, useGetDocumentByIdQuery } from "@/api/admin/documents/documentsApi";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
+import { useGetClientsQuery } from "@/api/landing/client/clientApi";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Users, Building2 } from "lucide-react";
 
-export default function InvoiceBuilder({ template, onBack }) {
+export default function InvoiceBuilder({ template, onBack, documentId }) {
+  const [createDocument, { isLoading: isCreating }] = useCreateDocumentMutation();
+  const [updateDocument, { isLoading: isUpdating }] = useUpdateDocumentMutation();
+  const [sendDocumentByEmail, { isLoading: isSending }] = useSendDocumentByEmailMutation();
+  const { data: documentData, isLoading: isLoadingDocument } = useGetDocumentByIdQuery(documentId, {
+    skip: !documentId,
+  });
+  
+  // Fetch team members and clients
+  const { data: teamData } = useGetOurTeamQuery();
+  const { data: clientsData } = useGetClientsQuery();
+  
+  const teamMembers = teamData?.data || teamData || [];
+  const clients = clientsData?.data || clientsData || [];
+  
   const [invoiceData, setInvoiceData] = useState({
     invoiceNumber: "INV-2026-001",
     date: new Date().toISOString().split("T")[0],
@@ -19,21 +52,50 @@ export default function InvoiceBuilder({ template, onBack }) {
     clientAddress: "",
     items: [],
   });
+  
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [emailData, setEmailData] = useState({
+    selectedUserType: "", // 'team' or 'client'
+    selectedUserId: "",
+    recipientEmail: "",
+    recipientName: "",
+    subject: "",
+    message: "",
+  });
 
-  // Pre-fill based on template
+  // Load document data if documentId is provided
   useEffect(() => {
-    let initialItem = { description: "General Service", quantity: 1, rate: 100 };
-    
-    if (template === 'invoice-cloud') {
-        initialItem = { description: "Cloud Infrastructure Setup (AWS)", quantity: 1, rate: 1500 };
-    } else if (template === 'invoice-web') {
-        initialItem = { description: "Frontend Development - React.js", quantity: 40, rate: 50 };
-    } else if (template === 'invoice-design') {
-        initialItem = { description: "UI/UX Design - Landing Page", quantity: 1, rate: 800 };
+    if (documentId && documentData?.data) {
+      const doc = documentData.data;
+      if (doc.data && doc.type === 'invoice') {
+        setInvoiceData({
+          invoiceNumber: doc.documentNumber || doc.data.invoiceNumber || "INV-2026-001",
+          date: doc.data.date || new Date().toISOString().split("T")[0],
+          clientName: doc.clientName || doc.data.clientName || "",
+          clientEmail: doc.clientEmail || doc.data.clientEmail || "",
+          clientAddress: doc.clientAddress || doc.data.clientAddress || "",
+          items: doc.data.items || [],
+        });
+      }
     }
+  }, [documentId, documentData]);
 
-    setInvoiceData(prev => ({ ...prev, items: [initialItem] }));
-  }, [template]);
+  // Pre-fill based on template (only if no documentId or document not loaded yet)
+  useEffect(() => {
+    if (!documentId || !documentData?.data) {
+      let initialItem = { description: "General Service", quantity: 1, rate: 100 };
+      
+      if (template === 'invoice-cloud') {
+          initialItem = { description: "Cloud Infrastructure Setup (AWS)", quantity: 1, rate: 1500 };
+      } else if (template === 'invoice-web') {
+          initialItem = { description: "Frontend Development - React.js", quantity: 40, rate: 50 };
+      } else if (template === 'invoice-design') {
+          initialItem = { description: "UI/UX Design - Landing Page", quantity: 1, rate: 800 };
+      }
+
+      setInvoiceData(prev => ({ ...prev, items: prev.items.length === 0 ? [initialItem] : prev.items }));
+    }
+  }, [template, documentId, documentData]);
 
   const updateField = (field, value) => {
     setInvoiceData(prev => ({ ...prev, [field]: value }));
@@ -67,6 +129,105 @@ export default function InvoiceBuilder({ template, onBack }) {
     window.print();
   };
 
+  const handleSaveDraft = async () => {
+    try {
+      const documentData = {
+        type: 'invoice',
+        template: template,
+        data: invoiceData,
+        clientName: invoiceData.clientName,
+        clientEmail: invoiceData.clientEmail,
+        clientAddress: invoiceData.clientAddress,
+        documentNumber: invoiceData.invoiceNumber,
+        status: 'draft',
+      };
+
+      if (documentId) {
+        await updateDocument({ id: documentId, ...documentData }).unwrap();
+        toast.success("Draft updated successfully!");
+      } else {
+        const result = await createDocument(documentData).unwrap();
+        toast.success("Draft saved successfully!");
+        // Optionally update documentId if you want to track it
+        if (result?.data?.id) {
+          // You might want to pass this back to parent component
+        }
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to save draft");
+    }
+  };
+
+  const handleSendEmail = async () => {
+    if (!emailData.recipientEmail && !invoiceData.clientEmail) {
+      toast.error("Please provide recipient email");
+      return;
+    }
+
+    try {
+      // First save the document if not saved
+      let docId = documentId;
+      if (!docId) {
+        const documentData = {
+          type: 'invoice',
+          template: template,
+          data: invoiceData,
+          clientName: invoiceData.clientName,
+          clientEmail: invoiceData.clientEmail,
+          clientAddress: invoiceData.clientAddress,
+          documentNumber: invoiceData.invoiceNumber,
+          status: 'draft',
+        };
+        const result = await createDocument(documentData).unwrap();
+        docId = result?.data?.id;
+        if (!docId) {
+          toast.error("Failed to save document. Please try again.");
+          return;
+        }
+      }
+
+      const recipientEmail = emailData.recipientEmail || invoiceData.clientEmail;
+      const recipientName = emailData.recipientName || invoiceData.clientName || 'Valued Client';
+      
+      if (!recipientEmail) {
+        toast.error("Please provide recipient email");
+        return;
+      }
+
+      await sendDocumentByEmail({
+        id: docId,
+        recipientEmail: recipientEmail,
+        subject: emailData.subject || `Invoice ${invoiceData.invoiceNumber}`,
+        message: emailData.message || `Dear ${recipientName},\n\nPlease find attached your invoice.\n\nThank you for your business.`,
+      }).unwrap();
+
+      toast.success("Invoice sent successfully!");
+      setIsEmailDialogOpen(false);
+      setEmailData({ 
+        selectedUserType: "", 
+        selectedUserId: "", 
+        recipientEmail: "", 
+        recipientName: "",
+        subject: "", 
+        message: "" 
+      });
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to send invoice");
+    }
+  };
+
+  useEffect(() => {
+    // Auto-fill email if client email is set and no recipient is selected
+    if (invoiceData.clientEmail && !emailData.selectedUserId) {
+      setEmailData(prev => ({
+        ...prev,
+        recipientEmail: prev.recipientEmail || invoiceData.clientEmail,
+        recipientName: prev.recipientName || invoiceData.clientName,
+        subject: prev.subject || `Invoice ${invoiceData.invoiceNumber}`,
+      }));
+    }
+  }, [invoiceData.clientEmail, invoiceData.clientName, invoiceData.invoiceNumber]);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
@@ -80,10 +241,18 @@ export default function InvoiceBuilder({ template, onBack }) {
         <div className="flex gap-2">
           <Button
             variant="outline"
-            onClick={() => toast.success("Draft saved!")}
+            onClick={handleSaveDraft}
+            disabled={isCreating || isUpdating}
             className="glass-button bg-[#EFFC76] hover:bg-[#dbe665] text-black"
           >
-            Save Draft
+            {isCreating || isUpdating ? "Saving..." : "Save Draft"}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEmailDialogOpen(true)}
+            className="glass-button border-white/30 text-white hover:bg-white/10"
+          >
+            <Mail className="w-4 h-4 mr-2" /> Send by Email
           </Button>
           <Button
             onClick={handlePrint}
@@ -318,6 +487,191 @@ export default function InvoiceBuilder({ template, onBack }) {
             </div>
         </div>
       </div>
+
+      {/* Email Dialog */}
+      <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+        <DialogContent className="glass-panel border-white/20 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Mail className="w-5 h-5 text-[#EFFC76]" />
+              Send Invoice by Email
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
+              Send this invoice to the client via email
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label className="text-white/80">Select Recipient</Label>
+              <Select
+                value={emailData.selectedUserType}
+                onValueChange={(value) => {
+                  setEmailData(prev => ({ 
+                    ...prev, 
+                    selectedUserType: value,
+                    selectedUserId: "",
+                    recipientEmail: "",
+                    recipientName: "",
+                  }));
+                }}
+              >
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectValue placeholder="Choose from team or clients" />
+                </SelectTrigger>
+                <SelectContent className="bg-black/90 border-white/20 text-white">
+                  <SelectItem value="team">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>Team Member</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="client">
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4" />
+                      <span>Client</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="manual">
+                    <span>Enter Email Manually</span>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {emailData.selectedUserType === "team" && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Select Team Member</Label>
+                <Select
+                  value={emailData.selectedUserId}
+                  onValueChange={(userId) => {
+                    const member = teamMembers.find(m => (m.id || m._id) == userId);
+                    if (member) {
+                      setEmailData(prev => ({
+                        ...prev,
+                        selectedUserId: userId,
+                        recipientEmail: member.email || "",
+                        recipientName: `${member.firstName || ""} ${member.lastName || ""}`.trim(),
+                      }));
+                    }
+                  }}
+                >
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectValue placeholder="Select team member" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
+                    {teamMembers.map((member) => (
+                      <SelectItem key={member.id || member._id} value={String(member.id || member._id)}>
+                        <div className="flex flex-col">
+                          <span>{`${member.firstName || ""} ${member.lastName || ""}`.trim() || member.employeeId}</span>
+                          {member.email && (
+                            <span className="text-xs text-white/60">{member.email}</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {emailData.selectedUserType === "client" && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Select Client</Label>
+                <Select
+                  value={emailData.selectedUserId}
+                  onValueChange={(clientId) => {
+                    const client = clients.find(c => (c.id || c._id) == clientId);
+                    if (client) {
+                      setEmailData(prev => ({
+                        ...prev,
+                        selectedUserId: clientId,
+                        recipientEmail: client.email || "",
+                        recipientName: client.name || client.companyName || "",
+                      }));
+                    }
+                  }}
+                >
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectValue placeholder="Select client" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
+                    {clients.map((client) => (
+                      <SelectItem key={client.id || client._id} value={String(client.id || client._id)}>
+                        <div className="flex flex-col">
+                          <span>{client.name || client.companyName || "Unnamed Client"}</span>
+                          {client.email && (
+                            <span className="text-xs text-white/60">{client.email}</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {(emailData.selectedUserType === "manual" || !emailData.selectedUserType) && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Recipient Email</Label>
+                <Input
+                  type="email"
+                  placeholder="client@example.com"
+                  value={emailData.recipientEmail}
+                  onChange={(e) => setEmailData(prev => ({ ...prev, recipientEmail: e.target.value }))}
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                />
+              </div>
+            )}
+
+            {emailData.recipientEmail && (
+              <div className="p-3 bg-[#EFFC76]/10 border border-[#EFFC76]/30 rounded-md">
+                <div className="text-sm text-white/90">
+                  <span className="font-semibold">To:</span> {emailData.recipientName || emailData.recipientEmail}
+                </div>
+                {emailData.recipientName && (
+                  <div className="text-xs text-white/70 mt-1">{emailData.recipientEmail}</div>
+                )}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label className="text-white/80">Subject</Label>
+              <Input
+                placeholder="Invoice Subject"
+                value={emailData.subject}
+                onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Message</Label>
+              <Textarea
+                placeholder="Email message..."
+                value={emailData.message}
+                onChange={(e) => setEmailData(prev => ({ ...prev, message: e.target.value }))}
+                rows={4}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              />
+            </div>
+            <div className="flex gap-2 justify-end pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setIsEmailDialogOpen(false)}
+                className="glass-button border-white/30 text-white hover:bg-white/10"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSendEmail}
+                disabled={isSending}
+                className="bg-[#EFFC76] hover:bg-[#dbe665] text-black"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isSending ? "Sending..." : "Send Email"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

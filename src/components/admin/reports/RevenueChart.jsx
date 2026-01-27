@@ -4,7 +4,7 @@ import React from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const data = [
+const fallbackData = [
   { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
   { name: "Feb", uv: 3000, pv: 1398, amt: 2210 },
   { name: "Mar", uv: 2000, pv: 9800, amt: 2290 },
@@ -14,7 +14,10 @@ const data = [
   { name: "Jul", uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-export default function RevenueChart() {
+export default function RevenueChart({ dashboard }) {
+  const data = dashboard;
+  const chartData = data?.revenueTrend?.length ? data.revenueTrend : fallbackData;
+
   return (
     <Card className="glass-card border-white/20 col-span-1 lg:col-span-2">
       <CardHeader>
@@ -24,7 +27,7 @@ export default function RevenueChart() {
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 30,

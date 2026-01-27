@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -22,75 +22,96 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
-
-// Mock Data
-const leaveData = [
-    {
-      id: 1,
-      employee: { name: "John Smith", role: "Senior Developer", avatar: "/avatars/01.png" },
-      type: "Sick Leave",
-      duration: "Jan 20 - Jan 22, 2026",
-      days: 3,
-      reason: "Recovering from flu",
-      status: "pending",
-      appliedOn: "Jan 18, 2026"
-    },
-    {
-      id: 2,
-      employee: { name: "Sarah Connors", role: "UX Designer", avatar: "/avatars/02.png" },
-      type: "Casual Leave",
-      duration: "Feb 10 - Feb 15, 2026",
-      days: 5,
-      reason: "Family trip",
-      status: "approved",
-      appliedOn: "Jan 15, 2026"
-    },
-    {
-      id: 3,
-      employee: { name: "Michael Chen", role: "Frontend Dev", avatar: "/avatars/03.png" },
-      type: "Sick Leave",
-      duration: "Jan 25, 2026",
-      days: 1,
-      reason: "Personal appointment",
-      status: "pending",
-      appliedOn: "Jan 24, 2026"
-    },
-     {
-      id: 4,
-      employee: { name: "Emma Wilson", role: "Product Manager", avatar: "/avatars/04.png" },
-      type: "Earned Leave",
-      duration: "Mar 01 - Mar 05, 2026",
-      days: 5,
-      reason: "Vacation",
-      status: "rejected",
-      appliedOn: "Jan 10, 2026"
-    },
-    {
-        id: 5,
-        employee: { name: "David Miller", role: "QA Engineer", avatar: "/avatars/05.png" },
-        type: "Sick Leave",
-        duration: "Jan 28, 2026",
-        days: 1,
-        reason: "Medical Checkup",
-        status: "pending",
-        appliedOn: "Jan 26, 2026"
-    },
-  ];
-
+import { useGetLeavesQuery, useApproveLeaveMutation, useRejectLeaveMutation } from "@/api/admin/leave/leaveApi";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LeaveRequestTable() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [requests, setRequests] = useState(leaveData);
+  const { data: leavesData, isLoading, error, refetch } = useGetLeavesQuery();
+  const [approveLeave] = useApproveLeaveMutation();
+  const [rejectLeave] = useRejectLeaveMutation();
+  const { userRole } = useAuth();
+  
+  const isAdmin = userRole === 'admin';
 
-  const handleStatusChange = (id, newStatus) => {
-      setRequests(requests.map(req => req.id === id ? { ...req, status: newStatus } : req));
-      toast.success(`Leave request marked as ${newStatus}`);
+  // Format leave data for display
+  const requests = useMemo(() => {
+    if (!leavesData) return [];
+    
+    return leavesData.map((leave) => {
+      const startDate = new Date(leave.startDate);
+      const endDate = new Date(leave.endDate);
+      const appliedOn = leave.appliedOn ? new Date(leave.appliedOn) : new Date(leave.createdAt);
+      
+      // Format duration
+      const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+      };
+      
+      const duration = startDate.getTime() === endDate.getTime()
+        ? formatDate(startDate)
+        : `${formatDate(startDate)} - ${formatDate(endDate)}`;
+
+      return {
+        id: leave.id,
+        employee: {
+          name: `${leave.team?.firstName || ''} ${leave.team?.lastName || ''}`.trim(),
+          role: leave.team?.position || leave.team?.role || 'Employee',
+          avatar: leave.team?.profileImage || `/avatars/0${(leave.id % 9) + 1}.png`,
+        },
+        type: leave.type,
+        duration: duration,
+        days: leave.days,
+        reason: leave.reason || '',
+        status: leave.status,
+        appliedOn: formatDate(appliedOn),
+      };
+    });
+  }, [leavesData]);
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      if (newStatus === "approved") {
+        await approveLeave(id).unwrap();
+        toast.success("Leave request approved successfully. Email notification sent.");
+      } else if (newStatus === "rejected") {
+        await rejectLeave({ id }).unwrap();
+        toast.success("Leave request rejected successfully. Email notification sent.");
+      }
+      refetch();
+    } catch (error) {
+      toast.error(error?.data?.message || `Failed to ${newStatus} leave request`);
+    }
   };
 
   const filteredRequests = requests.filter(req => 
     req.employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     req.type.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (isLoading) {
+    return (
+      <Card className="border-none glass-card">
+        <CardContent className="p-6">
+          <div className="text-center text-white/60">Loading leave requests...</div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="border-none glass-card">
+        <CardContent className="p-6">
+          <div className="text-center text-red-400">Error loading leave requests. Please try again.</div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const getStatusBadge = (status) => {
     if (status === "approved") {
@@ -121,10 +142,10 @@ export default function LeaveRequestTable() {
           <div>
             <CardTitle className="text-white flex items-center gap-2">
               <FileText className="w-5 h-5 text-[#EFFC76]" />
-              Leave Requests
+              {isAdmin ? 'All Leave Requests' : 'My Leave Requests'}
             </CardTitle>
             <CardDescription className="text-white/70">
-              Manage and review team leave applications
+              {isAdmin ? 'Manage and review all team leave applications' : 'View and track your leave applications'}
             </CardDescription>
           </div>
           <div className="flex items-center gap-2 w-full md:w-64 bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
@@ -211,33 +232,48 @@ export default function LeaveRequestTable() {
                   </TableCell>
                   <TableCell>{getStatusBadge(req.status)}</TableCell>
                   <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="h-8 w-8 p-0 hover:bg-white/5 text-white/60 hover:text-[#EFFC76]"
-                        >
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[160px] glass-card border-[#EFFC76]/20 bg-black/90 text-white">
-                        <DropdownMenuItem
-                          onClick={() => handleStatusChange(req.id, "approved")}
-                          className="text-emerald-300 focus:text-emerald-200 focus:bg-emerald-500/20 cursor-pointer"
-                        >
-                          <CheckCircle2 className="mr-2 h-4 w-4" />
-                          Approve
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleStatusChange(req.id, "rejected")}
-                          className="text-rose-300 focus:text-rose-200 focus:bg-rose-500/20 cursor-pointer"
-                        >
-                          <XCircle className="mr-2 h-4 w-4" />
-                          Reject
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    {isAdmin ? (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            className="h-8 w-8 p-0 hover:bg-white/5 text-white/60 hover:text-[#EFFC76]"
+                          >
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px] glass-card border-[#EFFC76]/20 bg-black/90 text-white">
+                          {req.status === "pending" && (
+                            <>
+                              <DropdownMenuItem
+                                onClick={() => handleStatusChange(req.id, "approved")}
+                                className="text-emerald-300 focus:text-emerald-200 focus:bg-emerald-500/20 cursor-pointer"
+                              >
+                                <CheckCircle2 className="mr-2 h-4 w-4" />
+                                Approve
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleStatusChange(req.id, "rejected")}
+                                className="text-rose-300 focus:text-rose-200 focus:bg-rose-500/20 cursor-pointer"
+                              >
+                                <XCircle className="mr-2 h-4 w-4" />
+                                Reject
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                          {req.status !== "pending" && (
+                            <DropdownMenuItem disabled className="text-white/40 cursor-not-allowed">
+                              {req.status === "approved" ? "Already Approved" : "Already Rejected"}
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <span className="text-xs text-white/60">
+                        {req.status === "pending" ? "Pending Review" : req.status.charAt(0).toUpperCase() + req.status.slice(1)}
+                      </span>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

@@ -58,11 +58,34 @@ const templates = [
 
 export default function TemplateSelector({ onSelect, onCancel }) {
   const [selectedId, setSelectedId] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleTemplateClick = async (templateId) => {
+    if (isProcessing) return; // Prevent multiple clicks
+    
+    setSelectedId(templateId);
+    setIsProcessing(true);
+    
+    const template = templates.find((t) => t.id === templateId);
+    if (template) {
+      // Automatically proceed with selection
+      try {
+        await onSelect(template.type, template.id);
+        // Note: isProcessing will be reset when modal closes, but we keep it here for safety
+      } catch (error) {
+        console.error("Error selecting template:", error);
+        setIsProcessing(false);
+        setSelectedId(null);
+      }
+    }
+  };
 
   const handleNext = () => {
-    if (selectedId) {
+    if (selectedId && !isProcessing) {
       const template = templates.find((t) => t.id === selectedId);
-      onSelect(template.type, template.id);
+      if (template) {
+        handleTemplateClick(selectedId);
+      }
     }
   };
 
@@ -96,12 +119,14 @@ export default function TemplateSelector({ onSelect, onCancel }) {
             return (
               <button
                 key={template.id}
-                onClick={() => setSelectedId(template.id)}
+                onClick={() => handleTemplateClick(template.id)}
+                disabled={isProcessing}
                 className={cn(
                   "group relative flex flex-col items-start text-left p-5 rounded-lg border transition-all duration-200 outline-none",
                   isSelected
                     ? "bg-[#EFFC76]/10 border-[#EFFC76] shadow-[0_0_15px_rgba(239,252,118,0.1)]"
                     : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10",
+                  isProcessing && "opacity-50 cursor-wait",
                 )}
               >
                 {/* Icon Box */}
@@ -118,7 +143,11 @@ export default function TemplateSelector({ onSelect, onCancel }) {
                   </div>
                   {isSelected && (
                     <div className="text-[#EFFC76]">
-                      <CheckCircle2 className="w-5 h-5 fill-current" />
+                      {isProcessing ? (
+                        <div className="w-5 h-5 border-2 border-[#EFFC76] border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <CheckCircle2 className="w-5 h-5 fill-current" />
+                      )}
                     </div>
                   )}
                 </div>
@@ -170,15 +199,15 @@ export default function TemplateSelector({ onSelect, onCancel }) {
           </Button>
           <Button
             onClick={handleNext}
-            disabled={!selectedId}
+            disabled={!selectedId || isProcessing}
             className={cn(
               "px-6 transition-all duration-200",
-              selectedId
+              selectedId && !isProcessing
                 ? "bg-[#EFFC76] hover:bg-[#dbe665] text-black shadow-lg shadow-[#EFFC76]/20"
                 : "bg-white/10 text-white/30 cursor-not-allowed",
             )}
           >
-            Use Template
+            {isProcessing ? "Loading..." : "Use Template"}
           </Button>
         </div>
       </div>

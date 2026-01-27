@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageInput from "@/components/input/ImageInput";
+import { useUpload } from "@/hooks/useUpload";
 import {
   Dialog,
   DialogContent,
@@ -45,31 +47,11 @@ import {
   Save
 } from "lucide-react";
 import { toast } from "sonner";
-
-/**
- * Mock candidate data for demonstration
- * In production, this would come from an API or global state
- */
-const mockCandidates = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    email: "sarah.j@email.com",
-    position: "Senior Frontend Developer",
-    stage: "Applied",
-    appliedDate: "2026-01-12",
-    skills: ["React", "TypeScript", "Next.js"]
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    email: "m.chen@email.com",
-    position: "Senior Frontend Developer",
-    stage: "Applied",
-    appliedDate: "2026-01-11",
-    skills: ["Vue", "JavaScript", "CSS"]
-  },
-];
+import {
+  useUpdateJobPostingMutation,
+  useDeleteJobPostingMutation,
+  useGetCandidatesQuery,
+} from "@/api/admin/recruitment/recruitmentApi";
 
 /**
  * JobDetails Component
@@ -89,18 +71,24 @@ const mockCandidates = [
  * @param {Function} props.onDelete - Callback when job is deleted
  */
 export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
+  const [updateJobPosting, { isLoading: isUpdating }] = useUpdateJobPostingMutation();
+  const [deleteJobPosting, { isLoading: isDeleting }] = useDeleteJobPostingMutation();
+  const { data: candidatesResponse } = useGetCandidatesQuery();
+  const { uploadFile, isUploading } = useUpload({ folder: "job-postings" });
+  
   // State management for edit dialog and form data
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editedJob, setEditedJob] = useState(job);
+  const [imageFile, setImageFile] = useState(null);
 
   // Return null if no job data is provided
   if (!job) return null;
 
+  const allCandidates = candidatesResponse?.data || [];
   /**
    * Filter candidates that match this job position
-   * In production, this would be an API call
    */
-  const applicants = mockCandidates.filter(c => c.position === job.title);
+  const applicants = allCandidates.filter(c => c.jobPostingId === job.id || c.position === job.title);
 
   /**
    * Handle opening the edit dialog
@@ -108,6 +96,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
    */
   const handleEditClick = () => {
     setEditedJob({ ...job });
+    setImageFile(null);
     setIsEditDialogOpen(true);
   };
 
@@ -124,9 +113,9 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
 
   /**
    * Handle saving edited job data
-   * Validates required fields and calls onUpdate callback
+   * Validates required fields and calls API
    */
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     // Validation: Check required fields
     if (!editedJob.title?.trim()) {
       toast.error("Job title is required");
@@ -137,43 +126,75 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
       return;
     }
 
-    // Call parent update handler
-    if (onUpdate) {
-      onUpdate(editedJob);
-    }
+    try {
+      let imageUrl = (editedJob.imageUrl || "").trim();
+      if (imageFile) {
+        toast.loading("Uploading image...", { id: "upload-job-image" });
+        imageUrl = await uploadFile(imageFile);
+        toast.success("Image uploaded", { id: "upload-job-image" });
+      }
 
-    // Show success message and close dialog
-    toast.success("Job posting updated successfully");
-    setIsEditDialogOpen(false);
+      const updated = await updateJobPosting({
+        id: job.id,
+        ...editedJob,
+        imageUrl,
+        postedDate: editedJob.postedDate ? new Date(editedJob.postedDate).toISOString().split('T')[0] : job.postedDate,
+      }).unwrap();
+      
+      // Call parent update handler
+      if (onUpdate) {
+        onUpdate(updated.data || updated);
+      }
+
+      // Show success message and close dialog
+      toast.success("Job posting updated successfully");
+      setIsEditDialogOpen(false);
+      setImageFile(null);
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to update job posting");
+    }
   };
 
   /**
    * Handle job deletion
-   * Shows confirmation and calls onDelete callback
+   * Shows confirmation and calls API
    */
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this job posting? This action cannot be undone.")) {
-      if (onDelete) {
-        onDelete(job.id);
+      try {
+        await deleteJobPosting(job.id).unwrap();
+        if (onDelete) {
+          onDelete(job.id);
+        }
+        toast.success("Job posting deleted");
+        onBack(); // Navigate back to jobs list
+      } catch (error) {
+        toast.error(error?.data?.message || "Failed to delete job posting");
       }
-      toast.success("Job posting deleted");
-      onBack(); // Navigate back to jobs list
     }
   };
 
   /**
    * Handle toggling job status (Active/Inactive)
-   * Updates the job status and shows appropriate message
+   * Updates the job status via API
    */
-  const handleToggleStatus = () => {
+  const handleToggleStatus = async () => {
     const newStatus = job.status === 'Active' ? 'Inactive' : 'Active';
-    const updatedJob = { ...job, status: newStatus };
     
-    if (onUpdate) {
-      onUpdate(updatedJob);
-    }
+    try {
+      const updated = await updateJobPosting({
+        id: job.id,
+        status: newStatus,
+      }).unwrap();
+      
+      if (onUpdate) {
+        onUpdate(updated.data || updated);
+      }
 
-    toast.success(`Job posting ${newStatus === 'Active' ? 'activated' : 'deactivated'}`);
+      toast.success(`Job posting ${newStatus === 'Active' ? 'activated' : 'deactivated'}`);
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to update job status");
+    }
   };
 
   return (
@@ -193,6 +214,16 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
         {/* Header section with title, status, and action buttons */}
         <div className="flex items-start justify-between mb-6">
           <div>
+            {job.imageUrl ? (
+              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-black/30">
+                <img
+                  src={job.imageUrl}
+                  alt={`${job.title} image`}
+                  className="h-44 w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ) : null}
             {/* Job title and status badge */}
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-2xl font-bold text-white">{job.title}</h1>
@@ -443,6 +474,25 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
                 className="min-h-[150px] bg-white/5 border-white/10 text-white placeholder:text-white/40 resize-none"
               />
             </div>
+
+            {/* Job Image */}
+            <div className="grid gap-2">
+              <ImageInput
+                id="jobImageEdit"
+                label="Job Image"
+                currentImage={job.imageUrl}
+                value={editedJob.imageUrl || ""}
+                onChange={(file, previewUrl) => {
+                  setImageFile(file);
+                  handleInputChange("imageUrl", previewUrl || "");
+                }}
+                onRemove={() => {
+                  setImageFile(null);
+                  handleInputChange("imageUrl", "");
+                }}
+                previewSize="w-44 h-28"
+              />
+            </div>
           </div>
 
           {/* Dialog Footer with action buttons */}
@@ -456,10 +506,11 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
             </Button>
             <Button
               onClick={handleSaveEdit}
+              disabled={isUpdating || isUploading}
               className="bg-[#EFFC76] hover:bg-[#dce865] text-black"
             >
               <Save className="w-4 h-4 mr-2" />
-              Save Changes
+              {isUpdating || isUploading ? 'Saving...' : 'Save Changes'}
             </Button>
           </DialogFooter>
         </DialogContent>

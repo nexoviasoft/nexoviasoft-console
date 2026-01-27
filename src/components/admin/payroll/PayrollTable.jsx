@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -13,6 +13,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useGetPayrollQuery, useMarkPayrollPaidMutation } from "@/api/payrollApi";
+import { toast } from "sonner";
 import {
   Download,
   MoreHorizontal,
@@ -25,69 +27,6 @@ import {
   Wallet,
   Activity,
 } from "lucide-react";
-
-const payrollData = [
-  {
-    id: 1,
-    name: "Dipa Inhouse",
-    role: "Visual Designer",
-    avatar: "/avatars/01.png",
-    salary: "$3,200.00",
-    bonus: "$150.00",
-    deductions: "-$50.00",
-    netPay: "$3,300.00",
-    status: "Paid",
-    paymentDate: "Jan 28, 2026",
-  },
-  {
-    id: 2,
-    name: "Jane Cooper",
-    role: "Product Manager",
-    avatar: "/avatars/02.png",
-    salary: "$4,500.00",
-    bonus: "$0.00",
-    deductions: "-$120.00",
-    netPay: "$4,380.00",
-    status: "Processing",
-    paymentDate: "Pending",
-  },
-  {
-    id: 3,
-    name: "Floyd Miles",
-    role: "Frontend Dev",
-    avatar: "/avatars/03.png",
-    salary: "$3,800.00",
-    bonus: "$200.00",
-    deductions: "-$100.00",
-    netPay: "$3,900.00",
-    status: "Pending",
-    paymentDate: "-",
-  },
-  {
-    id: 4,
-    name: "Theresa Webb",
-    role: "Marketing",
-    avatar: "/avatars/04.png",
-    salary: "$2,900.00",
-    bonus: "$50.00",
-    deductions: "-$25.00",
-    netPay: "$2,925.00",
-    status: "Paid",
-    paymentDate: "Jan 28, 2026",
-  },
-  {
-    id: 5,
-    name: "Robert Fox",
-    role: "Backend Dev",
-    avatar: "/avatars/05.png",
-    salary: "$4,000.00",
-    bonus: "$300.00",
-    deductions: "-$150.00",
-    netPay: "$4,150.00",
-    status: "Pending",
-    paymentDate: "-",
-  },
-];
 
 const StatusBadge = ({ status }) => {
   if (status === "Paid") {
@@ -113,12 +52,66 @@ const StatusBadge = ({ status }) => {
 
 export default function PayrollTable() {
   const [searchTerm, setSearchTerm] = useState("");
+  const { data: payrollRows = [], isLoading } = useGetPayrollQuery();
+  const [markPaid, { isLoading: isPaying }] = useMarkPayrollPaidMutation();
 
-  const filteredData = payrollData.filter(
-    (employee) =>
-      employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      employee.role.toLowerCase().includes(searchTerm.toLowerCase()),
+  const handlePay = async (row) => {
+    const toastId = toast.loading(`Paying ${row.name}...`);
+    try {
+      await markPaid(row.id).unwrap();
+      toast.success(`${row.name} marked as Paid (email sent).`, { id: toastId });
+    } catch (error) {
+      toast.error(error?.data?.message || `Failed to pay ${row.name}`, { id: toastId });
+    }
+  };
+
+  const formatter = useMemo(
+    () =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [],
   );
+
+  const tableRows = useMemo(() => {
+    return payrollRows.map((p) => {
+      const team = p.team || {};
+      const name = `${team.firstName || ""} ${team.lastName || ""}`.trim() || "Unknown";
+      const role = team.position || "-";
+      const avatar = team.profileImage || "";
+      const baseSalary = Number(p.baseSalary || 0);
+      const bonus = Number(p.bonus || 0);
+      const deductions = Number(p.deductions || 0);
+      const netPay = Number(p.netPay || 0);
+      const status = p.status || "Pending";
+      const paymentDate = p.paymentDate ? new Date(p.paymentDate).toDateString() : "-";
+
+      return {
+        id: p.id,
+        name,
+        role,
+        avatar,
+        salary: formatter.format(baseSalary),
+        bonus: formatter.format(bonus),
+        deductions: `-${formatter.format(Math.abs(deductions))}`,
+        netPay: formatter.format(netPay),
+        status,
+        paymentDate,
+      };
+    });
+  }, [payrollRows, formatter]);
+
+  const filteredData = useMemo(() => {
+    const q = searchTerm.toLowerCase();
+    return tableRows.filter(
+      (employee) =>
+        employee.name.toLowerCase().includes(q) ||
+        employee.role.toLowerCase().includes(q),
+    );
+  }, [searchTerm, tableRows]);
 
   return (
     <div className="space-y-4">
@@ -179,7 +172,13 @@ export default function PayrollTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.length > 0 ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={7} className="h-24 text-center text-white/60 text-sm">
+                  Loading payroll...
+                </TableCell>
+              </TableRow>
+            ) : filteredData.length > 0 ? (
               filteredData.map((row) => (
                 <TableRow
                   key={row.id}
@@ -220,13 +219,15 @@ export default function PayrollTable() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
-                      {row.status === "Pending" && (
+                      {(row.status === "Pending" || row.status === "Processing") && (
                         <Button
                           size="sm"
                           className="h-7 sm:h-8 bg-[#EFFC76] hover:bg-[#e0ef5f] text-black border-none text-xs sm:text-sm px-2 sm:px-3"
+                          disabled={isPaying}
+                          onClick={() => handlePay(row)}
                         >
                           <Send className="w-3 h-3 mr-1" />
-                          Pay
+                          {isPaying ? "Paying..." : "Pay"}
                         </Button>
                       )}
                       <Button

@@ -3,16 +3,11 @@
 import React from "react";
 import { Download, Calendar, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
-export default function ReportsHeader() {
-  const [date, setDate] = React.useState({
-    from: subDays(new Date(), 30),
-    to: new Date(),
-  });
-
+export default function ReportsHeader({ date, setDate }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-2">
       <div>

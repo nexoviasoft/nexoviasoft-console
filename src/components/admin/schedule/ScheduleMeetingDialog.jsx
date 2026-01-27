@@ -23,18 +23,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Video, Copy, Check, Clock, Users, Calendar as CalendarIcon, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
-import { generateMeetingLink, copyToClipboard } from "@/lib/generateMeetingLink";
+import { copyToClipboard } from "@/lib/generateMeetingLink";
 import EmailTemplateEditor from "./EmailTemplateEditor";
-
-// Mock team members data - in production, this would come from an API
-const TEAM_MEMBERS = [
-  { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", role: "Visual Designer", avatar: "/avatars/01.png" },
-  { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", role: "Product Manager", avatar: "/avatars/02.png" },
-  { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", role: "Frontend Dev", avatar: "/avatars/03.png" },
-  { id: "4", name: "Theresa Webb", email: "theresa@squadlog.com", role: "Marketing", avatar: "/avatars/04.png" },
-  { id: "5", name: "Robert Fox", email: "robert@squadlog.com", role: "Backend Dev", avatar: "/avatars/05.png" },
-  { id: "6", name: "Cody Fisher", email: "cody@squadlog.com", role: "QA Engineer", avatar: "/avatars/06.png" },
-];
+import { useCreateMeetingMutation } from "@/api/admin/meeting/meetingApi";
 
 const DURATION_OPTIONS = [
   { value: "15", label: "15 minutes" },
@@ -45,7 +36,14 @@ const DURATION_OPTIONS = [
   { value: "120", label: "2 hours" },
 ];
 
-export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) {
+export default function ScheduleMeetingDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+  teamMembers = [],
+  organizerName,
+}) {
+  const [createMeeting] = useCreateMeetingMutation();
   const [meetingData, setMeetingData] = useState({
     topic: "",
     description: "",
@@ -62,14 +60,13 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
   const [showEmailEditor, setShowEmailEditor] = useState(false);
   const [emailTemplate, setEmailTemplate] = useState(null);
 
-  // Generate meeting link when dialog opens
+  // Reset meeting link/id when dialog opens
   useEffect(() => {
     if (open) {
-      const { meetingId, meetingLink } = generateMeetingLink();
       setMeetingData((prev) => ({
         ...prev,
-        meetingId,
-        meetingLink,
+        meetingId: "",
+        meetingLink: "",
       }));
     }
   }, [open]);
@@ -123,32 +120,34 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
     setIsSubmitting(true);
 
     try {
-      // Get selected members' details
-      const selectedMembersData = TEAM_MEMBERS.filter((member) =>
-        meetingData.selectedMembers.includes(member.id)
-      );
+      const dateTime = `${meetingData.date}T${meetingData.time}`;
+      const durationMinutes = parseInt(meetingData.duration, 10) || 30;
+      const attendeeIds = meetingData.selectedMembers;
 
-      // Prepare meeting data for submission
-      const meetingPayload = {
-        ...meetingData,
-        attendees: selectedMembersData,
-        dateTime: `${meetingData.date}T${meetingData.time}`,
-      };
+      const createdMeeting = await createMeeting({
+        topic: meetingData.topic,
+        description: meetingData.description,
+        dateTime,
+        durationMinutes,
+        attendeeIds,
+        organizerName,
+      }).unwrap();
 
       // Call parent submit handler
       if (onSubmit) {
-        await onSubmit(meetingPayload);
+        await onSubmit(createdMeeting);
       }
 
-      // In production, this would make API calls to:
-      // 1. Save meeting to database
-      // 2. Send email notifications
-      console.log("Meeting scheduled:", meetingPayload);
-
-      // Mock email sending
       toast.success(
-        `Meeting scheduled! Email invitations sent to ${selectedMembersData.length} team member${selectedMembersData.length > 1 ? "s" : ""}`
+        `Meeting scheduled! Email invitations sent to ${attendeeIds.length} team member${attendeeIds.length > 1 ? "s" : ""}`
       );
+
+      // Persist the generated link briefly (useful if you want to show it before closing)
+      setMeetingData((prev) => ({
+        ...prev,
+        meetingId: createdMeeting.meetingId,
+        meetingLink: createdMeeting.meetingLink,
+      }));
 
       // Reset form
       setMeetingData({
@@ -274,7 +273,7 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
               Select Team Members <span className="text-red-500">*</span>
             </Label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[200px] overflow-y-auto p-2 rounded-lg border border-white/10 bg-black/20">
-              {TEAM_MEMBERS.map((member) => {
+              {teamMembers.map((member) => {
                 const isSelected = meetingData.selectedMembers.includes(member.id);
                 return (
                   <button
@@ -288,12 +287,20 @@ export default function ScheduleMeetingDialog({ open, onOpenChange, onSubmit }) 
                     }`}
                   >
                     <Avatar className="w-8 h-8 border border-white/20">
-                      <AvatarImage src={member.avatar} />
-                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={member.profileImage || member.avatar} />
+                      <AvatarFallback>
+                        {(member.firstName || member.name || "?").charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 text-left">
-                      <div className="text-sm font-medium">{member.name}</div>
-                      <div className="text-xs opacity-70">{member.role}</div>
+                      <div className="text-sm font-medium">
+                        {member.firstName
+                          ? `${member.firstName} ${member.lastName || ""}`.trim()
+                          : member.name}
+                      </div>
+                      <div className="text-xs opacity-70">
+                        {member.role || member.position || ""}
+                      </div>
                     </div>
                     {isSelected && <Check className="w-4 h-4" />}
                   </button>

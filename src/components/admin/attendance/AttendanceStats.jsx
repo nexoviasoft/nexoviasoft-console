@@ -4,37 +4,47 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Clock, AlertCircle, XCircle } from "lucide-react";
 
-export default function AttendanceStats() {
-  const stats = [
+export default function AttendanceStats({ stats }) {
+  const safeStats = stats || {
+    total: 0,
+    onTime: 0,
+    late: 0,
+    absent: 0,
+    onTimePercentage: "0.00",
+    latePercentage: "0.00",
+    absentPercentage: "0.00",
+  };
+
+  const cards = [
     {
-      label: "Total Employees",
-      value: "1,298",
-      subtext: "All Active",
+      label: "Total Records",
+      value: String(safeStats.total ?? 0),
+      subtext: "Your attendance entries",
       icon: Users,
     },
     {
       label: "On Time",
-      value: "1,120",
-      subtext: "86% of Total",
+      value: String(safeStats.onTime ?? 0),
+      subtext: `${safeStats.onTimePercentage ?? "0.00"}% of Total`,
       icon: Clock,
     },
     {
       label: "Late Arrival",
-      value: "154",
-      subtext: "12% of Total",
+      value: String(safeStats.late ?? 0),
+      subtext: `${safeStats.latePercentage ?? "0.00"}% of Total`,
       icon: AlertCircle,
     },
     {
       label: "Absent",
-      value: "24",
-      subtext: "2% of Total",
+      value: String(safeStats.absent ?? 0),
+      subtext: `${safeStats.absentPercentage ?? "0.00"}% of Total`,
       icon: XCircle,
     },
   ];
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4">
-      {stats.map((stat, index) => (
+      {cards.map((stat, index) => (
         <Card key={index} className="glass-card">
           <CardContent className="p-3 md:p-6 flex flex-col sm:flex-row items-center gap-3 md:gap-4 text-center sm:text-left">
             <div className="p-2 md:p-3 rounded-xl bg-[#EFFC76]/10 border border-[#EFFC76]/40 flex items-center justify-center shrink-0">

@@ -18,9 +18,14 @@ import {
 import { useRouter } from "next/navigation";
 import NewProjectDialog from "@/components/admin/projects/NewProjectDialog";
 import { useGetProjectsQuery } from "@/api/admin/projects/projectsApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Projects() {
   const router = useRouter();
+  const { userRole } = useAuth();
+  const isAdmin = userRole === 'admin';
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const { data: projectsResponse, isLoading, error, refetch } = useGetProjectsQuery();
   
@@ -105,7 +110,9 @@ export default function Projects() {
   };
 
   return (
-    <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -244,5 +251,7 @@ export default function Projects() {
         }}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

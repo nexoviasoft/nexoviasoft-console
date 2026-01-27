@@ -23,6 +23,8 @@ import {
   useDeleteClientMutation,
 } from "@/api/landing/client/clientApi";
 import ReusableTable from "@/components/table/reusable-table";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 function OurClientContent() {
   const router = useRouter();
@@ -119,7 +121,9 @@ function OurClientContent() {
   };
 
   return (
-    <div className="px-8 py-8 min-h-screen text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-8 py-8 min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto space-y-6">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -328,6 +332,8 @@ function OurClientContent() {
         />
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }
 

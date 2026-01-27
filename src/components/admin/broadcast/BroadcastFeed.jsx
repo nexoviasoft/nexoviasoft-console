@@ -6,51 +6,57 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Paperclip, MessageSquare, ThumbsUp } from "lucide-react";
+import { useGetBroadcastsQuery } from "@/api/admin/broadcast/broadcastApi";
 
-const broadcasts = [
-  {
-    id: 1,
-    sender: { name: "Dipa Inhouse", avatar: "/avatars/01.png", role: "Admin" },
-    subject: "Q1 Town Hall Meeting Summary",
-    content: "Hi Team, thanks for attending today's town hall. Here is the summary of what we discussed regarding the new product roadmap and quarterly goals...",
-    date: "2 hours ago",
-    readRate: 94,
-    attachments: 2,
-    comments: 12,
-    likes: 45,
-    tag: "Important"
-  },
-  {
-    id: 2,
-    sender: { name: "Jane Cooper", avatar: "/avatars/02.png", role: "HR Manager" },
-    subject: "Upcoming Holiday Schedule",
-    content: "Please note that the office will be closed next Monday for the national holiday. Ensure you have consolidated your timesheets by Friday...",
-    date: "Yesterday",
-    readRate: 88,
-    attachments: 0,
-    comments: 5,
-    likes: 32,
-    tag: "HR"
-  },
-  {
-    id: 3,
-    sender: { name: "Cody Fisher", avatar: "/avatars/06.png", role: "IT Support" },
-    subject: "System Maintenance Notification",
-    content: "We will be performing scheduled maintenance on the main server this Saturday from 10 PM to 2 AM. Services may be intermittent...",
-    date: "Jan 12, 2026",
-    readRate: 76,
-    attachments: 0,
-    comments: 2,
-    likes: 15,
-    tag: "System"
-  },
-];
+const fallbackBroadcasts = [];
 
-export default function BroadcastFeed() {
+function formatRelativeOrDate(isoString) {
+  if (!isoString) return "";
+  const d = new Date(isoString);
+  if (Number.isNaN(d.getTime())) return "";
+
+  const diffMs = Date.now() - d.getTime();
+  const diffMin = Math.round(diffMs / 60000);
+  if (diffMin < 60) return `${Math.max(diffMin, 1)} min ago`;
+  const diffHr = Math.round(diffMin / 60);
+  if (diffHr < 24) return `${diffHr} hours ago`;
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
+}
+
+export default function BroadcastFeed({ dashboard }) {
+  const { data: broadcasts } = useGetBroadcastsQuery();
+
+  const apiPosts = Array.isArray(broadcasts)
+    ? broadcasts.map((b) => ({
+        id: b.id,
+        sender: {
+          name: b?.sender?.name || "Admin",
+          avatar: b?.sender?.avatar || "",
+          role: b?.sender?.role || "",
+        },
+        subject: b.subject,
+        content: b.content,
+        createdAt: b.createdAt,
+        readRate: typeof b.readRate === "number" ? b.readRate : 0,
+        attachments: typeof b.attachments === "number" ? b.attachments : 0,
+        comments: typeof b.comments === "number" ? b.comments : 0,
+        likes: typeof b.likes === "number" ? b.likes : 0,
+        tag: b.tag || "Announcement",
+      }))
+    : [];
+
+  const posts =
+    apiPosts.length > 0 ? apiPosts : dashboard?.recent?.length ? dashboard.recent : fallbackBroadcasts;
+
   return (
     <div className="space-y-4">
       <h2 className="text-base sm:text-lg font-semibold text-white mb-4">Recent Announcements</h2>
-      {broadcasts.map((post) => (
+      {posts.length === 0 && (
+        <div className="text-sm text-white/60 border border-white/10 rounded-lg p-4 bg-white/5">
+          No announcements yet. Click “New Announcement” to create the first one.
+        </div>
+      )}
+      {posts.map((post) => (
         <Card
           key={post.id}
           className="glass-card border-white/20 hover:bg-white/10 transition-all"
@@ -78,7 +84,7 @@ export default function BroadcastFeed() {
                       <span className="font-medium text-white/80">
                         {post.sender.name}
                       </span>{" "}
-                      • {post.date}
+                      • {post.date || formatRelativeOrDate(post.createdAt)}
                     </p>
                   </div>
                   <Button

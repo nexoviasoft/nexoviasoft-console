@@ -6,10 +6,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Printer } from "lucide-react";
+import { ArrowLeft, Printer, Mail, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useCreateDocumentMutation, useUpdateDocumentMutation, useSendDocumentByEmailMutation, useGetDocumentByIdQuery } from "@/api/admin/documents/documentsApi";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
+import { useGetClientsQuery } from "@/api/landing/client/clientApi";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Users, Building2 } from "lucide-react";
 
-export default function LetterBuilder({ template, onBack }) {
+export default function LetterBuilder({ template, onBack, documentId }) {
+  const [createDocument, { isLoading: isCreating }] = useCreateDocumentMutation();
+  const [updateDocument, { isLoading: isUpdating }] = useUpdateDocumentMutation();
+  const [sendDocumentByEmail, { isLoading: isSending }] = useSendDocumentByEmailMutation();
+  const { data: documentData, isLoading: isLoadingDocument } = useGetDocumentByIdQuery(documentId, {
+    skip: !documentId,
+  });
+  
+  // Fetch team members and clients
+  const { data: teamData } = useGetOurTeamQuery();
+  const { data: clientsData } = useGetClientsQuery();
+  
+  const teamMembers = teamData?.data || teamData || [];
+  const clients = clientsData?.data || clientsData || [];
+  
   const [data, setData] = useState({
     candidateName: "",
     role: "",
@@ -18,6 +50,33 @@ export default function LetterBuilder({ template, onBack }) {
     manager: "",
     customMessage: ""
   });
+  
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [emailData, setEmailData] = useState({
+    selectedUserType: "", // 'team' or 'client'
+    selectedUserId: "",
+    recipientEmail: "",
+    recipientName: "",
+    subject: "",
+    message: "",
+  });
+
+  // Load document data if documentId is provided
+  useEffect(() => {
+    if (documentId && documentData?.data) {
+      const doc = documentData.data;
+      if (doc.data && doc.type === 'letter') {
+        setData({
+          candidateName: doc.data.candidateName || doc.clientName || "",
+          role: doc.data.role || "",
+          startDate: doc.data.startDate || new Date().toISOString().split("T")[0],
+          salary: doc.data.salary || "",
+          manager: doc.data.manager || "",
+          customMessage: doc.data.customMessage || "",
+        });
+      }
+    }
+  }, [documentId, documentData]);
 
   const updateField = (field, value) => {
     setData(prev => ({ ...prev, [field]: value }));
@@ -33,6 +92,108 @@ export default function LetterBuilder({ template, onBack }) {
       return "OFFICIAL LETTER";
   };
 
+  const handleSaveDraft = async () => {
+    try {
+      const documentData = {
+        type: 'letter',
+        template: template,
+        data: data,
+        clientName: data.candidateName,
+        documentNumber: `${template}-${new Date().getTime()}`,
+        status: 'draft',
+      };
+
+      if (documentId) {
+        await updateDocument({ id: documentId, ...documentData }).unwrap();
+        toast.success("Draft updated successfully!");
+      } else {
+        await createDocument(documentData).unwrap();
+        toast.success("Draft saved successfully!");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to save draft");
+    }
+  };
+
+  const handleSendEmail = async () => {
+    const recipientEmail = emailData.recipientEmail;
+    const recipientName = emailData.recipientName || data.candidateName || 'Recipient';
+    
+    if (!recipientEmail) {
+      toast.error("Please select a recipient or enter an email address");
+      return;
+    }
+
+    try {
+      // First save the document if not saved
+      let docId = documentId;
+      if (!docId) {
+        const documentData = {
+          type: 'letter',
+          template: template,
+          data: data,
+          clientName: data.candidateName,
+          documentNumber: `${template}-${new Date().getTime()}`,
+          status: 'draft',
+        };
+        const result = await createDocument(documentData).unwrap();
+        docId = result?.data?.id;
+        if (!docId) {
+          toast.error("Failed to save document. Please try again.");
+          return;
+        }
+      }
+
+      await sendDocumentByEmail({
+        id: docId,
+        recipientEmail: recipientEmail,
+        subject: emailData.subject || getLetterTitle(),
+        message: emailData.message || `Dear ${recipientName},\n\nPlease find attached the official letter.\n\nBest regards,\nSquadLog Team`,
+      }).unwrap();
+
+      toast.success("Letter sent successfully!");
+      setIsEmailDialogOpen(false);
+      setEmailData({ 
+        selectedUserType: "", 
+        selectedUserId: "", 
+        recipientEmail: "", 
+        recipientName: "",
+        subject: "", 
+        message: "" 
+      });
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to send letter");
+    }
+  };
+
+  useEffect(() => {
+    if (data.candidateName) {
+      setEmailData(prev => ({
+        ...prev,
+        subject: prev.subject || getLetterTitle(),
+      }));
+    }
+  }, [data.candidateName, template]);
+
+  // Reset email data when dialog opens
+  useEffect(() => {
+    if (isEmailDialogOpen) {
+      const defaultSubject = template === 'offer-letter' ? "JOB OFFER LETTER" 
+        : template === 'appointment-letter' ? "LETTER OF APPOINTMENT" 
+        : "OFFICIAL LETTER";
+      
+      setEmailData(prev => ({
+        ...prev,
+        selectedUserType: prev.selectedUserType || "",
+        selectedUserId: prev.selectedUserId || "",
+        recipientEmail: prev.recipientEmail || "",
+        recipientName: prev.recipientName || "",
+        subject: prev.subject || defaultSubject,
+        message: prev.message || "",
+      }));
+    }
+  }, [isEmailDialogOpen, template]);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
@@ -46,10 +207,18 @@ export default function LetterBuilder({ template, onBack }) {
         <div className="flex gap-2">
           <Button
             variant="outline"
-            onClick={() => toast.success("Draft saved!")}
+            onClick={handleSaveDraft}
+            disabled={isCreating || isUpdating}
             className="glass-button border-white/30 text-white hover:bg-white/10"
           >
-            Save Draft
+            {isCreating || isUpdating ? "Saving..." : "Save Draft"}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsEmailDialogOpen(true)}
+            className="glass-button border-white/30 text-white hover:bg-white/10"
+          >
+            <Mail className="w-4 h-4 mr-2" /> Send by Email
           </Button>
           <Button
             onClick={handlePrint}
@@ -193,6 +362,191 @@ export default function LetterBuilder({ template, onBack }) {
             
         </div>
       </div>
+
+      {/* Email Dialog */}
+      <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+        <DialogContent className="glass-panel border-white/20 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Mail className="w-5 h-5 text-[#EFFC76]" />
+              Send Letter by Email
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
+              Send this letter to the recipient via email
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label className="text-white/80">Select Recipient</Label>
+              <Select
+                value={emailData.selectedUserType}
+                onValueChange={(value) => {
+                  setEmailData(prev => ({ 
+                    ...prev, 
+                    selectedUserType: value,
+                    selectedUserId: "",
+                    recipientEmail: "",
+                    recipientName: "",
+                  }));
+                }}
+              >
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectValue placeholder="Choose from team or clients" />
+                </SelectTrigger>
+                <SelectContent className="bg-black/90 border-white/20 text-white">
+                  <SelectItem value="team">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      <span>Team Member</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="client">
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4" />
+                      <span>Client</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="manual">
+                    <span>Enter Email Manually</span>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {emailData.selectedUserType === "team" && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Select Team Member</Label>
+                <Select
+                  value={emailData.selectedUserId}
+                  onValueChange={(userId) => {
+                    const member = teamMembers.find(m => (m.id || m._id) == userId);
+                    if (member) {
+                      setEmailData(prev => ({
+                        ...prev,
+                        selectedUserId: userId,
+                        recipientEmail: member.email || "",
+                        recipientName: `${member.firstName || ""} ${member.lastName || ""}`.trim(),
+                      }));
+                    }
+                  }}
+                >
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectValue placeholder="Select team member" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
+                    {teamMembers.map((member) => (
+                      <SelectItem key={member.id || member._id} value={String(member.id || member._id)}>
+                        <div className="flex flex-col">
+                          <span>{`${member.firstName || ""} ${member.lastName || ""}`.trim() || member.employeeId}</span>
+                          {member.email && (
+                            <span className="text-xs text-white/60">{member.email}</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {emailData.selectedUserType === "client" && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Select Client</Label>
+                <Select
+                  value={emailData.selectedUserId}
+                  onValueChange={(clientId) => {
+                    const client = clients.find(c => (c.id || c._id) == clientId);
+                    if (client) {
+                      setEmailData(prev => ({
+                        ...prev,
+                        selectedUserId: clientId,
+                        recipientEmail: client.email || "",
+                        recipientName: client.name || "",
+                      }));
+                    }
+                  }}
+                >
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectValue placeholder="Select client" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
+                    {clients.map((client) => (
+                      <SelectItem key={client.id || client._id} value={String(client.id || client._id)}>
+                        <div className="flex flex-col">
+                          <span>{client.name || client.companyName || "Unnamed Client"}</span>
+                          {client.email && (
+                            <span className="text-xs text-white/60">{client.email}</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {(emailData.selectedUserType === "manual" || !emailData.selectedUserType) && (
+              <div className="space-y-2">
+                <Label className="text-white/80">Recipient Email</Label>
+                <Input
+                  type="email"
+                  placeholder="recipient@example.com"
+                  value={emailData.recipientEmail}
+                  onChange={(e) => setEmailData(prev => ({ ...prev, recipientEmail: e.target.value }))}
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                />
+              </div>
+            )}
+
+            {emailData.recipientEmail && (
+              <div className="p-3 bg-[#EFFC76]/10 border border-[#EFFC76]/30 rounded-md">
+                <div className="text-sm text-white/90">
+                  <span className="font-semibold">To:</span> {emailData.recipientName || emailData.recipientEmail}
+                </div>
+                {emailData.recipientName && (
+                  <div className="text-xs text-white/70 mt-1">{emailData.recipientEmail}</div>
+                )}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label className="text-white/80">Subject</Label>
+              <Input
+                placeholder="Letter Subject"
+                value={emailData.subject}
+                onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Message</Label>
+              <Textarea
+                placeholder="Email message..."
+                value={emailData.message}
+                onChange={(e) => setEmailData(prev => ({ ...prev, message: e.target.value }))}
+                rows={4}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              />
+            </div>
+            <div className="flex gap-2 justify-end pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setIsEmailDialogOpen(false)}
+                className="glass-button border-white/30 text-white hover:bg-white/10"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSendEmail}
+                disabled={isSending}
+                className="bg-[#EFFC76] hover:bg-[#dbe665] text-black"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isSending ? "Sending..." : "Send Email"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

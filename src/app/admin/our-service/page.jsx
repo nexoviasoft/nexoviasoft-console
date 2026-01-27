@@ -21,6 +21,8 @@ import {
   useGetOurServicesQuery,
   useDeleteOurServiceMutation,
 } from "@/api/landing/our-service/ourServiceApi";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 function OurServiceContent() {
   const router = useRouter();
@@ -124,7 +126,9 @@ function OurServiceContent() {
   };
 
   return (
-    <div className="px-4 sm:px-8 py-8 min-h-screen text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-4 sm:px-8 py-8 min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto space-y-6">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -339,6 +343,8 @@ function OurServiceContent() {
         />
       </div>
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }
 

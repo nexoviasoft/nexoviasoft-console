@@ -5,64 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mail, Phone, Calendar, FileText } from "lucide-react";
-
-const initialCandidates = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    email: "sarah.j@email.com",
-    phone: "+1 234-567-8901",
-    position: "Senior Frontend Developer",
-    stage: "applied",
-    appliedDate: "2026-01-12",
-    experience: "5 years",
-    skills: ["React", "TypeScript", "Next.js"]
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    email: "m.chen@email.com",
-    phone: "+1 234-567-8902",
-    position: "Senior Frontend Developer",
-    stage: "applied",
-    appliedDate: "2026-01-11",
-    experience: "6 years",
-    skills: ["Vue", "JavaScript", "CSS"]
-  },
-  {
-    id: 3,
-    name: "Emily Rodriguez",
-    email: "emily.r@email.com",
-    phone: "+1 234-567-8903",
-    position: "Product Designer",
-    stage: "screening",
-    appliedDate: "2026-01-10",
-    experience: "4 years",
-    skills: ["Figma", "UI/UX", "Prototyping"]
-  },
-  {
-    id: 4,
-    name: "David Kim",
-    email: "david.k@email.com",
-    phone: "+1 234-567-8904",
-    position: "DevOps Engineer",
-    stage: "interview",
-    appliedDate: "2026-01-09",
-    experience: "7 years",
-    skills: ["AWS", "Docker", "Kubernetes"]
-  },
-  {
-    id: 5,
-    name: "Lisa Anderson",
-    email: "lisa.a@email.com",
-    phone: "+1 234-567-8905",
-    position: "Product Designer",
-    stage: "offer",
-    appliedDate: "2026-01-08",
-    experience: "5 years",
-    skills: ["Sketch", "Adobe XD", "Design Systems"]
-  }
-];
+import { toast } from "sonner";
+import {
+  useGetCandidatesQuery,
+  useUpdateCandidateMutation,
+} from "@/api/admin/recruitment/recruitmentApi";
 
 const stages = [
   { id: "applied", label: "Applied", color: "bg-white/5 border-white/10" },
@@ -73,7 +20,10 @@ const stages = [
 ];
 
 export default function CandidatePipeline({ onSelectCandidate }) {
-  const [candidates, setCandidates] = useState(initialCandidates);
+  const { data: candidatesResponse, isLoading, error } = useGetCandidatesQuery();
+  const [updateCandidate] = useUpdateCandidateMutation();
+
+  const candidates = candidatesResponse?.data || [];
 
   const getCandidatesByStage = (stageId) => {
     return candidates.filter(c => c.stage === stageId);
@@ -87,13 +37,31 @@ export default function CandidatePipeline({ onSelectCandidate }) {
     e.preventDefault();
   };
 
-  const handleDrop = (e, newStage) => {
+  const handleDrop = async (e, newStage) => {
     e.preventDefault();
     const candidateId = parseInt(e.dataTransfer.getData('candidateId'));
-    setCandidates(candidates.map(c => 
-      c.id === candidateId ? { ...c, stage: newStage } : c
-    ));
+    const candidate = candidates.find(c => c.id === candidateId);
+    
+    if (candidate && candidate.stage !== newStage) {
+      try {
+        await updateCandidate({
+          id: candidateId,
+          stage: newStage,
+        }).unwrap();
+        toast.success("Candidate stage updated successfully!");
+      } catch (error) {
+        toast.error(error?.data?.message || "Failed to update candidate stage");
+      }
+    }
   };
+
+  if (isLoading) {
+    return <div className="text-white/70">Loading candidates...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-400">Error loading candidates</div>;
+  }
 
   return (
     <div className="flex gap-4 overflow-x-auto pb-4">
@@ -149,12 +117,12 @@ export default function CandidatePipeline({ onSelectCandidate }) {
                       </div>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3 h-3" />
-                        <span>Applied {candidate.appliedDate}</span>
+                        <span>Applied {candidate.appliedDate ? new Date(candidate.appliedDate).toISOString().split('T')[0] : 'N/A'}</span>
                       </div>
                     </div>
                     
                     <div className="flex flex-wrap gap-1 mt-3">
-                      {candidate.skills.slice(0, 3).map((skill, idx) => (
+                      {(candidate.skills || []).slice(0, 3).map((skill, idx) => (
                         <Badge
                           key={idx}
                           variant="outline"

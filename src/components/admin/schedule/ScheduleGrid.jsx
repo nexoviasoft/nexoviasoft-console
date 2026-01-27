@@ -17,71 +17,16 @@ const days = [
   { name: "Sun", icon: Moon },
 ];
 
-// Mock data: Employee -> Array of 7 shifts (or nulls)
-const scheduleData = [
-  {
-    id: 1,
-    name: "Dipa Inhouse",
-    role: "Visual Designer",
-    avatar: "/avatars/01.png",
-    shifts: [
-       { time: "09:00 - 17:00", label: "Design", type: "morning" },
-       { time: "09:00 - 17:00", label: "Design", type: "morning" },
-       { time: "09:00 - 17:00", label: "Design", type: "morning" },
-       { time: "09:00 - 17:00", label: "Design", type: "morning" },
-       { time: "09:00 - 17:00", label: "Design", type: "morning" },
-       null, // Sat
-       null, // Sun
-    ]
-  },
-  {
-    id: 2,
-    name: "Jane Cooper",
-    role: "Product Manager",
-    avatar: "/avatars/02.png",
-    shifts: [
-       { time: "10:00 - 18:00", label: "Product", type: "afternoon" },
-       { time: "10:00 - 18:00", label: "Product", type: "afternoon" },
-       null, 
-       { time: "10:00 - 18:00", label: "Product", type: "afternoon" },
-       { time: "10:00 - 18:00", label: "Product", type: "afternoon" },
-       { time: "11:00 - 15:00", label: "Check-in", type: "morning" }, 
-       null, 
-    ]
-  },
-  {
-    id: 3,
-    name: "Floyd Miles",
-    role: "Frontend Dev",
-    avatar: "/avatars/03.png",
-    shifts: [
-       null,
-       { time: "09:00 - 17:00", label: "Dev", type: "morning" },
-       { time: "09:00 - 17:00", label: "Dev", type: "morning" },
-       { time: "09:00 - 17:00", label: "Dev", type: "morning" },
-       { time: "09:00 - 17:00", label: "Dev", type: "morning" },
-       null,
-       { time: "12:00 - 20:00", label: "Deploy", type: "night" },
-    ]
-  },
-  {
-    id: 4,
-    name: "Theresa Webb",
-    role: "Marketing",
-    avatar: "/avatars/04.png",
-    shifts: [
-       { time: "09:00 - 17:00", label: "Marketing", type: "morning" },
-       { time: "09:00 - 17:00", label: "Marketing", type: "morning" },
-       { time: "09:00 - 17:00", label: "Marketing", type: "morning" },
-       { time: "09:00 - 17:00", label: "Marketing", type: "morning" },
-       { time: "09:00 - 17:00", label: "Marketing", type: "morning" },
-       null,
-       null,
-    ]
-  },
-];
+function normalizeShift(shift) {
+  if (!shift) return null;
+  if (shift.time) return shift;
+  if (shift.startTime && shift.endTime) {
+    return { ...shift, time: `${shift.startTime} - ${shift.endTime}` };
+  }
+  return shift;
+}
 
-export default function ScheduleGrid() {
+export default function ScheduleGrid({ rows = [] }) {
   return (
     <div className="glass-panel rounded-2xl overflow-hidden flex flex-col h-full">
       <div className="overflow-auto scrollbar-thin scrollbar-glass">
@@ -113,7 +58,7 @@ export default function ScheduleGrid() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {scheduleData.map((emp) => (
+            {rows.map((emp) => (
               <TableRow 
                 key={emp.id} 
                 className="
@@ -157,7 +102,7 @@ export default function ScheduleGrid() {
                     key={i}
                     className="p-2.5 border-l border-white/5 align-top h-[90px] group-hover:bg-white/[0.02] transition-colors duration-300"
                   >
-                    <ShiftCard shift={shift} />
+                    <ShiftCard shift={normalizeShift(shift)} />
                   </TableCell>
                 ))}
               </TableRow>

@@ -10,28 +10,9 @@ import {
   ResponsiveContainer,
   Defs,
   LinearGradient,
-  CartesianGrid
+  CartesianGrid,
 } from "recharts";
-
-const yearlyData = [
-  { day: "Jan", presence: 92 },
-  { day: "Feb", presence: 88 },
-  { day: "Mar", presence: 95 },
-  { day: "Apr", presence: 85 },
-  { day: "May", presence: 90 },
-  { day: "Jun", presence: 84 },
-  { day: "Jul", presence: 65 },
-  { day: "Aug", presence: 75 },
-  { day: "Sep", presence: 88 },
-  { day: "Oct", presence: 92 },
-  { day: "Nov", presence: 85 },
-  { day: "Dec", presence: 90 },
-];
-
-const monthlyData = Array.from({ length: 30 }, (_, i) => ({
-  day: String(i + 1).padStart(2, "0"),
-  presence: 85 + Math.floor(Math.random() * 10), // Random presence between 85-95%
-}));
+import { useGetAttendanceTrendQuery } from "@/api/admin/dashboard/dashboardApi";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -44,7 +25,6 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-// Custom dot for the line
 const CustomDot = (props) => {
   const { cx, cy, stroke, payload, value } = props;
   return (
@@ -52,20 +32,13 @@ const CustomDot = (props) => {
   );
 };
 
-const weeklyData = [
-  { day: "Mon", presence: 90 },
-  { day: "Tue", presence: 85 },
-  { day: "Wed", presence: 95 },
-  { day: "Thu", presence: 80 },
-  { day: "Fri", presence: 88 },
-  { day: "Sat", presence: 60 },
-  { day: "Sun", presence: 50 },
-];
-
 export default function AttendanceChart({ period = "Weekly" }) {
-  let data = weeklyData;
-  if (period === "Monthly") data = monthlyData;
-  if (period === "Yearly") data = yearlyData;
+  const { data: trendResp } = useGetAttendanceTrendQuery(period);
+  const apiData = trendResp?.data?.data;
+
+  const data = Array.isArray(apiData)
+    ? apiData.map((d) => ({ day: d.label, presence: d.presence }))
+    : [];
 
   return (
 

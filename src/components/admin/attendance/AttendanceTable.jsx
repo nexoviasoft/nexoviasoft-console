@@ -12,7 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2, CheckCircle2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AttendanceDetailsDialog from "./AttendanceDetailsDialog";
 import AttendanceEditDialog from "./AttendanceEditDialog";
+import AddAttendanceDialog from "./AddAttendanceDialog";
+import {
+  useUpdateAttendanceMutation,
+  useCreateAttendanceMutation,
+  useApproveAttendanceMutation,
+} from "@/api/admin/attendance/attendanceApi";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 const initialData = [
   {
@@ -91,11 +99,23 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-export default function AttendanceTable() {
-  const [data, setData] = useState(initialData);
+export default function AttendanceTable({ rows }) {
+  const [data, setData] = useState(rows?.length ? rows : initialData);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [updateAttendance] = useUpdateAttendanceMutation();
+  const [createAttendance] = useCreateAttendanceMutation();
+  const [approveAttendance] = useApproveAttendanceMutation();
+  const { userRole } = useAuth();
+  const isAdmin = userRole === "admin";
+
+  React.useEffect(() => {
+    if (rows) {
+      setData(rows);
+    }
+  }, [rows]);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -111,16 +131,68 @@ export default function AttendanceTable() {
     setShowEdit(true);
   };
 
-  const handleSaveEdit = (updatedEmployee) => {
-    setData(
-      data.map((item) =>
+  const handleSaveEdit = async (updatedEmployee) => {
+    // Optimistic local update
+    setData((prev) =>
+      prev.map((item) =>
         item.id === updatedEmployee.id ? updatedEmployee : item,
       ),
     );
+
+    try {
+      const payload = {
+        id: updatedEmployee.id,
+        checkIn: updatedEmployee.checkIn,
+        checkOut: updatedEmployee.checkOut,
+        status: updatedEmployee.status,
+        workHours: updatedEmployee.workHours,
+      };
+
+      await updateAttendance(payload).unwrap();
+      toast.success("Attendance updated successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update attendance. Please try again.");
+    }
+  };
+
+  const handleCreate = async (formData) => {
+    try {
+      await createAttendance({
+        checkIn: formData.checkIn,
+        checkOut: formData.checkOut,
+        status: formData.status,
+        workHours: formData.workHours,
+      }).unwrap();
+      toast.success("Attendance added successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add attendance. Please try again.");
+    }
+  };
+
+  const handleApprove = async (row) => {
+    try {
+      await approveAttendance(row.id).unwrap();
+      setData((prev) =>
+        prev.map((item) =>
+          item.id === row.id ? { ...item, approved: true } : item
+        )
+      );
+      toast.success("Attendance approved.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to approve attendance.");
+    }
   };
 
   return (
     <div className="glass-panel rounded-2xl overflow-hidden border border-white/10">
+      <AddAttendanceDialog
+        open={showAdd}
+        onOpenChange={setShowAdd}
+        onCreate={handleCreate}
+      />
       <AttendanceDetailsDialog 
         open={showDetails} 
         onOpenChange={setShowDetails} 
@@ -133,6 +205,19 @@ export default function AttendanceTable() {
         onSave={handleSaveEdit}
       />
       <div className="overflow-x-auto">
+        <div className="flex items-center justify-between px-4 pt-4 pb-2">
+          <span className="text-sm text-white/70 font-medium">
+            Attendance Records
+          </span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowAdd(true)}
+            className="border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 hover:text-[#EFFC76]"
+          >
+            + Add Attendance
+          </Button>
+        </div>
         <Table>
           <TableHeader className="bg-[#EFFC76]/10">
             <TableRow className="hover:bg-transparent border-white/10">
@@ -205,6 +290,15 @@ export default function AttendanceTable() {
                       <Edit className="mr-2 h-4 w-4" />
                       <span>Edit Record</span>
                     </DropdownMenuItem>
+                    {isAdmin && !row.approved && (
+                      <DropdownMenuItem
+                        className="hover:bg-white/10 cursor-pointer text-emerald-400 focus:text-emerald-400 focus:bg-white/10"
+                        onClick={() => handleApprove(row)}
+                      >
+                        <CheckCircle2 className="mr-2 h-4 w-4" />
+                        <span>Approve Attendance</span>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem
                       className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
                       onClick={() => handleDelete(row.id)}

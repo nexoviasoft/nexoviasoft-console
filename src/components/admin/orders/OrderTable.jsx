@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -26,6 +26,7 @@ import {
   BarChart2,
   Users,
   Settings,
+  Loader2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -35,79 +36,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useGetOrdersQuery } from "@/api/admin/orders/orderApi";
 
-const initialOrders = [
-  {
-    id: "ORD-7821",
-    client: {
-      name: "Acme Corp",
-      avatar: "/avatars/01.png",
-      email: "contact@acme.com",
-    },
-    service: "Web Development",
-    amount: "$12,500.00",
-    status: "In Progress",
-    progress: 65,
-    assignedTo: ["SJ", "MC"],
-    date: "Jan 15, 2024",
-  },
-  {
-    id: "ORD-7822",
-    client: {
-      name: "Globex Inc",
-      avatar: "/avatars/02.png",
-      email: "info@globex.com",
-    },
-    service: "Mobile App Design",
-    amount: "$8,200.00",
-    status: "Review",
-    progress: 90,
-    assignedTo: ["DK"],
-    date: "Jan 16, 2024",
-  },
-  {
-    id: "ORD-7823",
-    client: {
-      name: "Soylent Corp",
-      avatar: "/avatars/03.png",
-      email: "support@soylent.com",
-    },
-    service: "SEO Optimization",
-    amount: "$3,400.00",
-    status: "Pending",
-    progress: 0,
-    assignedTo: [],
-    date: "Jan 17, 2024",
-  },
-  {
-    id: "ORD-7824",
-    client: {
-      name: "Umbrella Corp",
-      avatar: "/avatars/04.png",
-      email: "security@umbrella.com",
-    },
-    service: "Cloud Migration",
-    amount: "$25,000.00",
-    status: "Completed",
-    progress: 100,
-    assignedTo: ["ER", "LA", "JD"],
-    date: "Jan 10, 2024",
-  },
-  {
-    id: "ORD-7825",
-    client: {
-      name: "Stark Ind",
-      avatar: "/avatars/05.png",
-      email: "tony@stark.com",
-    },
-    service: "AI Integration",
-    amount: "$45,000.00",
-    status: "In Progress",
-    progress: 35,
-    assignedTo: ["SJ", "AM"],
-    date: "Jan 18, 2024",
-  },
-];
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(amount);
+}
+
+function formatDate(dateString) {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -129,18 +72,51 @@ const StatusBadge = ({ status }) => {
 export default function OrderTable({ onViewDetails }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const { data: ordersData, isLoading, error } = useGetOrdersQuery();
 
-  const filteredOrders = initialOrders.filter((order) => {
-    const matchesSearch =
-      order.client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.service.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredOrders = useMemo(() => {
+    if (!ordersData) return [];
 
-    const matchesStatus =
-      statusFilter === "All" || order.status === statusFilter;
+    return ordersData.filter((order) => {
+      const clientName = order.client?.name || '';
+      const orderId = order.orderId || '';
+      const service = order.service || '';
 
-    return matchesSearch && matchesStatus;
-  });
+      const matchesSearch =
+        clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesStatus =
+        statusFilter === "All" || order.status === statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [ordersData, searchTerm, statusFilter]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="glass-card rounded-xl border-white/20 overflow-hidden p-8">
+          <div className="flex items-center justify-center h-64">
+            <Loader2 className="w-8 h-8 animate-spin text-[#EFFC76]" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <div className="glass-card rounded-xl border-white/20 overflow-hidden p-8">
+          <div className="flex items-center justify-center h-64 text-red-400">
+            Failed to load orders
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -248,22 +224,22 @@ export default function OrderTable({ onViewDetails }) {
                     className="group hover:bg-[#EFFC76]/5 transition-colors border-white/10"
                   >
                     <TableCell className="font-medium text-white/60 text-xs">
-                      {order.id}
+                      {order.orderId}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="w-8 h-8 border border-white/20 bg-black/40">
-                          <AvatarImage src={order.client.avatar} />
+                          <AvatarImage src={order.client?.photo} />
                           <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
-                            {order.client.name.charAt(0)}
+                            {order.client?.name?.charAt(0) || 'C'}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="font-semibold text-white text-sm">
-                            {order.client.name}
+                            {order.client?.name || 'Unknown Client'}
                           </div>
                           <div className="text-xs text-white/50">
-                            {order.client.email}
+                            {order.client?.email || 'N/A'}
                           </div>
                         </div>
                       </div>
@@ -272,7 +248,7 @@ export default function OrderTable({ onViewDetails }) {
                       {order.service}
                     </TableCell>
                     <TableCell className="font-semibold text-[#EFFC76]">
-                      {order.amount}
+                      {formatCurrency(order.amount)}
                     </TableCell>
                     <TableCell>
                       <StatusBadge status={order.status} />
@@ -280,10 +256,10 @@ export default function OrderTable({ onViewDetails }) {
                     <TableCell>
                       <div className="flex flex-col gap-1.5">
                         <div className="flex justify-between text-xs text-white/60">
-                          <span>{order.progress}%</span>
+                          <span>{order.progress || 0}%</span>
                         </div>
                         <Progress
-                          value={order.progress}
+                          value={order.progress || 0}
                           className="h-1.5 bg-white/10"
                           indicatorClassName={
                             order.status === "Completed"
@@ -295,7 +271,7 @@ export default function OrderTable({ onViewDetails }) {
                     </TableCell>
                     <TableCell>
                       <div className="flex -space-x-2">
-                        {order.assignedTo.map((initials, i) => (
+                        {(order.assignedTo || []).map((initials, i) => (
                           <Avatar
                             key={i}
                             className="w-6 h-6 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
@@ -305,7 +281,7 @@ export default function OrderTable({ onViewDetails }) {
                             </AvatarFallback>
                           </Avatar>
                         ))}
-                        {order.assignedTo.length === 0 && (
+                        {(!order.assignedTo || order.assignedTo.length === 0) && (
                           <span className="text-xs text-white/50 italic">
                             Unassigned
                           </span>

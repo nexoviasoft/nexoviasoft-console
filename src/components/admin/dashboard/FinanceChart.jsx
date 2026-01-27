@@ -7,44 +7,9 @@ import {
   ResponsiveContainer,
   Defs,
   LinearGradient,
-  CartesianGrid
+  CartesianGrid,
 } from "recharts";
-
-
-const weeklyData = [
-  { label: "Mon", income: 1500 },
-  { label: "Tue", income: 2300 },
-  { label: "Wed", income: 3400 },
-  { label: "Thu", income: 2900 },
-  { label: "Fri", income: 4500 },
-  { label: "Sat", income: 3200 },
-  { label: "Sun", income: 2100 },
-];
-
-const monthlyData = Array.from({ length: 30 }, (_, i) => ({
-  label: String(i + 1).padStart(2, "0"),
-  income: 2000 + Math.floor(Math.random() * 5000), // Random income
-}));
-
-const quarterlyData = Array.from({ length: 90 }, (_, i) => ({
-  label: String(i + 1).padStart(2, "0"),
-  income: 2000 + Math.floor(Math.random() * 5000), // Random income
-}));
-
-const yearlyData = [
-  { label: "Jan", income: 2400 },
-  { label: "Feb", income: 1398 },
-  { label: "Mar", income: 9800 },
-  { label: "Apr", income: 3908 },
-  { label: "May", income: 4800 },
-  { label: "Jun", income: 3800 },
-  { label: "Jul", income: 4300 },
-  { label: "Aug", income: 4300 },
-  { label: "Sep", income: 5300 },
-  { label: "Oct", income: 4300 },
-  { label: "Nov", income: 5300 },
-  { label: "Dec", income: 6300 },
-];
+import { useGetFinanceTrendQuery } from "@/api/admin/dashboard/dashboardApi";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -62,19 +27,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function FinanceChart({ period = "Yearly" }) {
-  let data = yearlyData;
-  let barWidth = 32;
+  const { data: trendResp } = useGetFinanceTrendQuery(period);
+  const apiData = trendResp?.data?.data;
 
-  if (period === "Weekly") {
-    data = weeklyData;
-    barWidth = 48;
-  } else if (period === "Monthly") {
-    data = monthlyData;
-    barWidth = 64;
-  } else if (period === "Quarterly") {
-    data = quarterlyData;
-    barWidth = 80;
-  }
+  const data = Array.isArray(apiData) ? apiData : [];
+  const barWidth = period === "Weekly" ? 48 : period === "Quarterly" ? 80 : 32;
 
   return (
     <div className="h-72 w-full mt-6">

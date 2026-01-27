@@ -2,13 +2,25 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ShoppingCart, Clock, CheckCircle2, TrendingUp } from "lucide-react";
+import { ShoppingCart, Clock, CheckCircle2, TrendingUp, Loader2 } from "lucide-react";
+import { useGetOrderStatsQuery } from "@/api/admin/orders/orderApi";
+
+function formatCurrency(amount) {
+  if (amount >= 1000000) {
+    return `$${(amount / 1000000).toFixed(1)}M`;
+  } else if (amount >= 1000) {
+    return `$${(amount / 1000).toFixed(1)}k`;
+  }
+  return `$${amount.toFixed(2)}`;
+}
 
 export default function OrderStats() {
+  const { data: statsData, isLoading, error } = useGetOrderStatsQuery();
+
   const stats = [
     {
       title: "Total Orders",
-      value: "1,248",
+      value: statsData?.total?.toLocaleString() || "0",
       change: "+12.5%",
       trend: "up",
       icon: ShoppingCart,
@@ -16,7 +28,7 @@ export default function OrderStats() {
     },
     {
       title: "In Progress",
-      value: "45",
+      value: statsData?.inProgress?.toLocaleString() || "0",
       change: "+4",
       trend: "neutral",
       icon: Clock,
@@ -24,7 +36,7 @@ export default function OrderStats() {
     },
     {
       title: "Completed",
-      value: "1,180",
+      value: statsData?.completed?.toLocaleString() || "0",
       change: "+8.2%",
       trend: "up",
       icon: CheckCircle2,
@@ -32,13 +44,35 @@ export default function OrderStats() {
     },
     {
       title: "Total Revenue",
-      value: "$845.2k",
+      value: statsData?.totalRevenue ? formatCurrency(statsData.totalRevenue) : "$0",
       change: "+14.1%",
       trend: "up",
       icon: TrendingUp,
       color: "bg-[#EFFC76]/10 text-[#EFFC76]",
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8">
+        {[1, 2, 3, 4].map((i) => (
+          <Card key={i} className="glass-card border-white/10">
+            <CardContent className="p-3 md:p-6 flex items-center justify-center h-24">
+              <Loader2 className="w-6 h-6 animate-spin text-[#EFFC76]" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mb-8 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
+        Failed to load order statistics
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8">

@@ -5,11 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Fingerprint, ScanFace, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import {
+  useCreateAttendanceMutation,
+  useUpdateAttendanceMutation,
+} from "@/api/admin/attendance/attendanceApi";
 
 export default function BiometricClockIn() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentAttendanceId, setCurrentAttendanceId] = useState(null);
+  const [clockInTime, setClockInTime] = useState(null);
+
+  const [createAttendance] = useCreateAttendanceMutation();
+  const [updateAttendance] = useUpdateAttendanceMutation();
 
   // Check local storage for existing "credential" mock
   useEffect(() => {
@@ -75,8 +84,24 @@ export default function BiometricClockIn() {
       const assertion = await navigator.credentials.get({ publicKey });
       
       console.log("Assertion Verified:", assertion);
+
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const response = await createAttendance({
+        checkIn: formattedTime,
+        status: "On Time",
+        workHours: "-",
+      }).unwrap();
+
+      const created = response?.data;
+      setCurrentAttendanceId(created?.id || null);
+      setClockInTime(now.toISOString());
       setIsClockedIn(true);
-      toast.success("Identity Verified! clocked in successfully.");
+      toast.success("Identity verified & attendance recorded successfully.");
 
     } catch (error) {
         console.error(error);
@@ -85,6 +110,44 @@ export default function BiometricClockIn() {
         } else {
              toast.error("Biometric verification failed.");
         }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleClockOut = async () => {
+    if (!currentAttendanceId || !clockInTime) {
+      toast.error("No active attendance session found.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const start = new Date(clockInTime);
+      const end = new Date();
+      const diffMs = end.getTime() - start.getTime();
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+      const workHours = `${hours}h ${minutes}m`;
+
+      const formattedCheckOut = end.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      await updateAttendance({
+        id: currentAttendanceId,
+        checkOut: formattedCheckOut,
+        workHours,
+      }).unwrap();
+
+      setIsClockedIn(false);
+      setCurrentAttendanceId(null);
+      setClockInTime(null);
+      toast.success("Clocked out and attendance updated.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update attendance record.");
     } finally {
       setIsLoading(false);
     }
@@ -164,6 +227,8 @@ export default function BiometricClockIn() {
             {isClockedIn && (
                  <Button
                   variant="outline"
+                  onClick={handleClockOut}
+                  disabled={isLoading}
                   className="border-red-500/70 text-red-400 hover:text-red-300 hover:bg-red-500/15"
                 >
                     Clock Out

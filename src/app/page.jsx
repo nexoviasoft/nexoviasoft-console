@@ -28,11 +28,24 @@ import FinanceChart from "@/components/admin/dashboard/FinanceChart";
 import { useEffect } from "react";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
+import { useGetAttendanceStatsQuery } from "@/api/admin/attendance/attendanceApi";
+import {
+  useGetDashboardActivityQuery,
+  useGetDashboardSummaryQuery,
+} from "@/api/admin/dashboard/dashboardApi";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("Weekly");
   const [financePeriod, setFinancePeriod] = useState("Yearly");
+  const [activityTab, setActivityTab] = useState("Attendance");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { data: attendanceStatsResp } = useGetAttendanceStatsQuery();
+  const { data: dashboardResp } = useGetDashboardSummaryQuery();
+  const { data: activityResp } = useGetDashboardActivityQuery(activityTab);
+
+  const attendanceStats = attendanceStatsResp?.data;
+  const dashboard = dashboardResp?.data;
+  const activity = activityResp?.data;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -69,12 +82,15 @@ export default function Dashboard() {
               </div>
               <div className="space-y-2 mb-2">
                 <div className=" text-xl md:text-3xl font-bold text-white">
-                  21,978
+                  {dashboard?.customers?.total != null
+                    ? dashboard.customers.total.toLocaleString?.() ??
+                      dashboard.customers.total
+                    : "0"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-emerald-400 font-medium flex items-center gap-1">
-                  <ArrowUp className="w-3 h-3 text-xs" /> 15%
+                  <ArrowUp className="w-3 h-3 text-xs" /> --
                 </span>
                 <span className="text-white/40 md:text-xs text-[10px]">
                   from last month
@@ -97,12 +113,15 @@ export default function Dashboard() {
               </div>
               <div className="space-y-2 mb-2">
                 <div className="text-xl md:text-3xl font-bold text-white">
-                  10,369
+                  {dashboard?.customers?.active != null
+                    ? dashboard.customers.active.toLocaleString?.() ??
+                      dashboard.customers.active
+                    : "0"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-rose-400 font-medium flex items-center gap-1">
-                  <ArrowDown className="w-3 h-3" /> 9%
+                  <ArrowDown className="w-3 h-3" /> --
                 </span>
                 <span className="text-white/40 md:text-xs text-[10px]">
                   from last month
@@ -125,7 +144,12 @@ export default function Dashboard() {
               </div>
               <div className="space-y-2 mb-2">
                 <div className="ttext-xl md:text-3xl font-bold text-white">
-                  $64,981.97
+                  {dashboard?.finance
+                    ? `$${Number(dashboard.finance.profitTotal || 0).toLocaleString(
+                        undefined,
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                    : "$0.00"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
@@ -153,12 +177,17 @@ export default function Dashboard() {
               </div>
               <div className="space-y-2 mb-2">
                 <div className="text-xl md:text-3xl font-bold text-white">
-                  $18,158.21
+                  {dashboard?.finance
+                    ? `$${Number(dashboard.finance.expenseTotal || 0).toLocaleString(
+                        undefined,
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                    : "$0.00"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-rose-400 font-medium flex items-center gap-1">
-                  <ArrowDown className="w-3 h-3" /> 2%
+                  <ArrowDown className="w-3 h-3" /> --
                 </span>
                 <span className="text-white/40 md:text-xs text-[10px]">
                   from last month
@@ -199,16 +228,24 @@ export default function Dashboard() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                     <div>
                       <div className="text-xl md:text-3xl font-bold text-[#EFFC76] mb-1">
-                        89.2%
+                        {attendanceStats
+                          ? `${Number(attendanceStats.onTimePercentage).toFixed(1)}%`
+                          : "0%"}
                       </div>
                       <div className=" text-[13px] md:text-sm text-white/70 mb-1">
                         Attendance Rate
                       </div>
-                      <div className="text-xs text-[#EFFC76]">+2.8%</div>
+                      <div className="text-xs text-[#EFFC76]">
+                        {attendanceStats ? "+ Live" : "+2.8%"}
+                      </div>
                     </div>
                     <div>
                       <div className=" text-xl md:text-3xl font-bold text-white mb-1">
-                        1261/1.298
+                        {attendanceStats
+                          ? `${attendanceStats.onTime + attendanceStats.late}/${
+                              attendanceStats.total
+                            }`
+                          : "0/0"}
                       </div>
                       <div className="text-[13px] md:text-sm text-white/70 mb-1">
                         Today&apos;s Attendance
@@ -220,19 +257,28 @@ export default function Dashboard() {
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76] rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
-                          On-Time 86%
+                          On-Time{" "}
+                          {attendanceStats
+                            ? `${attendanceStats.onTimePercentage}%`
+                            : "0%"}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76]/70 rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
-                          Late 12%
+                          Late{" "}
+                          {attendanceStats
+                            ? `${attendanceStats.latePercentage}%`
+                            : "0%"}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#EFFC76]/40 rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
-                          Absent 2%
+                          Absent{" "}
+                          {attendanceStats
+                            ? `${attendanceStats.absentPercentage}%`
+                            : "0%"}
                         </span>
                       </div>
                     </div>
@@ -289,13 +335,34 @@ export default function Dashboard() {
                       </div>
 
                       <div className="flex items-center gap-1 w-full sm:w-auto overflow-x-auto">
-                        <button className="px-4 py-2 bg-[#EFFC76] text-black text-sm rounded-lg whitespace-nowrap">
+                        <button
+                          onClick={() => setActivityTab("Attendance")}
+                          className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
+                            activityTab === "Attendance"
+                              ? "bg-[#EFFC76] text-black"
+                              : "text-white/70 hover:bg-white/10"
+                          }`}
+                        >
                           Attendance
                         </button>
-                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10 whitespace-nowrap">
+                        <button
+                          onClick={() => setActivityTab("Leave")}
+                          className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
+                            activityTab === "Leave"
+                              ? "bg-[#EFFC76] text-black"
+                              : "text-white/70 hover:bg-white/10"
+                          }`}
+                        >
                           Leave Request
                         </button>
-                        <button className="px-4 py-2 text-white/70 text-sm rounded-lg hover:bg-white/10 whitespace-nowrap">
+                        <button
+                          onClick={() => setActivityTab("Finance")}
+                          className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
+                            activityTab === "Finance"
+                              ? "bg-[#EFFC76] text-black"
+                              : "text-white/70 hover:bg-white/10"
+                          }`}
+                        >
                           Finance
                         </button>
                       </div>
@@ -315,14 +382,84 @@ export default function Dashboard() {
                   </div>
 
                   <div className="border-t border-white/10 pt-4 overflow-x-auto">
-                    <div className="grid grid-cols-7 gap-4 text-xs font-medium text-white/60 uppercase tracking-wider pb-3 min-w-[800px]">
-                      <div>ID Employee</div>
-                      <div>Name</div>
-                      <div>Department</div>
-                      <div>Check-In Time</div>
-                      <div>Check-Out Time</div>
-                      <div>Log Hours</div>
-                      <div>Status</div>
+                    <div className="min-w-[800px] space-y-3">
+                      <div className="grid grid-cols-7 gap-4 text-xs font-medium text-white/60 uppercase tracking-wider pb-1">
+                        <div>ID Employee</div>
+                        <div>Name</div>
+                        <div>Role</div>
+                        <div>Check-In Time</div>
+                        <div>Check-Out Time</div>
+                        <div>Log Hours</div>
+                        <div>Status</div>
+                      </div>
+                      <div className="space-y-2">
+                        {activity?.items?.length ? (
+                          activity.items.map((row) => (
+                            <div
+                              key={row.id}
+                              className="grid grid-cols-7 gap-4 text-xs items-center py-2 rounded-lg hover:bg-white/5 transition-colors"
+                            >
+                              <div className="text-white/70">
+                                {row.team?.id ?? row.client?.id ?? row.id}
+                              </div>
+                              <div className="text-white font-medium truncate">
+                                {activityTab === "Finance"
+                                  ? row.client?.name || "Client"
+                                  : row.team?.name || "Unknown"}
+                              </div>
+                              <div className="text-white/60 truncate">
+                                {activityTab === "Finance"
+                                  ? row.service || "-"
+                                  : row.team?.role || "-"}
+                              </div>
+                              <div className="text-white/80">
+                                {activityTab === "Leave"
+                                  ? (row.startDate
+                                      ? new Date(row.startDate).toLocaleDateString()
+                                      : "-")
+                                  : row.checkIn || "-"}
+                              </div>
+                              <div className="text-white/80">
+                                {activityTab === "Leave"
+                                  ? (row.endDate
+                                      ? new Date(row.endDate).toLocaleDateString()
+                                      : "-")
+                                  : activityTab === "Finance"
+                                  ? `$${Number(row.amount || 0).toLocaleString()}`
+                                  : row.checkOut || "-"}
+                              </div>
+                              <div className="text-white/70">
+                                {activityTab === "Leave"
+                                  ? `${row.days ?? 0}d`
+                                  : row.workHours || "-"}
+                              </div>
+                              <div>
+                                <span
+                                  className={`px-2 py-1 rounded-full text-[10px] font-semibold ${
+                                    row.status === "On Time" ||
+                                    row.status === "approved" ||
+                                    row.status === "Approved" ||
+                                    row.status === "Completed"
+                                      ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30"
+                                      : row.status === "Late" ||
+                                        row.status === "pending" ||
+                                        row.status === "Pending" ||
+                                        row.status === "In Progress"
+                                      ? "bg-orange-500/15 text-orange-300 border border-orange-400/30"
+                                      : "bg-red-500/15 text-red-300 border border-red-400/30"
+                                  }`}
+                                >
+                                  {row.status}
+                                </span>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-xs text-white/60 py-2">
+                            No activity found.
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -340,35 +477,43 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
-                      <Video className="w-5 h-5 text-[#EFFC76]" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white mb-1">
-                        Monthly Evaluation
-                      </h3>
-                      <p className="text-sm text-white/70 mb-2">
-                        Today, 08:30 AM - 10:30 AM
-                      </p>
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="flex -space-x-2">
-                          {Array.from({ length: 4 }).map((_, i) => (
-                            <div
-                              key={i}
-                              className="w-6 h-6 rounded-full bg-[#EFFC76] border-2 border-white"
-                            ></div>
-                          ))}
-                        </div>
-                        <span className="text-xs text-white/60">
-                          38 Participants
-                        </span>
+                  {dashboard?.nextAgenda ? (
+                    <div className="flex items-start gap-3">
+                      <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
+                        <Video className="w-5 h-5 text-[#EFFC76]" />
                       </div>
-                      <Button className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black">
-                        Join Meeting Now
-                      </Button>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white mb-1">
+                          {dashboard.nextAgenda.topic || "Upcoming Meeting"}
+                        </h3>
+                        <p className="text-sm text-white/70 mb-2">
+                          {dashboard.nextAgenda.dateTime
+                            ? new Date(dashboard.nextAgenda.dateTime).toLocaleString()
+                            : ""}
+                        </p>
+                        <Button
+                          className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black"
+                          asChild={!!dashboard.nextAgenda.meetingLink}
+                        >
+                          {dashboard.nextAgenda.meetingLink ? (
+                            <a
+                              href={dashboard.nextAgenda.meetingLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Join Meeting Now
+                            </a>
+                          ) : (
+                            <span>View Details</span>
+                          )}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="text-sm text-white/60">
+                      No upcoming meetings scheduled.
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -384,67 +529,38 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-7 gap-1">
-                    {[1, 2, 3, 4, 5, 6, 7].map((day, index) => (
-                      <div
-                        key={day}
-                        className="flex flex-col items-center gap-1"
-                      >
-                        <button
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${
-                            day === 3
-                              ? "bg-[#EFFC76] text-black"
-                              : "text-white/70 hover:bg-white/10"
-                          }`}
-                        >
-                          {day}
-                        </button>
-                        <span className="text-xs text-white/50">
-                          {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"][index]}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
                   <div className="space-y-3 pt-2">
-                    <div className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg cursor-pointer">
-                      <div className="flex-1">
-                        <div className="font-medium text-sm text-white">
-                          Team Stand-Up Meeting
+                    {dashboard?.schedules?.length ? (
+                      dashboard.schedules.slice(0, 3).map((s) => (
+                        <div
+                          key={s.id}
+                          className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg cursor-pointer"
+                        >
+                          <div className="flex-1">
+                            <div className="font-medium text-sm text-white">
+                              {s.team?.name || "Team member"}
+                            </div>
+                            <div className="text-xs text-white/60 flex items-center gap-1 mt-1">
+                              <Calendar className="w-3 h-3 text-[#EFFC76]" />
+                              <span>
+                                {s.weekStartDate
+                                  ? new Date(s.weekStartDate).toLocaleDateString()
+                                  : "-"}{" "}
+                                -{" "}
+                                {s.weekEndDate
+                                  ? new Date(s.weekEndDate).toLocaleDateString()
+                                  : "-"}
+                              </span>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-[#EFFC76]" />
                         </div>
-                        <div className="text-xs text-white/60 flex items-center gap-1 mt-1">
-                          <Video className="w-3 h-3 text-[#EFFC76]" />
-                          Online 08:30 AM
-                        </div>
+                      ))
+                    ) : (
+                      <div className="text-sm text-white/60">
+                        No schedules available.
                       </div>
-                      <ChevronRight className="w-4 h-4 text-[#EFFC76]" />
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg cursor-pointer">
-                      <div className="flex-1">
-                        <div className="font-medium text-sm text-white">
-                          Client Presentation
-                        </div>
-                        <div className="text-xs text-white/60 flex items-center gap-1 mt-1">
-                          <Monitor className="w-3 h-3 text-[#EFFC76]" />
-                          Conference Room 11:00 AM
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-[#EFFC76]" />
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg cursor-pointer">
-                      <div className="flex-1">
-                        <div className="font-medium text-sm text-white">
-                          Training Session: Workplace...
-                        </div>
-                        <div className="text-xs text-white/60 flex items-center gap-1 mt-1">
-                          <Video className="w-3 h-3 text-[#EFFC76]" />
-                          Online 01:30 PM
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-[#EFFC76]" />
-                    </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -457,7 +573,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
               <div className="w-full">
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-semibold text-white flex items-center gap-2">
                     <BarChart3 className="w-6 h-6 text-[#EFFC76]" />
                     Finance Report
@@ -484,53 +600,6 @@ export default function Dashboard() {
                       Yearly
                     </option>
                   </select>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-12">
-                  <div>
-                    <div className="text-sm text-white/50 mb-1">Weekly</div>
-                    <div className="flex items-center gap-3">
-                      <span className=" text-xl md:text-3xl font-bold text-white">
-                        $24,291
-                      </span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
-                        +25.0%
-                      </span>
-                    </div>
-                    <div className="text-xs text-white/40 mt-1">
-                      Compared to $1,340 last week
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-white/50 mb-1">Monthly</div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl md:text-3xl font-bold text-white">
-                        $48,903
-                      </span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
-                        +1.9%
-                      </span>
-                    </div>
-                    <div className="text-xs text-white/40 mt-1">
-                      Compared to $5,441 last month
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-white/50 mb-1">Yearly</div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl md:text-3xl font-bold text-white">
-                        $198,134
-                      </span>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">
-                        +22%
-                      </span>
-                    </div>
-                    <div className="text-xs text-white/40 mt-1">
-                      Compared to $76,330 last year
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

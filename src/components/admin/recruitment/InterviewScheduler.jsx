@@ -20,67 +20,83 @@ import {
 } from "@/components/ui/dialog";
 import { Calendar, Clock, User, Video } from "lucide-react";
 import { toast } from "sonner";
-
-const upcomingInterviews = [
-  {
-    id: 1,
-    candidate: "David Kim",
-    position: "DevOps Engineer",
-    date: "2026-01-17",
-    time: "10:00 AM",
-    interviewer: "John Smith",
-    type: "Technical",
-    status: "Scheduled",
-  },
-  {
-    id: 2,
-    candidate: "Lisa Anderson",
-    position: "Product Designer",
-    date: "2026-01-17",
-    time: "2:00 PM",
-    interviewer: "Sarah Johnson",
-    type: "Final Round",
-    status: "Scheduled",
-  },
-  {
-    id: 3,
-    candidate: "Emily Rodriguez",
-    position: "Product Designer",
-    date: "2026-01-18",
-    time: "11:00 AM",
-    interviewer: "Mike Chen",
-    type: "Portfolio Review",
-    status: "Scheduled",
-  },
-];
+import {
+  useGetInterviewsQuery,
+  useCreateInterviewMutation,
+  useGetCandidatesQuery,
+} from "@/api/admin/recruitment/recruitmentApi";
 
 export default function InterviewScheduler() {
+  const { data: interviewsResponse, isLoading, error } = useGetInterviewsQuery();
+  const { data: candidatesResponse } = useGetCandidatesQuery();
+  const [createInterview, { isLoading: isCreating }] = useCreateInterviewMutation();
+
+  const interviews = interviewsResponse?.data || [];
+  const candidates = candidatesResponse?.data || [];
+  
   const [showDialog, setShowDialog] = useState(false);
-  const [interviews, setInterviews] = useState(upcomingInterviews);
   const [formData, setFormData] = useState({
     candidate: "",
+    position: "",
     date: "",
     time: "",
     interviewer: "",
     type: "Technical",
   });
 
-  const handleSchedule = () => {
-    const newInterview = {
-      id: interviews.length + 1,
-      ...formData,
-      status: "Scheduled",
-    };
-    setInterviews([...interviews, newInterview]);
-    toast.success("Interview scheduled successfully!");
-    setShowDialog(false);
-    setFormData({
-      candidate: "",
-      date: "",
-      time: "",
-      interviewer: "",
-      type: "Technical",
-    });
+  const handleSchedule = async () => {
+    if (!formData.candidate || !formData.date || !formData.time || !formData.interviewer) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    try {
+      await createInterview({
+        candidate: formData.candidate,
+        position: formData.position,
+        date: formData.date,
+        time: formData.time,
+        interviewer: formData.interviewer,
+        type: formData.type,
+        status: "Scheduled",
+      }).unwrap();
+      toast.success("Interview scheduled successfully!");
+      setShowDialog(false);
+      setFormData({
+        candidate: "",
+        position: "",
+        date: "",
+        time: "",
+        interviewer: "",
+        type: "Technical",
+      });
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to schedule interview");
+    }
+  };
+
+  if (isLoading) {
+    return <div className="text-white/70">Loading interviews...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-400">Error loading interviews</div>;
+  }
+
+  // Format time for display (convert HH:mm to HH:MM AM/PM)
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toISOString().split('T')[0];
   };
 
   return (
@@ -122,11 +138,11 @@ export default function InterviewScheduler() {
                 <div className="grid grid-cols-1 gap-2">
                   <div className="flex items-center gap-2 text-xs sm:text-sm text-white/80">
                     <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-white/60 shrink-0" />
-                    <span className="truncate">{interview.date}</span>
+                    <span className="truncate">{formatDate(interview.date)}</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs sm:text-sm text-white/80">
                     <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-white/60 shrink-0" />
-                    <span className="truncate">{interview.time}</span>
+                    <span className="truncate">{formatTime(interview.time)}</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs sm:text-sm text-white/80">
                     <User className="w-3 h-3 sm:w-4 sm:h-4 text-white/60 shrink-0" />
@@ -167,11 +183,36 @@ export default function InterviewScheduler() {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label className="text-white/80">Candidate Name</Label>
-              <Input
-                placeholder="Enter candidate name"
+              <Select
                 value={formData.candidate}
+                onValueChange={(value) => {
+                  const selectedCandidate = candidates.find(c => c.name === value || c.id.toString() === value);
+                  setFormData({ 
+                    ...formData, 
+                    candidate: selectedCandidate?.name || value,
+                    position: selectedCandidate?.position || formData.position
+                  });
+                }}
+              >
+                <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                  <SelectValue placeholder="Select candidate" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1A1A1A] border-white/20 text-white">
+                  {candidates.map((candidate) => (
+                    <SelectItem key={candidate.id} value={candidate.name} className="focus:bg-white/10 focus:text-white cursor-pointer">
+                      {candidate.name} - {candidate.position}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Position</Label>
+              <Input
+                placeholder="Enter position"
+                value={formData.position}
                 onChange={(e) =>
-                  setFormData({ ...formData, candidate: e.target.value })
+                  setFormData({ ...formData, position: e.target.value })
                 }
                 className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
               />
@@ -241,9 +282,10 @@ export default function InterviewScheduler() {
             </Button>
             <Button
               onClick={handleSchedule}
+              disabled={isCreating}
               className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
             >
-              Schedule Interview
+              {isCreating ? 'Scheduling...' : 'Schedule Interview'}
             </Button>
           </div>
         </DialogContent>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ScheduleHeader from "@/components/admin/schedule/ScheduleHeader";
 import ScheduleGrid from "@/components/admin/schedule/ScheduleGrid";
 import ScheduleMeetingDialog from "@/components/admin/schedule/ScheduleMeetingDialog";
@@ -25,88 +25,45 @@ import {
 } from "@/components/ui/select";
 import { Calendar as CalendarIcon, Clock, Search, History } from "lucide-react";
 import { toast } from "sonner";
+import { addDays, format, startOfWeek, subDays } from "date-fns";
+import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
+import {
+  useCreateScheduleMutation,
+  useGetSchedulesQuery,
+  useUpdateScheduleMutation,
+} from "@/api/admin/schedule/scheduleApi";
+import { useGetMeetingsQuery } from "@/api/admin/meeting/meetingApi";
+import { useAuth } from "@/contexts/AuthContext";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function Schedule() {
+  const { userRole } = useAuth();
   const [isAddShiftDialogOpen, setIsAddShiftDialogOpen] = useState(false);
   const [isScheduleMeetingDialogOpen, setIsScheduleMeetingDialogOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
   
   // Meeting History State
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
+  const endDate = addDays(startDate, 6);
+  const weekStartDate = format(startDate, "yyyy-MM-dd");
+  const weekEndDate = format(endDate, "yyyy-MM-dd");
+
+  const { data: teamData, isLoading: isLoadingTeam } = useGetOurTeamQuery();
+  const teamMembers = teamData?.data || teamData || [];
+
+  const { data: schedulesData, isLoading: isLoadingSchedules } = useGetSchedulesQuery();
+  const schedules = schedulesData?.data || schedulesData || [];
+  const [createSchedule, { isLoading: isCreatingSchedule }] = useCreateScheduleMutation();
+  const [updateSchedule, { isLoading: isUpdatingSchedule }] = useUpdateScheduleMutation();
   
-  // Mock meeting data - in production, fetch from API
-  const [meetings] = useState([
-    {
-      id: "1",
-      meetingId: "m-2026-01-28-001",
-      topic: "Sprint Planning - Q1 2026",
-      description: "Discuss goals, priorities, and deliverables for Q1 sprint",
-      dateTime: "2026-01-28T14:00:00",
-      duration: 60,
-      meetingLink: "https://squadlog.com/meetings/m-2026-01-28-001",
-      status: "upcoming",
-      organizer: "John Doe",
-      attendees: [
-        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
-        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
-        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
-      ],
-      createdAt: "2026-01-26T10:00:00",
-    },
-    {
-      id: "2",
-      meetingId: "m-2026-01-29-002",
-      topic: "Design Review - Landing Page",
-      description: "Review new landing page designs and provide feedback",
-      dateTime: "2026-01-29T10:30:00",
-      duration: 45,
-      meetingLink: "https://squadlog.com/meetings/m-2026-01-29-002",
-      status: "upcoming",
-      organizer: "Sarah Johnson",
-      attendees: [
-        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
-        { id: "4", name: "Theresa Webb", email: "theresa@squadlog.com", avatar: "/avatars/04.png" },
-      ],
-      createdAt: "2026-01-25T15:30:00",
-    },
-    {
-      id: "3",
-      meetingId: "m-2026-01-25-003",
-      topic: "Team Standup",
-      description: "Daily standup to sync on progress and blockers",
-      dateTime: "2026-01-25T09:00:00",
-      duration: 15,
-      meetingLink: "https://squadlog.com/meetings/m-2026-01-25-003",
-      status: "completed",
-      organizer: "Mike Chen",
-      attendees: [
-        { id: "1", name: "Dipa Inhouse", email: "dipa@squadlog.com", avatar: "/avatars/01.png" },
-        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
-        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
-        { id: "5", name: "Robert Fox", email: "robert@squadlog.com", avatar: "/avatars/05.png" },
-        { id: "6", name: "Cody Fisher", email: "cody@squadlog.com", avatar: "/avatars/06.png" },
-      ],
-      createdAt: "2026-01-24T08:00:00",
-    },
-    {
-      id: "4",
-      meetingId: "m-2026-01-24-004",
-      topic: "Client Presentation - Project Demo",
-      description: "Present project progress and demo new features to client",
-      dateTime: "2026-01-24T16:00:00",
-      duration: 90,
-      meetingLink: "https://squadlog.com/meetings/m-2026-01-24-004",
-      status: "completed",
-      organizer: "Emily Davis",
-      attendees: [
-        { id: "2", name: "Jane Cooper", email: "jane@squadlog.com", avatar: "/avatars/02.png" },
-        { id: "3", name: "Floyd Miles", email: "floyd@squadlog.com", avatar: "/avatars/03.png" },
-      ],
-      createdAt: "2026-01-20T11:00:00",
-    },
-  ]);
+  const { data: meetingsResp, isLoading: isLoadingMeetings } = useGetMeetingsQuery();
   const [newShift, setNewShift] = useState({
-    employee: "",
+    teamId: "",
+    day: "Mon",
     date: "",
     startTime: "",
     endTime: "",
@@ -118,20 +75,92 @@ export default function Schedule() {
     setNewShift(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleAddShift = () => {
+  const scheduleRows = useMemo(() => {
+    // Filter to current week if backend stored weekStartDate; otherwise show all schedules
+    const normalized = schedules.filter((s) => {
+      const ws = s?.weekStartDate ? format(new Date(s.weekStartDate), "yyyy-MM-dd") : null;
+      return !ws || ws === weekStartDate;
+    });
+
+    return normalized.map((s) => ({
+      id: s.id ?? s.teamId,
+      teamId: s.teamId,
+      name: s.team?.name || "Unknown",
+      role: s.team?.role || "Team Member",
+      avatar: s.team?.avatar || "/avatars/01.png",
+      shifts: Array.isArray(s.shifts) ? s.shifts : [null, null, null, null, null, null, null],
+    }));
+  }, [schedules, weekStartDate]);
+
+  const canAddShift = ["admin", "manager"].includes((userRole || "").toLowerCase());
+  const canPublish = ["admin", "manager"].includes((userRole || "").toLowerCase());
+  const canScheduleMeeting = ["admin", "manager"].includes((userRole || "").toLowerCase());
+
+  const handleAddShift = async () => {
     // Validation
-    if (!newShift.employee || !newShift.date || !newShift.startTime || !newShift.endTime) {
+    if (!newShift.teamId || !newShift.date || !newShift.startTime || !newShift.endTime) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    // In real app, this would make an API call
-    console.log("Adding shift:", newShift);
-    toast.success("Shift added successfully!");
+    const teamIdNum = Number(newShift.teamId);
+    if (Number.isNaN(teamIdNum)) {
+      toast.error("Invalid employee selection");
+      return;
+    }
+
+    const dayIndexMap = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
+    const idx = dayIndexMap[newShift.day] ?? 0;
+
+    const shift = {
+      day: newShift.day,
+      startTime: newShift.startTime,
+      endTime: newShift.endTime,
+      time: `${newShift.startTime} - ${newShift.endTime}`,
+      label: newShift.position || "SHIFT",
+      type: newShift.position === "night" ? "night" : (newShift.position || "morning"),
+      notes: newShift.notes || undefined,
+    };
+
+    const existing = schedules.find((s) => {
+      const ws = s?.weekStartDate ? format(new Date(s.weekStartDate), "yyyy-MM-dd") : null;
+      return s?.teamId === teamIdNum && (!ws || ws === weekStartDate);
+    });
+
+    const nextShifts = Array.isArray(existing?.shifts)
+      ? [...existing.shifts]
+      : [null, null, null, null, null, null, null];
+    while (nextShifts.length < 7) nextShifts.push(null);
+    nextShifts[idx] = shift;
+
+    try {
+      if (existing?.id) {
+        await updateSchedule({
+          id: existing.id,
+          teamId: teamIdNum,
+          shifts: nextShifts,
+          weekStartDate,
+          weekEndDate,
+        }).unwrap();
+      } else {
+        await createSchedule({
+          teamId: teamIdNum,
+          shifts: nextShifts,
+          weekStartDate,
+          weekEndDate,
+        }).unwrap();
+      }
+
+      toast.success("Shift saved successfully!");
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to save shift");
+      return;
+    }
     
     // Reset form and close dialog
     setNewShift({
-      employee: "",
+      teamId: "",
+      day: "Mon",
       date: "",
       startTime: "",
       endTime: "",
@@ -175,6 +204,37 @@ export default function Schedule() {
     */
   };
 
+  // Map meetings from API and hydrate attendees from teamMembers
+  const meetings = useMemo(() => {
+    const raw = meetingsResp?.data || meetingsResp || [];
+    return raw.map((m) => {
+      const attendeeIds = Array.isArray(m.attendeeIds) ? m.attendeeIds : [];
+      const attendees = attendeeIds
+        .map((id) => teamMembers.find((t) => t.id === id))
+        .filter(Boolean)
+        .map((t) => ({
+          id: t.id,
+          name: `${t.firstName || ""} ${t.lastName || ""}`.trim() || t.name || "Team Member",
+          email: t.email,
+          avatar: t.profileImage || t.avatar,
+        }));
+
+      return {
+        id: m.id ?? m.meetingId,
+        meetingId: m.meetingId,
+        topic: m.topic,
+        description: m.description,
+        dateTime: m.dateTime,
+        duration: m.durationMinutes,
+        meetingLink: m.meetingLink,
+        status: m.status || "upcoming",
+        organizer: m.organizerName || "Organizer",
+        attendees,
+        createdAt: m.createdAt,
+      };
+    });
+  }, [meetingsResp, teamMembers]);
+
   // Filter and search meetings
   const filteredMeetings = meetings.filter((meeting) => {
     // Filter by status
@@ -190,14 +250,23 @@ export default function Schedule() {
   });
 
   return (
-    <div className="px-8 py-8 flex flex-col text-white">
+    <PrivateRoute>
+      <AppLayout>
+        <div className="px-8 py-8 flex flex-col text-white">
       <div className="max-w-[1600px] w-full mx-auto flex flex-col h-full space-y-6">
         <ScheduleHeader 
+          startDate={startDate}
+          endDate={endDate}
+          onPrevWeek={() => setCurrentDate((d) => subDays(d, 7))}
+          onNextWeek={() => setCurrentDate((d) => addDays(d, 7))}
           onAddShift={() => setIsAddShiftDialogOpen(true)} 
+          showAddShift={canAddShift}
+          showPublish={canPublish}
+          showScheduleMeeting={canScheduleMeeting}
           onScheduleMeeting={() => setIsScheduleMeetingDialogOpen(true)}
         />
         <div className="flex-1 min-h-0">
-          <ScheduleGrid />
+          <ScheduleGrid rows={scheduleRows} />
         </div>
 
         {/* Meeting History Section */}
@@ -266,7 +335,11 @@ export default function Schedule() {
           </div>
 
           {/* Meeting Cards Grid */}
-          {filteredMeetings.length > 0 ? (
+          {isLoadingMeetings ? (
+            <div className="glass-panel rounded-2xl p-8 text-center text-white/70">
+              Loading meetings...
+            </div>
+          ) : filteredMeetings.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {filteredMeetings.map((meeting) => (
                 <MeetingHistoryCard key={meeting.id} meeting={meeting} />
@@ -307,17 +380,41 @@ export default function Schedule() {
               <Label htmlFor="shift-employee" className="text-right text-white">
                 Employee <span className="text-red-500">*</span>
               </Label>
-              <Select value={newShift.employee} onValueChange={(value) => handleInputChange('employee', value)}>
+              <Select value={newShift.teamId} onValueChange={(value) => handleInputChange('teamId', value)}>
                 <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
                   <SelectValue placeholder="Select employee" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="dipa">Dipa Inhouse</SelectItem>
-                  <SelectItem value="jane">Jane Cooper</SelectItem>
-                  <SelectItem value="floyd">Floyd Miles</SelectItem>
-                  <SelectItem value="theresa">Theresa Webb</SelectItem>
-                  <SelectItem value="robert">Robert Fox</SelectItem>
-                  <SelectItem value="cody">Cody Fisher</SelectItem>
+                  {isLoadingTeam ? (
+                    <SelectItem value="loading" disabled>
+                      Loading...
+                    </SelectItem>
+                  ) : (
+                    teamMembers.map((m) => (
+                      <SelectItem key={m.id} value={String(m.id)}>
+                        {`${m.firstName || ""} ${m.lastName || ""}`.trim() || m.name || "Team Member"}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Day */}
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="shift-day" className="text-right text-white">
+                Day <span className="text-red-500">*</span>
+              </Label>
+              <Select value={newShift.day} onValueChange={(value) => handleInputChange('day', value)}>
+                <SelectTrigger className="col-span-3 bg-black/40 border border-white/20 text-white">
+                  <SelectValue placeholder="Select day" />
+                </SelectTrigger>
+                <SelectContent>
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+                    <SelectItem key={d} value={d}>
+                      {d}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -382,7 +479,11 @@ export default function Schedule() {
                   <SelectItem value="afternoon">Afternoon Shift</SelectItem>
                   <SelectItem value="evening">Evening Shift</SelectItem>
                   <SelectItem value="night">Night Shift</SelectItem>
-                  <SelectItem value="full-day">Full Day</SelectItem>
+                  <SelectItem value="DESIGN">Design</SelectItem>
+                  <SelectItem value="PRODUCT">Product</SelectItem>
+                  <SelectItem value="DEV">Dev</SelectItem>
+                  <SelectItem value="MARKETING">Marketing</SelectItem>
+                  <SelectItem value="CHECK-IN">Check-in</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -410,10 +511,11 @@ export default function Schedule() {
             </Button>
             <Button
               onClick={handleAddShift}
+              disabled={isCreatingSchedule || isUpdatingSchedule}
               className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
             >
               <CalendarIcon className="w-4 h-4 mr-2" />
-              Add Shift
+              {(isCreatingSchedule || isUpdatingSchedule) ? "Saving..." : "Add Shift"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -424,7 +526,10 @@ export default function Schedule() {
         open={isScheduleMeetingDialogOpen}
         onOpenChange={setIsScheduleMeetingDialogOpen}
         onSubmit={handleScheduleMeeting}
+        teamMembers={teamMembers}
       />
     </div>
+    </AppLayout>
+    </PrivateRoute>
   );
 }

@@ -4,7 +4,7 @@ import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const data = [
+const fallbackData = [
   { name: "Completed", value: 400 },
   { name: "In Progress", value: 300 },
   { name: "To Do", value: 300 },
@@ -13,7 +13,10 @@ const data = [
 
 const COLORS = ["#10b981", "#8b5cf6", "#EFFC76", "#9ca3af"];
 
-export default function TaskDistributionChart() {
+export default function TaskDistributionChart({ dashboard }) {
+  const data = dashboard;
+  const chartData = data?.taskDistribution?.length ? data.taskDistribution : fallbackData;
+
   return (
     <Card className="glass-card border-white/20 col-span-1">
       <CardHeader>
@@ -24,7 +27,7 @@ export default function TaskDistributionChart() {
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={data}
+                data={chartData}
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
@@ -33,7 +36,7 @@ export default function TaskDistributionChart() {
                 paddingAngle={5}
                 dataKey="value"
               >
-                {data.map((entry, index) => (
+                {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>

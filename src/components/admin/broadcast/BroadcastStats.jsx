@@ -4,37 +4,54 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Send, Eye, CalendarClock, MessageSquare } from "lucide-react";
 
-export default function BroadcastStats() {
-  const stats = [
+export default function BroadcastStats({ dashboard }) {
+  const data = dashboard;
+
+  const iconByLabel = {
+    "Total Sent": Send,
+    "Avg. Open Rate": Eye,
+    Scheduled: CalendarClock,
+    Engagement: MessageSquare,
+  };
+
+  const fallbackStats = [
     {
       label: "Total Sent",
       value: "145",
       subtext: "Last 30 days",
       icon: Send,
-      trend: "up"
+      trend: "up",
     },
     {
       label: "Avg. Open Rate",
       value: "82%",
       subtext: "+5% vs last month",
       icon: Eye,
-      trend: "up"
+      trend: "up",
     },
     {
       label: "Scheduled",
       value: "3",
       subtext: "Upcoming this week",
       icon: CalendarClock,
-      trend: "neutral"
+      trend: "neutral",
     },
     {
       label: "Engagement",
       value: "4.5",
       subtext: "Avg. comments per post",
       icon: MessageSquare,
-      trend: "down"
+      trend: "down",
     },
   ];
+
+  const stats =
+    data?.stats?.length > 0
+      ? data.stats.map((s) => ({
+          ...s,
+          icon: iconByLabel[s.label] || Send,
+        }))
+      : fallbackStats;
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

@@ -1,38 +1,58 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, PieChart, CheckCircle2, AlertCircle } from "lucide-react";
+import { useGetPayrollStatsQuery } from "@/api/payrollApi";
 
 export default function PayrollStats() {
+  const { data: statsData, isLoading } = useGetPayrollStatsQuery();
+
+  const currency = useMemo(
+    () =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [],
+  );
+
+  const totalCost = statsData?.totalCost ?? 0;
+  const avgSalary = statsData?.avgSalary ?? 0;
+  const pendingCount = statsData?.pendingCount ?? 0;
+  const paidCount = statsData?.paidCount ?? 0;
+  const pendingAmount = statsData?.pendingAmount ?? 0;
+
   const stats = [
     {
       label: "Total Cost",
-      value: "$451.89",
-      subtext: "+2.5% from month",
+      value: isLoading ? "—" : currency.format(totalCost),
+      subtext: "Net pay total",
       icon: DollarSign,
-      trend: "up"
+      trend: "neutral",
     },
     {
       label: "Avg. Salary",
-      value: "$30.00",
-      subtext: "Per employee",
+      value: isLoading ? "—" : currency.format(avgSalary),
+      subtext: "Average net pay",
       icon: PieChart,
-      trend: "neutral"
+      trend: "neutral",
     },
     {
       label: "Pending",
-      value: "12",
-      subtext: "$1500 remaining",
+      value: isLoading ? "—" : String(pendingCount),
+      subtext: isLoading ? "—" : `${currency.format(pendingAmount)} remaining`,
       icon: AlertCircle,
-      trend: "down"
+      trend: "neutral",
     },
     {
       label: "Paid",
-      value: "34",
-      subtext: "$30,31 cleared",
+      value: isLoading ? "—" : String(paidCount),
+      subtext: "Marked as paid",
       icon: CheckCircle2,
-      trend: "up"
+      trend: "neutral",
     },
   ];
 
