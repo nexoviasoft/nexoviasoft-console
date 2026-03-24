@@ -9,15 +9,15 @@ import ProjectComments from "@/components/admin/projects/ProjectComments";
 import { useGetProjectByIdQuery } from "@/api/admin/projects/projectsApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
-  
+
 export default function ProjectDetailPage({ params }) {
   const router = useRouter();
   const { id } = use(params);
   const { data: projectResponse, isLoading, error } = useGetProjectByIdQuery(Number(id));
-  
+
   // Simple extraction
-  const project = Array.isArray(projectResponse) 
-    ? projectResponse[0] 
+  const project = Array.isArray(projectResponse)
+    ? projectResponse[0]
     : (projectResponse?.data || projectResponse);
 
   // Ensure we extract primitives only - validate and convert
@@ -37,7 +37,7 @@ export default function ProjectDetailPage({ params }) {
     }
     return null;
   }, [project?.id]);
-  
+
   const applicationType = React.useMemo(() => {
     if (!project?.applicationType) return '';
     const appType = project.applicationType;
@@ -49,7 +49,7 @@ export default function ProjectDetailPage({ params }) {
     }
     return String(appType || '');
   }, [project?.applicationType]);
-  
+
   const projectName = React.useMemo(() => {
     if (!project?.name) return 'Project';
     const name = project.name;
@@ -79,16 +79,17 @@ export default function ProjectDetailPage({ params }) {
   }
 
   return (
-    <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
-      <div className="max-w-[1920px] w-full mx-auto flex flex-col gap-6 relative">
-        {/* Header */}
-        <div className="flex mmb-5 md:mb-0 flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex flex-col md:flex-row md:items-center md:gap-4 gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push("/admin/projects")}
-              className="
+    <AppLayout>
+      <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
+        <div className="max-w-[1920px] w-full mx-auto flex flex-col gap-6 relative">
+          {/* Header */}
+          <div className="flex mmb-5 md:mb-0 flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center md:gap-4 gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => router.push("/admin/projects")}
+                className="
     text-white/70 hover:text-[#F58220]
     hover:bg-white/5
     w-fit
@@ -105,39 +106,41 @@ export default function ProjectDetailPage({ params }) {
     md:bg-transparent
     md:shadow-none
   "
-            >
-              <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 md:mr-2 text-[#F58220]" />
-              <span className="hidden md:inline">Back to Projects</span>
-            </Button>
+              >
+                <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 md:mr-2 text-[#F58220]" />
+                <span className="hidden md:inline">Back to Projects</span>
+              </Button>
 
-            <div className="hidden md:block h-6 w-px bg-white/20" />
-            <div>
-              <h1 className=" text-md md:text-2xl font-bold text-white">
-                {projectName}
-              </h1>
-              {/* <p className="text-sm text-white/60">{project?.description}</p> */}
+              <div className="hidden md:block h-6 w-px bg-white/20" />
+              <div>
+                <h1 className=" text-md md:text-2xl font-bold text-white">
+                  {projectName}
+                </h1>
+                {/* <p className="text-sm text-white/60">{project?.description}</p> */}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* glass-card rounded-xl p-4 md:p-6 flex-1 min-h-[600px] overflow-hidden */}
-        <div className="">
-          {projectId && projectId > 0 && typeof applicationType === 'string' && (
-            <EnhancedKanbanBoard 
-              applicationType={applicationType} 
-              projectId={projectId} 
-            />
-          )}
-        </div>
+          {/* glass-card rounded-xl p-4 md:p-6 flex-1 min-h-[600px] overflow-hidden */}
+          <div className="">
+            {projectId && projectId > 0 && typeof applicationType === 'string' && (
+              <EnhancedKanbanBoard
+                applicationType={applicationType}
+                projectId={projectId}
+              />
+            )}
+          </div>
 
-        {/* Comments Section */}
-        {/* glass-card rounded-xl p-4 md:p-6 */}
-        <div className="">
-          {projectId && projectId > 0 && (
-            <ProjectComments projectId={projectId} />
-          )}
+          {/* Comments Section */}
+          {/* glass-card rounded-xl p-4 md:p-6 */}
+          <div className="">
+            {projectId && projectId > 0 && (
+              <ProjectComments projectId={projectId} />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+    </AppLayout>
   );
 }
