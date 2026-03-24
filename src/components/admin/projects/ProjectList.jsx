@@ -86,76 +86,80 @@ export default function ProjectList({ onSelectProject, selectedProjectId }) {
   };
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      <div className="flex items-center justify-between shrink-0">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900">All Projects</h2>
-          <p className="text-sm text-gray-500">Select a project to view details</p>
+
+    <AppLayout>
+      <div className="space-y-6 h-full flex flex-col">
+        <div className="flex items-center justify-between shrink-0">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">All Projects</h2>
+            <p className="text-sm text-gray-500">Select a project to view details</p>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              onClick={() => handleClick(project)}
+              className={`
+              group relative p-5 rounded-xl border transition-all duration-200 cursor-pointer
+              ${selectedProjectId === project.id
+                  ? 'bg-white border-purple-200 shadow-md ring-1 ring-purple-100'
+                  : 'bg-white border-gray-100 hover:border-purple-200 hover:shadow-sm'
+                }
+            `}
+            >
+              {/* Left Border Indicator for Selected State */}
+              {selectedProjectId === project.id && (
+                <div className="absolute left-0 top-4 bottom-4 w-1 bg-purple-500 rounded-r-full" />
+              )}
+
+              <div className="mb-3 pl-2">
+                <h3 className={`font-bold text-lg mb-1 ${selectedProjectId === project.id ? 'text-gray-900' : 'text-gray-800'}`}>
+                  {project.name}
+                </h3>
+                <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                  {project.description}
+                </p>
+              </div>
+
+              <div className="space-y-4 pl-2">
+                <div>
+                  <div className="flex justify-between text-xs font-medium text-gray-500 mb-1.5">
+                    <span>Progress</span>
+                    <span className={selectedProjectId === project.id ? 'text-purple-600' : 'text-gray-600'}>
+                      {project.progress}%
+                    </span>
+                  </div>
+                  <Progress
+                    value={project.progress}
+                    className="h-1.5 bg-gray-100"
+                    indicatorClassName={selectedProjectId === project.id ? 'bg-purple-500' : 'bg-gray-400 group-hover:bg-purple-400'}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-1.5 text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span className="text-xs font-medium">{project.tasksCompleted}/{project.totalTasks} tasks</span>
+                  </div>
+
+                  <div className="flex -space-x-2">
+                    {project.team.map((member, idx) => (
+                      <Avatar key={idx} className="h-7 w-7 border-2 border-white ring-1 ring-gray-50">
+                        <AvatarFallback className={`text-[10px] ${idx % 2 === 0 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                          {member.avatar}
+                        </AvatarFallback>
+                      </Avatar>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-        {projects.map((project) => (
-          <div 
-            key={project.id}
-            onClick={() => handleClick(project)}
-            className={`
-              group relative p-5 rounded-xl border transition-all duration-200 cursor-pointer
-              ${selectedProjectId === project.id 
-                ? 'bg-white border-purple-200 shadow-md ring-1 ring-purple-100' 
-                : 'bg-white border-gray-100 hover:border-purple-200 hover:shadow-sm'
-              }
-            `}
-          >
-            {/* Left Border Indicator for Selected State */}
-            {selectedProjectId === project.id && (
-              <div className="absolute left-0 top-4 bottom-4 w-1 bg-purple-500 rounded-r-full" />
-            )}
-
-            <div className="mb-3 pl-2">
-              <h3 className={`font-bold text-lg mb-1 ${selectedProjectId === project.id ? 'text-gray-900' : 'text-gray-800'}`}>
-                {project.name}
-              </h3>
-              <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">
-                {project.description}
-              </p>
-            </div>
-
-            <div className="space-y-4 pl-2">
-              <div>
-                <div className="flex justify-between text-xs font-medium text-gray-500 mb-1.5">
-                  <span>Progress</span>
-                  <span className={selectedProjectId === project.id ? 'text-purple-600' : 'text-gray-600'}>
-                    {project.progress}%
-                  </span>
-                </div>
-                <Progress 
-                  value={project.progress} 
-                  className="h-1.5 bg-gray-100" 
-                  indicatorClassName={selectedProjectId === project.id ? 'bg-purple-500' : 'bg-gray-400 group-hover:bg-purple-400'}
-                />
-              </div>
-
-              <div className="flex items-center justify-between pt-2">
-                <div className="flex items-center gap-1.5 text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span className="text-xs font-medium">{project.tasksCompleted}/{project.totalTasks} tasks</span>
-                </div>
-                
-                <div className="flex -space-x-2">
-                  {project.team.map((member, idx) => (
-                    <Avatar key={idx} className="h-7 w-7 border-2 border-white ring-1 ring-gray-50">
-                      <AvatarFallback className={`text-[10px] ${idx % 2 === 0 ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
-                        {member.avatar}
-                      </AvatarFallback>
-                    </Avatar>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </AppLayout>
   );
 }
