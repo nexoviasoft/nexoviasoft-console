@@ -87,7 +87,7 @@ export default function TeamList() {
               <div className="flex items-center gap-3 w-48 shrink-0">
                 <Avatar>
                   <AvatarImage src={member.avatar} />
-                  <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                  <AvatarFallback className="bg-[#F58220]/20 text-[#F58220]">
                     {member.name.charAt(0)}
                   </AvatarFallback>
                 </Avatar>

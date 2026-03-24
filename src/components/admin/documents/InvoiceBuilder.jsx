@@ -243,7 +243,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
             variant="outline"
             onClick={handleSaveDraft}
             disabled={isCreating || isUpdating}
-            className="glass-button bg-[#EFFC76] hover:bg-[#dbe665] text-black"
+            className="glass-button bg-[#F58220] hover:bg-[#dbe665] text-black"
           >
             {isCreating || isUpdating ? "Saving..." : "Save Draft"}
           </Button>
@@ -256,7 +256,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
           </Button>
           <Button
             onClick={handlePrint}
-            className="bg-[#EFFC76] hover:bg-[#dbe665] text-black shadow-[0_0_15px_rgba(239,252,118,0.3)] transition-all duration-300"
+            className="bg-[#F58220] hover:bg-[#dbe665] text-black shadow-[0_0_15px_rgba(245,130,32,0.3)] transition-all duration-300"
           >
             <Printer className="w-4 h-4 mr-2" /> Print PDF
           </Button>
@@ -276,7 +276,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                         <Input
                           value={invoiceData.invoiceNumber}
                           onChange={(e) => updateField('invoiceNumber', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                         />
                     </div>
                     <div className="space-y-2">
@@ -285,7 +285,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                           type="date"
                           value={invoiceData.date}
                           onChange={(e) => updateField('date', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                         />
                     </div>
                 </div>
@@ -296,7 +296,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                       placeholder="Company or Person Name"
                       value={invoiceData.clientName}
                       onChange={(e) => updateField('clientName', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                     />
                 </div>
                 <div className="space-y-2">
@@ -305,7 +305,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                       placeholder="Billing Address"
                       value={invoiceData.clientAddress}
                       onChange={(e) => updateField('clientAddress', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                     />
                 </div>
 
@@ -326,21 +326,21 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                     {invoiceData.items.map((item, idx) => (
                         <div key={idx} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center bg-white/5 p-2 rounded-md sm:bg-transparent sm:p-0">
                              <Input 
-                                className="flex-1 w-full bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                className="flex-1 w-full bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
                                 placeholder="Description" 
                                 value={item.description} 
                                 onChange={(e) => updateItem(idx, 'description', e.target.value)} 
                              />
                              <div className="flex gap-2 w-full sm:w-auto">
                                <Input 
-                                  className="w-full sm:w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                  className="w-full sm:w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
                                   type="number" 
                                   placeholder="Qty" 
                                   value={item.quantity} 
                                   onChange={(e) => updateItem(idx, 'quantity', e.target.value)} 
                                />
                                <Input 
-                                  className="w-full sm:w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]" 
+                                  className="w-full sm:w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
                                   type="number" 
                                   placeholder="Rate" 
                                   value={item.rate} 
@@ -372,7 +372,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                             <div className="text-white/70 text-lg">Invoice No: <span className="text-white font-semibold">#{invoiceData.invoiceNumber}</span></div>
                         </div>
                         <div className="text-right">
-                            <div className="font-bold text-xl text-[#EFFC76] tracking-wide mb-2">MD SAMSUDDOHA SOJIB</div>
+                            <div className="font-bold text-xl text-[#F58220] tracking-wide mb-2">MD SAMSUDDOHA SOJIB</div>
                             <div className="text-white/60 text-xs leading-relaxed">
                                 Full Stack Developer<br/>
                                 www.fiverr.com<br/>
@@ -408,16 +408,16 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                         {/* Table Header Pills */}
                         <div className="flex justify-between gap-4 mb-8">
                             <div className="flex-1">
-                                <span className="bg-[#EFFC76] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
+                                <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
                             </div>
                             <div className="w-24 text-center">
-                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Qty</span>
+                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Qty</span>
                             </div>
                             <div className="w-32 text-center">
-                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Price</span>
+                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Price</span>
                             </div>
                             <div className="w-32 text-center">
-                                <span className="bg-[#EFFC76] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(239,252,118,0.3)] w-full">Total</span>
+                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Total</span>
                             </div>
                         </div>
 
@@ -454,7 +454,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                                 <Separator className="bg-white/10 my-2" />
                                 <div className="flex justify-between items-center pt-2">
                                     <span className="font-medium text-lg">Grand Total</span>
-                                    <span className="text-3xl font-bold text-[#EFFC76]">${calculateTotal().toFixed(2)}</span>
+                                    <span className="text-3xl font-bold text-[#F58220]">${calculateTotal().toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
@@ -464,7 +464,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                 {/* Footer Section */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-auto pt-4 items-end">
                     <div>
-                        <span className="bg-[#EFFC76] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(239,252,118,0.3)]">Payment Information</span>
+                        <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(245,130,32,0.3)]">Payment Information</span>
                         <div className="space-y-3 text-sm text-white/80 pl-2">
                             <div className="flex gap-8">
                                 <span className="min-w-[60px] font-medium text-white">Wise</span>
@@ -493,7 +493,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
         <DialogContent className="glass-panel border-white/20 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
-              <Mail className="w-5 h-5 text-[#EFFC76]" />
+              <Mail className="w-5 h-5 text-[#F58220]" />
               Send Invoice by Email
             </DialogTitle>
             <DialogDescription className="text-white/70">
@@ -515,7 +515,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                   }));
                 }}
               >
-                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                   <SelectValue placeholder="Choose from team or clients" />
                 </SelectTrigger>
                 <SelectContent className="bg-black/90 border-white/20 text-white">
@@ -555,7 +555,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                     }
                   }}
                 >
-                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                     <SelectValue placeholder="Select team member" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
@@ -591,7 +591,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                     }
                   }}
                 >
-                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                     <SelectValue placeholder="Select client" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
@@ -618,13 +618,13 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                   placeholder="client@example.com"
                   value={emailData.recipientEmail}
                   onChange={(e) => setEmailData(prev => ({ ...prev, recipientEmail: e.target.value }))}
-                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             )}
 
             {emailData.recipientEmail && (
-              <div className="p-3 bg-[#EFFC76]/10 border border-[#EFFC76]/30 rounded-md">
+              <div className="p-3 bg-[#F58220]/10 border border-[#F58220]/30 rounded-md">
                 <div className="text-sm text-white/90">
                   <span className="font-semibold">To:</span> {emailData.recipientName || emailData.recipientEmail}
                 </div>
@@ -639,7 +639,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                 placeholder="Invoice Subject"
                 value={emailData.subject}
                 onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
             <div className="space-y-2">
@@ -649,7 +649,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
                 value={emailData.message}
                 onChange={(e) => setEmailData(prev => ({ ...prev, message: e.target.value }))}
                 rows={4}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
             <div className="flex gap-2 justify-end pt-4">
@@ -663,7 +663,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
               <Button
                 onClick={handleSendEmail}
                 disabled={isSending}
-                className="bg-[#EFFC76] hover:bg-[#dbe665] text-black"
+                className="bg-[#F58220] hover:bg-[#dbe665] text-black"
               >
                 <Send className="w-4 h-4 mr-2" />
                 {isSending ? "Sending..." : "Send Email"}

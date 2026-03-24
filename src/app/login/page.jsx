@@ -62,8 +62,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#EFFC76]/5 via-transparent to-transparent"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,252,118,0.1),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#F58220]/5 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(245,130,32,0.1),transparent_50%)]"></div>
 
       <div className="relative z-10 w-full max-w-md px-4">
         <div className="bg-[#121212]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 md:p-10">
@@ -72,12 +72,12 @@ export default function LoginPage() {
             <div className="flex justify-center mb-4">
               <img
                 src="/customIcon.png"
-                alt="SquadLog"
+                alt="NexoviaSoft"
                 className="w-16 h-16"
               />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">
-              SquadLog Console
+              NexoviaSoft Console
             </h1>
             <p className="text-white/60 text-sm">
               Sign in to access your dashboard
@@ -134,7 +134,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold py-6 text-base transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold py-6 text-base transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
@@ -150,7 +150,7 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="mt-6 text-center">
             <p className="text-white/40 text-xs">
-              © 2024 SquadLog. All rights reserved.
+              © 2024 NexoviaSoft. All rights reserved.
             </p>
           </div>
         </div>

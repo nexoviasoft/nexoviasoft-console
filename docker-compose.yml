@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  squadlog-console:
+  nexoviasoft-console:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: squadlog-console
+    container_name: nexoviasoft-console
     ports:
       - "3000:3000"
     environment:

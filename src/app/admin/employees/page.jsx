@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { UserPlus } from "lucide-react";
 import { toast } from "sonner";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function Employees() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -70,178 +71,181 @@ export default function Employees() {
   };
 
   return (
-    <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
-      <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
-        <DirectoryHeader
-          onSearch={setSearchQuery}
-          onFilterChange={setDepartmentFilter}
-          onAddEmployee={() => setIsAddDialogOpen(true)}
-        />
-        <EmployeeGrid
-          searchQuery={searchQuery}
-          departmentFilter={departmentFilter}
-        />
+    <AppLayout>
+      <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
+        <div className="max-w-[1600px] w-full mx-auto flex flex-col gap-6">
+          <DirectoryHeader
+            onSearch={setSearchQuery}
+            onFilterChange={setDepartmentFilter}
+            onAddEmployee={() => setIsAddDialogOpen(true)}
+          />
+          <EmployeeGrid
+            searchQuery={searchQuery}
+            departmentFilter={departmentFilter}
+          />
+        </div>
+
+        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+          <DialogContent className="max-w-2xl glass-panel w-[calc(100vw-2.5rem)] mx-auto rounded-xl border border-white/10">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-white">
+                <UserPlus className="w-5 h-5 text-[#F58220]" />
+                Add New Employee
+              </DialogTitle>
+              <DialogDescription className="text-white/70">
+                Fill in the employee information below. Fields marked with * are
+                required.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid grid-cols-2 gap-4 py-4 max-h-[60vh] overflow-y-auto">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="add-name" className="text-white/80">
+                  Name <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="add-name"
+                  value={newEmployee.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  placeholder="John Doe"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="add-email" className="text-white/80">
+                  Email <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="add-email"
+                  type="email"
+                  value={newEmployee.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="john.doe@nexoviasoft.com"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="add-role" className="text-white/80">
+                  Role
+                </Label>
+                <Input
+                  id="add-role"
+                  value={newEmployee.role}
+                  onChange={(e) => handleInputChange("role", e.target.value)}
+                  placeholder="Software Engineer"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label
+                  htmlFor="add-department"
+                  className="text-white/80"
+                >
+                  Department <span className="text-red-500">*</span>
+                </Label>
+                <Select
+                  value={newEmployee.department}
+                  onValueChange={(value) =>
+                    handleInputChange("department", value)
+                  }
+                >
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent className="glass-card border-[#F58220]/20 bg-black/90 text-white">
+                    <SelectItem value="Design" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Design</SelectItem>
+                    <SelectItem value="Engineering" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Engineering</SelectItem>
+                    <SelectItem value="Product" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Product</SelectItem>
+                    <SelectItem value="Marketing" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Marketing</SelectItem>
+                    <SelectItem value="HR" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">HR</SelectItem>
+                    <SelectItem value="Sales" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Sales</SelectItem>
+                    <SelectItem value="Operations" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Operations</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="add-phone" className="text-white/80">
+                  Phone
+                </Label>
+                <Input
+                  id="add-phone"
+                  value={newEmployee.phone}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
+                  placeholder="+1 234 567 890"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label
+                  htmlFor="add-location"
+                  className="text-white/80"
+                >
+                  Location
+                </Label>
+                <Input
+                  id="add-location"
+                  value={newEmployee.location}
+                  onChange={(e) => handleInputChange("location", e.target.value)}
+                  placeholder="New York, USA"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="add-manager" className="text-white/80">
+                  Manager
+                </Label>
+                <Input
+                  id="add-manager"
+                  value={newEmployee.manager}
+                  onChange={(e) => handleInputChange("manager", e.target.value)}
+                  placeholder="Manager Name"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2 col-span-2">
+                <Label
+                  htmlFor="add-bio"
+                  className="text-white/80"
+                >
+                  Bio
+                </Label>
+                <Textarea
+                  id="add-bio"
+                  value={newEmployee.bio}
+                  onChange={(e) => handleInputChange("bio", e.target.value)}
+                  placeholder="Brief description about the employee..."
+                  className="min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsAddDialogOpen(false)}
+                className="glass-button border border-white/30 bg-white/5 text-white hover:bg-[#F58220]/20 hover:text-[#F58220] hover:border-[#F58220]/30"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleAddEmployee}
+                className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
+              >
+                <UserPlus className="w-4 h-4 mr-2" />
+                Add Employee
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="max-w-2xl glass-panel w-[calc(100vw-2.5rem)] mx-auto rounded-xl border border-white/10">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-white">
-              <UserPlus className="w-5 h-5 text-[#EFFC76]" />
-              Add New Employee
-            </DialogTitle>
-            <DialogDescription className="text-white/70">
-              Fill in the employee information below. Fields marked with * are
-              required.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="grid grid-cols-2 gap-4 py-4 max-h-[60vh] overflow-y-auto">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="add-name" className="text-white/80">
-                Name <span className="text-red-500">*</span>
-              </Label> 
-              <Input
-                id="add-name"
-                value={newEmployee.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="John Doe"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="add-email" className="text-white/80">
-                Email <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="add-email"
-                type="email"
-                value={newEmployee.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                placeholder="john.doe@squadlog.com"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="add-role" className="text-white/80">
-                Role
-              </Label>
-              <Input
-                id="add-role"
-                value={newEmployee.role}
-                onChange={(e) => handleInputChange("role", e.target.value)}
-                placeholder="Software Engineer"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="add-department"
-                className="text-white/80"
-              >
-                Department <span className="text-red-500">*</span>
-              </Label>
-              <Select
-                value={newEmployee.department}
-                onValueChange={(value) =>
-                  handleInputChange("department", value)
-                }
-              >
-                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
-                  <SelectItem value="Design" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Design</SelectItem>
-                  <SelectItem value="Engineering" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Engineering</SelectItem>
-                  <SelectItem value="Product" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Product</SelectItem>
-                  <SelectItem value="Marketing" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Marketing</SelectItem>
-                  <SelectItem value="HR" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">HR</SelectItem>
-                  <SelectItem value="Sales" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Sales</SelectItem>
-                  <SelectItem value="Operations" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Operations</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="add-phone" className="text-white/80">
-                Phone
-              </Label>
-              <Input
-                id="add-phone"
-                value={newEmployee.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-                placeholder="+1 234 567 890"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="add-location"
-                className="text-white/80"
-              >
-                Location
-              </Label>
-              <Input
-                id="add-location"
-                value={newEmployee.location}
-                onChange={(e) => handleInputChange("location", e.target.value)}
-                placeholder="New York, USA"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="add-manager" className="text-white/80">
-                Manager
-              </Label>
-              <Input
-                id="add-manager"
-                value={newEmployee.manager}
-                onChange={(e) => handleInputChange("manager", e.target.value)}
-                placeholder="Manager Name"
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2 col-span-2">
-              <Label
-                htmlFor="add-bio"
-                className="text-white/80"
-              >
-                Bio
-              </Label>
-              <Textarea
-                id="add-bio"
-                value={newEmployee.bio}
-                onChange={(e) => handleInputChange("bio", e.target.value)}
-                placeholder="Brief description about the employee..."
-                className="min-h-[100px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
-              />
-            </div>
-          </div>
-
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsAddDialogOpen(false)}
-              className="glass-button border border-white/30 bg-white/5 text-white hover:bg-[#EFFC76]/20 hover:text-[#EFFC76] hover:border-[#EFFC76]/30"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleAddEmployee}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
-            >
-              <UserPlus className="w-4 h-4 mr-2" />
-              Add Employee
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+    </AppLayout>
   );
 }

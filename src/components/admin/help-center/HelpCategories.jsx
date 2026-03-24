@@ -9,7 +9,7 @@ export default function HelpCategories() {
     {
       icon: Rocket,
       title: "Getting Started",
-      description: "Learn the basics of using SquadLog Console.",
+      description: "Learn the basics of using NexoviaSoft Console.",
       color: "text-blue-600",
       bg: "bg-blue-50"
     },
@@ -57,13 +57,13 @@ export default function HelpCategories() {
         {categories.map((cat, index) => (
           <Card
             key={index}
-            className="glass-card border-white/20 hover:border-[#EFFC76]/60 transition-shadow cursor-pointer group"
+            className="glass-card border-white/20 hover:border-[#F58220]/60 transition-shadow cursor-pointer group"
           >
             <CardContent className="p-6">
-              <div className="w-12 h-12 rounded-lg bg-[#EFFC76]/15 text-[#EFFC76] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-lg bg-[#F58220]/15 text-[#F58220] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <cat.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#EFFC76] transition-colors">
+              <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#F58220] transition-colors">
                 {cat.title}
               </h3>
               <p className="text-sm text-white/70 line-clamp-2">

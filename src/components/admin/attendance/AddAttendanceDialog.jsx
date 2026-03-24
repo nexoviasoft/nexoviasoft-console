@@ -64,7 +64,7 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="bg-white/5 border-white/10 text-white focus-visible:ring-[#EFFC76] focus-visible:border-[#EFFC76]/50"
+                className="bg-white/5 border-white/10 text-white focus-visible:ring-[#F58220] focus-visible:border-[#F58220]/50"
               />
             </div>
 
@@ -74,13 +74,13 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
                 Check In
               </label>
               <div className="relative">
-                <Clock className="absolute left-3 top-2.5 w-4 h-4 text-[#EFFC76]" />
+                <Clock className="absolute left-3 top-2.5 w-4 h-4 text-[#F58220]" />
                 <Input
                   type="time"
                   name="checkIn"
                   value={formData.checkIn}
                   onChange={handleChange}
-                  className="pl-9 bg-white/5 border-white/10 text-white focus-visible:ring-[#EFFC76] focus-visible:border-[#EFFC76]/50"
+                  className="pl-9 bg-white/5 border-white/10 text-white focus-visible:ring-[#F58220] focus-visible:border-[#F58220]/50"
                 />
               </div>
               </div>
@@ -96,7 +96,7 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
                   name="checkOut"
                   value={formData.checkOut}
                   onChange={handleChange}
-                  className="pl-9 bg-white/5 border-white/10 text-white focus-visible:ring-[#EFFC76] focus-visible:border-[#EFFC76]/50"
+                  className="pl-9 bg-white/5 border-white/10 text-white focus-visible:ring-[#F58220] focus-visible:border-[#F58220]/50"
                 />
               </div>
               </div>
@@ -112,7 +112,7 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
               value={formData.workHours}
               onChange={handleChange}
               placeholder="8h 0m"
-              className="bg-white/5 border-white/10 text-white focus-visible:ring-[#EFFC76] focus-visible:border-[#EFFC76]/50"
+              className="bg-white/5 border-white/10 text-white focus-visible:ring-[#F58220] focus-visible:border-[#F58220]/50"
             />
           </div>
 
@@ -121,7 +121,7 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
               Status
             </label>
             <Select value={formData.status} onValueChange={handleStatusChange}>
-              <SelectTrigger className="bg-white/5 border-white/10 text-white focus:ring-[#EFFC76] focus:border-[#EFFC76]/50">
+              <SelectTrigger className="bg-white/5 border-white/10 text-white focus:ring-[#F58220] focus:border-[#F58220]/50">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent className="bg-[#1A1A1A] border-white/10 text-white">
@@ -143,7 +143,7 @@ export default function AddAttendanceDialog({ open, onOpenChange, onCreate }) {
           </Button>
           <Button
             onClick={handleSave}
-            className="bg-[#EFFC76] text-black hover:bg-[#dce865]"
+            className="bg-[#F58220] text-black hover:bg-[#dce865]"
           >
             <Save className="w-4 h-4 mr-2" />
             Save

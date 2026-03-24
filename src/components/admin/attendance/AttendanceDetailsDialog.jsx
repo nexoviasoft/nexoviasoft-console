@@ -62,13 +62,13 @@ export default function AttendanceDetailsDialog({ open, onOpenChange, employee }
            <div className="grid grid-cols-2 gap-8">
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-1">
-                 <div className="w-1 h-1 rounded-full bg-[#EFFC76]" />
+                 <div className="w-1 h-1 rounded-full bg-[#F58220]" />
                  <div className="text-[10px] text-white/40 uppercase tracking-widest font-semibold">
                     Check In
                  </div>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-[#EFFC76]" />
+                <Clock className="w-5 h-5 text-[#F58220]" />
                 <span className="text-2xl font-bold text-white tracking-tight tabular-nums">
                   {employee.checkIn}
                 </span>
@@ -101,7 +101,7 @@ export default function AttendanceDetailsDialog({ open, onOpenChange, employee }
              <div className="flex items-center justify-between">
                 <div className="text-sm text-white/60 font-medium">Date</div>
                 <div className="text-white/90 font-medium flex items-center gap-2 text-sm">
-                    <Calendar className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Calendar className="w-3.5 h-3.5 text-[#F58220]" />
                     Today, Jan 18
                 </div>
              </div>

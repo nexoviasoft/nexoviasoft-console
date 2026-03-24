@@ -78,7 +78,7 @@ export default function CandidatePipeline({ onSelectCandidate }) {
                 <span>{stage.label}</span>
                 <Badge
                   variant="secondary"
-                  className="ml-2 bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                  className="ml-2 bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40"
                 >
                   {getCandidatesByStage(stage.id).length}
                 </Badge>
@@ -96,7 +96,7 @@ export default function CandidatePipeline({ onSelectCandidate }) {
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3 mb-3">
                       <Avatar>
-                        <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76]">
+                        <AvatarFallback className="bg-[#F58220]/15 text-[#F58220]">
                           {candidate.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>

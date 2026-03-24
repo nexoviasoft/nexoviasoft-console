@@ -46,7 +46,7 @@ export default function LeaveStatusSummary() {
       label: "Pending",
       count: statusCounts.pending,
       icon: Clock,
-      color: "text-[#EFFC76] bg-[#EFFC76]/15 border-[#EFFC76]/50",
+      color: "text-[#F58220] bg-[#F58220]/15 border-[#F58220]/50",
     },
     {
       label: "Approved",
@@ -72,7 +72,7 @@ export default function LeaveStatusSummary() {
     <Card className="border-none glass-card">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg text-white flex items-center gap-2">
-          <FileText className="w-5 h-5 text-[#EFFC76]" />
+          <FileText className="w-5 h-5 text-[#F58220]" />
           {isAdmin ? 'All Leave Status Summary' : 'My Leave Status Summary'}
         </CardTitle>
       </CardHeader>
@@ -83,7 +83,7 @@ export default function LeaveStatusSummary() {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center p-4 rounded-lg bg-black/20 border border-white/10 hover:border-[#EFFC76]/30 transition-colors"
+                className="flex flex-col items-center p-4 rounded-lg bg-black/20 border border-white/10 hover:border-[#F58220]/30 transition-colors"
               >
                 <div className={`p-2 rounded-lg mb-2 ${item.color}`}>
                   <Icon className="w-5 h-5" />

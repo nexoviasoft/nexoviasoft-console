@@ -82,7 +82,7 @@ export default function OrderChat({ order }) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
-            <Loader2 className="w-6 h-6 animate-spin text-[#EFFC76]" />
+            <Loader2 className="w-6 h-6 animate-spin text-[#F58220]" />
           </div>
         ) : messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-white/50 text-sm">
@@ -112,7 +112,7 @@ export default function OrderChat({ order }) {
                   <div
                     className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                       isMe
-                        ? "bg-[#EFFC76] text-black rounded-br-none"
+                        ? "bg-[#F58220] text-black rounded-br-none"
                         : "bg-white/5 border border-white/15 text-white/90 rounded-bl-none shadow-sm"
                     }`}
                   >
@@ -134,7 +134,7 @@ export default function OrderChat({ order }) {
             type="button"
             variant="ghost"
             size="icon"
-            className="text-white/50 hover:text-[#EFFC76]"
+            className="text-white/50 hover:text-[#F58220]"
           >
             <Paperclip className="w-5 h-5" />
           </Button>
@@ -142,13 +142,13 @@ export default function OrderChat({ order }) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
+            className="flex-1 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#F58220] focus-visible:ring-0"
           />
           <Button
             type="submit"
             size="icon"
             disabled={isSending || !inputText.trim()}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black rounded-lg glass-button disabled:opacity-50"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black rounded-lg glass-button disabled:opacity-50"
           >
             {isSending ? (
               <Loader2 className="w-4 h-4 animate-spin" />

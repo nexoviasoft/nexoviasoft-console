@@ -135,7 +135,7 @@ function OurClientContent() {
           </div>
           <Button
             onClick={handleAdd}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black gap-2 glass-button"
           >
             <Plus className="w-4 h-4" />
             <span>Add Client</span>
@@ -143,7 +143,7 @@ function OurClientContent() {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center gap-2 w-full sm:max-w-sm bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
+        <div className="flex items-center gap-2 w-full sm:max-w-sm bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#F58220] transition-all">
           <Search className="w-4 h-4 text-white/40" />
           <Input 
             type="text" 
@@ -159,37 +159,37 @@ function OurClientContent() {
           <Table>
             <TableHeader className="bg-[#1A1A1A]">
               <TableRow className="border-white/5 hover:bg-transparent">
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-[#EFFC76]" />
+                    <User className="w-4 h-4 text-[#F58220]" />
                     Client Name
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-[#EFFC76]" />
+                    <Briefcase className="w-4 h-4 text-[#F58220]" />
                     Designation
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-[#EFFC76]" />
+                    <Mail className="w-4 h-4 text-[#F58220]" />
                     Email
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-[#EFFC76]" />
+                    <Building2 className="w-4 h-4 text-[#F58220]" />
                     Company
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-[#EFFC76]" />
+                    <MapPin className="w-4 h-4 text-[#F58220]" />
                     Location
                   </div>
                 </TableHead>
-                <TableHead className="text-right text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
+                <TableHead className="text-right text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -209,28 +209,28 @@ function OurClientContent() {
                       <div className="flex items-center gap-3">
                         <Avatar className="w-8 h-8 sm:w-9 sm:h-9">
                           <AvatarImage src={client.avatar} />
-                          <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-xs sm:text-sm">
+                          <AvatarFallback className="bg-[#F58220]/20 text-[#F58220] text-xs sm:text-sm">
                             {client.name?.charAt(0) || "C"}
                           </AvatarFallback>
                         </Avatar>
-                        <div className="font-semibold text-white text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                        <div className="font-semibold text-white text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                           {client.name}
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       {client.designation || "-"}
                     </TableCell>
-                    <TableCell className="text-white/60 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/60 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       {client.email || "-"}
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       <div className="flex flex-col">
                         <span>{client.companyName || "-"}</span>
-                        <span className="text-[10px] text-white/40 group-hover:text-[#EFFC76]/70 transition-colors">{client.companyType}</span>
+                        <span className="text-[10px] text-white/40 group-hover:text-[#F58220]/70 transition-colors">{client.companyType}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/60 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/60 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       {client.location || "-"}
                     </TableCell>
                     <TableCell className="text-right">
@@ -238,7 +238,7 @@ function OurClientContent() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+                          className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
                           onClick={(e) => {
                             e.stopPropagation();
                             router.push(`/admin/our-client/${client.id || client._id}`);
@@ -250,7 +250,7 @@ function OurClientContent() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+                          className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEdit(client);

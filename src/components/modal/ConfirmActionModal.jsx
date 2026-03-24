@@ -102,7 +102,7 @@ export default function ConfirmActionModal({
             className={
               config.buttonVariant === "destructive"
                 ? "bg-red-500 hover:bg-red-600 text-white glass-button"
-                : "bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+                : "bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             }
           >
             {loading ? config.loadingText : config.buttonText}

@@ -167,7 +167,7 @@ export default function LeaveRequests() {
                 <SelectItem value="HR">HR</SelectItem>
               </SelectContent>
             </Select>
-            <Badge variant="secondary" className="bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/60">
+            <Badge variant="secondary" className="bg-[#F58220]/20 text-[#F58220] border border-[#F58220]/60">
               {filteredRequests.filter(r => r.status === "pending").length} Pending
             </Badge>
           </div>
@@ -182,22 +182,22 @@ export default function LeaveRequests() {
                 className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-white/15 rounded-lg bg-black/40"
               >
                 <div className="flex items-start gap-4 mb-4 sm:mb-0">
-                  <Avatar className="h-10 w-10 ring-2 ring-[#EFFC76]/40">
+                  <Avatar className="h-10 w-10 ring-2 ring-[#F58220]/40">
                     <AvatarImage src={request.avatar} />
-                    <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                    <AvatarFallback className="bg-[#F58220]/20 text-[#F58220]">
                       {request.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="flex items-center gap-2">
                       <div className="font-semibold text-white">{request.name}</div>
-                      <Badge className="text-[10px] h-5 px-1.5 bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/60">
+                      <Badge className="text-[10px] h-5 px-1.5 bg-[#F58220]/20 text-[#F58220] border border-[#F58220]/60">
                         {request.department}
                       </Badge>
                     </div>
                     <div className="text-xs text-white/60 mb-1">{request.role}</div>
                     <div className="flex flex-wrap items-center gap-2 text-sm text-white/75">
-                      <span className="font-medium bg-[#EFFC76]/20 text-[#EFFC76] px-2 py-0.5 rounded text-xs">
+                      <span className="font-medium bg-[#F58220]/20 text-[#F58220] px-2 py-0.5 rounded text-xs">
                         {request.type}
                       </span>
                       <span className="text-white/40">•</span>
@@ -222,7 +222,7 @@ export default function LeaveRequests() {
                       </Button>
                       <Button
                         size="sm"
-                        className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+                        className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
                         onClick={() => handleAction(request.id, "approved")}
                       >
                         <Check className="w-4 h-4 mr-1" />

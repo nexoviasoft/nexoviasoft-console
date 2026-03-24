@@ -21,7 +21,7 @@ export default function HelpHeader() {
          <div className="relative">
            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
            <Input 
-             className="w-full pl-12 h-14 bg-black/40 border border-white/20 text-white shadow-md rounded-xl text-lg placeholder:text-white/40 focus-visible:ring-2 focus-visible:ring-[#EFFC76]"
+             className="w-full pl-12 h-14 bg-black/40 border border-white/20 text-white shadow-md rounded-xl text-lg placeholder:text-white/40 focus-visible:ring-2 focus-visible:ring-[#F58220]"
              placeholder="Search for answers..."
            />
          </div>

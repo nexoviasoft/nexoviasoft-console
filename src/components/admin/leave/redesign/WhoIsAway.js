@@ -50,7 +50,7 @@ export default function WhoIsAway() {
           if (type.toLowerCase().includes('sick')) {
             return 'text-red-300 bg-red-500/20 border-red-400/40';
           } else if (type.toLowerCase().includes('vacation') || type.toLowerCase().includes('earned')) {
-            return 'text-[#EFFC76] bg-[#EFFC76]/15 border-[#EFFC76]/50';
+            return 'text-[#F58220] bg-[#F58220]/15 border-[#F58220]/50';
           } else {
             return 'text-amber-200 bg-amber-500/20 border-amber-400/40';
           }
@@ -83,12 +83,12 @@ export default function WhoIsAway() {
       <CardHeader className="pb-3 border-b border-white/10">
         <div className="flex items-center justify-between">
             <CardTitle className="text-lg text-white flex items-center gap-2">
-              <Users className="w-5 h-5 text-[#EFFC76]" />
+              <Users className="w-5 h-5 text-[#F58220]" />
               Who&apos;s Away
             </CardTitle>
             <Badge
               variant="secondary"
-              className="bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/50"
+              className="bg-[#F58220]/15 text-[#F58220] border border-[#F58220]/50"
             >
               {awayMembers.length} Today
             </Badge>
@@ -99,9 +99,9 @@ export default function WhoIsAway() {
           {awayMembers.map((member) => (
             <div key={member.id} className="flex items-start gap-3 group">
               <div className="relative">
-                <Avatar className="h-10 w-10 border border-white/20 group-hover:border-[#EFFC76]/60 transition-colors">
+                <Avatar className="h-10 w-10 border border-white/20 group-hover:border-[#F58220]/60 transition-colors">
                     <AvatarImage src={member.avatar} />
-                    <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">
+                    <AvatarFallback className="bg-[#F58220]/20 text-[#F58220]">
                       {member.name.charAt(0)}
                     </AvatarFallback>
                 </Avatar>

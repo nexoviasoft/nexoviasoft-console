@@ -168,7 +168,7 @@ export default function DocumentsPage() {
           {!isEditing && (
             <div className="glass-card border-dashed border-white/30 flex flex-col items-center justify-center py-8 md:py-16 px-6 text-center">
               <h2 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                <LayoutTemplate className="w-5 h-5 text-[#EFFC76]" />
+                <LayoutTemplate className="w-5 h-5 text-[#F58220]" />
                 Start with a template
               </h2>
               <p className="text-sm text-white/70 mb-4 md:mb-6 max-w-md">
@@ -177,7 +177,7 @@ export default function DocumentsPage() {
               </p>
               <Button
                 onClick={() => setIsTemplateOpen(true)}
-                className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black px-5 glass-button"
+                className="bg-[#F58220] hover:bg-[#d91d79] text-black px-5 glass-button"
               >
                 Select Template
               </Button>
@@ -189,7 +189,7 @@ export default function DocumentsPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Receipt className="w-5 h-5 text-[#EFFC76]" />
+                    <Receipt className="w-5 h-5 text-[#F58220]" />
                     Invoice editor
                   </h2>
                   <p className="text-sm text-white/70">
@@ -232,7 +232,7 @@ export default function DocumentsPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-[#EFFC76]" />
+                    <FileText className="w-5 h-5 text-[#F58220]" />
                     Letter editor
                   </h2>
                   <p className="text-sm text-white/70">

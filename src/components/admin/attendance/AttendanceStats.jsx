@@ -47,13 +47,13 @@ export default function AttendanceStats({ stats }) {
       {cards.map((stat, index) => (
         <Card key={index} className="glass-card">
           <CardContent className="p-3 md:p-6 flex flex-col sm:flex-row items-center gap-3 md:gap-4 text-center sm:text-left">
-            <div className="p-2 md:p-3 rounded-xl bg-[#EFFC76]/10 border border-[#EFFC76]/40 flex items-center justify-center shrink-0">
-              <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-[#EFFC76]" />
+            <div className="p-2 md:p-3 rounded-xl bg-[#F58220]/10 border border-[#F58220]/40 flex items-center justify-center shrink-0">
+              <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-[#F58220]" />
             </div>
             <div>
               <p className="text-xs md:text-sm font-medium text-white/60">{stat.label}</p>
               <h3 className="text-lg md:text-2xl font-bold text-white leading-none mt-1">{stat.value}</h3>
-              <p className="text-xs mt-3  md:mt-1 text-[#EFFC76] font-medium bg-[#EFFC76]/10 rounded px-1.5 py-0.5 inline-block">
+              <p className="text-xs mt-3  md:mt-1 text-[#F58220] font-medium bg-[#F58220]/10 rounded px-1.5 py-0.5 inline-block">
                 {stat.subtext}
               </p>
             </div>

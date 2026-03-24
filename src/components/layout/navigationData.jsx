@@ -77,7 +77,7 @@ export const othersNavItems = [
         id: "Our Products", 
         href: "/admin/platform-settings/our-product",
         children: [
-          { icon: Package, label: "SquadLog", id: "SquadLog", href: "/admin/platform-settings/our-product/squadlog" },
+          { icon: Package, label: "NexoviaSoft", id: "NexoviaSoft", href: "/admin/platform-settings/our-product/nexoviasoft" },
         ]
       },
       { icon: Layout, label: "Footer", id: "Footer", href: "/landing/footer" },

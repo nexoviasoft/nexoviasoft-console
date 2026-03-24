@@ -136,7 +136,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                     value={formData.clientId}
                     onValueChange={(value) => handleInputChange("clientId", value)}
                   >
-                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220]">
                       <SelectValue placeholder="Select a client" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
@@ -144,7 +144,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                         <SelectItem
                           key={client.id}
                           value={client.id.toString()}
-                          className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                          className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                         >
                           {client.name} {client.companyName && `(${client.companyName})`}
                         </SelectItem>
@@ -171,13 +171,13 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                     value={formData.categoryId || undefined}
                     onValueChange={(value) => handleInputChange("categoryId", value === "none" ? "" : value)}
                   >
-                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76]">
+                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220]">
                       <SelectValue placeholder="Select a category (optional)" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
                       <SelectItem
                         value="none"
-                        className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                        className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                       >
                         None
                       </SelectItem>
@@ -185,7 +185,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                         <SelectItem
                           key={category.id}
                           value={category.id.toString()}
-                          className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                          className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                         >
                           {category.name}
                         </SelectItem>
@@ -206,7 +206,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                   id="service"
                   value={formData.service}
                   onChange={(e) => handleInputChange("service", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="e.g., Web Development, Mobile App Design"
                   required
                 />
@@ -226,7 +226,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                   min="0"
                   value={formData.amount}
                   onChange={(e) => handleInputChange("amount", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="0.00"
                   required
                 />
@@ -243,31 +243,31 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                   value={formData.status}
                   onValueChange={(value) => handleInputChange("status", value)}
                 >
-                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
                     <SelectItem
                       value="Pending"
-                      className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                      className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                     >
                       Pending
                     </SelectItem>
                     <SelectItem
                       value="In Progress"
-                      className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                      className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                     >
                       In Progress
                     </SelectItem>
                     <SelectItem
                       value="Review"
-                      className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                      className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                     >
                       Review
                     </SelectItem>
                     <SelectItem
                       value="Completed"
-                      className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                      className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                     >
                       Completed
                     </SelectItem>
@@ -289,7 +289,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                   max="100"
                   value={formData.progress}
                   onChange={(e) => handleInputChange("progress", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="0"
                 />
                 <p className="text-xs text-white/50 mt-1">Progress percentage (0-100)</p>
@@ -307,7 +307,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
                   type="date"
                   value={formData.date}
                   onChange={(e) => handleInputChange("date", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white focus-visible:ring-[#F58220]"
                 />
               </div>
             </div>
@@ -324,7 +324,7 @@ export default function CreateOrderDialog({ open, onOpenChange, onOrderCreated }
             <Button
               type="submit"
               disabled={isCreating}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold"
             >
               {isCreating ? (
                 <>

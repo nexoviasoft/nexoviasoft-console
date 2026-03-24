@@ -478,7 +478,7 @@ const KanbanColumn = ({
       <button
         type="button"
         onClick={() => onAddTask(column.id)}
-        className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+        className="flex items-center gap-2 py-2 w-full justify-center rounded-lg border border-dashed border-[#F58220]/60 text-[#F58220] hover:bg-[#F58220]/10 transition-colors"
       >
         <Plus className="w-4 h-4" />
         <span className="text-sm font-medium">Add Task</span>
@@ -782,12 +782,12 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
         };
       default:
         return {
-          text: "text-[#EFFC76]",
-          bg: "bg-[#EFFC76]/10",
-          border: "border-[#EFFC76]/20",
-          hoverBorder: "hover:border-[#EFFC76]/50",
-          badge: "bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/30",
-          icon: "text-[#EFFC76]",
+          text: "text-[#F58220]",
+          bg: "bg-[#F58220]/10",
+          border: "border-[#F58220]/20",
+          hoverBorder: "hover:border-[#F58220]/50",
+          badge: "bg-[#F58220]/15 text-[#F58220] border-[#F58220]/30",
+          icon: "text-[#F58220]",
         };
     }
   };
@@ -1188,7 +1188,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
             variant="outline"
             size="sm"
             onClick={() => setShowTemplateDialog(true)}
-            className={` bg-[#E0EF5F]  text-black px-6`}
+            className={` bg-[#D91D79]  text-black px-6`}
           >
             <Layout className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
             <span className="inline">
@@ -1226,9 +1226,9 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
           <button
             type="button"
             onClick={() => setShowColumnDialog(true)}
-            className="w-[42vw] md:w-[32vw] mt-13  shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#EFFC76]/70 text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-colors"
+            className="w-[42vw] md:w-[32vw] mt-13  shrink-0 flex items-center gap-2 py-4 justify-center rounded-lg border-2 border-dashed border-[#F58220]/70 text-[#F58220] hover:bg-[#F58220]/10 transition-colors"
           >
-            <div className="p-4 rounded-full bg-[#EFFC76]/10 group-hover:bg-[#EFFC76]/20 transition-colors">
+            <div className="p-4 rounded-full bg-[#F58220]/10 group-hover:bg-[#F58220]/20 transition-colors">
               <Plus className="w-10 h-10 opacity-80" />
             </div>
             <span className="font-semibold text-lg">Add Custom Column</span>
@@ -1263,7 +1263,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
             <Button
               type="button"
               onClick={handleAddColumn}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             >
               Add Column
             </Button>
@@ -1307,13 +1307,13 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                         onClick={() => toggleAssignee(member.initials)}
                         className={`flex items-center gap-2 px-2 py-1 rounded-full text-xs border ${
                           selected
-                            ? "bg-[#EFFC76]/20 border-[#EFFC76]/70 text-[#EFFC76]"
+                            ? "bg-[#F58220]/20 border-[#F58220]/70 text-[#F58220]"
                             : "bg-white/5 border-white/20 text-white/70"
                         }`}
                         title={member.fullName}
                       >
                         <Avatar className="w-6 h-6 border border-white">
-                          <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
+                          <AvatarFallback className="bg-[#F58220]/15 text-[#F58220] text-xs">
                             {member.initials}
                           </AvatarFallback>
                         </Avatar>
@@ -1430,7 +1430,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                              }
                            }}
                            className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs border ${
-                             isSelected ? "bg-[#EFFC76]/20 border-[#EFFC76] text-[#EFFC76]" : "bg-white/5 border-white/10 text-white/50"
+                             isSelected ? "bg-[#F58220]/20 border-[#F58220] text-[#F58220]" : "bg-white/5 border-white/10 text-white/50"
                            }`}
                          >
                             <Avatar className="w-5 h-5">
@@ -1457,7 +1457,7 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
              </Button>
              <Button 
                onClick={handleCreateTask} 
-               className="bg-[#EFFC76] text-black hover:bg-[#dce865]"
+               className="bg-[#F58220] text-black hover:bg-[#dce865]"
                disabled={isCreatingTask}
              >
                {isCreatingTask ? "Creating..." : "Create Task"}

@@ -140,7 +140,7 @@ function OurServiceContent() {
           </div>
           <Button
             onClick={handleAdd}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black gap-2 glass-button"
           >
             <Plus className="w-4 h-4" />
             <span>Add Service</span>
@@ -148,7 +148,7 @@ function OurServiceContent() {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center gap-2 w-full sm:max-w-sm bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
+        <div className="flex items-center gap-2 w-full sm:max-w-sm bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#F58220] transition-all">
           <Search className="w-4 h-4 text-white/40" />
           <Input 
             type="text" 
@@ -164,37 +164,37 @@ function OurServiceContent() {
           <Table>
             <TableHeader className="bg-[#1A1A1A]">
               <TableRow className="border-white/5 hover:bg-transparent">
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-[#EFFC76]" />
+                    <FileText className="w-4 h-4 text-[#F58220]" />
                     Title
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Layers className="w-4 h-4 text-[#EFFC76]" />
+                    <Layers className="w-4 h-4 text-[#F58220]" />
                     Category
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#EFFC76]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#F58220]" />
                     Key Features
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#EFFC76]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#F58220]" />
                     Benefits
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <List className="w-4 h-4 text-[#EFFC76]" />
+                    <List className="w-4 h-4 text-[#F58220]" />
                     Other Services
                   </div>
                 </TableHead>
-                <TableHead className="text-right text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
+                <TableHead className="text-right text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -212,33 +212,33 @@ function OurServiceContent() {
                   >
                     <TableCell className="font-medium">
                       <div className="flex flex-col">
-                        <span className="font-semibold text-white text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                        <span className="font-semibold text-white text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                           {service.title}
                         </span>
-                        <span className="text-[10px] text-white/40 truncate max-w-[200px] group-hover:text-[#EFFC76]/70 transition-colors">{service.subtitle}</span>
+                        <span className="text-[10px] text-white/40 truncate max-w-[200px] group-hover:text-[#F58220]/70 transition-colors">{service.subtitle}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       <div className="flex items-center gap-2">
-                        <Layers className="w-3 h-3 text-[#EFFC76]" />
+                        <Layers className="w-3 h-3 text-[#F58220]" />
                         {service.categoryId ? `Category ${service.categoryId}` : "N/A"}
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-[#EFFC76]" />
+                        <CheckCircle2 className="w-3 h-3 text-[#F58220]" />
                         {Array.isArray(service.keyFeature) ? service.keyFeature.length : 0}
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-[#EFFC76]" />
+                        <CheckCircle2 className="w-3 h-3 text-[#F58220]" />
                         {Array.isArray(service.benefit) ? service.benefit.length : 0}
                       </div>
                     </TableCell>
-                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#EFFC76] transition-colors">
+                    <TableCell className="text-white/80 text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
                       <div className="flex items-center gap-2">
-                        <List className="w-3 h-3 text-[#EFFC76]" />
+                        <List className="w-3 h-3 text-[#F58220]" />
                         {Array.isArray(service.otherservice) ? service.otherservice.length : 0}
                       </div>
                     </TableCell>
@@ -247,7 +247,7 @@ function OurServiceContent() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+                          className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
                           onClick={(e) => {
                             e.stopPropagation();
                             router.push(`/admin/our-service/${service.id || service._id}`);
@@ -259,7 +259,7 @@ function OurServiceContent() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+                          className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEdit(service);

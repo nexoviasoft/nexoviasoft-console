@@ -17,7 +17,7 @@ import { useGetAttendanceTrendQuery } from "@/api/admin/dashboard/dashboardApi";
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#EFFC76] text-black font-semibold text-xs px-3 py-1.5 rounded-full shadow-lg">
+      <div className="bg-[#F58220] text-black font-semibold text-xs px-3 py-1.5 rounded-full shadow-lg">
         {payload[0].value}% Attendance
       </div>
     );
@@ -28,7 +28,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const CustomDot = (props) => {
   const { cx, cy, stroke, payload, value } = props;
   return (
-    <circle cx={cx} cy={cy} r={4} stroke="white" strokeWidth={2} fill="#EFFC76" />
+    <circle cx={cx} cy={cy} r={4} stroke="white" strokeWidth={2} fill="#F58220" />
   );
 };
 
@@ -60,8 +60,8 @@ export default function AttendanceChart({ period = "Weekly" }) {
             >
               <defs>
                 <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#EFFC76" stopOpacity={0.8} />
-                  <stop offset="90%" stopColor="#EFFC76" stopOpacity={0.1} />
+                  <stop offset="0%" stopColor="#F58220" stopOpacity={0.8} />
+                  <stop offset="90%" stopColor="#F58220" stopOpacity={0.1} />
                 </linearGradient>
               </defs>
               
@@ -92,11 +92,11 @@ export default function AttendanceChart({ period = "Weekly" }) {
               <Line
                 type="monotone"
                 dataKey="presence"
-                stroke="#EFFC76"
+                stroke="#F58220"
                 strokeWidth={2}
                 strokeDasharray="4 4"
                 dot={<CustomDot />}
-                activeDot={{ r: 6, stroke: 'white', strokeWidth: 2, fill: '#EFFC76' }}
+                activeDot={{ r: 6, stroke: 'white', strokeWidth: 2, fill: '#F58220' }}
                 isAnimationActive={true}
               />
             </ComposedChart>

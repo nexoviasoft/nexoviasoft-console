@@ -16,7 +16,7 @@ export default function EmailHeader({ onConfigureClick }) {
       
       <Button 
         onClick={onConfigureClick}
-        className="gap-2 bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black px-4 font-medium"
+        className="gap-2 bg-[#F58220] hover:bg-[#F58220]/80 text-black px-4 font-medium"
       >
         <Settings className="w-4 h-4" />
         Configure SMTP

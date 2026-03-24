@@ -52,7 +52,7 @@ export default function ServiceRequestDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F58220] mx-auto mb-4"></div>
             <p className="text-white/70">Loading service request details...</p>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function ServiceRequestDetailPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.back()} 
-          className="gap-2 text-white/80 hover:text-[#EFFC76] hover:bg-white/5"
+          className="gap-2 text-white/80 hover:text-[#F58220] hover:bg-white/5"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Service Requests
@@ -100,7 +100,7 @@ export default function ServiceRequestDetailPage() {
         <Link href={`/admin/service-request?edit=${serviceRequestId}`}>
           <Button
             variant="outline"
-            className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/70"
+            className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#F58220]/70"
           >
             <Edit className="w-4 h-4" />
             Edit Request
@@ -112,12 +112,12 @@ export default function ServiceRequestDetailPage() {
       <Card className="mb-6 overflow-hidden glass-card border-white/20">
         <div className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] p-8 border-b border-white/10">
           <div className="flex items-start gap-6">
-            <div className="w-20 h-20 rounded-full bg-[#EFFC76]/15 border border-[#EFFC76]/60 flex items-center justify-center">
-              <Package className="w-10 h-10 text-[#EFFC76]" />
+            <div className="w-20 h-20 rounded-full bg-[#F58220]/15 border border-[#F58220]/60 flex items-center justify-center">
+              <Package className="w-10 h-10 text-[#F58220]" />
             </div>
             <div className="flex-1 text-white">
               <div className="flex items-center gap-3 mb-3">
-                <Badge className="bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/60">
+                <Badge className="bg-[#F58220]/15 text-[#F58220] border-[#F58220]/60">
                   Service Request #{serviceRequest.id || serviceRequest._id}
                 </Badge>
                 {serviceRequest.serviceType && (
@@ -147,14 +147,14 @@ export default function ServiceRequestDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <User className="w-5 h-5 text-[#EFFC76]" />
+                <User className="w-5 h-5 text-[#F58220]" />
                 Client Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <User className="w-5 h-5 text-[#EFFC76] mt-1" />
+                  <User className="w-5 h-5 text-[#F58220] mt-1" />
                   <div>
                     <p className="text-sm text-white/60">Name</p>
                     <p className="font-medium text-white/90">
@@ -164,7 +164,7 @@ export default function ServiceRequestDetailPage() {
                 </div>
                 {client.designation && (
                   <div className="flex items-start gap-3">
-                    <User className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <User className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Designation</p>
                       <p className="font-medium text-white/90">
@@ -174,7 +174,7 @@ export default function ServiceRequestDetailPage() {
                   </div>
                 )}
                 <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-[#EFFC76] mt-1" />
+                  <Mail className="w-5 h-5 text-[#F58220] mt-1" />
                   <div>
                     <p className="text-sm text-white/60">Email</p>
                     <p className="font-medium text-white/90">
@@ -184,7 +184,7 @@ export default function ServiceRequestDetailPage() {
                 </div>
                 {client.phone && (
                   <div className="flex items-start gap-3">
-                    <Phone className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <Phone className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Phone</p>
                       <p className="font-medium text-white/90">
@@ -195,7 +195,7 @@ export default function ServiceRequestDetailPage() {
                 )}
                 {client.companyName && (
                   <div className="flex items-start gap-3">
-                    <Building2 className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <Building2 className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Company Name</p>
                       <p className="font-medium text-white/90">
@@ -206,7 +206,7 @@ export default function ServiceRequestDetailPage() {
                 )}
                 {client.location && (
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <MapPin className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Location</p>
                       <p className="font-medium text-white/90">
@@ -223,14 +223,14 @@ export default function ServiceRequestDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Package className="w-5 h-5 text-[#EFFC76]" />
+                <Package className="w-5 h-5 text-[#F58220]" />
                 Service Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <Package className="w-5 h-5 text-[#EFFC76] mt-1" />
+                  <Package className="w-5 h-5 text-[#F58220] mt-1" />
                   <div>
                     <p className="text-sm text-white/60">Service Type</p>
                     <p className="font-medium text-white/90">
@@ -240,7 +240,7 @@ export default function ServiceRequestDetailPage() {
                 </div>
                 {serviceRequest.serviceId && (
                   <div className="flex items-start gap-3">
-                    <Package className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <Package className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Service ID</p>
                       <p className="font-medium text-white/90">
@@ -258,14 +258,14 @@ export default function ServiceRequestDetailPage() {
             <Card className="glass-card border-white/20">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <DollarSign className="w-5 h-5 text-[#EFFC76]" />
+                  <DollarSign className="w-5 h-5 text-[#F58220]" />
                   Price Package
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-start gap-3">
-                    <Package className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <Package className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Package Title</p>
                       <p className="font-medium text-white/90">
@@ -274,7 +274,7 @@ export default function ServiceRequestDetailPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <DollarSign className="w-5 h-5 text-[#EFFC76] mt-1" />
+                    <DollarSign className="w-5 h-5 text-[#F58220] mt-1" />
                     <div>
                       <p className="text-sm text-white/60">Price</p>
                       <p className="font-medium text-white/90">
@@ -284,7 +284,7 @@ export default function ServiceRequestDetailPage() {
                   </div>
                   {pricePackage.projectLimit && (
                     <div className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#EFFC76] mt-1" />
+                      <CheckCircle2 className="w-5 h-5 text-[#F58220] mt-1" />
                       <div>
                         <p className="text-sm text-white/60">Project Limit</p>
                         <p className="font-medium text-white/90">
@@ -295,7 +295,7 @@ export default function ServiceRequestDetailPage() {
                   )}
                   {pricePackage.revisionLimit && (
                     <div className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#EFFC76] mt-1" />
+                      <CheckCircle2 className="w-5 h-5 text-[#F58220] mt-1" />
                       <div>
                         <p className="text-sm text-white/60">Revision Limit</p>
                         <p className="font-medium text-white/90">
@@ -311,7 +311,7 @@ export default function ServiceRequestDetailPage() {
                     <div className="space-y-2">
                       {pricePackage.feature.map((feature, index) => (
                         <div key={index} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-[#EFFC76] mt-0.5 flex-shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-[#F58220] mt-0.5 flex-shrink-0" />
                           <p className="text-sm text-white/80">{feature}</p>
                         </div>
                       ))}
@@ -327,7 +327,7 @@ export default function ServiceRequestDetailPage() {
             <Card className="glass-card border-white/20">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <MessageSquare className="w-5 h-5 text-[#EFFC76]" />
+                  <MessageSquare className="w-5 h-5 text-[#F58220]" />
                   Message
                 </CardTitle>
               </CardHeader>
@@ -376,7 +376,7 @@ export default function ServiceRequestDetailPage() {
               {serviceRequest.serviceType && (
                 <div>
                   <p className="text-white/60 mb-1">Service Type</p>
-                  <Badge className="bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/60">
+                  <Badge className="bg-[#F58220]/15 text-[#F58220] border-[#F58220]/60">
                     {serviceRequest.serviceType}
                   </Badge>
                 </div>
@@ -396,7 +396,7 @@ export default function ServiceRequestDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Calendar className="w-5 h-5 text-[#EFFC76]" />
+                <Calendar className="w-5 h-5 text-[#F58220]" />
                 Timestamps
               </CardTitle>
             </CardHeader>

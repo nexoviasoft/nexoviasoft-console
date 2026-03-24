@@ -26,7 +26,7 @@ export default function FooterPage() {
           <CardTitle className="text-white">Footer Settings</CardTitle>
           <Button
             onClick={() => setShowDialog(true)}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
           >
             <Edit className="w-4 h-4 mr-2" />
             Update Footer
@@ -90,7 +90,7 @@ export default function FooterPage() {
                           href={footer.twitter_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-base"
+                          className="text-[#F58220] hover:text-[#f5ff9a] underline text-base"
                         >
                           {footer.twitter_url}
                         </a>
@@ -103,7 +103,7 @@ export default function FooterPage() {
                           href={footer.instagram_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-base"
+                          className="text-[#F58220] hover:text-[#f5ff9a] underline text-base"
                         >
                           {footer.instagram_url}
                         </a>
@@ -116,7 +116,7 @@ export default function FooterPage() {
                           href={footer.linkedin_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-base"
+                          className="text-[#F58220] hover:text-[#f5ff9a] underline text-base"
                         >
                           {footer.linkedin_url}
                         </a>
@@ -129,7 +129,7 @@ export default function FooterPage() {
                           href={footer.youtube_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-base"
+                          className="text-[#F58220] hover:text-[#f5ff9a] underline text-base"
                         >
                           {footer.youtube_url}
                         </a>
@@ -156,7 +156,7 @@ export default function FooterPage() {
                             <li key={index}>
                               <a
                                 href={link.url}
-                                className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-sm"
+                                className="text-[#F58220] hover:text-[#f5ff9a] underline text-sm"
                               >
                                 {link.label}
                               </a>
@@ -175,7 +175,7 @@ export default function FooterPage() {
                             <li key={index}>
                               <a
                                 href={link.url}
-                                className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-sm"
+                                className="text-[#F58220] hover:text-[#f5ff9a] underline text-sm"
                               >
                                 {link.label}
                               </a>
@@ -194,7 +194,7 @@ export default function FooterPage() {
                             <li key={index}>
                               <a
                                 href={link.url}
-                                className="text-[#EFFC76] hover:text-[#f5ff9a] underline text-sm"
+                                className="text-[#F58220] hover:text-[#f5ff9a] underline text-sm"
                               >
                                 {link.label}
                               </a>

@@ -28,19 +28,19 @@ export default function RecruitmentHeader({
           <TabsList className="w-full sm:w-auto grid grid-cols-3 sm:flex bg-white/5 border border-white/10">
             <TabsTrigger
               value="jobs"
-              className="data-[state=active]:bg-[#EFFC76] data-[state=active]:text-black text-white/70"
+              className="data-[state=active]:bg-[#F58220] data-[state=active]:text-black text-white/70"
             >
               Jobs
             </TabsTrigger>
             <TabsTrigger
               value="candidates"
-              className="data-[state=active]:bg-[#EFFC76] data-[state=active]:text-black text-white/70"
+              className="data-[state=active]:bg-[#F58220] data-[state=active]:text-black text-white/70"
             >
               Candidates
             </TabsTrigger>
             <TabsTrigger
               value="calendar"
-              className="data-[state=active]:bg-[#EFFC76] data-[state=active]:text-black text-white/70"
+              className="data-[state=active]:bg-[#F58220] data-[state=active]:text-black text-white/70"
             >
               Calendar
             </TabsTrigger>
@@ -50,7 +50,7 @@ export default function RecruitmentHeader({
         {activeTab === "jobs" && (
           <Button
             onClick={onNewJob}
-            className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black gap-2 font-medium"
+            className="bg-[#F58220] hover:bg-[#F58220]/80 text-black gap-2 font-medium"
           >
             <Plus className="w-4 h-4" />
             Post New Job

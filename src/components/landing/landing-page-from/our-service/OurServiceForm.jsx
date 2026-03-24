@@ -373,7 +373,7 @@ export default function OurServiceForm({
                 error={errors.description?.message}
                 required
                 rows={4}
-                textareaClassName="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                textareaClassName="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
 
@@ -447,7 +447,7 @@ export default function OurServiceForm({
                         value={feature || ""}
                         onChange={(e) => updateKeyFeature(index, e.target.value)}
                         placeholder="e.g. Responsive Design"
-                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.keyFeature?.[index] ? "border-red-500" : ""}`}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${errors.keyFeature?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.keyFeature?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.keyFeature[index]?.message}</p>
@@ -497,7 +497,7 @@ export default function OurServiceForm({
                         value={benefit || ""}
                         onChange={(e) => updateBenefit(index, e.target.value)}
                         placeholder="e.g. Fast loading"
-                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.benefit?.[index] ? "border-red-500" : ""}`}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${errors.benefit?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.benefit?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.benefit[index]?.message}</p>
@@ -561,7 +561,7 @@ export default function OurServiceForm({
                         value={service.name || ""}
                         onChange={(e) => updateOtherService(index, "name", e.target.value)}
                         placeholder="Service name (e.g. UI/UX Design)"
-                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.otherservice?.[index]?.name ? "border-red-500" : ""}`}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${errors.otherservice?.[index]?.name ? "border-red-500" : ""}`}
                       />
                       {errors.otherservice?.[index]?.name && (
                         <p className="text-sm text-red-500 mt-1">{errors.otherservice[index].name.message}</p>
@@ -570,7 +570,7 @@ export default function OurServiceForm({
                         value={service.description || ""}
                         onChange={(e) => updateOtherService(index, "description", e.target.value)}
                         placeholder="Service description (e.g. We provide UI/UX design services for your website)"
-                        textareaClassName={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.otherservice?.[index]?.description ? "border-red-500" : ""}`}
+                        textareaClassName={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${errors.otherservice?.[index]?.description ? "border-red-500" : ""}`}
                       />
                       {errors.otherservice?.[index]?.description && (
                         <p className="text-sm text-red-500 mt-1">{errors.otherservice[index].description.message}</p>
@@ -595,7 +595,7 @@ export default function OurServiceForm({
             type="submit"
             form={formId}
             disabled={isCreating || isUpdating || isSubmitting}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
           >
             {isCreating || isUpdating || isSubmitting
               ? "Saving..."

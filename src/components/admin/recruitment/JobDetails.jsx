@@ -229,7 +229,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
               <h1 className="text-2xl font-bold text-white">{job.title}</h1>
               <Badge
                 variant={job.status === 'Active' ? 'success' : 'secondary'}
-                className="bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40"
+                className="bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40"
               >
                 {job.status}
               </Badge>
@@ -261,7 +261,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
             {/* Edit button */}
             <Button 
               onClick={handleEditClick}
-              className="bg-[#EFFC76] hover:bg-[#dce865] text-black"
+              className="bg-[#F58220] hover:bg-[#dce865] text-black"
             >
               <Edit className="w-4 h-4 mr-2" />
               Edit Job
@@ -332,7 +332,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
                       <Avatar>
-                        <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76]">
+                        <AvatarFallback className="bg-[#F58220]/15 text-[#F58220]">
                           {applicant.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
@@ -507,7 +507,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
             <Button
               onClick={handleSaveEdit}
               disabled={isUpdating || isUploading}
-              className="bg-[#EFFC76] hover:bg-[#dce865] text-black"
+              className="bg-[#F58220] hover:bg-[#dce865] text-black"
             >
               <Save className="w-4 h-4 mr-2" />
               {isUpdating || isUploading ? 'Saving...' : 'Save Changes'}

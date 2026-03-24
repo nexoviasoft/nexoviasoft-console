@@ -89,7 +89,7 @@ export default function ProjectDetailPage({ params }) {
               size="sm"
               onClick={() => router.push("/admin/projects")}
               className="
-    text-white/70 hover:text-[#EFFC76]
+    text-white/70 hover:text-[#F58220]
     hover:bg-white/5
     w-fit
     px-2 md:px-3
@@ -106,7 +106,7 @@ export default function ProjectDetailPage({ params }) {
     md:shadow-none
   "
             >
-              <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 md:mr-2 text-[#EFFC76]" />
+              <ArrowLeft className="w-5 h-5 md:w-4 md:h-4 md:mr-2 text-[#F58220]" />
               <span className="hidden md:inline">Back to Projects</span>
             </Button>
 

@@ -22,7 +22,7 @@ export default function PrivateRoute({ children }) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A]">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#EFFC76]/30 border-t-[#EFFC76] rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-[#F58220]/30 border-t-[#F58220] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white/60">Loading...</p>
         </div>
       </div>

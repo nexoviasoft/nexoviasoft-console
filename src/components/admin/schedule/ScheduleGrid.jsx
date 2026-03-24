@@ -35,7 +35,7 @@ export default function ScheduleGrid({ rows = [] }) {
             <TableRow className="hover:bg-transparent">
               <TableHead className="w-[250px] sticky left-0 z-20 bg-gradient-to-r from-black/80 via-black/70 to-transparent backdrop-blur-xl border-r border-white/10">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                  <Calendar className="w-4 h-4 text-[#F58220]" />
                   <span className="text-white/90 font-bold text-sm">Employee</span>
                 </div>
               </TableHead>
@@ -47,7 +47,7 @@ export default function ScheduleGrid({ rows = [] }) {
                     className="text-center min-w-[140px] border-l border-white/5 group"
                   >
                     <div className="flex flex-col items-center gap-1 py-1.5">
-                      <DayIcon className="w-3.5 h-3.5 text-[#EFFC76]/70 group-hover:text-[#EFFC76] transition-colors duration-300" />
+                      <DayIcon className="w-3.5 h-3.5 text-[#F58220]/70 group-hover:text-[#F58220] transition-colors duration-300" />
                       <span className="font-bold text-xs text-white/80 group-hover:text-white transition-colors duration-300">
                         {day.name}
                       </span>
@@ -78,16 +78,16 @@ export default function ScheduleGrid({ rows = [] }) {
                 ">
                   <div className="flex items-center gap-3 py-0.5">
                     <div className="relative">
-                      <Avatar className="w-9 h-9 border-2 border-white/20 group-hover:border-[#EFFC76]/40 transition-all duration-300 ring-2 ring-white/5">
+                      <Avatar className="w-9 h-9 border-2 border-white/20 group-hover:border-[#F58220]/40 transition-all duration-300 ring-2 ring-white/5">
                         <AvatarImage src={emp.avatar} />
-                        <AvatarFallback className="bg-gradient-to-br from-[#EFFC76]/20 to-[#EFFC76]/10 text-[#EFFC76] font-bold text-xs">
+                        <AvatarFallback className="bg-gradient-to-br from-[#F58220]/20 to-[#F58220]/10 text-[#F58220] font-bold text-xs">
                           {emp.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-black" />
                     </div>
                     <div>
-                      <div className="font-bold text-white text-sm group-hover:text-[#EFFC76] transition-colors duration-300">
+                      <div className="font-bold text-white text-sm group-hover:text-[#F58220] transition-colors duration-300">
                         {emp.name}
                       </div>
                       <div className="text-[11px] text-white/50 group-hover:text-white/70 transition-colors duration-300">

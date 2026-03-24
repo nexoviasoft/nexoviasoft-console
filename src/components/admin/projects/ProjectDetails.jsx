@@ -16,9 +16,9 @@ export default function ProjectDetails({ project, onBack }) {
       <Button
         variant="ghost"
         onClick={onBack}
-        className="gap-2 text-white/70 hover:text-[#EFFC76] hover:bg-white/5"
+        className="gap-2 text-white/70 hover:text-[#F58220] hover:bg-white/5"
       >
-        <ArrowLeft className="w-4 h-4 mr-1 text-[#EFFC76]" />
+        <ArrowLeft className="w-4 h-4 mr-1 text-[#F58220]" />
         Back to Projects
       </Button>
 
@@ -36,7 +36,7 @@ export default function ProjectDetails({ project, onBack }) {
                 ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/60"
                 : project.status === "In Progress"
                 ? "bg-sky-500/15 text-sky-200 border border-sky-400/60"
-                : "bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60"
+                : "bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/60"
             }
           >
             {project.status}
@@ -45,8 +45,8 @@ export default function ProjectDetails({ project, onBack }) {
 
         <div className="grid grid-cols-3 gap-2 md:gap-6 pt-3 md:pt-4 border-t border-white/10">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#EFFC76]/15 rounded-lg border border-[#EFFC76]/40">
-              <Users className="w-5 h-5 text-[#EFFC76]" />
+            <div className="p-2 bg-[#F58220]/15 rounded-lg border border-[#F58220]/40">
+              <Users className="w-5 h-5 text-[#F58220]" />
             </div>
             <div>
               <p className="text-xs text-white/60">Team Members</p>
@@ -54,9 +54,9 @@ export default function ProjectDetails({ project, onBack }) {
                 {project.team.map((member, idx) => (
                   <Avatar
                     key={idx}
-                    className="h-6 w-6 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
+                    className="h-6 w-6 border-2 border-black/60 ring-1 ring-[#F58220]/40"
                   >
-                    <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-xs">
+                    <AvatarFallback className="bg-[#F58220]/15 text-[#F58220] text-xs">
                       {member.avatar}
                     </AvatarFallback>
                   </Avatar>
@@ -81,7 +81,7 @@ export default function ProjectDetails({ project, onBack }) {
             </div>
             <div>
               <p className="text-xs text-white/60">Progress</p>
-              <p className="font-medium text-[#EFFC76]">
+              <p className="font-medium text-[#F58220]">
                 {project.progress}% Complete
               </p>
             </div>

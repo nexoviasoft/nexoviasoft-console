@@ -131,23 +131,23 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
         <div className="px-6 py-6 border-b border-white/10 bg-black/40">
           {isLoading ? (
             <div className="flex items-center justify-center h-20">
-              <Loader2 className="w-6 h-6 animate-spin text-[#EFFC76]" />
+              <Loader2 className="w-6 h-6 animate-spin text-[#F58220]" />
             </div>
           ) : (
             <>
               <div className="flex items-center mt-4 justify-between mb-2">
-                <Badge className="text-xs font-mono text-[#EFFC76] bg-[#EFFC76]/10 border border-[#EFFC76]/40">
+                <Badge className="text-xs font-mono text-[#F58220] bg-[#F58220]/10 border border-[#F58220]/40">
                   {currentOrder?.orderId || currentOrder?.id}
                 </Badge>
                 <Select value={status} onValueChange={setStatus}>
-                  <SelectTrigger className="w-[140px] sm:w-[240px] h-8 text-xs font-medium border-[#EFFC76]/30 bg-[#EFFC76]/5 text-[#EFFC76] focus:ring-[#EFFC76]/50">
+                  <SelectTrigger className="w-[140px] sm:w-[240px] h-8 text-xs font-medium border-[#F58220]/30 bg-[#F58220]/5 text-[#F58220] focus:ring-[#F58220]/50">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-black/95 border-[#EFFC76]/20 text-white backdrop-blur-xl">
-                    <SelectItem value="Pending" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Pending</SelectItem>
-                    <SelectItem value="In Progress" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">In Progress</SelectItem>
-                    <SelectItem value="Review" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Review</SelectItem>
-                    <SelectItem value="Completed" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]">Completed</SelectItem>
+                  <SelectContent className="bg-black/95 border-[#F58220]/20 text-white backdrop-blur-xl">
+                    <SelectItem value="Pending" className="focus:bg-[#F58220]/20 focus:text-[#F58220]">Pending</SelectItem>
+                    <SelectItem value="In Progress" className="focus:bg-[#F58220]/20 focus:text-[#F58220]">In Progress</SelectItem>
+                    <SelectItem value="Review" className="focus:bg-[#F58220]/20 focus:text-[#F58220]">Review</SelectItem>
+                    <SelectItem value="Completed" className="focus:bg-[#F58220]/20 focus:text-[#F58220]">Completed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -174,8 +174,8 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
     px-4 pb-2 text-sm
     text-white/70
     data-[state=active]:bg-black
-    data-[state=active]:text-[#EFFC76]
-    data-[state=active]:border-b-[#EFFC76]
+    data-[state=active]:text-[#F58220]
+    data-[state=active]:border-b-[#F58220]
   "
                 >
                   Overview & Tracking
@@ -189,8 +189,8 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
     px-4 pb-2 text-sm
     text-white/70
     data-[state=active]:bg-black
-    data-[state=active]:text-[#EFFC76]
-    data-[state=active]:border-b-[#EFFC76]
+    data-[state=active]:text-[#F58220]
+    data-[state=active]:border-b-[#F58220]
   "
                 >
                   Client Communication
@@ -205,7 +205,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                     <Label className="text-sm font-semibold text-white/80">
                       Project Progress
                     </Label>
-                    <span className="text-sm font-bold text-[#EFFC76]">
+                    <span className="text-sm font-bold text-[#F58220]">
                       {progress[0]}%
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-1">
                     <div className="flex items-center gap-2 text-white/60 mb-2">
-                      <DollarSign className="w-4 h-4 text-[#EFFC76]" />
+                      <DollarSign className="w-4 h-4 text-[#F58220]" />
                       <span className="text-xs uppercase tracking-wider font-semibold">
                         Value
                       </span>
@@ -239,7 +239,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                   </div>
                   <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-1">
                     <div className="flex items-center gap-2 text-white/60 mb-2">
-                      <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                      <Calendar className="w-4 h-4 text-[#F58220]" />
                       <span className="text-xs uppercase tracking-wider font-semibold">
                         Ordered
                       </span>
@@ -262,7 +262,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                         className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 border border-white/20"
                       >
                         <Avatar className="w-5 h-5">
-                          <AvatarFallback className="text-[9px] bg-[#EFFC76]/15 text-[#EFFC76]">
+                          <AvatarFallback className="text-[9px] bg-[#F58220]/15 text-[#F58220]">
                             {initials}
                           </AvatarFallback>
                         </Avatar>
@@ -274,7 +274,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-8 w-8 rounded-full p-0 border-dashed border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/15"
+                      className="h-8 w-8 rounded-full p-0 border-dashed border-[#F58220]/60 text-[#F58220] hover:bg-[#F58220]/15"
                     >
                       +
                     </Button>
@@ -297,11 +297,11 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
                         {currentOrder?.client?.name || 'Unknown Client'}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-white/70">
-                        <Mail className="w-3 h-3 text-[#EFFC76]" />
+                        <Mail className="w-3 h-3 text-[#F58220]" />
                         {currentOrder?.client?.email || 'N/A'}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-white/70">
-                        <User className="w-3 h-3 text-[#EFFC76]" />
+                        <User className="w-3 h-3 text-[#F58220]" />
                         ID: {currentOrder?.client?.id ? `CL-${currentOrder.client.id}` : 'N/A'}
                       </div>
                     </div>
@@ -320,7 +320,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
           <Button
             variant="outline"
           className="w-full sm:w-auto text-white border-white/10
-             bg-[#EFFC76]/10 hover:bg-[#EFFC76]/10 hover:text-[#EFFC76] hover:border-[#EFFC76]/30 transition-colors"
+             bg-[#F58220]/10 hover:bg-[#F58220]/10 hover:text-[#F58220] hover:border-[#F58220]/30 transition-colors"
           >
             Cancel Order
           </Button>
@@ -328,7 +328,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
             <SheetClose asChild>
               <Button
                 variant="outline"
-                className="w-full sm:w-auto text-[#EFFC76] border-[#EFFC76]/30 bg-[#EFFC76]/5 hover:bg-[#EFFC76]/10 hover:text-[#EFFC76]"
+                className="w-full sm:w-auto text-[#F58220] border-[#F58220]/30 bg-[#F58220]/5 hover:bg-[#F58220]/10 hover:text-[#F58220]"
               >
                 Close
               </Button>
@@ -336,7 +336,7 @@ export default function OrderDetailsSheet({ order, open, onOpenChange }) {
             <Button 
               onClick={handleSave}
               disabled={isUpdating}
-              className="w-full sm:w-auto bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold shadow-[0_0_15px_rgba(239,252,118,0.25)] border-0"
+              className="w-full sm:w-auto bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold shadow-[0_0_15px_rgba(245,130,32,0.25)] border-0"
             >
               {isUpdating ? (
                 <>

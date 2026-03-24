@@ -67,7 +67,7 @@ export default function OurClientDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F58220] mx-auto mb-4"></div>
             <p className="text-white/70">Loading client details...</p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function OurClientDetailPage() {
         <Button
           variant="ghost"
           onClick={() => router.back()}
-          className="gap-2 text-white/80 hover:text-[#EFFC76] hover:bg-white/5"
+          className="gap-2 text-white/80 hover:text-[#F58220] hover:bg-white/5"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Clients
@@ -130,7 +130,7 @@ export default function OurClientDetailPage() {
           <Link href={`/admin/our-client?edit=${clientId}`}>
             <Button
               variant="outline"
-              className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-[#EFFC76]/70"
+              className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-[#F58220]/70"
             >
               <Edit className="w-4 h-4" />
               Edit Client
@@ -143,9 +143,9 @@ export default function OurClientDetailPage() {
       <Card className="mb-6 overflow-hidden glass-card border-white/20">
         <div className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] p-6 sm:p-8 border-b border-white/10">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-[#EFFC76] shadow-lg">
+            <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-[#F58220] shadow-lg">
               <AvatarImage src={client.photo} alt={client.name} />
-              <AvatarFallback className="text-2xl sm:text-3xl bg-[#EFFC76] text-black">
+              <AvatarFallback className="text-2xl sm:text-3xl bg-[#F58220] text-black">
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -175,14 +175,14 @@ export default function OurClientDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <User className="w-5 h-5 text-[#EFFC76]" />
+                <User className="w-5 h-5 text-[#F58220]" />
                 Personal Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Mail className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">Email</p>
                     <p className="font-medium text-white/90 truncate text-sm sm:text-base">
@@ -191,7 +191,7 @@ export default function OurClientDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Phone className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Phone className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">Phone</p>
                     <p className="font-medium text-white/90 truncate text-sm sm:text-base">
@@ -200,7 +200,7 @@ export default function OurClientDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Briefcase className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Briefcase className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">
                       Designation
@@ -218,14 +218,14 @@ export default function OurClientDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Building2 className="w-5 h-5 text-[#EFFC76]" />
+                <Building2 className="w-5 h-5 text-[#F58220]" />
                 Company Information
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Building2 className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Building2 className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">
                       Company Name
@@ -236,7 +236,7 @@ export default function OurClientDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Briefcase className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Briefcase className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">
                       Company Type
@@ -247,7 +247,7 @@ export default function OurClientDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <MapPin className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">Location</p>
                     <p className="font-medium text-white/90 truncate text-sm sm:text-base">
@@ -256,7 +256,7 @@ export default function OurClientDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 overflow-hidden">
-                  <Globe className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Globe className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-white/60">Country</p>
                     <p className="font-medium text-white/90 truncate text-sm sm:text-base">
@@ -275,7 +275,7 @@ export default function OurClientDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Zap className="w-5 h-5 text-[#EFFC76]" />
+                <Zap className="w-5 h-5 text-[#F58220]" />
                 Quick Info
               </CardTitle>
             </CardHeader>
@@ -283,7 +283,7 @@ export default function OurClientDetailPage() {
               {client.companyName && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Building2 className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Building2 className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Company</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">
@@ -294,7 +294,7 @@ export default function OurClientDetailPage() {
               {client.companyType && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Briefcase className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Briefcase className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Company Type</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">
@@ -305,7 +305,7 @@ export default function OurClientDetailPage() {
               {client.location && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <MapPin className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <MapPin className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Location</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">
@@ -316,7 +316,7 @@ export default function OurClientDetailPage() {
               {client.country && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Globe className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Globe className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Country</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">
@@ -331,7 +331,7 @@ export default function OurClientDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Phone className="w-5 h-5 text-[#EFFC76]" />
+                <Phone className="w-5 h-5 text-[#F58220]" />
                 Contact Information
               </CardTitle>
             </CardHeader>
@@ -339,7 +339,7 @@ export default function OurClientDetailPage() {
               {client.email && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Mail className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Mail className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Email</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">
@@ -350,7 +350,7 @@ export default function OurClientDetailPage() {
               {client.phone && (
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Phone className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <Phone className="w-3.5 h-3.5 text-[#F58220]" />
                     <p className="text-white/60">Phone</p>
                   </div>
                   <p className="font-medium text-white/90 truncate">{client.phone}</p>

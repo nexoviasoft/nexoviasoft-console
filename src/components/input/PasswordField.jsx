@@ -21,7 +21,7 @@ const PasswordField = ({
     <div className={`flex flex-col gap-1 sm:gap-2 ${className}`}>
       {label && (
         <label className="text-white/80 font-[500px] text-xs sm:text-sm ml-1">
-          {label} {required && <span className="text-[#EFFC76]">*</span>}
+          {label} {required && <span className="text-[#F58220]">*</span>}
         </label>
       )}
       <div className="relative">

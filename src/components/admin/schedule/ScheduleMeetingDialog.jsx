@@ -175,7 +175,7 @@ export default function ScheduleMeetingDialog({
       <DialogContent className="max-w-2xl glass-card border-white/20 text-white max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-white">
-            <Video className="w-5 h-5 text-[#EFFC76]" />
+            <Video className="w-5 h-5 text-[#F58220]" />
             Schedule Meeting
           </DialogTitle>
           <DialogDescription className="text-white/70">
@@ -194,7 +194,7 @@ export default function ScheduleMeetingDialog({
               value={meetingData.topic}
               onChange={(e) => handleInputChange("topic", e.target.value)}
               placeholder="e.g., Sprint Planning, Design Review"
-              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
             />
           </div>
 
@@ -209,7 +209,7 @@ export default function ScheduleMeetingDialog({
               onChange={(e) => handleInputChange("description", e.target.value)}
               placeholder="Add meeting agenda or notes..."
               rows={3}
-              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] resize-none"
+              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] resize-none"
             />
           </div>
 
@@ -225,7 +225,7 @@ export default function ScheduleMeetingDialog({
                 type="date"
                 value={meetingData.date}
                 onChange={(e) => handleInputChange("date", e.target.value)}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
 
@@ -239,7 +239,7 @@ export default function ScheduleMeetingDialog({
                 type="time"
                 value={meetingData.time}
                 onChange={(e) => handleInputChange("time", e.target.value)}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function ScheduleMeetingDialog({
                     onClick={() => toggleMemberSelection(member.id)}
                     className={`flex items-center gap-3 p-2 rounded-lg border transition-all ${
                       isSelected
-                        ? "bg-[#EFFC76]/20 border-[#EFFC76]/70 text-[#EFFC76]"
+                        ? "bg-[#F58220]/20 border-[#F58220]/70 text-[#F58220]"
                         : "bg-white/5 border-white/20 text-white/70 hover:bg-white/10"
                     }`}
                   >
@@ -353,7 +353,7 @@ export default function ScheduleMeetingDialog({
               className="w-full flex items-center justify-between p-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-200 group"
             >
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#EFFC76]" />
+                <Mail className="w-4 h-4 text-[#F58220]" />
                 <span className="text-sm font-semibold text-white">Customize Email Notification</span>
                 <span className="text-xs text-white/50">(Optional)</span>
               </div>
@@ -396,7 +396,7 @@ export default function ScheduleMeetingDialog({
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
           >
             {isSubmitting ? (
               <>

@@ -158,7 +158,7 @@ export default function TemplateGallery({ onSelect, viewMode = "grid" }) {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search templates..."
-            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#EFFC76]"
+            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#F58220]"
           />
         </div>
       </div>

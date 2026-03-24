@@ -381,7 +381,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.employeeId?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="First Name"
@@ -390,7 +390,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.firstName?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Last Name"
@@ -399,7 +399,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.lastName?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Email"
@@ -409,7 +409,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.email?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Phone"
@@ -418,7 +418,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.phone?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 {!editingTeamMember && (
                   <TextField
@@ -429,7 +429,7 @@ export default function OurTeamForm({
                     register={register}
                     error={errors.password?.message}
                     required
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                 )}
               </div>
@@ -448,7 +448,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.position?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <Controller
                   name="role"
@@ -473,7 +473,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.salary?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <Controller
                   name="departmentId"
@@ -501,7 +501,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.hireDate?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <Controller
                   name="status"
@@ -534,7 +534,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.dateOfBirth?.message}
                   required
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Address"
@@ -542,7 +542,7 @@ export default function OurTeamForm({
                   placeholder="e.g. House 12, Road 5"
                   register={register}
                   error={errors.address?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="City"
@@ -550,7 +550,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Dhaka"
                   register={register}
                   error={errors.city?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="State"
@@ -558,7 +558,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Dhaka"
                   register={register}
                   error={errors.state?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Zip Code"
@@ -566,7 +566,7 @@ export default function OurTeamForm({
                   placeholder="e.g. 1207"
                   register={register}
                   error={errors.zipCode?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Country"
@@ -574,7 +574,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Bangladesh"
                   register={register}
                   error={errors.country?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             </div>
@@ -591,7 +591,7 @@ export default function OurTeamForm({
                   placeholder="e.g. Md Rahman"
                   register={register}
                   error={errors.emergencyContactName?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <TextField
                   label="Emergency Contact Phone"
@@ -599,7 +599,7 @@ export default function OurTeamForm({
                   placeholder="e.g. +8801812345678"
                   register={register}
                   error={errors.emergencyContactPhone?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             </div>
@@ -635,7 +635,7 @@ export default function OurTeamForm({
                   register={register}
                   error={errors.bio?.message}
                   rows={4}
-                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#EFFC76]"
+                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#F58220]"
                 />
                 <div>
                   <Label htmlFor="skills" className="text-white/80">
@@ -657,7 +657,7 @@ export default function OurTeamForm({
                               .filter(s => s);
                             field.onChange(skillsArray);
                           }}
-                          className="bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                          className="bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                         />
                         {errors.skills && (
                           <p className="text-sm text-red-500 mt-1">{errors.skills.message}</p>
@@ -681,7 +681,7 @@ export default function OurTeamForm({
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting || isUploading}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting || isUploading
                 ? isUploading

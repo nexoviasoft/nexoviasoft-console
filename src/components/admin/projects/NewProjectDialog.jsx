@@ -238,14 +238,14 @@ export default function NewProjectDialog({ open, onOpenChange, onProjectCreated 
                     onClick={() => setSelectedTemplate(template.id)}
                     className={`p-3 rounded-lg border cursor-pointer transition-all ${
                       selectedTemplate === template.id
-                        ? "bg-[#EFFC76]/10 border-[#EFFC76]"
+                        ? "bg-[#F58220]/10 border-[#F58220]"
                         : "bg-white/5 border-white/10 hover:bg-white/10"
                     }`}
                   >
                     <div className="font-medium text-sm text-white flex items-center justify-between">
                       {template.name}
                       {selectedTemplate === template.id && (
-                        <div className="w-2 h-2 rounded-full bg-[#EFFC76]" />
+                        <div className="w-2 h-2 rounded-full bg-[#F58220]" />
                       )}
                     </div>
                     <div className="text-xs text-white/60 line-clamp-1 mt-1">
@@ -265,7 +265,7 @@ export default function NewProjectDialog({ open, onOpenChange, onProjectCreated 
             <Input
               id="name"
               placeholder="E.g., Website Redesign"
-              className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              className="col-span-1 sm:col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               required
@@ -280,7 +280,7 @@ export default function NewProjectDialog({ open, onOpenChange, onProjectCreated 
             <Textarea
               id="description"
               placeholder="Project goals and scope..."
-              className="col-span-1 sm:col-span-3 min-h-[60px] sm:min-h-[80px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              className="col-span-1 sm:col-span-3 min-h-[60px] sm:min-h-[80px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -346,7 +346,7 @@ export default function NewProjectDialog({ open, onOpenChange, onProjectCreated 
                             onClick={() => handleTeamMemberToggle(member.id)}
                             className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${
                               isSelected
-                                ? "bg-[#EFFC76]/20 border-[#EFFC76]/70 text-[#EFFC76]"
+                                ? "bg-[#F58220]/20 border-[#F58220]/70 text-[#F58220]"
                                 : "bg-white/5 border-white/20 text-white/70 hover:bg-white/10"
                             }`}
                           >
@@ -383,7 +383,7 @@ export default function NewProjectDialog({ open, onOpenChange, onProjectCreated 
             type="submit"
             onClick={handleSubmit}
             disabled={!selectedTemplate || !projectName.trim() || isCreating}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button disabled:opacity-60"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button disabled:opacity-60"
           >
             {isCreating ? "Creating..." : "Create Project"}
           </Button>

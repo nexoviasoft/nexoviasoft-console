@@ -366,7 +366,7 @@ export default function FooterForm({
                     register={register}
                     error={errors.company_name?.message}
                     required
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <TextField
                     label="Location"
@@ -374,7 +374,7 @@ export default function FooterForm({
                     placeholder="e.g. New York, USA"
                     register={register}
                     error={errors.location?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                 </div>
                 <TextareaField
@@ -385,7 +385,7 @@ export default function FooterForm({
                   error={errors.company_description?.message}
                   required
                   rows={3}
-                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#EFFC76]"
+                  textareaClassName="bg-black text-white placeholder:text-white/40 border-white/20 focus-visible:ring-[#F58220]"
                 />
               </div>
 
@@ -426,7 +426,7 @@ export default function FooterForm({
                     placeholder="https://twitter.com/techsoft"
                     register={register}
                     error={errors.twitter_url?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <TextField
                     label="Instagram URL"
@@ -434,7 +434,7 @@ export default function FooterForm({
                     placeholder="https://instagram.com/techsoft"
                     register={register}
                     error={errors.instagram_url?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <TextField
                     label="LinkedIn URL"
@@ -442,7 +442,7 @@ export default function FooterForm({
                     placeholder="https://linkedin.com/company/techsoft"
                     register={register}
                     error={errors.linkedin_url?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <TextField
                     label="YouTube URL"
@@ -450,7 +450,7 @@ export default function FooterForm({
                     placeholder="https://youtube.com/techsoft"
                     register={register}
                     error={errors.youtube_url?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                 </div>
               </div>
@@ -478,7 +478,7 @@ export default function FooterForm({
                   placeholder="e.g. Company"
                   register={register}
                   error={errors.company_links_title?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <div className="space-y-3">
                   {companyLinks.map((link, index) => (
@@ -488,7 +488,7 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateCompanyLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. About Us)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.company_links?.[index]?.label ? "border-red-500" : ""
                           }`}
                         />
@@ -496,7 +496,7 @@ export default function FooterForm({
                           value={link?.url || ""}
                           onChange={(e) => updateCompanyLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /about)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.company_links?.[index]?.url ? "border-red-500" : ""
                           }`}
                         />
@@ -540,7 +540,7 @@ export default function FooterForm({
                   placeholder="e.g. Services"
                   register={register}
                   error={errors.services_links_title?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <div className="space-y-3">
                   {servicesLinks.map((link, index) => (
@@ -550,7 +550,7 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateServicesLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. Web Development)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.services_links?.[index]?.label ? "border-red-500" : ""
                           }`}
                         />
@@ -558,7 +558,7 @@ export default function FooterForm({
                           value={link?.url || ""}
                           onChange={(e) => updateServicesLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /services/web-development)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.services_links?.[index]?.url ? "border-red-500" : ""
                           }`}
                         />
@@ -602,7 +602,7 @@ export default function FooterForm({
                   placeholder="e.g. Legal"
                   register={register}
                   error={errors.legal_links_title?.message}
-                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
                 <div className="space-y-3">
                   {legalLinks.map((link, index) => (
@@ -612,7 +612,7 @@ export default function FooterForm({
                           value={link?.label || ""}
                           onChange={(e) => updateLegalLink(index, "label", e.target.value)}
                           placeholder="Label (e.g. Privacy Policy)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.legal_links?.[index]?.label ? "border-red-500" : ""
                           }`}
                         />
@@ -620,7 +620,7 @@ export default function FooterForm({
                           value={link?.url || ""}
                           onChange={(e) => updateLegalLink(index, "url", e.target.value)}
                           placeholder="URL (e.g. /privacy-policy)"
-                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
+                          className={`bg-black border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
                             errors.legal_links?.[index]?.url ? "border-red-500" : ""
                           }`}
                         />
@@ -653,7 +653,7 @@ export default function FooterForm({
                     placeholder="e.g. Stay Updated"
                     register={register}
                     error={errors.newsletter_title?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <TextField
                     label="Newsletter Placeholder"
@@ -661,7 +661,7 @@ export default function FooterForm({
                     placeholder="e.g. Email address"
                     register={register}
                     error={errors.newsletter_placeholder?.message}
-                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                    inputClassName="bg-black border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   />
                   <div className="flex items-center space-x-2">
                     <Controller
@@ -691,7 +691,7 @@ export default function FooterForm({
               <Button 
                 type="submit" 
                 disabled={isSubmitting || isUpdating || isUploading || isLoadingFooter}
-                className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+                className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
               >
                 {isSubmitting || isUpdating || isUploading
                   ? "Updating..."

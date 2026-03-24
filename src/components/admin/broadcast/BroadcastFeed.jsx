@@ -75,7 +75,7 @@ export default function BroadcastFeed({ dashboard }) {
                       {post.subject}
                       <Badge
                         variant="secondary"
-                        className="text-[10px] sm:text-xs font-normal bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40"
+                        className="text-[10px] sm:text-xs font-normal bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40"
                       >
                         {post.tag}
                       </Badge>
@@ -90,7 +90,7 @@ export default function BroadcastFeed({ dashboard }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/10 absolute top-4 right-4 sm:static"
+                    className="h-8 w-8 text-white/60 hover:text-[#F58220] hover:bg-white/10 absolute top-4 right-4 sm:static"
                   >
                     <MoreHorizontal className="w-4 h-4" />
                   </Button>
@@ -102,14 +102,14 @@ export default function BroadcastFeed({ dashboard }) {
 
                 <div className="flex flex-wrap items-center justify-between pt-4 border-t border-white/10 gap-3">
                   <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-white/60">
-                    <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                    <span className="flex items-center gap-1.5 hover:text-[#F58220] cursor-pointer">
                       <ThumbsUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {post.likes}
                     </span>
-                    <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                    <span className="flex items-center gap-1.5 hover:text-[#F58220] cursor-pointer">
                       <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {post.comments}
                     </span>
                     {post.attachments > 0 && (
-                      <span className="flex items-center gap-1.5 hover:text-[#EFFC76] cursor-pointer">
+                      <span className="flex items-center gap-1.5 hover:text-[#F58220] cursor-pointer">
                         <Paperclip className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {post.attachments}
                       </span>
                     )}

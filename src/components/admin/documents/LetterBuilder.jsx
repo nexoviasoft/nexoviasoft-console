@@ -148,7 +148,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
         id: docId,
         recipientEmail: recipientEmail,
         subject: emailData.subject || getLetterTitle(),
-        message: emailData.message || `Dear ${recipientName},\n\nPlease find attached the official letter.\n\nBest regards,\nSquadLog Team`,
+        message: emailData.message || `Dear ${recipientName},\n\nPlease find attached the official letter.\n\nBest regards,\nNexoviaSoft Team`,
       }).unwrap();
 
       toast.success("Letter sent successfully!");
@@ -222,7 +222,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
           </Button>
           <Button
             onClick={handlePrint}
-            className="bg-[#EFFC76] hover:bg-[#dbe665] text-black shadow-[0_0_15px_rgba(239,252,118,0.3)] transition-all duration-300"
+            className="bg-[#F58220] hover:bg-[#dbe665] text-black shadow-[0_0_15px_rgba(245,130,32,0.3)] transition-all duration-300"
           >
             <Printer className="w-4 h-4 mr-2" /> Print PDF
           </Button>
@@ -244,7 +244,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                       placeholder="John Doe"
                       value={data.candidateName}
                       onChange={(e) => updateField('candidateName', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -254,7 +254,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                           placeholder="Senior Developer"
                           value={data.role}
                           onChange={(e) => updateField('role', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                         />
                     </div>
                     <div className="space-y-2">
@@ -263,7 +263,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                           type="date"
                           value={data.startDate}
                           onChange={(e) => updateField('startDate', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                         />
                     </div>
                 </div>
@@ -273,7 +273,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                       placeholder="$120,000"
                       value={data.salary}
                       onChange={(e) => updateField('salary', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                     />
                 </div>
                 <div className="space-y-2">
@@ -282,7 +282,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                       placeholder="Manager Name"
                       value={data.manager}
                       onChange={(e) => updateField('manager', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                     />
                 </div>
            </CardContent>
@@ -294,9 +294,9 @@ export default function LetterBuilder({ template, onBack, documentId }) {
             <div className="min-w-[600px] md:min-w-0">
                 {/* Header */}
                 <div className="text-center mb-8 border-b border-white/20 pb-6">
-                    <div className="text-2xl font-bold text-[#EFFC76] tracking-widest mb-2">SQUADLOG INC.</div>
+                    <div className="text-2xl font-bold text-[#F58220] tracking-widest mb-2">NEXOVIASOFT INC.</div>
                     <div className="text-xs text-white/60 tracking-wide">
-                        123 Tech Park • San Francisco, CA • www.squadlog.com
+                        123 Tech Park • San Francisco, CA • www.nexoviasoft.com
                     </div>
                 </div>
 
@@ -309,7 +309,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     <div className="text-white/80">[City, State, Zip]</div>
                 </div>
 
-                <div className="text-center font-bold underline mb-8 uppercase tracking-wider text-base text-[#EFFC76]">
+                <div className="text-center font-bold underline mb-8 uppercase tracking-wider text-base text-[#F58220]">
                     {getLetterTitle()}
                 </div>
 
@@ -319,7 +319,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     {template === 'offer-letter' && (
                         <>
                             <p>
-                                We are pleased to extend an offer for you to join <strong className="text-white">SquadLog Inc.</strong> in the position of <strong className="text-white">{data.role || "[Role]"}</strong>. 
+                                We are pleased to extend an offer for you to join <strong className="text-white">NexoviaSoft Inc.</strong> in the position of <strong className="text-white">{data.role || "[Role]"}</strong>. 
                                 We were impressed with your skills and experience and believe you will be a valuable asset to our team.
                             </p>
                             <p>
@@ -332,7 +332,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     {template === 'appointment-letter' && (
                         <>
                             <p>
-                                Further to our recent discussions and your acceptance of our offer, we are delighted to confirm your appointment as <strong className="text-white">{data.role || "[Role]"}</strong> at <strong className="text-white">SquadLog Inc.</strong>, effective from <strong className="text-white">{data.startDate}</strong>.
+                                Further to our recent discussions and your acceptance of our offer, we are delighted to confirm your appointment as <strong className="text-white">{data.role || "[Role]"}</strong> at <strong className="text-white">NexoviaSoft Inc.</strong>, effective from <strong className="text-white">{data.startDate}</strong>.
                             </p>
                             <p>
                                 Your annual compensation package is fixed at <strong className="text-white">{data.salary || "[Salary]"}</strong>. 
@@ -342,7 +342,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     )}
 
                     <p>
-                        We look forward to welcoming you to the SquadLog family. Please sign and return a copy of this letter to acknowledge your acceptance.
+                        We look forward to welcoming you to the NexoviaSoft family. Please sign and return a copy of this letter to acknowledge your acceptance.
                     </p>
                 </div>
 
@@ -350,7 +350,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     <div className="grid grid-cols-2 gap-12">
                         <div>
                             <div className="border-t border-white/20 w-3/4 pt-2 font-bold text-white">Authorized Signatory</div>
-                            <div className="text-white/80">SquadLog Inc.</div>
+                            <div className="text-white/80">NexoviaSoft Inc.</div>
                         </div>
                         <div>
                             <div className="border-t border-white/20 w-3/4 pt-2 font-bold text-white">Employee Signature</div>
@@ -368,7 +368,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
         <DialogContent className="glass-panel border-white/20 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
-              <Mail className="w-5 h-5 text-[#EFFC76]" />
+              <Mail className="w-5 h-5 text-[#F58220]" />
               Send Letter by Email
             </DialogTitle>
             <DialogDescription className="text-white/70">
@@ -390,7 +390,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                   }));
                 }}
               >
-                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                   <SelectValue placeholder="Choose from team or clients" />
                 </SelectTrigger>
                 <SelectContent className="bg-black/90 border-white/20 text-white">
@@ -430,7 +430,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     }
                   }}
                 >
-                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                     <SelectValue placeholder="Select team member" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
@@ -466,7 +466,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                     }
                   }}
                 >
-                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+                  <SelectTrigger className="bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
                     <SelectValue placeholder="Select client" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/90 border-white/20 text-white max-h-[200px]">
@@ -493,13 +493,13 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                   placeholder="recipient@example.com"
                   value={emailData.recipientEmail}
                   onChange={(e) => setEmailData(prev => ({ ...prev, recipientEmail: e.target.value }))}
-                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             )}
 
             {emailData.recipientEmail && (
-              <div className="p-3 bg-[#EFFC76]/10 border border-[#EFFC76]/30 rounded-md">
+              <div className="p-3 bg-[#F58220]/10 border border-[#F58220]/30 rounded-md">
                 <div className="text-sm text-white/90">
                   <span className="font-semibold">To:</span> {emailData.recipientName || emailData.recipientEmail}
                 </div>
@@ -514,7 +514,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                 placeholder="Letter Subject"
                 value={emailData.subject}
                 onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
             <div className="space-y-2">
@@ -524,7 +524,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
                 value={emailData.message}
                 onChange={(e) => setEmailData(prev => ({ ...prev, message: e.target.value }))}
                 rows={4}
-                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
             <div className="flex gap-2 justify-end pt-4">
@@ -538,7 +538,7 @@ export default function LetterBuilder({ template, onBack, documentId }) {
               <Button
                 onClick={handleSendEmail}
                 disabled={isSending}
-                className="bg-[#EFFC76] hover:bg-[#dbe665] text-black"
+                className="bg-[#F58220] hover:bg-[#dbe665] text-black"
               >
                 <Send className="w-4 h-4 mr-2" />
                 {isSending ? "Sending..." : "Send Email"}

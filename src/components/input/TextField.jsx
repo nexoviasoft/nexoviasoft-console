@@ -24,7 +24,7 @@ const TextField = ({
     <div className={`flex flex-col gap-1 sm:gap-2 ${className}`}>
       {label && (
         <label className="text-white/80 font-[500px] text-xs sm:text-sm ml-1">
-          {label} {required && <span className="text-[#EFFC76]">*</span>}
+          {label} {required && <span className="text-[#F58220]">*</span>}
         </label>
       )}
       <div className="relative">
@@ -34,7 +34,7 @@ const TextField = ({
           type={isPassword ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
           {...register(name, validation)}
-          className={`border border-white/20 bg-black text-white placeholder:text-white/40 py-2 sm:py-2.5 pr-8 sm:pr-10 w-full outline-none text-sm sm:text-base rounded-md focus-visible:ring-1 focus-visible:ring-[#EFFC76] ${
+          className={`border border-white/20 bg-black text-white placeholder:text-white/40 py-2 sm:py-2.5 pr-8 sm:pr-10 w-full outline-none text-sm sm:text-base rounded-md focus-visible:ring-1 focus-visible:ring-[#F58220] ${
             disabled === true && "bg-gray-400"
           } ${icon ? "pl-10 sm:pl-11" : "pl-3 sm:pl-4"} password-input ${
             error ? "border-red-500" : ""

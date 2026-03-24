@@ -151,7 +151,7 @@ export default function CreatePayrollDialog({
                     value={formData.teamId}
                     onValueChange={(v) => handleInputChange("teamId", v)}
                   >
-                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76] w-full">
+                    <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220] w-full">
                       <SelectValue placeholder="Select employee" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
@@ -162,7 +162,7 @@ export default function CreatePayrollDialog({
                           <SelectItem
                             key={id}
                             value={String(id)}
-                            className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                            className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                           >
                             {name || "Unnamed"} {m.position ? `- ${m.position}` : ""}
                           </SelectItem>
@@ -186,7 +186,7 @@ export default function CreatePayrollDialog({
                   max="3000"
                   value={formData.periodYear}
                   onChange={(e) => handleInputChange("periodYear", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="Year (e.g. 2026)"
                   required
                 />
@@ -194,7 +194,7 @@ export default function CreatePayrollDialog({
                   value={formData.periodMonth}
                   onValueChange={(v) => handleInputChange("periodMonth", v)}
                 >
-                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76] w-full">
+                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220] w-full">
                     <SelectValue placeholder="Month" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
@@ -202,7 +202,7 @@ export default function CreatePayrollDialog({
                       <SelectItem
                         key={m.value}
                         value={m.value}
-                        className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                        className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                       >
                         {m.label}
                       </SelectItem>
@@ -224,7 +224,7 @@ export default function CreatePayrollDialog({
                   min="0"
                   value={formData.baseSalary}
                   onChange={(e) => handleInputChange("baseSalary", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="0.00"
                   required
                 />
@@ -239,7 +239,7 @@ export default function CreatePayrollDialog({
                   min="0"
                   value={formData.bonus}
                   onChange={(e) => handleInputChange("bonus", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="0.00"
                 />
               </div>
@@ -253,7 +253,7 @@ export default function CreatePayrollDialog({
                   min="0"
                   value={formData.deductions}
                   onChange={(e) => handleInputChange("deductions", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="0.00"
                 />
               </div>
@@ -267,7 +267,7 @@ export default function CreatePayrollDialog({
                   value={formData.status}
                   onValueChange={(v) => handleInputChange("status", v)}
                 >
-                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76] w-full">
+                  <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220] w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-[#0A0A0A] border-white/20 text-white">
@@ -275,7 +275,7 @@ export default function CreatePayrollDialog({
                       <SelectItem
                         key={s}
                         value={s}
-                        className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76]"
+                        className="focus:bg-[#F58220]/20 focus:text-[#F58220]"
                       >
                         {s}
                       </SelectItem>
@@ -292,7 +292,7 @@ export default function CreatePayrollDialog({
                 <Input
                   value={formData.notes}
                   onChange={(e) => handleInputChange("notes", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="Optional notes"
                 />
               </div>
@@ -311,7 +311,7 @@ export default function CreatePayrollDialog({
             <Button
               type="submit"
               disabled={isCreating}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold"
             >
               {isCreating ? (
                 <>

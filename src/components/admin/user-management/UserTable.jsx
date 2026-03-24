@@ -18,7 +18,7 @@ const users = [
   {
     id: 1,
     name: "Dipa Inhouse",
-    email: "dipa@squadlog.com",
+    email: "dipa@nexoviasoft.com",
     role: "Administrator",
     avatar: "/avatars/01.png",
     status: "Active",
@@ -27,7 +27,7 @@ const users = [
   {
     id: 2,
     name: "Jane Cooper",
-    email: "jane@squadlog.com",
+    email: "jane@nexoviasoft.com",
     role: "Manager",
     avatar: "/avatars/02.png",
     status: "Active",
@@ -36,7 +36,7 @@ const users = [
   {
     id: 3,
     name: "Floyd Miles",
-    email: "floyd@squadlog.com",
+    email: "floyd@nexoviasoft.com",
     role: "Team Member",
     avatar: "/avatars/03.png",
     status: "Inactive",
@@ -45,7 +45,7 @@ const users = [
   {
     id: 4,
     name: "Theresa Webb",
-    email: "theresa@squadlog.com",
+    email: "theresa@nexoviasoft.com",
     role: "Team Member",
     avatar: "/avatars/04.png",
     status: "Active",

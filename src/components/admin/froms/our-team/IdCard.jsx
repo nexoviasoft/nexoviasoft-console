@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const IdCard = React.forwardRef(({ teamMember, departmentName, companyName = "SquadLog" }, ref) => {
+const IdCard = React.forwardRef(({ teamMember, departmentName, companyName = "NexoviaSoft" }, ref) => {
   const fullName = `${teamMember.firstName || ""} ${teamMember.lastName || ""}`.trim();
   const position = teamMember.position || "Employee";
   const employeeId = teamMember.employeeId || "N/A";

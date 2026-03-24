@@ -21,8 +21,8 @@ export default function ScheduleHeader({
       {/* Title Section - more compact */}
       <div className="flex items-center gap-4">
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#EFFC76]/20 to-transparent blur-xl" />
-          <Sparkles className="w-6 h-6 text-[#EFFC76] relative z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F58220]/20 to-transparent blur-xl" />
+          <Sparkles className="w-6 h-6 text-[#F58220] relative z-10" />
         </div>
         <div>
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">
@@ -41,7 +41,7 @@ export default function ScheduleHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-all duration-300 rounded-md"
+            className="h-8 w-8 text-white/60 hover:text-[#F58220] hover:bg-[#F58220]/10 transition-all duration-300 rounded-md"
             onClick={onPrevWeek}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -54,7 +54,7 @@ export default function ScheduleHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-[#EFFC76]/10 transition-all duration-300 rounded-md"
+            className="h-8 w-8 text-white/60 hover:text-[#F58220] hover:bg-[#F58220]/10 transition-all duration-300 rounded-md"
             onClick={onNextWeek}
           >
             <ChevronRight className="w-4 h-4" />
@@ -69,7 +69,7 @@ export default function ScheduleHeader({
               size="sm"
               className="glass-button border border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              <Upload className="w-3.5 h-3.5 mr-1.5 text-[#EFFC76]" />
+              <Upload className="w-3.5 h-3.5 mr-1.5 text-[#F58220]" />
               <span className="font-semibold text-xs">Publish</span>
             </Button>
           )}
@@ -88,7 +88,7 @@ export default function ScheduleHeader({
           {showAddShift && (
             <Button
               size="sm"
-              className="bg-gradient-to-r from-[#EFFC76] to-[#e0ef5f] hover:from-[#e0ef5f] hover:to-[#d0df4f] text-black font-bold shadow-lg shadow-[#EFFC76]/30 hover:shadow-xl hover:shadow-[#EFFC76]/40 transition-all duration-300 hover:scale-105"
+              className="bg-gradient-to-r from-[#F58220] to-[#d91d79] hover:from-[#d91d79] hover:to-[#d0df4f] text-black font-bold shadow-lg shadow-[#F58220]/30 hover:shadow-xl hover:shadow-[#F58220]/40 transition-all duration-300 hover:scale-105"
               onClick={onAddShift}
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />

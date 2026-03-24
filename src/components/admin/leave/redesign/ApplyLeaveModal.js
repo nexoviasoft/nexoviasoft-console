@@ -118,7 +118,7 @@ export default function ApplyLeaveModal() {
   return (
     <Dialog open={open} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button">
+        <Button className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button">
             <Plus className="w-4 h-4 mr-2" />
             Apply for Leave
         </Button>
@@ -135,36 +135,36 @@ export default function ApplyLeaveModal() {
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="type" className="text-white/80 flex items-center gap-2">
-                      <Briefcase className="w-4 h-4 text-[#EFFC76]" />
+                      <Briefcase className="w-4 h-4 text-[#F58220]" />
                       Leave Type
                     </Label>
                     <Select value={leaveType} onValueChange={setLeaveType} required>
-                        <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76]">
+                        <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220]">
                         <SelectValue placeholder="Select type" />
                         </SelectTrigger>
-                        <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
-                        <SelectItem value="Casual Leave" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Casual Leave</SelectItem>
-                        <SelectItem value="Sick Leave" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Sick Leave</SelectItem>
-                        <SelectItem value="Earned Leave" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Earned Leave</SelectItem>
-                        <SelectItem value="Unpaid Leave" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Unpaid Leave</SelectItem>
-                        <SelectItem value="Personal" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Personal</SelectItem>
-                        <SelectItem value="Vacation" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Vacation</SelectItem>
+                        <SelectContent className="glass-card border-[#F58220]/20 bg-black/90 text-white">
+                        <SelectItem value="Casual Leave" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Casual Leave</SelectItem>
+                        <SelectItem value="Sick Leave" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Sick Leave</SelectItem>
+                        <SelectItem value="Earned Leave" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Earned Leave</SelectItem>
+                        <SelectItem value="Unpaid Leave" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Unpaid Leave</SelectItem>
+                        <SelectItem value="Personal" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Personal</SelectItem>
+                        <SelectItem value="Vacation" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Vacation</SelectItem>
                         </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="duration" className="text-white/80 flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#EFFC76]" />
+                      <Clock className="w-4 h-4 text-[#F58220]" />
                       Duration
                     </Label>
                     <Select defaultValue="full">
-                        <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#EFFC76]">
+                        <SelectTrigger className="bg-black/40 border-white/20 text-white focus:ring-[#F58220]">
                         <SelectValue placeholder="Duration" />
                         </SelectTrigger>
-                        <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
-                        <SelectItem value="full" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Full Day</SelectItem>
-                        <SelectItem value="first_half" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">First Half</SelectItem>
-                        <SelectItem value="second_half" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Second Half</SelectItem>
+                        <SelectContent className="glass-card border-[#F58220]/20 bg-black/90 text-white">
+                        <SelectItem value="full" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Full Day</SelectItem>
+                        <SelectItem value="first_half" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">First Half</SelectItem>
+                        <SelectItem value="second_half" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Second Half</SelectItem>
                         </SelectContent>
                     </Select>
                   </div>
@@ -173,7 +173,7 @@ export default function ApplyLeaveModal() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-white/80 flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-[#EFFC76]" />
+                  <CalendarIcon className="w-4 h-4 text-[#F58220]" />
                   Start Date
                 </Label>
                 <Popover>
@@ -206,7 +206,7 @@ export default function ApplyLeaveModal() {
               </div>
               <div className="space-y-2">
                 <Label className="text-white/80 flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-[#EFFC76]" />
+                  <CalendarIcon className="w-4 h-4 text-[#F58220]" />
                   End Date
                 </Label>
                 <Popover>
@@ -239,22 +239,22 @@ export default function ApplyLeaveModal() {
               </div>
             </div>
             {startDate && endDate && (
-              <div className="text-sm text-[#EFFC76]">
+              <div className="text-sm text-[#F58220]">
                 Duration: {calculateDays(startDate, endDate)} {calculateDays(startDate, endDate) === 1 ? 'day' : 'days'}
               </div>
             )}
 
             <div className="space-y-2">
               <Label htmlFor="reason" className="text-white/80 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#EFFC76]" />
+                <FileText className="w-4 h-4 text-[#F58220]" />
                 Reason <span className="text-red-400">*</span>
               </Label>
               <Textarea
                 id="reason"
                 name="reason"
                 placeholder="Please describe the reason for your leave (e.g., Medical appointment, Family event, Personal matter)..."
-                className={`min-h-[100px] bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${
-                  reason.trim() ? 'border-[#EFFC76]/50' : ''
+                className={`min-h-[100px] bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${
+                  reason.trim() ? 'border-[#F58220]/50' : ''
                 }`}
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
@@ -274,13 +274,13 @@ export default function ApplyLeaveModal() {
               type="button"
               variant="outline"
               onClick={() => handleDialogChange(false)}
-              className="glass-button border-white/30 bg-white/5 text-white hover:bg-[#EFFC76]/20 hover:text-[#EFFC76] hover:border-[#EFFC76]/30"
+              className="glass-button border-white/30 bg-white/5 text-white hover:bg-[#F58220]/20 hover:text-[#F58220] hover:border-[#F58220]/30"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
               disabled={isLoading || !teamId}
             >
               {isLoading ? "Submitting..." : "Submit Request"}

@@ -46,14 +46,14 @@ export default function PricePackagePage() {
   const tableData = pricePackages.map((pricePackage) => ({
     ...pricePackage,
     type: pricePackage.type ? (
-      <span className="capitalize px-2 py-1 rounded-md bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40 text-sm">
+      <span className="capitalize px-2 py-1 rounded-md bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40 text-sm">
         {pricePackage.type}
       </span>
     ) : (
       <span className="text-white/40 text-sm italic">-</span>
     ),
     badge: pricePackage.badge ? (
-      <span className="px-2 py-1 rounded-md bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40 text-sm">
+      <span className="px-2 py-1 rounded-md bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40 text-sm">
         {pricePackage.badge}
       </span>
     ) : (
@@ -140,7 +140,7 @@ export default function PricePackagePage() {
           <CardTitle className="text-white">Price Packages</CardTitle>
           <Button
             onClick={handleAdd}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Price Package

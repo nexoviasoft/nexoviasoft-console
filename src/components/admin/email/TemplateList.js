@@ -198,7 +198,7 @@ export default function TemplateList({ onSelectTemplate }) {
             setShowCreateDialog(true);
           }}
           size="sm"
-          className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black gap-2"
+          className="bg-[#F58220] hover:bg-[#F58220]/80 text-black gap-2"
         >
           <Plus className="w-4 h-4" />
           New
@@ -218,7 +218,7 @@ export default function TemplateList({ onSelectTemplate }) {
       <div className="grid grid-cols-1 gap-3">
         {isLoading ? (
           <div className="text-center py-12 glass-card rounded-xl">
-            <Loader2 className="w-6 h-6 animate-spin mx-auto text-[#EFFC76] mb-2" />
+            <Loader2 className="w-6 h-6 animate-spin mx-auto text-[#F58220] mb-2" />
             <p className="text-white/70">Loading templates...</p>
           </div>
         ) : paginatedTemplates.length > 0 ? (
@@ -227,19 +227,19 @@ export default function TemplateList({ onSelectTemplate }) {
             return (
               <Card
                 key={template.id}
-                className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-[#EFFC76] group relative"
+                className="glass-card cursor-pointer hover:shadow-lg hover:scale-[1.01] transition-all duration-200 border-l-4 border-l-[#F58220] group relative"
                 onClick={() => onSelectTemplate(template)}
               >
                 <CardContent className="p-5">
                   <div className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4">
                     <div className="flex w-full sm:w-auto justify-between items-start">
-                      <div className="p-1.5 sm:p-3 bg-[#EFFC76]/15 rounded-lg sm:rounded-xl group-hover:bg-[#EFFC76]/25 transition-colors">
-                        <IconComponent className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#EFFC76]" />
+                      <div className="p-1.5 sm:p-3 bg-[#F58220]/15 rounded-lg sm:rounded-xl group-hover:bg-[#F58220]/25 transition-colors">
+                        <IconComponent className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#F58220]" />
                       </div>
                       {/* Badge moved here for mobile to save vertical space */}
                       <Badge
                         variant="secondary"
-                        className="sm:hidden text-[10px] bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 px-1.5 py-0 h-5"
+                        className="sm:hidden text-[10px] bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40 px-1.5 py-0 h-5"
                       >
                         {template.category}
                       </Badge>
@@ -247,13 +247,13 @@ export default function TemplateList({ onSelectTemplate }) {
                     
                     <div className="flex-1 min-w-0 w-full">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-                        <h4 className="font-semibold text-white group-hover:text-[#EFFC76] transition-colors text-xs sm:text-base truncate">
+                        <h4 className="font-semibold text-white group-hover:text-[#F58220] transition-colors text-xs sm:text-base truncate">
                           {template.title}
                         </h4>
                         {/* Badge shown normally on desktop */}
                         <Badge
                           variant="secondary"
-                          className="hidden sm:inline-flex text-xs bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 w-fit"
+                          className="hidden sm:inline-flex text-xs bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40 w-fit"
                         >
                           {template.category}
                         </Badge>
@@ -299,7 +299,7 @@ export default function TemplateList({ onSelectTemplate }) {
               size="sm"
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none disabled:bg-[#EFFC76]/50 disabled:text-black/50"
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black border-none disabled:bg-[#F58220]/50 disabled:text-black/50"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
@@ -313,7 +313,7 @@ export default function TemplateList({ onSelectTemplate }) {
                 setCurrentPage((prev) => Math.min(totalPages, prev + 1))
               }
               disabled={currentPage === totalPages}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none disabled:bg-[#EFFC76]/50 disabled:text-black/50"
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black border-none disabled:bg-[#F58220]/50 disabled:text-black/50"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
@@ -409,7 +409,7 @@ export default function TemplateList({ onSelectTemplate }) {
             <Button
               onClick={handleCreateTemplate}
               disabled={isCreating}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black"
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black"
             >
               {isCreating ? (
                 <>

@@ -29,7 +29,7 @@ export default function PayrollHeader() {
               variant="ghost"
               size="icon"
               onClick={handlePrevMonth}
-              className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+              className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
@@ -40,7 +40,7 @@ export default function PayrollHeader() {
               variant="ghost"
               size="icon"
               onClick={handleNextMonth}
-              className="h-8 w-8 text-white/70 hover:text-[#EFFC76] hover:bg-white/10"
+              className="h-8 w-8 text-white/70 hover:text-[#F58220] hover:bg-white/10"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
@@ -48,7 +48,7 @@ export default function PayrollHeader() {
 
           <Button
             onClick={() => setOpenCreate(true)}
-            className="w-full sm:w-auto bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button"
+            className="w-full sm:w-auto bg-[#F58220] hover:bg-[#d91d79] text-black gap-2 glass-button"
           >
             <PlayCircle className="w-4 h-4" />
             <span>Create Payroll</span>

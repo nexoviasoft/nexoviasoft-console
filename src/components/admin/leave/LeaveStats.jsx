@@ -13,7 +13,7 @@ import {
 
 const data = [
   { name: "In Office", value: 63, color: "#3b82f6" }, // Primary Blue
-  { name: "Half Day", value: 6, color: "#EFFC76" }, // Brand Yellow
+  { name: "Half Day", value: 6, color: "#F58220" }, // Brand Yellow
   { name: "Work from Home", value: 22, color: "#22d3ee" }, // Teal
   { name: "On Leave", value: 9, color: "#ec4899" }, // Pink
 ];
@@ -64,7 +64,7 @@ export default function LeaveStats() {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span className="text-3xl font-bold text-[#EFFC76]">63%</span>
+              <span className="text-3xl font-bold text-[#F58220]">63%</span>
             </div>
           </div>
 

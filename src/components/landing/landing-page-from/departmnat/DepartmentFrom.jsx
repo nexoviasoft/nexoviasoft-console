@@ -141,7 +141,7 @@ export default function DepartmentForm({
             <Button
               type="submit"
               disabled={isCreating || isUpdating || isSubmitting}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             >
               {isCreating || isUpdating || isSubmitting
                 ? "Saving..."

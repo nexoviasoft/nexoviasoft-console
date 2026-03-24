@@ -16,8 +16,8 @@ export default function DirectoryHeader({ onSearch, onFilterChange, onAddEmploye
   return (
     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
       <div className="flex items-center gap-3">
-        <div className="p-2 rounded-xl bg-[#EFFC76]/10 border border-[#EFFC76]/20">
-          <Users className="w-5 h-5 text-[#EFFC76]" />
+        <div className="p-2 rounded-xl bg-[#F58220]/10 border border-[#F58220]/20">
+          <Users className="w-5 h-5 text-[#F58220]" />
         </div>
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-white">Employee Directory</h1>
@@ -32,28 +32,28 @@ export default function DirectoryHeader({ onSearch, onFilterChange, onAddEmploye
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input 
             placeholder="Search employees..." 
-            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#EFFC76]" 
+            className="pl-9 bg-black/40 border border-white/20 text-white placeholder:text-white/50 focus-visible:ring-[#F58220]" 
             onChange={(e) => onSearch(e.target.value)}
           />
         </div>
         
         <div className="grid grid-cols-2 gap-3 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
           <Select onValueChange={onFilterChange}>
-            <SelectTrigger className="w-full sm:w-[180px] bg-black/40 border border-white/20 text-white focus:ring-[#EFFC76]">
+            <SelectTrigger className="w-full sm:w-[180px] bg-black/40 border border-white/20 text-white focus:ring-[#F58220]">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
-            <SelectContent className="glass-card border-[#EFFC76]/20 bg-black/90 text-white">
-              <SelectItem value="all" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">All Departments</SelectItem>
-              <SelectItem value="Design" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Design</SelectItem>
-              <SelectItem value="Engineering" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Engineering</SelectItem>
-              <SelectItem value="Marketing" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Marketing</SelectItem>
-              <SelectItem value="Product" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">Product</SelectItem>
-              <SelectItem value="HR" className="focus:bg-[#EFFC76]/20 focus:text-[#EFFC76] cursor-pointer">HR</SelectItem>
+            <SelectContent className="glass-card border-[#F58220]/20 bg-black/90 text-white">
+              <SelectItem value="all" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">All Departments</SelectItem>
+              <SelectItem value="Design" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Design</SelectItem>
+              <SelectItem value="Engineering" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Engineering</SelectItem>
+              <SelectItem value="Marketing" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Marketing</SelectItem>
+              <SelectItem value="Product" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">Product</SelectItem>
+              <SelectItem value="HR" className="focus:bg-[#F58220]/20 focus:text-[#F58220] cursor-pointer">HR</SelectItem>
             </SelectContent>
           </Select>
 
           <Button 
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black gap-2 glass-button w-full sm:w-auto"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black gap-2 glass-button w-full sm:w-auto"
             onClick={onAddEmployee}
           >
             <Plus className="w-4 h-4 text-black" />

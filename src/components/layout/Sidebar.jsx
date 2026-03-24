@@ -88,7 +88,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 "group w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ease-in-out",
                 "hover:bg-white/10 hover:translate-x-1",
                 isActive || hasActiveChild
-                  ? "bg-[#EFFC76]/10 border border-[#EFFC76]/60 text-white shadow-[0_0_24px_rgba(239,252,118,0.45)]"
+                  ? "bg-[#F58220]/10 border border-[#F58220]/60 text-white shadow-[0_0_24px_rgba(245,130,32,0.45)]"
                   : "text-white/70",
               )}
             >
@@ -98,8 +98,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                     iconSize,
                     "transition-transform duration-200",
                     isActive || hasActiveChild
-                      ? "text-[#EFFC76]"
-                      : "text-white/60 group-hover:text-[#EFFC76]",
+                      ? "text-[#F58220]"
+                      : "text-white/60 group-hover:text-[#F58220]",
                     "group-hover:scale-110",
                   )}
                 />
@@ -110,8 +110,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                   "w-4 h-4 transition-all duration-300 ease-in-out",
                   shouldShowExpanded ? "rotate-90" : "rotate-0",
                   isActive || hasActiveChild
-                    ? "text-[#EFFC76]"
-                    : "text-white/40 group-hover:text-[#EFFC76]",
+                    ? "text-[#F58220]"
+                    : "text-white/40 group-hover:text-[#F58220]",
                 )}
               />
             </button>
@@ -126,7 +126,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               <div
                 className={cn(
                   "space-y-1 border-l-2 pl-3 ml-2 mt-1",
-                  level === 0 ? "border-[#EFFC76]/60" : "border-white/20",
+                  level === 0 ? "border-[#F58220]/60" : "border-white/20",
                 )}
               >
                 {item.children.map((child) => renderNavItem(child, level + 1))}
@@ -140,20 +140,20 @@ const Sidebar = ({ isOpen, onClose }) => {
               "group relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ease-in-out",
               "hover:bg-white/10 hover:translate-x-1",
               isActive
-                ? "bg-[#EFFC76]/10 border border-[#EFFC76]/60 text-white shadow-[0_0_24px_rgba(239,252,118,0.45)]"
+                ? "bg-[#F58220]/10 border border-[#F58220]/60 text-white shadow-[0_0_24px_rgba(245,130,32,0.45)]"
                 : "text-white/70",
             )}
           >
             {isActive && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#EFFC76] rounded-r-full shadow-[0_0_16px_rgba(239,252,118,0.9)] animate-pulse" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#F58220] rounded-r-full shadow-[0_0_16px_rgba(245,130,32,0.9)] animate-pulse" />
             )}
             <Icon
               className={cn(
                 iconSize,
                 "transition-all duration-200",
                 isActive
-                  ? "text-[#EFFC76]"
-                  : "text-white/60 group-hover:text-[#EFFC76]",
+                  ? "text-[#F58220]"
+                  : "text-white/60 group-hover:text-[#F58220]",
                 "group-hover:scale-110 group-hover:rotate-3",
               )}
             />
@@ -203,23 +203,23 @@ const Sidebar = ({ isOpen, onClose }) => {
             <img src="/customIcon.png" className="w-10 h-9  "></img>
 
             <div className="flex-1">
-              <div className="font-bold text-sm text-white transition-colors group-hover:text-[#EFFC76]">
-                SquadLog Console
+              <div className="font-bold text-sm text-white transition-colors group-hover:text-[#F58220]">
+                NexoviaSoft Console
               </div>
               <div className="text-xs text-white/60">Dashboard</div>
             </div>
-            <button className="text-white/50 lg:block hidden hover:text-[#EFFC76] transition-colors duration-200 hover:scale-110">
+            <button className="text-white/50 lg:block hidden hover:text-[#F58220] transition-colors duration-200 hover:scale-110">
               <ChevronDown className="w-4 h-4 transition-transform duration-200" />
             </button>
           </div>
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 transition-colors duration-200 group-focus-within:text-[#EFFC76]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 transition-colors duration-200 group-focus-within:text-[#F58220]" />
             <input
               type="text"
               placeholder="Quick search..."
               className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm 
-                     focus:outline-none focus:ring-2 focus:ring-[#EFFC76]/40 focus:border-[#EFFC76]/60 
-                     transition-all duration-200 hover:border-[#EFFC76]/40 hover:bg-white/10
+                     focus:outline-none focus:ring-2 focus:ring-[#F58220]/40 focus:border-[#F58220]/60 
+                     transition-all duration-200 hover:border-[#F58220]/40 hover:bg-white/10
                      placeholder:text-white/40 text-white"
             />
           </div>
@@ -230,14 +230,14 @@ const Sidebar = ({ isOpen, onClose }) => {
             <button
               onClick={() => setMainExpanded(!mainExpanded)}
               className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
-                     hover:text-[#EFFC76] transition-all duration-200"
+                     hover:text-[#F58220] transition-all duration-200"
             >
               <span className="transition-colors duration-200">MAIN</span>
               <ChevronDown
                 className={cn(
                   "w-4 h-4 transition-all duration-300 ease-in-out",
                   mainExpanded ? "rotate-180" : "rotate-0",
-                  "text-white/40 group-hover:text-[#EFFC76]",
+                  "text-white/40 group-hover:text-[#F58220]",
                 )}
               />
             </button>
@@ -257,14 +257,14 @@ const Sidebar = ({ isOpen, onClose }) => {
             <button
               onClick={() => setOthersExpanded(!othersExpanded)}
               className="group flex items-center justify-between w-full mb-3 text-xs font-bold text-white/60 uppercase tracking-wider 
-                     hover:text-[#EFFC76] transition-all duration-200"
+                     hover:text-[#F58220] transition-all duration-200"
             >
               <span className="transition-colors duration-200">OTHERS</span>
               <ChevronDown
                 className={cn(
                   "w-4 h-4 transition-all duration-300 ease-in-out",
                   othersExpanded ? "rotate-180" : "rotate-0",
-                  "text-white/40 group-hover:text-[#EFFC76]",
+                  "text-white/40 group-hover:text-[#F58220]",
                 )}
               />
             </button>

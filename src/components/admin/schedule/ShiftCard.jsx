@@ -7,9 +7,9 @@ export default function ShiftCard({ shift }) {
   // Enhanced color schemes with vibrant gradients and glow effects
   const colorStyles = {
     morning:
-      "bg-gradient-to-br from-amber-400/25 via-yellow-300/20 to-[#EFFC76]/15 " +
+      "bg-gradient-to-br from-amber-400/25 via-yellow-300/20 to-[#F58220]/15 " +
       "border border-amber-400/40 " +
-      "hover:from-amber-400/35 hover:via-yellow-300/30 hover:to-[#EFFC76]/25 hover:border-amber-400/60 " +
+      "hover:from-amber-400/35 hover:via-yellow-300/30 hover:to-[#F58220]/25 hover:border-amber-400/60 " +
       "shadow-[0_4px_20px_rgba(251,191,36,0.15)] hover:shadow-[0_8px_32px_rgba(251,191,36,0.25)] " +
       "hover:scale-[1.01] hover:-translate-y-0.5",
 
@@ -63,7 +63,7 @@ export default function ShiftCard({ shift }) {
         className="
           h-full w-full min-h-[75px] rounded-xl 
           border-2 border-dashed border-white/15 
-          hover:border-[#EFFC76]/60 hover:bg-[#EFFC76]/5 
+          hover:border-[#F58220]/60 hover:bg-[#F58220]/5 
           transition-all duration-300 ease-out
           flex items-center justify-center 
           cursor-pointer group
@@ -71,9 +71,9 @@ export default function ShiftCard({ shift }) {
         "
       >
         {/* Animated background gradient on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EFFC76]/0 to-[#EFFC76]/0 group-hover:from-[#EFFC76]/10 group-hover:to-transparent transition-all duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F58220]/0 to-[#F58220]/0 group-hover:from-[#F58220]/10 group-hover:to-transparent transition-all duration-300" />
         
-        <span className="relative text-2xl text-white/15 group-hover:text-[#EFFC76]/70 transition-all duration-300 group-hover:scale-110">
+        <span className="relative text-2xl text-white/15 group-hover:text-[#F58220]/70 transition-all duration-300 group-hover:scale-110">
           +
         </span>
       </div>

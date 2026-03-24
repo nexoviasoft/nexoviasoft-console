@@ -12,8 +12,8 @@ export default function NotificationSettings() {
       <Card className="glass-card border-white/20">
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-2 bg-[#EFFC76]/15 rounded-lg border border-[#EFFC76]/60">
-              <Mail className="w-5 h-5 text-[#EFFC76]" />
+            <div className="p-2 bg-[#F58220]/15 rounded-lg border border-[#F58220]/60">
+              <Mail className="w-5 h-5 text-[#F58220]" />
             </div>
             <div>
               <h3 className="font-semibold text-white">Email Notifications</h3>
@@ -51,7 +51,7 @@ export default function NotificationSettings() {
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="p-2 bg-white/10 rounded-lg border border-white/30">
-              <Smartphone className="w-5 h-5 text-[#EFFC76]" />
+              <Smartphone className="w-5 h-5 text-[#F58220]" />
             </div>
             <div>
               <h3 className="font-semibold text-white">Push Notifications</h3>

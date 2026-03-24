@@ -86,7 +86,7 @@ export default function Projects() {
       case "Database Layer":
         return "bg-emerald-500/15 text-emerald-300 border border-emerald-400/50";
       default:
-        return "bg-[#EFFC76]/15 text-[#EFFC76] border border-[#EFFC76]/50";
+        return "bg-[#F58220]/15 text-[#F58220] border border-[#F58220]/50";
     }
   };
 
@@ -118,7 +118,7 @@ export default function Projects() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-              <FolderKanban className="w-6 h-6 text-[#EFFC76]" />
+              <FolderKanban className="w-6 h-6 text-[#F58220]" />
               Projects
             </h1>
             <p className="text-sm text-white/60 mt-1">
@@ -127,7 +127,7 @@ export default function Projects() {
           </div>
           <Button
             onClick={() => setShowNewProjectDialog(true)}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button w-full md:w-auto"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button w-full md:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Application Project
@@ -140,7 +140,7 @@ export default function Projects() {
             <p className="text-white/60 mb-4">No projects yet</p>
             <Button 
               onClick={() => setShowNewProjectDialog(true)}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Your First Project
@@ -159,7 +159,7 @@ export default function Projects() {
                   {/* Project Header */}
                   <div className="mb-3 md:mb-4">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#EFFC76] transition-colors line-clamp-1">
+                      <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#F58220] transition-colors line-clamp-1">
                         {project.name}
                       </h3>
                       <span
@@ -197,19 +197,19 @@ export default function Projects() {
                   <div className="mb-3 md:mb-4">
                     <div className="flex justify-between text-xs font-medium text-white/60 mb-2">
                       <span>Progress</span>
-                      <span className="text-[#EFFC76]">{project.progress || 0}%</span>
+                      <span className="text-[#F58220]">{project.progress || 0}%</span>
                     </div>
                     <Progress
                       value={project.progress || 0}
                       className="h-1.5 md:h-2 bg-white/10"
-                      indicatorClassName="bg-[#EFFC76]"
+                      indicatorClassName="bg-[#F58220]"
                     />
                   </div>
 
                   {/* Footer */}
                   <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-white/10">
-                    <div className="flex items-center gap-1.5 text-white/80 bg-[#EFFC76]/15 px-2 py-1 rounded-md border border-[#EFFC76]/50">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#EFFC76]" />
+                    <div className="flex items-center gap-1.5 text-white/80 bg-[#F58220]/15 px-2 py-1 rounded-md border border-[#F58220]/50">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#F58220]" />
                       <span className="text-xs font-medium">
                         {project.tasksCompleted || 0}/{project.totalTasks || 0} tasks
                       </span>
@@ -219,9 +219,9 @@ export default function Projects() {
                       {teamMembers.slice(0, 3).map((member, idx) => (
                         <Avatar
                           key={idx}
-                          className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
+                          className="h-7 w-7 border-2 border-black/60 ring-1 ring-[#F58220]/40"
                         >
-                          <AvatarFallback className="text-[10px] bg-[#EFFC76]/15 text-[#EFFC76]">
+                          <AvatarFallback className="text-[10px] bg-[#F58220]/15 text-[#F58220]">
                             {member.avatar}
                           </AvatarFallback>
                         </Avatar>

@@ -55,7 +55,7 @@ function formatDate(dateString) {
 const StatusBadge = ({ status }) => {
   const styles = {
     Completed: "bg-emerald-500/15 text-emerald-200 border-emerald-400/60",
-    "In Progress": "bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/60",
+    "In Progress": "bg-[#F58220]/10 text-[#F58220] border-[#F58220]/60",
     Review: "bg-sky-500/15 text-sky-200 border-sky-400/60",
     Pending: "bg-amber-500/15 text-amber-200 border-amber-400/60",
   };
@@ -99,7 +99,7 @@ export default function OrderTable({ onViewDetails }) {
       <div className="space-y-4">
         <div className="glass-card rounded-xl border-white/20 overflow-hidden p-8">
           <div className="flex items-center justify-center h-64">
-            <Loader2 className="w-8 h-8 animate-spin text-[#EFFC76]" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#F58220]" />
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function OrderTable({ onViewDetails }) {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input
             placeholder="Search orders, clients, or services..."
-            className="pl-9 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#EFFC76] focus-visible:ring-0"
+            className="pl-9 bg-black/40 border-white/20 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#F58220] focus-visible:ring-0"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -136,7 +136,7 @@ export default function OrderTable({ onViewDetails }) {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="gap-2 border-white/30 text-white/80 bg-black/40 hover:bg-white/10 hover:border-[#EFFC76]/60 hover:text-[#EFFC76]"
+                className="gap-2 border-white/30 text-white/80 bg-black/40 hover:bg-white/10 hover:border-[#F58220]/60 hover:text-[#F58220]"
               >
                 <Filter className="w-4 h-4" />
                 <span>Filter: {statusFilter}</span>
@@ -164,51 +164,51 @@ export default function OrderTable({ onViewDetails }) {
       <div className="glass-card rounded-xl border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
-            <TableHeader className="bg-[#EFFC76]/10">
+            <TableHeader className="bg-[#F58220]/10">
               <TableRow className="hover:bg-transparent border-white/10">
-                <TableHead className="w-[100px] text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="w-[100px] text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <Hash className="w-3.5 h-3.5" />
                     Order ID
                   </div>
                 </TableHead>
-                <TableHead className="min-w-[200px] text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="min-w-[200px] text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <User className="w-3.5 h-3.5" />
                     Client
                   </div>
                 </TableHead>
-                <TableHead className="text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <Briefcase className="w-3.5 h-3.5" />
                     Service
                   </div>
                 </TableHead>
-                <TableHead className="text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-3.5 h-3.5" />
                     Amount
                   </div>
                 </TableHead>
-                <TableHead className="text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <Activity className="w-3.5 h-3.5" />
                     Status
                   </div>
                 </TableHead>
-                <TableHead className="w-[150px] text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="w-[150px] text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <BarChart2 className="w-3.5 h-3.5" />
                     Progress
                   </div>
                 </TableHead>
-                <TableHead className="text-xs font-semibold text-[#EFFC76]">
+                <TableHead className="text-xs font-semibold text-[#F58220]">
                   <div className="flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" />
                     Assigned To
                   </div>
                 </TableHead>
-                <TableHead className="text-xs font-semibold text-[#EFFC76] text-right">
+                <TableHead className="text-xs font-semibold text-[#F58220] text-right">
                   <div className="flex items-center justify-end gap-2">
                     <Settings className="w-3.5 h-3.5" />
                     Action
@@ -221,7 +221,7 @@ export default function OrderTable({ onViewDetails }) {
                 filteredOrders.map((order) => (
                   <TableRow
                     key={order.id}
-                    className="group hover:bg-[#EFFC76]/5 transition-colors border-white/10"
+                    className="group hover:bg-[#F58220]/5 transition-colors border-white/10"
                   >
                     <TableCell className="font-medium text-white/60 text-xs">
                       {order.orderId}
@@ -230,7 +230,7 @@ export default function OrderTable({ onViewDetails }) {
                       <div className="flex items-center gap-3">
                         <Avatar className="w-8 h-8 border border-white/20 bg-black/40">
                           <AvatarImage src={order.client?.photo} />
-                          <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
+                          <AvatarFallback className="bg-[#F58220]/10 text-[#F58220] text-xs">
                             {order.client?.name?.charAt(0) || 'C'}
                           </AvatarFallback>
                         </Avatar>
@@ -247,7 +247,7 @@ export default function OrderTable({ onViewDetails }) {
                     <TableCell className="text-white/80 font-medium text-sm">
                       {order.service}
                     </TableCell>
-                    <TableCell className="font-semibold text-[#EFFC76]">
+                    <TableCell className="font-semibold text-[#F58220]">
                       {formatCurrency(order.amount)}
                     </TableCell>
                     <TableCell>
@@ -264,7 +264,7 @@ export default function OrderTable({ onViewDetails }) {
                           indicatorClassName={
                             order.status === "Completed"
                               ? "bg-emerald-400"
-                              : "bg-[#EFFC76]"
+                              : "bg-[#F58220]"
                           }
                         />
                       </div>
@@ -274,9 +274,9 @@ export default function OrderTable({ onViewDetails }) {
                         {(order.assignedTo || []).map((initials, i) => (
                           <Avatar
                             key={i}
-                            className="w-6 h-6 border-2 border-black/60 ring-1 ring-[#EFFC76]/40"
+                            className="w-6 h-6 border-2 border-black/60 ring-1 ring-[#F58220]/40"
                           >
-                            <AvatarFallback className="text-[10px] bg-[#EFFC76]/10 text-[#EFFC76] font-medium">
+                            <AvatarFallback className="text-[10px] bg-[#F58220]/10 text-[#F58220] font-medium">
                               {initials}
                             </AvatarFallback>
                           </Avatar>
@@ -293,7 +293,7 @@ export default function OrderTable({ onViewDetails }) {
                         size="sm"
                         variant="outline"
                         onClick={() => onViewDetails(order)}
-                        className="h-8 gap-1.5 text-xs font-medium text-[#EFFC76] border border-[#EFFC76]/60 bg-[#EFFC76]/10 hover:bg-[#EFFC76]/20 hover:text-black hover:border-[#EFFC76] glass-button"
+                        className="h-8 gap-1.5 text-xs font-medium text-[#F58220] border border-[#F58220]/60 bg-[#F58220]/10 hover:bg-[#F58220]/20 hover:text-black hover:border-[#F58220] glass-button"
                       >
                         View Details
                         <ArrowUpRight className="w-3.5 h-3.5" />

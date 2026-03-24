@@ -77,7 +77,7 @@ export default function CreateBroadcastDialog({ open, onOpenChange }) {
                   id="subject"
                   value={formData.subject}
                   onChange={(e) => handleInputChange("subject", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="e.g., Q1 Town Hall Summary"
                   required
                 />
@@ -93,7 +93,7 @@ export default function CreateBroadcastDialog({ open, onOpenChange }) {
                   id="content"
                   value={formData.content}
                   onChange={(e) => handleInputChange("content", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] min-h-[140px]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] min-h-[140px]"
                   placeholder="Write your announcement..."
                   required
                 />
@@ -112,7 +112,7 @@ export default function CreateBroadcastDialog({ open, onOpenChange }) {
                   id="tag"
                   value={formData.tag}
                   onChange={(e) => handleInputChange("tag", e.target.value)}
-                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                   placeholder="e.g., Important, HR, System"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function CreateBroadcastDialog({ open, onOpenChange }) {
             <Button
               type="submit"
               disabled={isCreating}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold"
             >
               {isCreating ? (
                 <>

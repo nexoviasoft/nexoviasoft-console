@@ -100,13 +100,13 @@ export default function SMTPConfig({ open, onOpenChange }) {
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 bg-transparent hover:text-[#EFFC76]"
+            className="border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 bg-transparent hover:text-[#F58220]"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
-            className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
+            className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
           >
             Save Configuration
           </Button>

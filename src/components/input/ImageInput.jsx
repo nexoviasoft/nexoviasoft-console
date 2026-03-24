@@ -184,7 +184,7 @@ const ImageInput = ({
           htmlFor={id}
           className={`text-white/80 ${
             required
-              ? "after:content-['*'] after:ml-0.5 after:text-[#EFFC76]"
+              ? "after:content-['*'] after:ml-0.5 after:text-[#F58220]"
               : ""
           }`}
         >
@@ -198,8 +198,8 @@ const ImageInput = ({
           ref={dropZoneRef}
           className={`relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer ${
             dragActive
-              ? "border-[#EFFC76] bg-[#EFFC76]/5 scale-105"
-              : "border-white/30 hover:border-[#EFFC76]/60"
+              ? "border-[#F58220] bg-[#F58220]/5 scale-105"
+              : "border-white/30 hover:border-[#F58220]/60"
           } ${hasImage ? "bg-black/40" : "bg-black/40"}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
@@ -260,7 +260,7 @@ const ImageInput = ({
                     </div>
                   )}
                   {!file && (currentImage || value) && (
-                    <div className="absolute -top-2 -right-2 bg-[#EFFC76]/20 text-[#EFFC76] text-xs px-2 py-1 rounded-full font-medium border border-[#EFFC76]/60">
+                    <div className="absolute -top-2 -right-2 bg-[#F58220]/20 text-[#F58220] text-xs px-2 py-1 rounded-full font-medium border border-[#F58220]/60">
                       Current
                     </div>
                   )}
@@ -284,7 +284,7 @@ const ImageInput = ({
                 <div className="space-y-2">
                   <p className="text-lg font-medium text-white">
                     Drag and drop or{" "}
-                    <span className="text-[#EFFC76] underline">
+                    <span className="text-[#F58220] underline">
                       browse
                     </span>{" "}
                     to upload
@@ -300,7 +300,7 @@ const ImageInput = ({
           {/* Loading overlay */}
           {isLoading && (
             <div className="absolute inset-0 bg-black/80 rounded-lg flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#EFFC76]"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F58220]"></div>
             </div>
           )}
         </div>

@@ -24,7 +24,7 @@ export default function ReportsHeader({ date, setDate }) {
               variant="outline"
               className="w-full sm:w-[260px] justify-start text-left font-normal bg-white/5 border border-white/20 text-white hover:bg-white/10 glass-button h-9 sm:h-10 text-xs sm:text-sm"
             >
-              <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[#EFFC76]" />
+              <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4 text-[#F58220]" />
               {date?.from ? (
                 date.to ? (
                   <>
@@ -59,7 +59,7 @@ export default function ReportsHeader({ date, setDate }) {
             Filter
           </Button>
 
-          <Button className="flex-1 sm:flex-none bg-[#EFFC76] hover:bg-[#e0ef5f] text-black border-none shadow-sm gap-2 glass-button h-9 sm:h-10 text-xs sm:text-sm">
+          <Button className="flex-1 sm:flex-none bg-[#F58220] hover:bg-[#d91d79] text-black border-none shadow-sm gap-2 glass-button h-9 sm:h-10 text-xs sm:text-sm">
             <Download className="w-3 h-3 sm:w-4 sm:h-4" />
             <span>Export</span>
           </Button>

@@ -23,7 +23,7 @@ export default function LeaveManagement() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-              <Calendar className="w-6 h-6 text-[#EFFC76]" />
+              <Calendar className="w-6 h-6 text-[#F58220]" />
               Leave Management
             </h1>
             <p className="text-sm text-white/70 mt-1">

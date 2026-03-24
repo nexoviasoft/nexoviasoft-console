@@ -89,8 +89,8 @@ export default function LeaveBalanceCards() {
           >
             <CardContent className="relative p-4 md:p-6 text-white">
               <div className="flex justify-between items-start mb-4">
-                <div className="p-1.5 md:p-2 bg-[#EFFC76]/20 rounded-lg backdrop-blur-md">
-                  <Icon className="w-4 h-4 md:w-5 md:h-5 text-[#EFFC76]" />
+                <div className="p-1.5 md:p-2 bg-[#F58220]/20 rounded-lg backdrop-blur-md">
+                  <Icon className="w-4 h-4 md:w-5 md:h-5 text-[#F58220]" />
                 </div>
                 <div className="flex items-center gap-1 text-[10px] md:text-xs font-medium bg-black/40 border border-white/20 px-2 py-1 rounded-full backdrop-blur-md text-white/80">
                   {stat.trend}
@@ -101,7 +101,7 @@ export default function LeaveBalanceCards() {
                 <p className="text-xs md:text-sm font-medium text-white/80">
                   {stat.title}
                 </p>
-                <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[#EFFC76]">
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[#F58220]">
                   {typeof stat.total === "number" && stat.total > 0 ? (
                     <span>
                       {stat.remaining}
@@ -122,11 +122,11 @@ export default function LeaveBalanceCards() {
                 <div className="mt-4 pt-4 border-t border-white/10">
                   <div className="flex justify-between text-xs mb-1.5 text-white/80">
                     <span>Used: {stat.used}</span>
-                    <span className="text-[#EFFC76]">{percentage}%</span>
+                    <span className="text-[#F58220]">{percentage}%</span>
                   </div>
                   <div className="w-full bg-black/20 rounded-full h-1.5 overflow-hidden backdrop-blur-sm">
                     <div
-                      className="bg-[#EFFC76] h-full rounded-full transition-all duration-500"
+                      className="bg-[#F58220] h-full rounded-full transition-all duration-500"
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
@@ -142,7 +142,7 @@ export default function LeaveBalanceCards() {
                 <div className="mt-4 pt-4 border-t border-white/10">
                   <div className="flex justify-between text-xs text-white/80">
                     <span>Used: {stat.used} days</span>
-                    {stat.pending > 0 && <span className="text-[#EFFC76]">Pending: {stat.pending}d</span>}
+                    {stat.pending > 0 && <span className="text-[#F58220]">Pending: {stat.pending}d</span>}
                   </div>
                 </div>
               )}

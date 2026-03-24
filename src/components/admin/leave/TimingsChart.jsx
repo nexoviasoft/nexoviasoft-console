@@ -24,7 +24,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     return (
       <div className="bg-black/80 p-4 rounded-xl shadow-lg border border-white/20 min-w-[220px]">
         <div className="flex items-center gap-3 mb-3">
-          <Avatar className="w-8 h-8 ring-2 ring-[#EFFC76]/40">
+          <Avatar className="w-8 h-8 ring-2 ring-[#F58220]/40">
             <AvatarImage src="/avatars/miracle.jpg" />
             <AvatarFallback>MV</AvatarFallback>
           </Avatar>

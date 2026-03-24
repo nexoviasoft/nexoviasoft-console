@@ -163,15 +163,15 @@ export default function ProjectComments({ projectId, applicationType }) {
         };
       default:
         return {
-          text: "text-[#EFFC76]",
-          bg: "bg-[#EFFC76]/10",
-          border: "border-[#EFFC76]/20",
-          hoverBorder: "hover:border-[#EFFC76]/50",
-          badge: "bg-[#EFFC76]/15 text-[#EFFC76] border-[#EFFC76]/30",
-          avatarBg: "bg-[#EFFC76]/20",
-          avatarText: "text-[#EFFC76]",
-          button: "bg-[#EFFC76] hover:bg-[#e0ef5f] text-black",
-          mention: "text-[#EFFC76]",
+          text: "text-[#F58220]",
+          bg: "bg-[#F58220]/10",
+          border: "border-[#F58220]/20",
+          hoverBorder: "hover:border-[#F58220]/50",
+          badge: "bg-[#F58220]/15 text-[#F58220] border-[#F58220]/30",
+          avatarBg: "bg-[#F58220]/20",
+          avatarText: "text-[#F58220]",
+          button: "bg-[#F58220] hover:bg-[#d91d79] text-black",
+          mention: "text-[#F58220]",
         };
     }
   };

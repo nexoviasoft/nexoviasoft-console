@@ -129,7 +129,7 @@ export default function LeaveRequestTable() {
       );
     }
     return (
-      <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60">
+      <Badge className="bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/60">
         Pending
       </Badge>
     );
@@ -141,14 +141,14 @@ export default function LeaveRequestTable() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <CardTitle className="text-white flex items-center gap-2">
-              <FileText className="w-5 h-5 text-[#EFFC76]" />
+              <FileText className="w-5 h-5 text-[#F58220]" />
               {isAdmin ? 'All Leave Requests' : 'My Leave Requests'}
             </CardTitle>
             <CardDescription className="text-white/70">
               {isAdmin ? 'Manage and review all team leave applications' : 'View and track your leave applications'}
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2 w-full md:w-64 bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#EFFC76] transition-all">
+          <div className="flex items-center gap-2 w-full md:w-64 bg-white/5 border-none rounded-lg px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-[#F58220] transition-all">
             <Search className="w-4 h-4 text-white/40" />
             <Input
               type="text"
@@ -165,37 +165,37 @@ export default function LeaveRequestTable() {
           <Table className="min-w-[800px]">
             <TableHeader className="bg-[#1A1A1A]">
               <TableRow className="border-white/5 hover:bg-transparent">
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-[#EFFC76]" />
+                    <User className="w-4 h-4 text-[#F58220]" />
                     Employee
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-[#EFFC76]" />
+                    <FileText className="w-4 h-4 text-[#F58220]" />
                     Leave Type
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                    <Calendar className="w-4 h-4 text-[#F58220]" />
                     Duration
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-[#EFFC76]" />
+                    <Clock className="w-4 h-4 text-[#F58220]" />
                     Days
                   </div>
                 </TableHead>
-                <TableHead className="text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">
+                <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-[#EFFC76]" />
+                    <Activity className="w-4 h-4 text-[#F58220]" />
                     Status
                   </div>
                 </TableHead>
-                <TableHead className="text-right text-[#EFFC76] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
+                <TableHead className="text-right text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -205,30 +205,30 @@ export default function LeaveRequestTable() {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9 border border-white/10 bg-black/40">
                         <AvatarImage src={req.employee.avatar} />
-                        <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] font-medium">
+                        <AvatarFallback className="bg-[#F58220]/20 text-[#F58220] font-medium">
                           {req.employee.name.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium text-white group-hover:text-[#EFFC76] transition-colors">{req.employee.name}</div>
-                        <div className="text-xs text-white/60 group-hover:text-[#EFFC76]/70 transition-colors">{req.employee.role}</div>
+                        <div className="font-medium text-white group-hover:text-[#F58220] transition-colors">{req.employee.name}</div>
+                        <div className="text-xs text-white/60 group-hover:text-[#F58220]/70 transition-colors">{req.employee.role}</div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
-                      <span className="font-medium text-white/90 group-hover:text-[#EFFC76] transition-colors">{req.type}</span>
-                      <span className="text-xs text-white/60 group-hover:text-[#EFFC76]/70 transition-colors">{req.reason}</span>
+                      <span className="font-medium text-white/90 group-hover:text-[#F58220] transition-colors">{req.type}</span>
+                      <span className="text-xs text-white/60 group-hover:text-[#F58220]/70 transition-colors">{req.reason}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-white/70 text-sm group-hover:text-[#EFFC76] transition-colors">
-                      <Clock className="w-3.5 h-3.5 text-white/40 group-hover:text-[#EFFC76] transition-colors" />
+                    <div className="flex items-center gap-2 text-white/70 text-sm group-hover:text-[#F58220] transition-colors">
+                      <Clock className="w-3.5 h-3.5 text-white/40 group-hover:text-[#F58220] transition-colors" />
                       {req.duration}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium text-white group-hover:text-[#EFFC76] transition-colors">{req.days} days</span>
+                    <span className="font-medium text-white group-hover:text-[#F58220] transition-colors">{req.days} days</span>
                   </TableCell>
                   <TableCell>{getStatusBadge(req.status)}</TableCell>
                   <TableCell className="text-right">
@@ -237,13 +237,13 @@ export default function LeaveRequestTable() {
                         <DropdownMenuTrigger asChild>
                           <Button
                             variant="ghost"
-                            className="h-8 w-8 p-0 hover:bg-white/5 text-white/60 hover:text-[#EFFC76]"
+                            className="h-8 w-8 p-0 hover:bg-white/5 text-white/60 hover:text-[#F58220]"
                           >
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[160px] glass-card border-[#EFFC76]/20 bg-black/90 text-white">
+                        <DropdownMenuContent align="end" className="w-[160px] glass-card border-[#F58220]/20 bg-black/90 text-white">
                           {req.status === "pending" && (
                             <>
                               <DropdownMenuItem

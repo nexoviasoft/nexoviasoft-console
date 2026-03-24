@@ -11,7 +11,7 @@ export default function DocumentsHeader() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <FileStack className="w-6 h-6 text-[#EFFC76]" />
+            <FileStack className="w-6 h-6 text-[#F58220]" />
             Document Generator
           </h1>
           <p className="text-sm text-white/60">Create official documents, invoices, and letters.</p>
@@ -28,9 +28,9 @@ export default function DocumentsHeader() {
               <div className="text-sm font-semibold text-white">Sourav</div>
               <div className="text-xs text-white/60">Admin</div>
             </div>
-            <Avatar className="ring-2 ring-[#EFFC76]/40">
+            <Avatar className="ring-2 ring-[#F58220]/40">
               <AvatarImage src="/avatars/01.png" />
-              <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76]">S</AvatarFallback>
+              <AvatarFallback className="bg-[#F58220]/20 text-[#F58220]">S</AvatarFallback>
             </Avatar>
           </div>
         </div>

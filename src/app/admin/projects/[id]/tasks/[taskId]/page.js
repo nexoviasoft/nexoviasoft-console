@@ -199,7 +199,7 @@ export default function TaskDetailsPage({ params }) {
             variant="ghost"
             size="sm"
             onClick={() => router.back()}
-            className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5"
+            className="text-white/70 hover:text-[#F58220] hover:bg-white/5"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Board
@@ -251,7 +251,7 @@ export default function TaskDetailsPage({ params }) {
                       }
                     }
                   }}
-                  className="bg-white/5 border-white/10 min-h-[150px] resize-none focus-visible:ring-[#EFFC76]/50"
+                  className="bg-white/5 border-white/10 min-h-[150px] resize-none focus-visible:ring-[#F58220]/50"
                   placeholder="Add a more detailed description..."
                   disabled={isUpdating}
                 />
@@ -261,7 +261,7 @@ export default function TaskDetailsPage({ params }) {
             {/* Comments */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 text-lg font-semibold border-b border-white/10 pb-2">
-                <MessageSquare className="w-5 h-5 text-[#EFFC76]" />
+                <MessageSquare className="w-5 h-5 text-[#F58220]" />
                 <h3>Comments</h3>
                 <span className="text-sm text-white/50 bg-white/10 px-2 py-0.5 rounded-full">{comments.length}</span>
               </div>
@@ -276,7 +276,7 @@ export default function TaskDetailsPage({ params }) {
                     return (
                       <div key={comment.id} className="flex gap-4 group">
                         <Avatar className="w-8 h-8 border border-white/20">
-                          <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76] text-xs">
+                          <AvatarFallback className="bg-[#F58220]/10 text-[#F58220] text-xs">
                             {initials}
                           </AvatarFallback>
                         </Avatar>
@@ -308,12 +308,12 @@ export default function TaskDetailsPage({ params }) {
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Write a comment..."
-                      className="min-h-[80px] bg-white/5 border-white/10 focus-visible:ring-[#EFFC76]/50"
+                      className="min-h-[80px] bg-white/5 border-white/10 focus-visible:ring-[#F58220]/50"
                     />
                     <div className="flex justify-end">
                         <Button
                           onClick={handleAddComment}
-                          className="bg-[#EFFC76] text-black hover:bg-[#dce865]"
+                          className="bg-[#F58220] text-black hover:bg-[#dce865]"
                           size="sm"
                           disabled={!newComment.trim() || isCreatingComment}
                         >
@@ -342,7 +342,7 @@ export default function TaskDetailsPage({ params }) {
                     onValueChange={handleStatusChange}
                     disabled={isUpdating}
                    >
-                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#F58220]/50">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
@@ -371,7 +371,7 @@ export default function TaskDetailsPage({ params }) {
                     <span>Priority</span>
                   </div>
                   <Select value={task.priority || "medium"} onValueChange={handlePriorityChange} disabled={isUpdating}>
-                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#F58220]/50">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
@@ -399,7 +399,7 @@ export default function TaskDetailsPage({ params }) {
                     value={task.team} 
                     onValueChange={(value) => setTask({ ...task, team: value })}
                    >
-                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#EFFC76]/50">
+                    <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#F58220]/50">
                       <SelectValue placeholder="Select Team" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
@@ -428,7 +428,7 @@ export default function TaskDetailsPage({ params }) {
                       return (
                         <div key={assigneeInitials} className="flex items-center gap-1.5 bg-white/10 pr-2 pl-1 py-1 rounded-full border border-white/10">
                             <Avatar className="w-6 h-6">
-                                <AvatarFallback className="text-[10px] bg-[#EFFC76]/20 text-[#EFFC76]">
+                                <AvatarFallback className="text-[10px] bg-[#F58220]/20 text-[#F58220]">
                                     {assigneeInitials}
                                 </AvatarFallback>
                             </Avatar>
@@ -447,7 +447,7 @@ export default function TaskDetailsPage({ params }) {
                       onValueChange={handleToggleAssignee}
                       disabled={isUpdating}
                     >
-                        <SelectTrigger className="w-6 h-6 rounded-full p-0 bg-transparent border-dashed border-white/30 hover:border-[#EFFC76] text-white/50 hover:text-[#EFFC76] flex items-center justify-center">
+                        <SelectTrigger className="w-6 h-6 rounded-full p-0 bg-transparent border-dashed border-white/30 hover:border-[#F58220] text-white/50 hover:text-[#F58220] flex items-center justify-center">
                              <Plus className="w-4 h-4" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">

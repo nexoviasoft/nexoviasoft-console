@@ -14,28 +14,29 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://squadlog-backen
 export const uploadToCDN = async (file, folder = 'documents') => {
     try {
         const formData = new FormData()
-        formData.append('file', file)
+        // ImgBB requires the field name to be 'image'
+        formData.append('image', file)
 
-        const url = `${API_BASE_URL}/upload/image`
+        const apiKey = '4ba7f7ac04e8b97db1e85e7a46c609d7'
+        const url = `https://api.imgbb.com/1/upload?key=${apiKey}`
 
         const response = await fetch(url, {
             method: 'POST',
             body: formData,
-            // Don't set Content-Type header - browser will set it automatically with boundary
         })
 
         const data = await response.json()
 
         if (!response.ok) {
-            throw new Error(data.message || data.error?.message || 'Upload failed')
+            throw new Error(data.error?.message || 'Upload failed')
         }
 
         if (!data.success) {
-            throw new Error(data.message || data.error?.message || 'Upload failed')
+            throw new Error(data.error?.message || 'Upload failed')
         }
 
-        // Return the URL from the response
-        return data.url
+        // Return the URL from the ImgBB response
+        return data.data.url
     } catch (error) {
         console.error('Upload Error:', error)
         throw new Error(error.message || 'Failed to upload file')

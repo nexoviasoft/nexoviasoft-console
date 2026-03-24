@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Base API configuration
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://squadlog-backend.up.railway.app',
-  // ttps://squadlog-backend.up.railway.app
+  baseUrl: 'https://nexoviasoft-api.vercel.app',
+  // ttps://nexoviasoft-backend.up.railway.app
   // /...
   prepareHeaders: (headers, { getState }) => {
     // Get token from localStorage

@@ -167,7 +167,7 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
               <div className="flex justify-between items-start mb-2 gap-2">
                 <Badge
                   variant={job.status === 'Active' ? 'default' : 'secondary'}
-                  className="bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40 text-[10px] sm:text-xs shrink-0"
+                  className="bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40 text-[10px] sm:text-xs shrink-0"
                 >
                   {job.status}
                 </Badge>
@@ -200,7 +200,7 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
                 </div>
               </div>
               <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-white/10">
-                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-[#EFFC76]">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-[#F58220]">
                   <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   {job.applicants || 0} applicants
                 </div>
@@ -208,7 +208,7 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
                   variant="outline" 
                   size="sm"
                   onClick={() => onViewDetails && onViewDetails(job)}
-                  className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none h-7 sm:h-9 text-[10px] sm:text-sm px-2 sm:px-4"
+                  className="bg-[#F58220] hover:bg-[#F58220]/80 text-black border-none h-7 sm:h-9 text-[10px] sm:text-sm px-2 sm:px-4"
                 >
                   View Details
                 </Button>
@@ -325,14 +325,14 @@ export default function JobPostings({ onNewJob, onViewDetails }) {
             <Button
               variant="outline"
               onClick={() => setShowDialog(false)}
-              className="border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 bg-transparent hover:text-[#EFFC76]"
+              className="border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 bg-transparent hover:text-[#F58220]"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSave}
               disabled={isCreating || isUpdating || isUploading}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
             >
               {isCreating || isUpdating || isUploading ? 'Saving...' : editingJob ? 'Update Job' : 'Post Job'}
             </Button>

@@ -11,7 +11,7 @@ const fallbackData = [
   { name: "Backlog", value: 200 },
 ];
 
-const COLORS = ["#10b981", "#8b5cf6", "#EFFC76", "#9ca3af"];
+const COLORS = ["#10b981", "#8b5cf6", "#F58220", "#9ca3af"];
 
 export default function TaskDistributionChart({ dashboard }) {
   const data = dashboard;

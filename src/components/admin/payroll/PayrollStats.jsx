@@ -61,8 +61,8 @@ export default function PayrollStats() {
       {stats.map((stat, index) => (
         <Card key={index} className="border-white/20">
           <CardContent className="p-4 sm:px-6 sm:py-5 flex items-center gap-3 sm:gap-4">
-            <div className="p-2 sm:p-3 rounded-xl bg-[#EFFC76]/15 border border-[#EFFC76]/40 shrink-0">
-              <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#EFFC76]" />
+            <div className="p-2 sm:p-3 rounded-xl bg-[#F58220]/15 border border-[#F58220]/40 shrink-0">
+              <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#F58220]" />
             </div>
             <div className="min-w-0">
               <p className="text-xs sm:text-sm font-medium text-white/70 truncate">{stat.label}</p>

@@ -9,7 +9,7 @@ export function generateMeetingLink() {
   const meetingId = `${timestamp}-${randomStr}`;
   
   // Construct the full meeting URL
-  const meetingLink = `${typeof window !== 'undefined' ? window.location.origin : 'https://squadlog.com'}/meetings/${meetingId}`;
+  const meetingLink = `${typeof window !== 'undefined' ? window.location.origin : 'https://nexoviasoft.com'}/meetings/${meetingId}`;
   
   return {
     meetingId,

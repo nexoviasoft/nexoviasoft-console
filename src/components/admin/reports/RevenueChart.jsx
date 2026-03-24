@@ -37,8 +37,8 @@ export default function RevenueChart({ dashboard }) {
             >
               <defs>
                 <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#EFFC76" stopOpacity={0.9} />
-                  <stop offset="95%" stopColor="#EFFC76" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#F58220" stopOpacity={0.9} />
+                  <stop offset="95%" stopColor="#F58220" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -66,13 +66,13 @@ export default function RevenueChart({ dashboard }) {
                   boxShadow: "0 18px 45px rgba(15,23,42,0.65)",
                   color: "#F9FAFB",
                 }}
-                itemStyle={{ color: "#EFFC76" }}
+                itemStyle={{ color: "#F58220" }}
                 cursor={{ stroke: "rgba(148,163,184,0.4)", strokeWidth: 1 }}
               />
               <Area
                 type="monotone"
                 dataKey="pv"
-                stroke="#EFFC76"
+                stroke="#F58220"
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorPv)"

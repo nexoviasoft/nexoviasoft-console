@@ -41,9 +41,9 @@ export default function ProfileSettings() {
     <div className="max-w-2xl glass-card border-white/20 p-4 sm:p-6 rounded-xl">
       <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6 mb-8">
         <div className="relative group cursor-pointer">
-          <Avatar className="w-20 h-20 sm:w-24 sm:h-24 border-4 border-[#EFFC76] shadow-sm mx-auto sm:mx-0">
+          <Avatar className="w-20 h-20 sm:w-24 sm:h-24 border-4 border-[#F58220] shadow-sm mx-auto sm:mx-0">
             <AvatarImage src={avatarSrc} alt={`${firstName} ${lastName}`.trim() || "User"} />
-            <AvatarFallback className="bg-[#EFFC76] text-black">{initials}</AvatarFallback>
+            <AvatarFallback className="bg-[#F58220] text-black">{initials}</AvatarFallback>
           </Avatar>
           <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <Camera className="w-6 h-6 text-white" />
@@ -80,7 +80,7 @@ export default function ProfileSettings() {
             <Input
               id="firstName"
               defaultValue={firstName}
-              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
             />
           </div>
           <div className="space-y-2">
@@ -88,7 +88,7 @@ export default function ProfileSettings() {
             <Input
               id="lastName"
               defaultValue={lastName}
-              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+              className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
             />
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function ProfileSettings() {
             id="email"
             type="email"
             defaultValue={email}
-            className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+            className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
           />
         </div>
 
@@ -118,13 +118,13 @@ export default function ProfileSettings() {
           <Textarea 
             id="bio" 
             placeholder="Write a short bio..." 
-            className="min-h-[120px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+            className="min-h-[120px] bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
             defaultValue={bio}
           />
         </div>
 
         <div className="pt-4 flex justify-end">
-          <Button className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button min-w-[120px]">
+          <Button className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button min-w-[120px]">
             Save Changes
           </Button>
         </div>

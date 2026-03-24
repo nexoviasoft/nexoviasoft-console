@@ -105,7 +105,7 @@ export default function TemplateSelector({ onSelect, onCancel }) {
           variant="ghost"
           size="icon"
           onClick={onCancel}
-          className="rounded-full text-[#EFFC76] hover:text-white hover:bg-white/10"
+          className="rounded-full text-[#F58220] hover:text-white hover:bg-white/10"
         >
           <X className="w-4 h-4" />
         </Button>
@@ -124,7 +124,7 @@ export default function TemplateSelector({ onSelect, onCancel }) {
                 className={cn(
                   "group relative flex flex-col items-start text-left p-5 rounded-lg border transition-all duration-200 outline-none",
                   isSelected
-                    ? "bg-[#EFFC76]/10 border-[#EFFC76] shadow-[0_0_15px_rgba(239,252,118,0.1)]"
+                    ? "bg-[#F58220]/10 border-[#F58220] shadow-[0_0_15px_rgba(245,130,32,0.1)]"
                     : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10",
                   isProcessing && "opacity-50 cursor-wait",
                 )}
@@ -135,16 +135,16 @@ export default function TemplateSelector({ onSelect, onCancel }) {
                     className={cn(
                       "w-8 h-8 rounded-md flex items-center justify-center transition-colors",
                       isSelected
-                        ? "bg-[#EFFC76] text-black"
+                        ? "bg-[#F58220] text-black"
                         : "bg-white/10 text-white/70 group-hover:text-white",
                     )}
                   >
                     <template.icon className="w-4 h-4" />
                   </div>
                   {isSelected && (
-                    <div className="text-[#EFFC76]">
+                    <div className="text-[#F58220]">
                       {isProcessing ? (
-                        <div className="w-5 h-5 border-2 border-[#EFFC76] border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-[#F58220] border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <CheckCircle2 className="w-5 h-5 fill-current" />
                       )}
@@ -158,7 +158,7 @@ export default function TemplateSelector({ onSelect, onCancel }) {
                     <h4
                       className={cn(
                         "text-sm font-semibold transition-colors",
-                        isSelected ? "text-[#EFFC76]" : "text-white",
+                        isSelected ? "text-[#F58220]" : "text-white",
                       )}
                     >
                       {template.title}
@@ -185,7 +185,7 @@ export default function TemplateSelector({ onSelect, onCancel }) {
       {/* Footer Actions */}
       <div className="px-6 py-4 bg-white/5 border-t border-white/10 flex justify-between items-center">
         <div className="flex items-center gap-2 text-xs text-white/40">
-          <Sparkles className="w-3 h-3 text-[#EFFC76]" />
+          <Sparkles className="w-3 h-3 text-[#F58220]" />
           <span>Smart templates</span>
         </div>
 
@@ -203,7 +203,7 @@ export default function TemplateSelector({ onSelect, onCancel }) {
             className={cn(
               "px-6 transition-all duration-200",
               selectedId && !isProcessing
-                ? "bg-[#EFFC76] hover:bg-[#dbe665] text-black shadow-lg shadow-[#EFFC76]/20"
+                ? "bg-[#F58220] hover:bg-[#dbe665] text-black shadow-lg shadow-[#F58220]/20"
                 : "bg-white/10 text-white/30 cursor-not-allowed",
             )}
           >

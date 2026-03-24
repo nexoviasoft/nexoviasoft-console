@@ -24,7 +24,7 @@ export default function AttendanceHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/5"
+            className="h-8 w-8 text-white/60 hover:text-[#F58220] hover:bg-white/5"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -33,9 +33,9 @@ export default function AttendanceHeader() {
             <PopoverTrigger asChild>
                <Button
                  variant="ghost"
-                 className="h-8 px-3 text-sm font-medium text-white hover:bg-white/5 hover:text-[#EFFC76]"
+                 className="h-8 px-3 text-sm font-medium text-white hover:bg-white/5 hover:text-[#F58220]"
                >
-                 <CalendarIcon className="mr-2 h-4 w-4 text-[#EFFC76]" />
+                 <CalendarIcon className="mr-2 h-4 w-4 text-[#F58220]" />
                  {format(date, "MMM dd, yyyy")}
                </Button>
             </PopoverTrigger>
@@ -52,7 +52,7 @@ export default function AttendanceHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white/60 hover:text-[#EFFC76] hover:bg-white/5"
+            className="h-8 w-8 text-white/60 hover:text-[#F58220] hover:bg-white/5"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -60,7 +60,7 @@ export default function AttendanceHeader() {
 
         <Button
           variant="outline"
-          className="gap-2 glass-button border border-[#EFFC76]/60 bg-[#EFFC76] text-black hover:bg-[#e0ef5f]"
+          className="gap-2 glass-button border border-[#F58220]/60 bg-[#F58220] text-black hover:bg-[#d91d79]"
         >
           <Download className="w-4 h-4 text-black" />
           <span className="font-medium">Export Report</span>

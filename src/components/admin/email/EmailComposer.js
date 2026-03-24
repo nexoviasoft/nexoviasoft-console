@@ -144,7 +144,7 @@ export default function EmailComposer({ selectedTemplate }) {
               variant="ghost" 
               size="sm"
               onClick={handleReset}
-              className="gap-2 bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
+              className="gap-2 bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
             >
               <RefreshCw className="w-4 h-4" />
               Reset Template
@@ -162,7 +162,7 @@ export default function EmailComposer({ selectedTemplate }) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-8 gap-2 bg-[#EFFC76]/10 hover:bg-[#EFFC76]/20 text-[#EFFC76] border-[#EFFC76]/40"
+                  className="h-8 gap-2 bg-[#F58220]/10 hover:bg-[#F58220]/20 text-[#F58220] border-[#F58220]/40"
                 >
                   <Users className="w-4 h-4" />
                   Select Recipients
@@ -203,7 +203,7 @@ export default function EmailComposer({ selectedTemplate }) {
                               className={`cursor-pointer ${isSelected ? "opacity-50" : ""}`}
                               disabled={isSelected}
                             >
-                              <Users className="w-4 h-4 mr-2 text-[#EFFC76]" />
+                              <Users className="w-4 h-4 mr-2 text-[#F58220]" />
                               <div className="flex flex-col">
                                 <span className="text-white">{fullName}</span>
                                 <span className="text-xs text-white/60">{member.email}</span>
@@ -237,7 +237,7 @@ export default function EmailComposer({ selectedTemplate }) {
                               className={`cursor-pointer ${isSelected ? "opacity-50" : ""}`}
                               disabled={isSelected}
                             >
-                              <UserPlus className="w-4 h-4 mr-2 text-[#EFFC76]" />
+                              <UserPlus className="w-4 h-4 mr-2 text-[#F58220]" />
                               <div className="flex flex-col">
                                 <span className="text-white">{client.name}</span>
                                 <span className="text-xs text-white/60">{client.email}</span>
@@ -279,13 +279,13 @@ export default function EmailComposer({ selectedTemplate }) {
                   <Badge
                     key={recipient.email}
                     variant="secondary"
-                    className="bg-[#EFFC76]/20 text-[#EFFC76] border-[#EFFC76]/40 pr-1"
+                    className="bg-[#F58220]/20 text-[#F58220] border-[#F58220]/40 pr-1"
                   >
                     {recipient.name}
                     <button
                       type="button"
                       onClick={() => handleRemoveRecipient(recipient.email)}
-                      className="ml-2 hover:bg-[#EFFC76]/30 rounded-full p-0.5"
+                      className="ml-2 hover:bg-[#F58220]/30 rounded-full p-0.5"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -342,7 +342,7 @@ export default function EmailComposer({ selectedTemplate }) {
           <Button 
             onClick={handleSend}
             disabled={isSending}
-            className="bg-[#EFFC76] hover:bg-[#dbe665] text-black gap-2 shadow-lg shadow-[#EFFC76]/20 disabled:opacity-50"
+            className="bg-[#F58220] hover:bg-[#dbe665] text-black gap-2 shadow-lg shadow-[#F58220]/20 disabled:opacity-50"
           >
             {isSending ? (
               <>

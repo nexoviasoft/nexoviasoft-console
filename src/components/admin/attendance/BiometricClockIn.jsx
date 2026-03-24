@@ -22,7 +22,7 @@ export default function BiometricClockIn() {
 
   // Check local storage for existing "credential" mock
   useEffect(() => {
-    const hasCreds = localStorage.getItem("squadlog_biometrics");
+    const hasCreds = localStorage.getItem("nexoviasoft_biometrics");
     if (hasCreds) setIsRegistered(true);
   }, []);
 
@@ -41,10 +41,10 @@ export default function BiometricClockIn() {
       // Mock Registration Options
       const publicKey = {
         challenge: getChallenge(),
-        rp: { name: "SquadLog Console" },
+        rp: { name: "NexoviaSoft Console" },
         user: {
           id: Uint8Array.from("user_id_123", c => c.charCodeAt(0)),
-          name: "employee@squadlog.com",
+          name: "employee@nexoviasoft.com",
           displayName: "Employee Name",
         },
         pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES256
@@ -58,7 +58,7 @@ export default function BiometricClockIn() {
       const credential = await navigator.credentials.create({ publicKey });
       
       console.log("Credential Created:", credential);
-      localStorage.setItem("squadlog_biometrics", "true");
+      localStorage.setItem("nexoviasoft_biometrics", "true");
       setIsRegistered(true);
       toast.success(`${type} saved! You can now use it to clock in.`);
 
@@ -162,7 +162,7 @@ export default function BiometricClockIn() {
               className={`p-3 rounded-full border ${
                 isClockedIn
                   ? "bg-emerald-500/15 border-emerald-400/50 text-emerald-300"
-                  : "bg-[#EFFC76]/15 border-[#EFFC76]/60 text-[#EFFC76]"
+                  : "bg-[#F58220]/15 border-[#F58220]/60 text-[#F58220]"
               }`}
             >
               {isClockedIn ? (
@@ -195,8 +195,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('FaceID')} 
                     disabled={isLoading}
-                    className="border-white/20 bg-[#EFFC76]/10  hover:bg-[#EFFC76]/10 
-                    text-[#EFFC76] hover:text-[#EFFC76] hover:border-[#EFFC76]/50"
+                    className="border-white/20 bg-[#F58220]/10  hover:bg-[#F58220]/10 
+                    text-[#F58220] hover:text-[#F58220] hover:border-[#F58220]/50"
                 >
                     <ScanFace className="w-4 h-4 mr-2" />
                     Setup FaceID
@@ -205,8 +205,8 @@ export default function BiometricClockIn() {
                     variant="outline" 
                     onClick={() => handleRegister('Fingerprint')} 
                     disabled={isLoading}
-                    className="border-white/20 bg-[#EFFC76]/10 hover:bg-[#EFFC76]/10 
-                    text-white text-[#EFFC76] hover:text-[#EFFC76] hover:border-[#EFFC76]/50"
+                    className="border-white/20 bg-[#F58220]/10 hover:bg-[#F58220]/10 
+                    text-white text-[#F58220] hover:text-[#F58220] hover:border-[#F58220]/50"
                 >
                     <Fingerprint className="w-4 h-4 mr-2" />
                     Setup Fingerprint
@@ -217,7 +217,7 @@ export default function BiometricClockIn() {
                     <Button
                       onClick={handleClockIn}
                       disabled={isLoading}
-                      className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black min-w-[200px] glass-button"
+                      className="bg-[#F58220] hover:bg-[#d91d79] text-black min-w-[200px] glass-button"
                     >
                         {isLoading ? "Verifying..." : "Clock In with FaceID"}
                     </Button>

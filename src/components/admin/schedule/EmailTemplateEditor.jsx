@@ -108,7 +108,7 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
       description: meetingData?.description || "Discuss goals, priorities, and deliverables for Q1 sprint",
       dateTime: meetingData?.dateTime || "January 28, 2026 at 2:00 PM",
       duration: meetingData?.duration || 60,
-      meetingLink: meetingData?.meetingLink || "https://squadlog.com/meetings/m-2026-01-28-001",
+      meetingLink: meetingData?.meetingLink || "https://nexoviasoft.com/meetings/m-2026-01-28-001",
       organizerName: meetingData?.organizerName || "John Doe",
       attendeeName: "Jane Smith" // Sample attendee name
     };
@@ -122,7 +122,7 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Mail className="w-5 h-5 text-[#EFFC76]" />
+          <Mail className="w-5 h-5 text-[#F58220]" />
           <h3 className="text-lg font-bold text-white">Email Template</h3>
         </div>
         <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
           <Button
             size="sm"
             onClick={handleSave}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black font-semibold"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black font-semibold"
           >
             <Save className="w-3.5 h-3.5 mr-1.5" />
             Save
@@ -158,7 +158,7 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
       {/* Template Variables */}
       <div className="glass-panel rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="w-4 h-4 text-[#EFFC76]" />
+          <Sparkles className="w-4 h-4 text-[#F58220]" />
           <h4 className="text-sm font-semibold text-white">Available Variables</h4>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -167,11 +167,11 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
               key={item.variable}
               onClick={() => insertVariable(item.variable)}
               onDoubleClick={() => copyVariable(item.variable)}
-              className="group relative px-2 py-1.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 hover:border-[#EFFC76]/50 transition-all duration-200 text-left"
+              className="group relative px-2 py-1.5 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 hover:border-[#F58220]/50 transition-all duration-200 text-left"
               title={`${item.description}\nClick to insert, double-click to copy`}
             >
               <div className="flex items-center justify-between gap-1">
-                <code className="text-xs text-[#EFFC76] font-mono">
+                <code className="text-xs text-[#F58220] font-mono">
                   {item.variable}
                 </code>
                 {copiedVariable === item.variable ? (
@@ -198,7 +198,7 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
           value={template.subject}
           onChange={handleSubjectChange}
           placeholder="Enter email subject..."
-          className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+          className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
         />
       </div>
 
@@ -213,15 +213,15 @@ export default function EmailTemplateEditor({ meetingData, onTemplateChange }) {
           onChange={handleBodyChange}
           placeholder="Enter email body... Use variables like {{meetingTopic}}"
           rows={12}
-          className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] font-mono text-sm"
+          className="bg-black/40 border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] font-mono text-sm"
         />
       </div>
 
       {/* Preview */}
       {showPreview && (
-        <div className="glass-panel rounded-xl p-4 space-y-3 border-2 border-[#EFFC76]/30">
+        <div className="glass-panel rounded-xl p-4 space-y-3 border-2 border-[#F58220]/30">
           <div className="flex items-center gap-2 mb-2">
-            <Eye className="w-4 h-4 text-[#EFFC76]" />
+            <Eye className="w-4 h-4 text-[#F58220]" />
             <h4 className="text-sm font-semibold text-white">Email Preview</h4>
             <span className="text-xs text-white/50">(with sample data)</span>
           </div>

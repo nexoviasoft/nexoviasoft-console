@@ -192,7 +192,7 @@ export default function Schedule() {
           duration: meetingData.duration,
           meetingLink: meetingData.meetingLink,
           attendees: meetingData.attendees.map(a => a.email),
-          organizer: 'current-user@squadlog.com' // Get from auth context
+          organizer: 'current-user@nexoviasoft.com' // Get from auth context
         })
       });
       
@@ -272,9 +272,9 @@ export default function Schedule() {
         {/* Meeting History Section */}
         <div className="mt-8">
           <div className="flex items-center gap-3 mb-6">
-            <History className="w-6 h-6 text-[#EFFC76]" />
+            <History className="w-6 h-6 text-[#F58220]" />
             <h2 className="text-xl md:text-2xl font-bold text-white">Meeting History</h2>
-            <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#EFFC76]/20 text-[#EFFC76] border border-[#EFFC76]/30">
+            <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#F58220]/20 text-[#F58220] border border-[#F58220]/30">
               {filteredMeetings.length} {filteredMeetings.length === 1 ? "Meeting" : "Meetings"}
             </span>
           </div>
@@ -289,7 +289,7 @@ export default function Schedule() {
                 onClick={() => setFilterStatus("all")}
                 className={`text-sm ${
                   filterStatus === "all"
-                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    ? "bg-[#F58220] text-black hover:bg-[#d91d79] hover:text-black"
                     : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -301,7 +301,7 @@ export default function Schedule() {
                 onClick={() => setFilterStatus("upcoming")}
                 className={`text-sm ${
                   filterStatus === "upcoming"
-                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    ? "bg-[#F58220] text-black hover:bg-[#d91d79] hover:text-black"
                     : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -313,7 +313,7 @@ export default function Schedule() {
                 onClick={() => setFilterStatus("completed")}
                 className={`text-sm ${
                   filterStatus === "completed"
-                    ? "bg-[#EFFC76] text-black hover:bg-[#e0ef5f] hover:text-black"
+                    ? "bg-[#F58220] text-black hover:bg-[#d91d79] hover:text-black"
                     : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -329,7 +329,7 @@ export default function Schedule() {
                 placeholder="Search meetings..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
           </div>
@@ -366,7 +366,7 @@ export default function Schedule() {
         <DialogContent className="max-w-lg glass-card border-white/20 text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-white">
-              <CalendarIcon className="w-5 h-5 text-[#EFFC76]" />
+              <CalendarIcon className="w-5 h-5 text-[#F58220]" />
               Add New Shift
             </DialogTitle>
             <DialogDescription className="text-white/70">
@@ -429,7 +429,7 @@ export default function Schedule() {
                 type="date"
                 value={newShift.date}
                 onChange={(e) => handleInputChange('date', e.target.value)}
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
 
@@ -445,7 +445,7 @@ export default function Schedule() {
                   type="time"
                   value={newShift.startTime}
                   onChange={(e) => handleInputChange('startTime', e.target.value)}
-                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             </div>
@@ -462,7 +462,7 @@ export default function Schedule() {
                   type="time"
                   value={newShift.endTime}
                   onChange={(e) => handleInputChange('endTime', e.target.value)}
-                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                  className="pl-10 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
                 />
               </div>
             </div>
@@ -496,7 +496,7 @@ export default function Schedule() {
                 value={newShift.notes}
                 onChange={(e) => handleInputChange('notes', e.target.value)}
                 placeholder="Additional notes..."
-                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76]"
+                className="col-span-3 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
               />
             </div>
           </div>
@@ -512,7 +512,7 @@ export default function Schedule() {
             <Button
               onClick={handleAddShift}
               disabled={isCreatingSchedule || isUpdatingSchedule}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             >
               <CalendarIcon className="w-4 h-4 mr-2" />
               {(isCreatingSchedule || isUpdatingSchedule) ? "Saving..." : "Add Shift"}

@@ -26,7 +26,7 @@ Organized by: {{organizerName}}
 See you there!
 
 Best regards,
-SquadLog Team`
+NexoviaSoft Team`
 };
 
 /**
@@ -56,7 +56,7 @@ export const TEMPLATE_VARIABLES = [
   { 
     variable: "{{meetingLink}}", 
     description: "Meeting URL",
-    example: "https://squadlog.com/meetings/m-2026-01-28-001"
+    example: "https://nexoviasoft.com/meetings/m-2026-01-28-001"
   },
   { 
     variable: "{{organizerName}}", 

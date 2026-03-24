@@ -243,7 +243,7 @@ export default function OurProductForm({
                 <TextField
                   label="Product Name"
                   name="name"
-                  placeholder="e.g. SquadLog CRM"
+                  placeholder="e.g. NexoviaSoft CRM"
                   register={register}
                   error={errors.name?.message}
                   required
@@ -270,7 +270,7 @@ export default function OurProductForm({
                 <TextField
                   label="URL"
                   name="url"
-                  placeholder="e.g. https://squadlog.com"
+                  placeholder="e.g. https://nexoviasoft.com"
                   register={register}
                   error={errors.url?.message}
                   required
@@ -344,7 +344,7 @@ export default function OurProductForm({
                         value={feature || ""}
                         onChange={(e) => updateFeature(index, e.target.value)}
                         placeholder="e.g. Lead Management"
-                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#EFFC76] ${errors.feature?.[index] ? "border-red-500" : ""}`}
+                        className={`bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220] ${errors.feature?.[index] ? "border-red-500" : ""}`}
                       />
                       {errors.feature?.[index] && (
                         <p className="text-sm text-red-500 mt-1">{errors.feature[index]?.message}</p>
@@ -381,7 +381,7 @@ export default function OurProductForm({
             <Button 
               type="submit" 
               disabled={isSubmitting || isCreating || isUpdating || isUploading}
-              className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+              className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             >
               {isSubmitting || isCreating || isUpdating || isUploading
                 ? "Saving..."

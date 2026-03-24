@@ -270,35 +270,35 @@ export default function AttendanceTable({ rows }) {
             size="sm"
             variant="outline"
             onClick={() => setShowAdd(true)}
-            className="border-[#EFFC76]/60 text-[#EFFC76] hover:bg-[#EFFC76]/10 hover:text-[#EFFC76]"
+            className="border-[#F58220]/60 text-[#F58220] hover:bg-[#F58220]/10 hover:text-[#F58220]"
           >
             + Add Attendance
           </Button>
         </div>
         <Table>
-          <TableHeader className="bg-[#EFFC76]/10">
+          <TableHeader className="bg-[#F58220]/10">
             <TableRow className="hover:bg-transparent border-white/10">
-              <TableHead className="w-[220px] text-[#EFFC76] font-semibold">Employee</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Date</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Check In</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Check Out</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Work Hours</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Status</TableHead>
-              <TableHead className="text-[#EFFC76] font-semibold">Approved</TableHead>
-              <TableHead className="text-right text-[#EFFC76] font-semibold">Actions</TableHead>
+              <TableHead className="w-[220px] text-[#F58220] font-semibold">Employee</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Date</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Check In</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Check Out</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Work Hours</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Status</TableHead>
+              <TableHead className="text-[#F58220] font-semibold">Approved</TableHead>
+              <TableHead className="text-right text-[#F58220] font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((row) => (
               <TableRow
                 key={row.id}
-                className="hover:bg-[#EFFC76]/5 cursor-pointer transition-colors border-white/10"
+                className="hover:bg-[#F58220]/5 cursor-pointer transition-colors border-white/10"
               >
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-3">
-                    <Avatar className="w-9 h-9 border border-[#EFFC76]/20">
+                    <Avatar className="w-9 h-9 border border-[#F58220]/20">
                       <AvatarImage src={row.avatar} />
-                      <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76]">{row.name.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="bg-[#F58220]/10 text-[#F58220]">{row.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>
                       <div className="font-semibold text-white">{row.name}</div>
@@ -332,7 +332,7 @@ export default function AttendanceTable({ rows }) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-white/50 hover:text-[#EFFC76] hover:bg-white/5"
+                      className="h-8 w-8 text-white/50 hover:text-[#F58220] hover:bg-white/5"
                     >
                       <MoreHorizontal className="w-4 h-4" />
                     </Button>

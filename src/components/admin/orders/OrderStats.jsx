@@ -24,7 +24,7 @@ export default function OrderStats() {
       change: "+12.5%",
       trend: "up",
       icon: ShoppingCart,
-      color: "bg-[#EFFC76]/10 text-[#EFFC76]",
+      color: "bg-[#F58220]/10 text-[#F58220]",
     },
     {
       title: "In Progress",
@@ -32,7 +32,7 @@ export default function OrderStats() {
       change: "+4",
       trend: "neutral",
       icon: Clock,
-      color: "bg-[#EFFC76]/10 text-[#EFFC76]",
+      color: "bg-[#F58220]/10 text-[#F58220]",
     },
     {
       title: "Completed",
@@ -40,7 +40,7 @@ export default function OrderStats() {
       change: "+8.2%",
       trend: "up",
       icon: CheckCircle2,
-      color: "bg-[#EFFC76]/10 text-[#EFFC76]",
+      color: "bg-[#F58220]/10 text-[#F58220]",
     },
     {
       title: "Total Revenue",
@@ -48,7 +48,7 @@ export default function OrderStats() {
       change: "+14.1%",
       trend: "up",
       icon: TrendingUp,
-      color: "bg-[#EFFC76]/10 text-[#EFFC76]",
+      color: "bg-[#F58220]/10 text-[#F58220]",
     },
   ];
 
@@ -58,7 +58,7 @@ export default function OrderStats() {
         {[1, 2, 3, 4].map((i) => (
           <Card key={i} className="glass-card border-white/10">
             <CardContent className="p-3 md:p-6 flex items-center justify-center h-24">
-              <Loader2 className="w-6 h-6 animate-spin text-[#EFFC76]" />
+              <Loader2 className="w-6 h-6 animate-spin text-[#F58220]" />
             </CardContent>
           </Card>
         ))}
@@ -83,13 +83,13 @@ export default function OrderStats() {
               <p className="text-xs md:text-sm font-medium text-white/60">{stat.title}</p>
               <h3 className="text-lg md:text-2xl font-bold text-white mt-1 md:mt-2">{stat.value}</h3>
               <div className="flex flex-wrap items-center justify-center md:justify-start mt-1 gap-1.5 md:gap-2">
-                <span className={`text-[10px] md:text-xs font-medium px-1.5 md:px-2 py-0.5 rounded-full ${stat.trend === 'up' ? 'bg-[#EFFC76]/10 text-[#EFFC76]' : 'bg-white/10 text-white/60'}`}>
+                <span className={`text-[10px] md:text-xs font-medium px-1.5 md:px-2 py-0.5 rounded-full ${stat.trend === 'up' ? 'bg-[#F58220]/10 text-[#F58220]' : 'bg-white/10 text-white/60'}`}>
                   {stat.change}
                 </span>
                 <span className="text-[10px] md:text-xs text-white/40">from last month</span>
               </div>
             </div>
-            <div className={`order-1 md:order-2 p-2 md:p-3 rounded-xl border border-[#EFFC76]/20 ${stat.color} mb-1 md:mb-0`}>
+            <div className={`order-1 md:order-2 p-2 md:p-3 rounded-xl border border-[#F58220]/20 ${stat.color} mb-1 md:mb-0`}>
               <stat.icon className="w-4 h-4 md:w-5 md:h-5" />
             </div>
           </CardContent>

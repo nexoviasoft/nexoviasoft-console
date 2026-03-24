@@ -68,7 +68,7 @@ export default function Dashboard() {
         <div className="px-4 py-4 md:px-8 md:py-6 text-white">
       <div className="space-y-6">
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -76,8 +76,8 @@ export default function Dashboard() {
                     Total Customers
                   </span>
                 </div>
-                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <Users className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#F58220]/20 transition-colors">
+                  <Users className="w-5 h-5 text-white/60 group-hover:text-[#F58220] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
@@ -99,7 +99,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -107,8 +107,8 @@ export default function Dashboard() {
                     Active Customers
                   </span>
                 </div>
-                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <UserCheck className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#F58220]/20 transition-colors">
+                  <UserCheck className="w-5 h-5 text-white/60 group-hover:text-[#F58220] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
@@ -130,7 +130,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -138,8 +138,8 @@ export default function Dashboard() {
                     Profit Total
                   </span>
                 </div>
-                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <DollarSign className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#F58220]/20 transition-colors">
+                  <DollarSign className="w-5 h-5 text-white/60 group-hover:text-[#F58220] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
@@ -163,7 +163,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#121212] border border-white/10 hover:border-[#EFFC76]/50 transition-colors group">
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -171,8 +171,8 @@ export default function Dashboard() {
                     Expense Total
                   </span>
                 </div>
-                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#EFFC76]/20 transition-colors">
-                  <CreditCard className="w-5 h-5 text-white/60 group-hover:text-[#EFFC76] transition-colors" />
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#F58220]/20 transition-colors">
+                  <CreditCard className="w-5 h-5 text-white/60 group-hover:text-[#F58220] transition-colors" />
                 </div>
               </div>
               <div className="space-y-2 mb-2">
@@ -204,18 +204,18 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <ClipboardList className="w-5 h-5 text-[#EFFC76]" />
+                      <ClipboardList className="w-5 h-5 text-[#F58220]" />
                       Attendance Overview
                     </CardTitle>
                     <div className="text-xs text-white/50 mt-1 flex gap-2 pl-7">
                       <span>{formattedDate}</span>
-                      <span className="text-[#EFFC76]">{formattedTime}</span>
+                      <span className="text-[#F58220]">{formattedTime}</span>
                     </div>
                   </div>
                   <select
                     value={period}
                     onChange={(e) => setPeriod(e.target.value)}
-                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                    className="px-3 py-1.5 bg-[#F58220]/10 border border-[#F58220]/20 rounded-lg text-xs font-medium text-[#F58220] focus:outline-none focus:ring-1 focus:ring-[#F58220]"
                   >
                     <option value="Weekly">Weekly</option>
                     <option value="Monthly">Monthly</option>
@@ -227,7 +227,7 @@ export default function Dashboard() {
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                     <div>
-                      <div className="text-xl md:text-3xl font-bold text-[#EFFC76] mb-1">
+                      <div className="text-xl md:text-3xl font-bold text-[#F58220] mb-1">
                         {attendanceStats
                           ? `${Number(attendanceStats.onTimePercentage).toFixed(1)}%`
                           : "0%"}
@@ -235,7 +235,7 @@ export default function Dashboard() {
                       <div className=" text-[13px] md:text-sm text-white/70 mb-1">
                         Attendance Rate
                       </div>
-                      <div className="text-xs text-[#EFFC76]">
+                      <div className="text-xs text-[#F58220]">
                         {attendanceStats ? "+ Live" : "+2.8%"}
                       </div>
                     </div>
@@ -250,12 +250,12 @@ export default function Dashboard() {
                       <div className="text-[13px] md:text-sm text-white/70 mb-1">
                         Today&apos;s Attendance
                       </div>
-                      <div className="text-xs text-[#EFFC76]">+1.2%</div>
+                      <div className="text-xs text-[#F58220]">+1.2%</div>
                     </div>
 
                     <div className=" flex gap-2 items-center col-span-4 md:space-y-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-[#EFFC76] rounded"></div>
+                        <div className="w-3 h-3 bg-[#F58220] rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
                           On-Time{" "}
                           {attendanceStats
@@ -264,7 +264,7 @@ export default function Dashboard() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-[#EFFC76]/70 rounded"></div>
+                        <div className="w-3 h-3 bg-[#F58220]/70 rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
                           Late{" "}
                           {attendanceStats
@@ -273,7 +273,7 @@ export default function Dashboard() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-[#EFFC76]/40 rounded"></div>
+                        <div className="w-3 h-3 bg-[#F58220]/40 rounded"></div>
                         <span className="text-[12px] md:text-sm text-white/70">
                           Absent{" "}
                           {attendanceStats
@@ -295,7 +295,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-[#EFFC76]" />
+                    <Activity className="w-5 h-5 text-[#F58220]" />
                     Activity
                   </CardTitle>
                   <div className=" block md:hidden">
@@ -305,12 +305,12 @@ export default function Dashboard() {
                       </button>
                       <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
                         <span>Sort By</span>
-                        <ChevronUp className="w-4 h-4 text-[#EFFC76]" />
+                        <ChevronUp className="w-4 h-4 text-[#F58220]" />
                       </button>
                     </div>
                   </div>
 
-                  <button className="text-sm font-medium text-[#EFFC76] hover:text-[#e0ef5f]">
+                  <button className="text-sm font-medium text-[#F58220] hover:text-[#d91d79]">
                     See Detail
                   </button>
                 </div>
@@ -321,13 +321,13 @@ export default function Dashboard() {
                   <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 overflow-x-auto pb-2 sm:pb-0">
                       <div className=" grid  grid-cols-2 items-center gap-5 md:gap-2 ">
-                        <select className="px-3 py-2 border border-[#EFFC76]/20 rounded-lg text-sm bg-[#EFFC76]/10 text-[#EFFC76] w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-[#EFFC76]">
+                        <select className="px-3 py-2 border border-[#F58220]/20 rounded-lg text-sm bg-[#F58220]/10 text-[#F58220] w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-[#F58220]">
                           <option className="bg-[#121212] text-white">
                             Last 7 Days
                           </option>
                         </select>
                         <div className="flex items-center gap-2 px-3 py-2 border border-white/20 rounded-lg bg-white/5 whitespace-nowrap">
-                          <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                          <Calendar className="w-4 h-4 text-[#F58220]" />
                           <span className="text-sm text-white/80">
                             1 Jan - 7 Jan
                           </span>
@@ -339,7 +339,7 @@ export default function Dashboard() {
                           onClick={() => setActivityTab("Attendance")}
                           className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
                             activityTab === "Attendance"
-                              ? "bg-[#EFFC76] text-black"
+                              ? "bg-[#F58220] text-black"
                               : "text-white/70 hover:bg-white/10"
                           }`}
                         >
@@ -349,7 +349,7 @@ export default function Dashboard() {
                           onClick={() => setActivityTab("Leave")}
                           className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
                             activityTab === "Leave"
-                              ? "bg-[#EFFC76] text-black"
+                              ? "bg-[#F58220] text-black"
                               : "text-white/70 hover:bg-white/10"
                           }`}
                         >
@@ -359,7 +359,7 @@ export default function Dashboard() {
                           onClick={() => setActivityTab("Finance")}
                           className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap ${
                             activityTab === "Finance"
-                              ? "bg-[#EFFC76] text-black"
+                              ? "bg-[#F58220] text-black"
                               : "text-white/70 hover:bg-white/10"
                           }`}
                         >
@@ -375,7 +375,7 @@ export default function Dashboard() {
                         </button>
                         <button className="px-3 py-2 border border-white/20 rounded-lg text-sm hover:bg-white/10 flex items-center gap-2 text-white/80">
                           <span>Sort By</span>
-                          <ChevronUp className="w-4 h-4 text-[#EFFC76]" />
+                          <ChevronUp className="w-4 h-4 text-[#F58220]" />
                         </button>
                       </div>
                     </div>
@@ -471,7 +471,7 @@ export default function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
-                  <CalendarClock className="w-5 h-5 text-[#EFFC76]" />
+                  <CalendarClock className="w-5 h-5 text-[#F58220]" />
                   Your Next Agenda
                 </CardTitle>
               </CardHeader>
@@ -479,8 +479,8 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   {dashboard?.nextAgenda ? (
                     <div className="flex items-start gap-3">
-                      <div className="p-3 bg-[#EFFC76]/10 rounded-xl">
-                        <Video className="w-5 h-5 text-[#EFFC76]" />
+                      <div className="p-3 bg-[#F58220]/10 rounded-xl">
+                        <Video className="w-5 h-5 text-[#F58220]" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-white mb-1">
@@ -492,7 +492,7 @@ export default function Dashboard() {
                             : ""}
                         </p>
                         <Button
-                          className="w-full bg-[#EFFC76] hover:bg-[#e0ef5f] text-black"
+                          className="w-full bg-[#F58220] hover:bg-[#d91d79] text-black"
                           asChild={!!dashboard.nextAgenda.meetingLink}
                         >
                           {dashboard.nextAgenda.meetingLink ? (
@@ -522,7 +522,7 @@ export default function Dashboard() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2 text-white">
-                    <Calendar className="w-5 h-5 text-[#EFFC76]" />
+                    <Calendar className="w-5 h-5 text-[#F58220]" />
                     Schedule
                   </CardTitle>
                 </div>
@@ -541,7 +541,7 @@ export default function Dashboard() {
                               {s.team?.name || "Team member"}
                             </div>
                             <div className="text-xs text-white/60 flex items-center gap-1 mt-1">
-                              <Calendar className="w-3 h-3 text-[#EFFC76]" />
+                              <Calendar className="w-3 h-3 text-[#F58220]" />
                               <span>
                                 {s.weekStartDate
                                   ? new Date(s.weekStartDate).toLocaleDateString()
@@ -553,7 +553,7 @@ export default function Dashboard() {
                               </span>
                             </div>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-[#EFFC76]" />
+                          <ChevronRight className="w-4 h-4 text-[#F58220]" />
                         </div>
                       ))
                     ) : (
@@ -575,14 +575,14 @@ export default function Dashboard() {
               <div className="w-full">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <BarChart3 className="w-6 h-6 text-[#EFFC76]" />
+                    <BarChart3 className="w-6 h-6 text-[#F58220]" />
                     Finance Report
                   </h3>
 
                   <select
                     value={financePeriod}
                     onChange={(e) => setFinancePeriod(e.target.value)}
-                    className="px-3 py-1.5 bg-[#EFFC76]/10 border border-[#EFFC76]/20 rounded-lg text-xs font-medium text-[#EFFC76] focus:outline-none focus:ring-1 focus:ring-[#EFFC76]"
+                    className="px-3 py-1.5 bg-[#F58220]/10 border border-[#F58220]/20 rounded-lg text-xs font-medium text-[#F58220] focus:outline-none focus:ring-1 focus:ring-[#F58220]"
                   >
                     <option value="Weekly" className="bg-[#121212] text-white">
                       Weekly

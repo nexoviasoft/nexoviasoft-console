@@ -34,7 +34,7 @@ export default function PricePackageDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4" />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F58220] mx-auto mb-4" />
             <p className="text-white/70">Loading price package details...</p>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function PricePackageDetailPage() {
             <Button
               onClick={() => router.back()}
               variant="outline"
-              className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#EFFC76]/70"
+              className="gap-2 glass-button border border-white/30 bg-white/5 text-white hover:bg-white/10 hover:border-[#F58220]/70"
             >
               <ArrowLeft className="w-4 h-4" />
               Go Back
@@ -79,7 +79,7 @@ export default function PricePackageDetailPage() {
       <Button 
         variant="ghost" 
         onClick={() => router.back()} 
-        className="mb-6 gap-2 text-white/80 hover:text-[#EFFC76] hover:bg-white/5"
+        className="mb-6 gap-2 text-white/80 hover:text-[#F58220] hover:bg-white/5"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Price Packages
@@ -100,7 +100,7 @@ export default function PricePackageDetailPage() {
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
               <div className="flex items-center gap-2 mb-3">
                 {pricePackage.badge && (
-                  <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40">
+                  <Badge className="bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40">
                     {pricePackage.badge}
                   </Badge>
                 )}
@@ -113,7 +113,7 @@ export default function PricePackageDetailPage() {
               </div>
               <h1 className="text-4xl font-bold mb-2 text-white">{pricePackage.title}</h1>
               <div className="flex items-center gap-2 mb-2">
-                <DollarSign className="w-6 h-6 text-[#EFFC76]" />
+                <DollarSign className="w-6 h-6 text-[#F58220]" />
                 <span className="text-3xl font-bold text-white">{pricePackage.price}</span>
               </div>
               {pricePackage.description && (
@@ -126,7 +126,7 @@ export default function PricePackageDetailPage() {
           <CardHeader className="bg-gradient-to-r from-[#151515] via-[#1f1f1f] to-[#151515] text-white border-b border-white/10">
             <div className="flex items-center gap-2 mb-3">
               {pricePackage.badge && (
-                <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40">
+                <Badge className="bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40">
                   {pricePackage.badge}
                 </Badge>
               )}
@@ -139,7 +139,7 @@ export default function PricePackageDetailPage() {
             </div>
             <CardTitle className="text-4xl mb-2 text-white">{pricePackage.title}</CardTitle>
             <div className="flex items-center gap-2 mb-4">
-              <DollarSign className="w-6 h-6 text-[#EFFC76]" />
+              <DollarSign className="w-6 h-6 text-[#F58220]" />
               <span className="text-3xl font-bold text-white">{pricePackage.price}</span>
             </div>
             {pricePackage.description && (
@@ -156,7 +156,7 @@ export default function PricePackageDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Package className="w-5 h-5 text-[#EFFC76]" />
+                <Package className="w-5 h-5 text-[#F58220]" />
                 Package Details
               </CardTitle>
             </CardHeader>
@@ -164,7 +164,7 @@ export default function PricePackageDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {pricePackage.projectLimit && (
                   <div className="flex items-start gap-3 p-4 border border-white/10 rounded-lg bg-black/40">
-                    <FileCheck className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                    <FileCheck className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm text-white/60 mb-1">Project Limit</p>
                       <p className="text-2xl font-bold text-white">
@@ -176,7 +176,7 @@ export default function PricePackageDetailPage() {
                 )}
                 {pricePackage.revisionLimit && (
                   <div className="flex items-start gap-3 p-4 border border-white/10 rounded-lg bg-black/40">
-                    <RefreshCw className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                    <RefreshCw className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm text-white/60 mb-1">Revision Limit</p>
                       <p className="text-2xl font-bold text-white">
@@ -190,7 +190,7 @@ export default function PricePackageDetailPage() {
 
               {pricePackage.type && (
                 <div className="flex items-start gap-3 p-4 border border-white/10 rounded-lg bg-black/40">
-                  <Calendar className="w-5 h-5 text-[#EFFC76] mt-1 flex-shrink-0" />
+                  <Calendar className="w-5 h-5 text-[#F58220] mt-1 flex-shrink-0" />
                   <div>
                     <p className="text-sm text-white/60 mb-1">Billing Type</p>
                     <p className="font-medium text-lg text-white">{getTypeLabel(pricePackage.type)}</p>
@@ -205,7 +205,7 @@ export default function PricePackageDetailPage() {
             <Card className="glass-card border-white/20">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-white">
-                  <CheckCircle2 className="w-5 h-5 text-[#EFFC76]" />
+                  <CheckCircle2 className="w-5 h-5 text-[#F58220]" />
                   Package Features
                 </CardTitle>
               </CardHeader>
@@ -213,7 +213,7 @@ export default function PricePackageDetailPage() {
                 <ul className="space-y-3">
                   {pricePackage.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 bg-black/40 border border-white/10 transition-colors">
-                      <CheckCircle2 className="w-5 h-5 text-[#EFFC76] mt-0.5 flex-shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-[#F58220] mt-0.5 flex-shrink-0" />
                       <span className="text-white/80">{feature}</span>
                     </li>
                   ))}
@@ -229,7 +229,7 @@ export default function PricePackageDetailPage() {
           <Card className="glass-card border-white/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-white">
-                <Tag className="w-5 h-5 text-[#EFFC76]" />
+                <Tag className="w-5 h-5 text-[#F58220]" />
                 Package Summary
               </CardTitle>
             </CardHeader>
@@ -237,7 +237,7 @@ export default function PricePackageDetailPage() {
               <div>
                 <p className="text-sm text-white/60 mb-2">Price</p>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-[#EFFC76]" />
+                  <DollarSign className="w-5 h-5 text-[#F58220]" />
                   <span className="text-2xl font-bold text-white">{pricePackage.price}</span>
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default function PricePackageDetailPage() {
               
               <div>
                 <p className="text-sm text-white/60 mb-2">Billing Type</p>
-                <Badge variant="secondary" className="text-sm bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40">
+                <Badge variant="secondary" className="text-sm bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40">
                   {getTypeLabel(pricePackage.type)}
                 </Badge>
               </div>
@@ -256,7 +256,7 @@ export default function PricePackageDetailPage() {
                   <Separator className="bg-white/10" />
                   <div>
                     <p className="text-sm text-white/60 mb-2">Badge</p>
-                    <Badge className="bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/40">
+                    <Badge className="bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/40">
                       {pricePackage.badge}
                     </Badge>
                   </div>

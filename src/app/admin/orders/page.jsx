@@ -41,7 +41,7 @@ export default function OrdersPage() {
           </div>
           <Button 
             onClick={() => setIsCreateDialogOpen(true)}
-            className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create New Order

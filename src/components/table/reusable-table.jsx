@@ -169,9 +169,9 @@ export default function ReusableTable({
       return <ArrowUpDown className={`${baseClass} text-white/40`} />;
     }
     return sortConfig.direction === "asc" ? (
-      <ArrowUp className={`${baseClass} text-[#EFFC76]`} />
+      <ArrowUp className={`${baseClass} text-[#F58220]`} />
     ) : (
-      <ArrowDown className={`${baseClass} text-[#EFFC76]`} />
+      <ArrowDown className={`${baseClass} text-[#F58220]`} />
     );
   };
 
@@ -187,7 +187,7 @@ export default function ReusableTable({
               placeholder={searchPlaceholder}
               value={localSearchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-white/5 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#EFFC76]"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-white/5 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#F58220]"
             />
           </div>
         )}
@@ -271,7 +271,7 @@ export default function ReusableTable({
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-[#EFFC76] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#EFFC76]"
+                    className="w-4 h-4 text-[#F58220] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#F58220]"
                   />
                 </TableHead>
               )}
@@ -321,7 +321,7 @@ export default function ReusableTable({
                     key={index}
                     className={`border-b border-white/10 transition-colors duration-200 ${
                       selectedRows.has(item.id)
-                        ? "bg-[#EFFC76]/5"
+                        ? "bg-[#F58220]/5"
                         : "hover:bg-white/5"
                     }`}
                   >
@@ -331,7 +331,7 @@ export default function ReusableTable({
                           type="checkbox"
                           checked={selectedRows.has(item.id)}
                           onChange={() => handleRowSelect(item.id)}
-                          className="w-4 h-4 text-[#EFFC76] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#EFFC76]"
+                          className="w-4 h-4 text-[#F58220] bg-transparent border-white/40 rounded focus:ring-2 focus:ring-[#F58220]"
                         />
                       </TableCell>
                     )}
@@ -366,7 +366,7 @@ export default function ReusableTable({
         <div className="flex flex-col items-center justify-center py-12">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 bg-white/5 border border-white/15">
             <FolderOpen
-              className="w-8 h-8 text-[#EFFC76]"
+              className="w-8 h-8 text-[#F58220]"
               strokeWidth={1.5}
             />
           </div>

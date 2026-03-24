@@ -62,7 +62,7 @@ export default function OurTeamDetailPage() {
       <div className="max-w-[1600px] w-full mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-96">
           <div className="text-center text-white">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFFC76] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F58220] mx-auto mb-4"></div>
             <p className="text-white">Loading team member details...</p>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default function OurTeamDetailPage() {
           <IdCard 
             teamMember={teamMember} 
             departmentName={getDepartmentName()} 
-            companyName="SquadLog"
+            companyName="NexoviaSoft"
             ref={idCardRef} 
           />
         )}
@@ -177,7 +177,7 @@ export default function OurTeamDetailPage() {
         <div className="flex items-center gap-3">
           <Button 
             variant="default" 
-            className="gap-2 bg-[#EFFC76] hover:bg-[#e0ef5f] text-black glass-button"
+            className="gap-2 bg-[#F58220] hover:bg-[#d91d79] text-black glass-button"
             onClick={handleDownloadIdCard}
           >
             <Download className="w-4 h-4" />

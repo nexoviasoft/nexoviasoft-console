@@ -14,11 +14,11 @@ import { useGetFinanceTrendQuery } from "@/api/admin/dashboard/dashboardApi";
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#121212] border border-[#EFFC76]/20 p-3 rounded-lg shadow-xl min-w-[120px]">
+      <div className="bg-[#121212] border border-[#F58220]/20 p-3 rounded-lg shadow-xl min-w-[120px]">
         <p className="text-white/60 mb-2 text-xs font-medium">{label}</p>
         <div className="flex items-center justify-between gap-4">
             <span className="text-white text-sm font-semibold">Income</span>
-            <span className="text-[#EFFC76] text-sm font-bold">${payload[0].value.toLocaleString()}</span>
+            <span className="text-[#F58220] text-sm font-bold">${payload[0].value.toLocaleString()}</span>
         </div>
       </div>
     );
@@ -79,7 +79,7 @@ export default function FinanceChart({ period = "Yearly" }) {
               {/* Value Bar */}
               <Bar
                 dataKey="income"
-                fill="#EFFC76"
+                fill="#F58220"
                 radius={[4, 4, 4, 4]}
                 className="hover:opacity-90 transition-opacity cursor-pointer"
               />

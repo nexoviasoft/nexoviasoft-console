@@ -11,8 +11,8 @@ const baiJamjuree = Bai_Jamjuree({
 });
 
 export const metadata = {
-  title: "SquadLog Console | HR, Recruitment & Project Management",
-  description: "Enterprise dashboard for SquadLog - Managing Projects, HR, Recruitment, and more.",
+  title: "NexoviaSoft Console | HR, Recruitment & Project Management",
+  description: "Enterprise dashboard for NexoviaSoft - Managing Projects, HR, Recruitment, and more.",
 };
 
 export default function RootLayout({ children }) {

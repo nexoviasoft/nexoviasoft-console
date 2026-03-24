@@ -75,15 +75,15 @@ export default function MeetingHistoryCard({ meeting }) {
         {/* Date, Time, and Duration */}
         <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-white/70">
           <div className="flex items-center gap-1.5">
-            <Calendar className="w-4 h-4 text-[#EFFC76]" />
+            <Calendar className="w-4 h-4 text-[#F58220]" />
             <span>{format(meetingDate, "MMM dd, yyyy")}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-[#EFFC76]" />
+            <Clock className="w-4 h-4 text-[#F58220]" />
             <span>{format(meetingDate, "hh:mm a")}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Video className="w-4 h-4 text-[#EFFC76]" />
+            <Video className="w-4 h-4 text-[#F58220]" />
             <span>{meeting.duration} min</span>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function MeetingHistoryCard({ meeting }) {
                   title={attendee.name}
                 >
                   <AvatarImage src={attendee.avatar} />
-                  <AvatarFallback className="bg-[#EFFC76]/20 text-[#EFFC76] text-xs">
+                  <AvatarFallback className="bg-[#F58220]/20 text-[#F58220] text-xs">
                     {attendee.name.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
@@ -149,7 +149,7 @@ export default function MeetingHistoryCard({ meeting }) {
             {isUpcoming && meeting.status === "upcoming" && (
               <Button
                 size="sm"
-                className="bg-[#EFFC76] hover:bg-[#e0ef5f] text-black"
+                className="bg-[#F58220] hover:bg-[#d91d79] text-black"
                 onClick={() => window.open(meeting.meetingLink, "_blank")}
               >
                 <ExternalLink className="w-3.5 h-3.5 mr-1.5" />

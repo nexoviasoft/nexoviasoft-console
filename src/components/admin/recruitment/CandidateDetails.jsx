@@ -40,7 +40,7 @@ export default function CandidateDetails({ candidate, onBack }) {
         <Button
           variant="ghost"
           onClick={onBack}
-          className="gap-2 text-white/80 hover:bg-[#EFFC76]/10 hover:text-[#EFFC76]"
+          className="gap-2 text-white/80 hover:bg-[#F58220]/10 hover:text-[#F58220]"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Pipeline
@@ -51,7 +51,7 @@ export default function CandidateDetails({ candidate, onBack }) {
             <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
               <div className="flex items-center gap-4">
                 <Avatar className="h-12 w-12 sm:h-16 sm:w-16">
-                  <AvatarFallback className="bg-[#EFFC76]/15 text-[#EFFC76] text-lg sm:text-xl">
+                  <AvatarFallback className="bg-[#F58220]/15 text-[#F58220] text-lg sm:text-xl">
                     {candidate.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
@@ -62,7 +62,7 @@ export default function CandidateDetails({ candidate, onBack }) {
                   <p className="text-sm sm:text-base text-white/70">{candidate.position}</p>
                 </div>
               </div>
-              <Badge className="text-xs sm:text-sm bg-[#EFFC76]/10 text-[#EFFC76] border-[#EFFC76]/40">
+              <Badge className="text-xs sm:text-sm bg-[#F58220]/10 text-[#F58220] border-[#F58220]/40">
                 {candidate.stage}
               </Badge>
             </div>
@@ -121,20 +121,20 @@ export default function CandidateDetails({ candidate, onBack }) {
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 pt-4 border-t border-white/10">
               <Button
                 onClick={() => setShowEmailDialog(true)}
-                className="gap-2 bg-[#EFFC76] hover:bg-[#EFFC76]/90 text-black w-full sm:w-auto col-span-2 sm:col-span-1 text-xs sm:text-sm"
+                className="gap-2 bg-[#F58220] hover:bg-[#F58220]/90 text-black w-full sm:w-auto col-span-2 sm:col-span-1 text-xs sm:text-sm"
               >
                 <Mail className="w-4 h-4" />
                 Send Email
               </Button>
               <Button
                 variant="outline"
-                className="bg-transparent border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 w-full sm:w-auto text-xs sm:text-sm"
+                className="bg-transparent border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 w-full sm:w-auto text-xs sm:text-sm"
               >
                 Schedule Interview
               </Button>
               <Button
                 variant="outline"
-                className="bg-transparent border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 w-full sm:w-auto text-xs sm:text-sm"
+                className="bg-transparent border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 w-full sm:w-auto text-xs sm:text-sm"
               >
                 Download Resume
               </Button>
@@ -156,7 +156,7 @@ export default function CandidateDetails({ candidate, onBack }) {
             />
             <Button
               onClick={handleAddNote}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/90 text-black w-full sm:w-auto"
+              className="bg-[#F58220] hover:bg-[#F58220]/90 text-black w-full sm:w-auto"
             >
               Add Note
             </Button>
@@ -194,13 +194,13 @@ export default function CandidateDetails({ candidate, onBack }) {
             <Button
               variant="outline"
               onClick={() => setShowEmailDialog(false)}
-              className="border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 bg-transparent hover:text-[#EFFC76]"
+              className="border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 bg-transparent hover:text-[#F58220]"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSendEmail}
-              className="gap-2 bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
+              className="gap-2 bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
             >
               <Send className="w-4 h-4" />
               Send Email

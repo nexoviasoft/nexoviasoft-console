@@ -108,7 +108,7 @@ export default function InterviewScheduler() {
           </h3>
           <Button
             onClick={() => setShowDialog(true)}
-            className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium text-xs sm:text-sm h-8 sm:h-10 px-3 sm:px-4"
+            className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium text-xs sm:text-sm h-8 sm:h-10 px-3 sm:px-4"
           >
             <span className="sm:hidden">Schedule</span>
             <span className="hidden sm:inline">Schedule Interview</span>
@@ -126,7 +126,7 @@ export default function InterviewScheduler() {
                   <CardTitle className="text-sm sm:text-base text-white truncate">
                     {interview.candidate}
                   </CardTitle>
-                  <span className="text-[10px] sm:text-xs bg-[#EFFC76]/10 text-[#EFFC76] px-1.5 py-0.5 sm:px-2 sm:py-1 rounded border border-[#EFFC76]/40 shrink-0">
+                  <span className="text-[10px] sm:text-xs bg-[#F58220]/10 text-[#F58220] px-1.5 py-0.5 sm:px-2 sm:py-1 rounded border border-[#F58220]/40 shrink-0">
                     {interview.status}
                   </span>
                 </div>
@@ -157,14 +157,14 @@ export default function InterviewScheduler() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 h-7 sm:h-9 text-[10px] sm:text-sm bg-transparent border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 px-1"
+                    className="flex-1 h-7 sm:h-9 text-[10px] sm:text-sm bg-transparent border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 px-1"
                   >
                     Reschedule
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 h-7 sm:h-9 text-[10px] sm:text-sm bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black border-none px-1"
+                    className="flex-1 h-7 sm:h-9 text-[10px] sm:text-sm bg-[#F58220] hover:bg-[#F58220]/80 text-black border-none px-1"
                   >
                     Join Call
                   </Button>
@@ -276,14 +276,14 @@ export default function InterviewScheduler() {
             <Button
               variant="outline"
               onClick={() => setShowDialog(false)}
-              className="border-[#EFFC76] text-[#EFFC76] hover:bg-[#EFFC76]/10 bg-transparent hover:text-[#EFFC76]"
+              className="border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 bg-transparent hover:text-[#F58220]"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSchedule}
               disabled={isCreating}
-              className="bg-[#EFFC76] hover:bg-[#EFFC76]/80 text-black font-medium"
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
             >
               {isCreating ? 'Scheduling...' : 'Schedule Interview'}
             </Button>

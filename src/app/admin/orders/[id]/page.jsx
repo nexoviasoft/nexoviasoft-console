@@ -28,7 +28,7 @@ const getStatusBadgeClasses = (status) => {
     return "bg-emerald-500/15 text-emerald-200 border border-emerald-400/60";
   }
   if (status === "In Progress") {
-    return "bg-[#EFFC76]/10 text-[#EFFC76] border border-[#EFFC76]/60";
+    return "bg-[#F58220]/10 text-[#F58220] border border-[#F58220]/60";
   }
   if (status === "Review") {
     return "bg-sky-500/15 text-sky-200 border border-sky-400/60";
@@ -50,7 +50,7 @@ export default function OrderDetailsPage() {
     return (
       <div className="px-8 py-6 flex flex-col min-h-screen text-white">
         <div className="max-w-[1600px] w-full mx-auto flex items-center justify-center h-96">
-          <Loader2 className="w-8 h-8 animate-spin text-[#EFFC76]" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#F58220]" />
         </div>
       </div>
     );
@@ -64,9 +64,9 @@ export default function OrderDetailsPage() {
             variant="ghost"
             size="sm"
             onClick={() => router.push("/admin/orders")}
-            className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5 mb-4"
+            className="text-white/70 hover:text-[#F58220] hover:bg-white/5 mb-4"
           >
-            <ArrowLeft className="w-4 h-4 mr-2 text-[#EFFC76]" />
+            <ArrowLeft className="w-4 h-4 mr-2 text-[#F58220]" />
             Back to Orders
           </Button>
           <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
@@ -86,9 +86,9 @@ export default function OrderDetailsPage() {
               variant="ghost"
               size="sm"
               onClick={() => router.push("/admin/orders")}
-              className="text-white/70 hover:text-[#EFFC76] hover:bg-white/5"
+              className="text-white/70 hover:text-[#F58220] hover:bg-white/5"
             >
-              <ArrowLeft className="w-4 h-4 mr-2 text-[#EFFC76]" />
+              <ArrowLeft className="w-4 h-4 mr-2 text-[#F58220]" />
               Back to Orders
             </Button>
             <div className="h-6 w-px bg-white/20" />
@@ -116,7 +116,7 @@ export default function OrderDetailsPage() {
                 <div className="flex items-center gap-3">
                   <Avatar className="w-12 h-12 border border-white/20 bg-black/40">
                     <AvatarImage src={order.client?.photo} />
-                    <AvatarFallback className="bg-[#EFFC76]/10 text-[#EFFC76]">
+                    <AvatarFallback className="bg-[#F58220]/10 text-[#F58220]">
                       {order.client?.name?.charAt(0) || 'C'}
                     </AvatarFallback>
                   </Avatar>
@@ -128,7 +128,7 @@ export default function OrderDetailsPage() {
                 </div>
                 <div className="space-y-1 text-right">
                   <p className="text-sm text-white/60">Amount</p>
-                  <p className="text-2xl font-bold text-[#EFFC76]">
+                  <p className="text-2xl font-bold text-[#F58220]">
                     {order.amount ? formatCurrency(order.amount) : '$0.00'}
                   </p>
                 </div>
@@ -137,7 +137,7 @@ export default function OrderDetailsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-1">
                   <div className="flex items-center gap-2 text-white/60 mb-2">
-                    <Calendar className="w-4 h-4 text-[#EFFC76]" />
+                    <Calendar className="w-4 h-4 text-[#F58220]" />
                     <span className="text-xs uppercase tracking-wider font-semibold">
                       Ordered
                     </span>
@@ -149,7 +149,7 @@ export default function OrderDetailsPage() {
                 </div>
                 <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-1">
                   <div className="flex items-center gap-2 text-white/60 mb-2">
-                    <DollarSign className="w-4 h-4 text-[#EFFC76]" />
+                    <DollarSign className="w-4 h-4 text-[#F58220]" />
                     <span className="text-xs uppercase tracking-wider font-semibold">
                       Billing
                     </span>
@@ -159,7 +159,7 @@ export default function OrderDetailsPage() {
                 </div>
                 <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-1">
                   <div className="flex items-center gap-2 text-white/60 mb-2">
-                    <User className="w-4 h-4 text-[#EFFC76]" />
+                    <User className="w-4 h-4 text-[#F58220]" />
                     <span className="text-xs uppercase tracking-wider font-semibold">
                       Assigned
                     </span>
