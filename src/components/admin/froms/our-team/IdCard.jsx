@@ -54,7 +54,7 @@ const IdCard = React.forwardRef(({ teamMember, departmentName, companyName = "Ne
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-full items-center pt-10 px-6 pb-8">
+      <div className="relative z-10 flex flex-col h-full items-center pt-10 px-6 pb-12">
 
         {/* Header / Company Branding with Logo only */}
         <div className="w-full flex justify-center mb-6">
