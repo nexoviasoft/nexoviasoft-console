@@ -1,55 +1,79 @@
 "use client";
 
 import React from "react";
+import { Mail, Building2, QrCode, Phone, ShieldCheck, User } from "lucide-react";
 
+import logo from "../../../../icon/logo.png"
+
+/**
+ * Premium Team ID Card Component
+ * Designed for a modern, professional look with a dark theme and brand accents.
+ */
 const IdCard = React.forwardRef(({ teamMember, departmentName, companyName = "NexoviaSoft" }, ref) => {
   const fullName = `${teamMember.firstName || ""} ${teamMember.lastName || ""}`.trim();
-  const position = teamMember.position || "Employee";
-  const employeeId = teamMember.employeeId || "N/A";
-  const email = teamMember.email || "N/A";
-  const department = departmentName || "No Department";
+  const position = teamMember.position || "Staff Member";
+  const employeeId = (teamMember.employeeId && String(teamMember.employeeId) !== "NaN") 
+    ? teamMember.employeeId 
+    : "NX-0000";
+
+  const email = teamMember.email || "hello@nexoviasoft.com";
+  const department = departmentName || "General Operations";
+  const phone = teamMember.phone || "+1 (555) 000-0000";
 
   return (
-    <div 
+    <div
       ref={ref}
-      className="w-[400px] h-[600px] bg-[#1a237e] rounded-2xl overflow-hidden relative shadow-2xl"
+      className="w-[380px] h-[600px] bg-[#0a0a0a] rounded-[2.5rem] overflow-hidden relative shadow-2xl border border-white/10"
       style={{
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       }}
     >
-      {/* Top decorative section with abstract shapes */}
-      <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden">
-        <svg className="w-full h-full" viewBox="0 0 400 128" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#26a69a', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#4dd0e1', stopOpacity: 1 }} />
-            </linearGradient>
-          </defs>
-          {/* Abstract swirling shapes */}
-          <path
-            d="M0,0 Q100,40 200,20 T400,0 L400,128 Q300,88 200,108 T0,128 Z"
-            fill="url(#grad1)"
-            opacity="0.8"
-          />
-          <circle cx="80" cy="30" r="25" fill="#4dd0e1" opacity="0.6" />
-          <circle cx="320" cy="50" r="30" fill="#26a69a" opacity="0.5" />
-          <ellipse cx="200" cy="20" rx="60" ry="25" fill="#80deea" opacity="0.7" />
-        </svg>
+      {/* Background Decorative Elements - Multi-Color Palette */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Top-Right Glow (Purple/Pink) */}
+        <div className="absolute -top-32 -right-32 w-80 h-80 bg-[#702E86]/30 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-0 w-48 h-48 bg-[#d91d79]/20 rounded-full blur-[80px]" />
+        
+        {/* Bottom-Left Glow (Orange) */}
+        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#F58220]/15 rounded-full blur-[100px]" />
+        
+        {/* Subtle Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '24px 24px'
+          }}
+        />
       </div>
 
-      {/* Company Name */}
-      <div className="relative z-10 text-center pt-4 px-4">
-        <h1 className="text-2xl font-bold text-white uppercase tracking-wider">
-          {companyName}
-        </h1>
+      {/* Lanyard Slot Visualization */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center">
+        <div className="w-16 h-4 bg-[#1a1a1a] rounded-b-xl border-x border-b border-white/5 shadow-inner" />
+        <div className="w-10 h-1.5 bg-black/60 rounded-full mt-1 border border-white/10" />
       </div>
 
-      {/* Photo section - Square and Bigger */}
-      <div className="relative z-10 flex justify-center pt-4">
-        <div className="relative">
-          <div className="w-48 h-48 bg-white p-2 shadow-lg rounded-lg">
-            <div className="w-full h-full rounded-lg overflow-hidden bg-gray-200 border-2 border-[#4dd0e1]">
+      {/* Content Container */}
+      <div className="relative z-10 flex flex-col h-full items-center pt-10 px-6 pb-8">
+
+        {/* Header / Company Branding with Logo only */}
+        <div className="w-full flex justify-center mb-6">
+          <div className="px-6 py-3 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg group hover:border-[#F58220]/30 transition-all duration-300">
+            <img src={logo.src || logo} alt="Logo" className="h-10 w-auto object-contain" />
+          </div>
+        </div>
+
+        {/* Profile Image Section */}
+        <div className="relative mb-6">
+          {/* Decorative Outer Rings - Dynamic Gradient */}
+          <div className="absolute inset-0 -m-3 border border-white/5 rounded-[2rem]" />
+          <div className="absolute inset-0 -m-1.5 border border-white/10 rounded-[1.8rem]" />
+          
+          <div className="w-44 h-44 bg-gradient-to-br from-[#702E86]/40 via-[#d91d79]/40 to-[#F58220]/40 p-[2px] rounded-[1.5rem] shadow-2xl">
+            <div className="w-full h-full rounded-[1.35rem] overflow-hidden bg-[#0d0d0d] flex items-center justify-center relative">
+               {/* Inner glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+              
               {teamMember.profileImage ? (
                 <img
                   src={teamMember.profileImage}
@@ -58,67 +82,88 @@ const IdCard = React.forwardRef(({ teamMember, departmentName, companyName = "Ne
                   crossOrigin="anonymous"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-300 text-[#1a237e] text-3xl font-bold">
-                  {fullName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                <div className="flex flex-col items-center justify-center text-white/10">
+                  <User size={64} strokeWidth={1} />
+                  <span className="text-[0.6rem] font-bold tracking-widest mt-2 uppercase">Identity Pending</span>
                 </div>
               )}
             </div>
           </div>
+
+          {/* Verification Badge - Color Plate Accent */}
+          <div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-[#d91d79] to-[#F58220] p-1.5 rounded-full border-2 border-[#0a0a0a] shadow-xl">
+            <ShieldCheck size={16} className="text-white" />
+          </div>
+        </div>
+
+        {/* Identity Details */}
+        <div className="text-center w-full mb-6">
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight leading-tight mb-2">
+            {fullName || "Identity Unknown"}
+          </h2>
+          <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#702E86] via-[#d91d79] to-[#F58220] text-white text-[0.7rem] font-black uppercase tracking-widest rounded-lg shadow-lg">
+            {position}
+          </div>
+        </div>
+
+        {/* ID Serial Number */}
+        <div className="w-full mb-8">
+          <div className="flex items-center justify-between px-6 py-3 bg-white/5 rounded-2xl border border-white/10 shadow-inner">
+            <span className="text-white/40 text-[0.6rem] font-bold uppercase tracking-widest">Employee ID</span>
+            <span className="text-[#F58220] text-sm font-mono font-bold tracking-tighter shadow-sm">
+              {employeeId}
+            </span>
+          </div>
+        </div>
+
+        {/* Detailed Info (Glass Card) */}
+        <div className="w-full space-y-3 bg-white/[0.03] p-5 rounded-3xl border border-white/10 backdrop-blur-2xl flex-1 shadow-2xl">
+          <div className="flex items-center gap-4 group">
+            <div className="w-8 h-8 rounded-lg bg-[#702E86]/10 flex items-center justify-center border border-white/5 group-hover:border-[#702E86]/50 transition-all duration-300">
+              <Mail size={14} className="text-[#d91d79]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/20 text-[0.5rem] font-bold uppercase tracking-widest">Network Mail</span>
+              <span className="text-white/80 text-[0.75rem] font-medium truncate max-w-[210px]">{email}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 group">
+            <div className="w-8 h-8 rounded-lg bg-[#d91d79]/10 flex items-center justify-center border border-white/5 group-hover:border-[#d91d79]/50 transition-all duration-300">
+              <Building2 size={14} className="text-[#F58220]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/20 text-[0.5rem] font-bold uppercase tracking-widest">Divisional Unit</span>
+              <span className="text-white/80 text-[0.75rem] font-medium">{department}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 group">
+            <div className="w-8 h-8 rounded-lg bg-[#F58220]/10 flex items-center justify-center border border-white/5 group-hover:border-[#F58220]/50 transition-all duration-300">
+              <Phone size={14} className="text-[#d91d79]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/20 text-[0.5rem] font-bold uppercase tracking-widest">Secure Link</span>
+              <span className="text-white/80 text-[0.75rem] font-medium">{phone}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer / Auth */}
+        <div className="w-full mt-6 flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-white/10 text-[0.55rem] font-bold uppercase tracking-[0.2em] mb-1">Authorization Status</span>
+            <span className="text-white/50 text-[0.65rem] font-bold uppercase tracking-widest">Active Access</span>
+          </div>
+          <div className="p-2 bg-white rounded-xl shadow-2xl relative group overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#702E86]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <QrCode size={26} className="text-black relative z-10" strokeWidth={2} />
+          </div>
         </div>
       </div>
 
-      {/* Name */}
-      <div className="relative z-10 text-center mt-4 px-4">
-        <h2 className="text-3xl font-bold text-white uppercase tracking-wide">
-          {fullName || "EMPLOYEE NAME"}
-        </h2>
-      </div>
-
-      {/* Position */}
-      <div className="relative z-10 text-center mt-2 px-4">
-        <p className="text-lg text-white">
-          {position}
-        </p>
-      </div>
-
-      {/* ID Number Box */}
-      <div className="relative z-10 flex justify-center mt-4 px-4">
-        <div className="bg-[#26a69a] rounded-lg px-6 py-2 shadow-md">
-          <p className="text-white font-semibold text-lg">
-            ID NO: {employeeId}
-          </p>
-        </div>
-      </div>
-
-      {/* Email and Department */}
-      <div className="relative z-10 mt-6 px-8 space-y-2">
-        <div className="text-white">
-          <p className="text-base">
-            <span className="font-semibold">Email :</span> {email}
-          </p>
-        </div>
-        <div className="text-white">
-          <p className="text-base">
-            <span className="font-semibold">Department :</span> {department}
-          </p>
-        </div>
-      </div>
-
-      {/* Bottom decorative element */}
-      <div className="absolute bottom-0 right-0 w-32 h-32 overflow-hidden">
-        <svg className="w-full h-full" viewBox="0 0 128 128">
-          <path
-            d="M128,128 Q64,64 0,128 L0,128 L128,128 Z"
-            fill="#4dd0e1"
-            opacity="0.3"
-          />
-        </svg>
-      </div>
-
-      {/* Lanyard hook (visual representation) */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
-        <div className="w-12 h-6 bg-gray-300 rounded-t-lg border-2 border-gray-400"></div>
-      </div>
+      {/* Dynamic Bottom Accent */}
+      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#702E86] via-[#d91d79] to-[#F58220] opacity-80" />
     </div>
   );
 });
