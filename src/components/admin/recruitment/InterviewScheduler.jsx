@@ -30,6 +30,7 @@ export default function InterviewScheduler() {
   const { data: interviewsResponse, isLoading, error } = useGetInterviewsQuery();
   const { data: candidatesResponse } = useGetCandidatesQuery();
   const [createInterview, { isLoading: isCreating }] = useCreateInterviewMutation();
+  const [createBulkInterviews, { isLoading: isBulkCreating }] = useCreateBulkInterviewsMutation();
 
   const interviews = interviewsResponse?.data || [];
   const candidates = candidatesResponse?.data || [];
@@ -42,6 +43,7 @@ export default function InterviewScheduler() {
     time: "",
     interviewer: "",
     type: "Technical",
+    meetLink: "",
   });
 
   const handleSchedule = async () => {
@@ -58,6 +60,7 @@ export default function InterviewScheduler() {
         time: formData.time,
         interviewer: formData.interviewer,
         type: formData.type,
+        meetLink: formData.meetLink,
         status: "Scheduled",
       }).unwrap();
       toast.success("Interview scheduled successfully!");
@@ -69,6 +72,7 @@ export default function InterviewScheduler() {
         time: "",
         interviewer: "",
         type: "Technical",
+        meetLink: "",
       });
     } catch (error) {
       toast.error(error?.data?.message || "Failed to schedule interview");
@@ -164,7 +168,13 @@ export default function InterviewScheduler() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 h-7 sm:h-9 text-[10px] sm:text-sm bg-[#F58220] hover:bg-[#F58220]/80 text-black border-none px-1"
+                    disabled={!interview.meetLink}
+                    onClick={() => interview.meetLink && window.open(interview.meetLink, '_blank')}
+                    className={`flex-1 h-7 sm:h-9 text-[10px] sm:text-sm border-none px-1 ${
+                      interview.meetLink 
+                        ? "bg-[#F58220] hover:bg-[#F58220]/80 text-black" 
+                        : "bg-white/10 text-white/40 cursor-not-allowed"
+                    }`}
                   >
                     Join Call
                   </Button>
@@ -270,6 +280,17 @@ export default function InterviewScheduler() {
                   <SelectItem value="Final Round" className="focus:bg-white/10 focus:text-white cursor-pointer">Final Round</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Meeting Link (Meet/Zoom)</Label>
+              <Input
+                placeholder="https://meet.google.com/..."
+                value={formData.meetLink}
+                onChange={(e) =>
+                  setFormData({ ...formData, meetLink: e.target.value })
+                }
+                className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+              />
             </div>
           </div>
           <div className="flex justify-end gap-2">

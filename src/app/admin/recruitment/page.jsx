@@ -10,11 +10,13 @@ import InterviewScheduler from "@/components/admin/recruitment/InterviewSchedule
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
 
+import JobForm from "@/components/admin/recruitment/JobForm";
+
 export default function RecruitmentPage() {
   const [activeTab, setActiveTab] = useState("jobs");
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null);
-  const newJobTriggerRef = useRef(0);
+  const [view, setView] = useState("list"); // 'list', 'details', 'create', 'edit'
 
   const handleSelectCandidate = (candidate) => {
     setSelectedCandidate(candidate);
@@ -25,8 +27,18 @@ export default function RecruitmentPage() {
   };
 
   const handleNewJob = () => {
-    // Trigger the dialog in JobPostings component
-    newJobTriggerRef.current += 1;
+    setView("create");
+    setSelectedJob(null);
+  };
+
+  const handleEditJob = (job) => {
+    setSelectedJob(job);
+    setView("edit");
+  };
+
+  const handleViewDetails = (job) => {
+    setSelectedJob(job);
+    setView("details");
   };
 
   return (
@@ -34,30 +46,53 @@ export default function RecruitmentPage() {
       <AppLayout>
         <div className="px-4 sm:px-8 py-4 sm:py-8">
       <div className="mx-auto max-w-[1600px]">
-        <RecruitmentHeader 
-          activeTab={activeTab} 
-          onTabChange={setActiveTab}
-          onNewJob={handleNewJob}
-        />
+        {view === "list" || view === "candidates" || view === "calendar" ? (
+          <RecruitmentHeader 
+            activeTab={activeTab} 
+            onTabChange={(tab) => {
+              setActiveTab(tab);
+              setView("list");
+            }}
+            onNewJob={handleNewJob}
+          />
+        ) : null}
 
-        {activeTab === "jobs" &&
-          (selectedJob ? (
-            <JobDetails 
-              job={selectedJob} 
-              onBack={() => setSelectedJob(null)}
-              onUpdate={(updatedJob) => {
-                setSelectedJob(updatedJob);
-              }}
-              onDelete={(id) => {
-                setSelectedJob(null);
-              }}
-            />
-          ) : (
-            <JobPostings 
-              onViewDetails={(job) => setSelectedJob(job)}
-              onNewJob={newJobTriggerRef.current}
-            />
-          ))}
+        {activeTab === "jobs" && (
+          <>
+            {view === "list" && (
+              <JobPostings 
+                onViewDetails={handleViewDetails}
+                onEdit={handleEditJob}
+              />
+            )}
+            
+            {view === "details" && selectedJob && (
+              <JobDetails 
+                job={selectedJob} 
+                onBack={() => setView("list")}
+                onUpdate={(updatedJob) => {
+                  setSelectedJob(updatedJob);
+                }}
+                onDelete={(id) => {
+                  setView("list");
+                  setSelectedJob(null);
+                }}
+                onEdit={() => setView("edit")}
+              />
+            )}
+
+            {(view === "create" || view === "edit") && (
+              <JobForm 
+                job={view === "edit" ? selectedJob : null}
+                onBack={() => setView(view === "edit" ? "details" : "list")}
+                onSaveSuccess={(data) => {
+                  setSelectedJob(data);
+                  setView("details");
+                }}
+              />
+            )}
+          </>
+        )}
 
         {activeTab === "candidates" &&
           (selectedCandidate ? (

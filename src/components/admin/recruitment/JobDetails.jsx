@@ -44,42 +44,37 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Save
+  Save,
+  Check
 } from "lucide-react";
 import { toast } from "sonner";
 import {
   useUpdateJobPostingMutation,
   useDeleteJobPostingMutation,
   useGetCandidatesQuery,
+  useCreateBulkInterviewsMutation,
 } from "@/api/admin/recruitment/recruitmentApi";
 
 /**
  * JobDetails Component
  * 
- * Displays detailed information about a job posting with edit capabilities.
- * Features:
- * - View job details (title, description, location, type, etc.)
- * - Edit job information via dialog
- * - Delete job posting
- * - Toggle job status (Active/Inactive)
- * - View recent applicants
- * 
- * @param {Object} props - Component props
- * @param {Object} props.job - Job posting object
- * @param {Function} props.onBack - Callback to navigate back to jobs list
- * @param {Function} props.onUpdate - Callback when job is updated
- * @param {Function} props.onDelete - Callback when job is deleted
+ * Displays detailed information about a job posting.
  */
-export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
-  const [updateJobPosting, { isLoading: isUpdating }] = useUpdateJobPostingMutation();
-  const [deleteJobPosting, { isLoading: isDeleting }] = useDeleteJobPostingMutation();
+export default function JobDetails({ job, onBack, onUpdate, onDelete, onEdit }) {
+  const [deleteJobPosting] = useDeleteJobPostingMutation();
+  const [updateJobPosting] = useUpdateJobPostingMutation();
   const { data: candidatesResponse } = useGetCandidatesQuery();
-  const { uploadFile, isUploading } = useUpload({ folder: "job-postings" });
   
-  // State management for edit dialog and form data
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editedJob, setEditedJob] = useState(job);
-  const [imageFile, setImageFile] = useState(null);
+  const [selectedCandidates, setSelectedCandidates] = useState([]);
+  const [showBulkInviteDialog, setShowBulkInviteDialog] = useState(false);
+  const [createBulkInterviews, { isLoading: isBulkCreating }] = useCreateBulkInterviewsMutation();
+  const [bulkInterviewData, setBulkInterviewData] = useState({
+    date: "",
+    time: "",
+    interviewer: "",
+    type: "Technical",
+    meetLink: "",
+  });
 
   // Return null if no job data is provided
   if (!job) return null;
@@ -91,73 +86,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
   const applicants = allCandidates.filter(c => c.jobPostingId === job.id || c.position === job.title);
 
   /**
-   * Handle opening the edit dialog
-   * Resets the form data to current job values
-   */
-  const handleEditClick = () => {
-    setEditedJob({ ...job });
-    setImageFile(null);
-    setIsEditDialogOpen(true);
-  };
-
-  /**
-   * Handle form input changes
-   * Updates the editedJob state with new values
-   * 
-   * @param {string} field - The field name to update
-   * @param {any} value - The new value for the field
-   */
-  const handleInputChange = (field, value) => {
-    setEditedJob(prev => ({ ...prev, [field]: value }));
-  };
-
-  /**
-   * Handle saving edited job data
-   * Validates required fields and calls API
-   */
-  const handleSaveEdit = async () => {
-    // Validation: Check required fields
-    if (!editedJob.title?.trim()) {
-      toast.error("Job title is required");
-      return;
-    }
-    if (!editedJob.department?.trim()) {
-      toast.error("Department is required");
-      return;
-    }
-
-    try {
-      let imageUrl = (editedJob.imageUrl || "").trim();
-      if (imageFile) {
-        toast.loading("Uploading image...", { id: "upload-job-image" });
-        imageUrl = await uploadFile(imageFile);
-        toast.success("Image uploaded", { id: "upload-job-image" });
-      }
-
-      const updated = await updateJobPosting({
-        id: job.id,
-        ...editedJob,
-        imageUrl,
-        postedDate: editedJob.postedDate ? new Date(editedJob.postedDate).toISOString().split('T')[0] : job.postedDate,
-      }).unwrap();
-      
-      // Call parent update handler
-      if (onUpdate) {
-        onUpdate(updated.data || updated);
-      }
-
-      // Show success message and close dialog
-      toast.success("Job posting updated successfully");
-      setIsEditDialogOpen(false);
-      setImageFile(null);
-    } catch (error) {
-      toast.error(error?.data?.message || "Failed to update job posting");
-    }
-  };
-
-  /**
    * Handle job deletion
-   * Shows confirmation and calls API
    */
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this job posting? This action cannot be undone.")) {
@@ -167,7 +96,6 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
           onDelete(job.id);
         }
         toast.success("Job posting deleted");
-        onBack(); // Navigate back to jobs list
       } catch (error) {
         toast.error(error?.data?.message || "Failed to delete job posting");
       }
@@ -176,7 +104,6 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
 
   /**
    * Handle toggling job status (Active/Inactive)
-   * Updates the job status via API
    */
   const handleToggleStatus = async () => {
     const newStatus = job.status === 'Active' ? 'Inactive' : 'Active';
@@ -197,6 +124,52 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
     }
   };
 
+  const handleToggleSelection = (candidateId) => {
+    setSelectedCandidates(prev => 
+      prev.includes(candidateId) 
+        ? prev.filter(id => id !== candidateId) 
+        : [...prev, candidateId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedCandidates.length === applicants.length) {
+      setSelectedCandidates([]);
+    } else {
+      setSelectedCandidates(applicants.map(c => c.id));
+    }
+  };
+
+  const handleBulkInvite = async () => {
+    if (!bulkInterviewData.date || !bulkInterviewData.time || !bulkInterviewData.interviewer) {
+      toast.error("Please fill in all required fields (Date, Time, Interviewer)");
+      return;
+    }
+
+    try {
+      await createBulkInterviews({
+        interview: {
+          ...bulkInterviewData,
+          position: job.title,
+        },
+        candidateIds: selectedCandidates,
+      }).unwrap();
+      
+      toast.success("Interviews scheduled and emails sent successfully!");
+      setShowBulkInviteDialog(false);
+      setSelectedCandidates([]);
+      setBulkInterviewData({
+        date: "",
+        time: "",
+        interviewer: "",
+        type: "Technical",
+        meetLink: "",
+      });
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to schedule interviews");
+    }
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Back button */}
@@ -210,16 +183,16 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
       </Button>
 
       {/* Main job details card */}
-      <div className="glass-card rounded-xl p-8">
+      <div className="glass-card rounded-xl p-8 border border-white/10 bg-white/5">
         {/* Header section with title, status, and action buttons */}
         <div className="flex items-start justify-between mb-6">
-          <div>
+          <div className="flex-1">
             {job.imageUrl ? (
-              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-black/30">
+              <div className="mb-5 overflow-hidden rounded-xl border border-white/10 bg-black/30 max-w-2xl">
                 <img
                   src={job.imageUrl}
                   alt={`${job.title} image`}
-                  className="h-44 w-full object-cover"
+                  className="h-64 w-full object-cover"
                   loading="lazy"
                 />
               </div>
@@ -238,21 +211,31 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
             {/* Job metadata (department, location, type, posted date) */}
             <div className="flex flex-wrap gap-4 text-sm text-white/70">
               <div className="flex items-center gap-1">
-                <Briefcase className="w-4 h-4" />
+                <Briefcase className="w-4 h-4 text-[#F58220]" />
                 {job.department}
               </div>
               <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-4 h-4 text-[#F58220]" />
                 {job.location}
               </div>
               <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
+                <Clock className="w-4 h-4 text-[#F58220]" />
                 {job.type}
               </div>
               <div className="flex items-center gap-1">
-                <Calendar className="w-4 h-4" />
-                Posted {job.postedDate}
+                <Users className="w-4 h-4 text-[#F58220]" />
+                Vacancy: {job.vacancy || 1}
               </div>
+              <div className="flex items-center gap-1">
+                <Calendar className="w-4 h-4 text-[#F58220]" />
+                Posted {job.postedDate ? new Date(job.postedDate).toLocaleDateString() : '-'}
+              </div>
+              {job.expiryDate && (
+                <div className="flex items-center gap-1 text-red-400 font-medium">
+                  <Clock className="w-4 h-4" />
+                  Expires {new Date(job.expiryDate).toLocaleDateString()}
+                </div>
+              )}
             </div>
           </div>
 
@@ -260,8 +243,8 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
           <div className="flex gap-2">
             {/* Edit button */}
             <Button 
-              onClick={handleEditClick}
-              className="bg-[#F58220] hover:bg-[#dce865] text-black"
+              onClick={onEdit}
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
             >
               <Edit className="w-4 h-4 mr-2" />
               Edit Job
@@ -306,7 +289,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
         </div>
 
         {/* Job description section */}
-        <div className="prose max-w-none text-white/70 mb-8">
+        <div className="prose max-w-none text-white/70 mb-8 pt-6 border-t border-white/10">
           <h3 className="text-lg font-semibold text-white mb-2">
             Job Description
           </h3>
@@ -316,37 +299,76 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
         </div>
 
         {/* Recent applicants section */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5" />
-            Recent Applicants ({applicants.length})
-          </h3>
+        <div className="pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              <Users className="w-5 h-5 text-[#F58220]" />
+              Applicants ({applicants.length})
+            </h3>
+            {applicants.length > 0 && (
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSelectAll}
+                  className="text-white/70 border-white/20 hover:bg-white/10"
+                >
+                  {selectedCandidates.length === applicants.length ? "Deselect All" : "Select All"}
+                </Button>
+                {selectedCandidates.length > 0 && (
+                  <Button
+                    size="sm"
+                    onClick={() => setShowBulkInviteDialog(true)}
+                    className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-medium"
+                  >
+                    Bulk Invite ({selectedCandidates.length})
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {applicants.length > 0 ? (
               applicants.map((applicant) => (
                 <Card
                   key={applicant.id}
-                  className="cursor-pointer hover:shadow-md transition-all bg-white/5 border border-white/10"
+                  className={`relative cursor-pointer hover:shadow-lg transition-all border ${
+                    selectedCandidates.includes(applicant.id) 
+                      ? "bg-[#F58220]/10 border-[#F58220]/50 shadow-[#F58220]/5" 
+                      : "bg-white/5 border-white/10"
+                  }`}
+                  onClick={() => handleToggleSelection(applicant.id)}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <Avatar>
-                        <AvatarFallback className="bg-[#F58220]/15 text-[#F58220]">
+                    <div className="absolute top-3 right-3">
+                      <div className={`w-5 h-5 rounded border ${
+                        selectedCandidates.includes(applicant.id)
+                          ? "bg-[#F58220] border-[#F58220]"
+                          : "border-white/20"
+                      } flex items-center justify-center transition-all`}>
+                        {selectedCandidates.includes(applicant.id) && (
+                          <Check className="w-3 h-3 text-black font-bold" />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 pt-2">
+                      <Avatar className="h-10 w-10 ring-2 ring-white/5">
+                        <AvatarFallback className="bg-[#F58220]/15 text-[#F58220] font-bold">
                           {applicant.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
-                      <div>
-                        <p className="font-semibold text-sm text-white">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-sm text-white truncate pr-6">
                           {applicant.name}
                         </p>
-                        <p className="text-xs text-white/70">
+                        <p className="text-xs text-white/50 truncate">
                           {applicant.email}
                         </p>
-                        <div className="mt-2 flex flex-wrap gap-1">
+                        <div className="mt-3 flex flex-wrap gap-1">
                           <Badge
                             variant="secondary"
-                            className="text-[10px] px-1.5 h-5 bg-white/5 border-white/20 text-white/80"
+                            className="text-[10px] px-2 h-5 bg-white/10 border-white/10 text-white/80"
                           >
                             {applicant.stage}
                           </Badge>
@@ -357,7 +379,7 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
                 </Card>
               ))
             ) : (
-              <div className="col-span-full py-8 text-center text-white/70 bg-white/5 rounded-lg border border-dashed border-white/20">
+              <div className="col-span-full py-12 text-center text-white/50 bg-white/5 rounded-xl border border-dashed border-white/10">
                 No applicants found for this position yet.
               </div>
             )}
@@ -365,154 +387,101 @@ export default function JobDetails({ job, onBack, onUpdate, onDelete }) {
         </div>
       </div>
 
-      {/* Edit Job Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl glass-card border-white/20 text-white max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-xl">Edit Job Posting</DialogTitle>
+      {/* Bulk Invite Dialog */}
+      <Dialog open={showBulkInviteDialog} onOpenChange={setShowBulkInviteDialog}>
+        <DialogContent className="sm:max-w-[500px] glass-panel border-white/20 bg-[#121212] text-white p-0 overflow-hidden">
+          <DialogHeader className="p-6 pb-2">
+            <DialogTitle className="text-xl">Bulk Schedule Interviews</DialogTitle>
             <DialogDescription className="text-white/60">
-              Update the job details below. All fields marked with * are required.
+              Scheduling interviews for {selectedCandidates.length} selected candidates for <strong>{job.title}</strong>.
             </DialogDescription>
           </DialogHeader>
-
-          <div className="grid gap-6 py-4">
-            {/* Job Title */}
-            <div className="grid gap-2">
-              <Label htmlFor="title" className="text-white">
-                Job Title <span className="text-red-400">*</span>
-              </Label>
-              <Input
-                id="title"
-                value={editedJob.title || ''}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                placeholder="e.g., Senior Frontend Developer"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
-              />
-            </div>
-
-            {/* Department and Location */}
+          <div className="p-6 space-y-5">
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="department" className="text-white">
-                  Department <span className="text-red-400">*</span>
-                </Label>
+              <div className="space-y-2">
+                <Label className="text-white/80 font-medium">Date</Label>
                 <Input
-                  id="department"
-                  value={editedJob.department || ''}
-                  onChange={(e) => handleInputChange('department', e.target.value)}
-                  placeholder="e.g., Engineering"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
+                  type="date"
+                  value={bulkInterviewData.date}
+                  onChange={(e) =>
+                    setBulkInterviewData({ ...bulkInterviewData, date: e.target.value })
+                  }
+                  className="bg-white/5 border-white/20 text-white focus:border-[#F58220]/50 [color-scheme:dark]"
                 />
               </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="location" className="text-white">Location</Label>
-                <Select
-                  value={editedJob.location || ''}
-                  onValueChange={(value) => handleInputChange('location', value)}
-                >
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                    <SelectItem value="Remote">Remote</SelectItem>
-                    <SelectItem value="On-site">On-site</SelectItem>
-                    <SelectItem value="Hybrid">Hybrid</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="space-y-2">
+                <Label className="text-white/80 font-medium">Time</Label>
+                <Input
+                  type="time"
+                  value={bulkInterviewData.time}
+                  onChange={(e) =>
+                    setBulkInterviewData({ ...bulkInterviewData, time: e.target.value })
+                  }
+                  className="bg-white/5 border-white/20 text-white focus:border-[#F58220]/50 [color-scheme:dark]"
+                />
               </div>
             </div>
+            
+            <div className="space-y-2">
+              <Label className="text-white/80 font-medium">Interviewer</Label>
+              <Input
+                placeholder="Enter interviewer name"
+                value={bulkInterviewData.interviewer}
+                onChange={(e) =>
+                  setBulkInterviewData({ ...bulkInterviewData, interviewer: e.target.value })
+                }
+                className="bg-white/5 border-white/20 text-white focus:border-[#F58220]/50"
+              />
+            </div>
 
-            {/* Job Type and Status */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="type" className="text-white">Job Type</Label>
+              <div className="space-y-2">
+                <Label className="text-white/80 font-medium">Interview Type</Label>
                 <Select
-                  value={editedJob.type || ''}
-                  onValueChange={(value) => handleInputChange('type', value)}
+                  value={bulkInterviewData.type}
+                  onValueChange={(v) => setBulkInterviewData({ ...bulkInterviewData, type: v })}
                 >
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
-                    <SelectValue placeholder="Select type" />
+                  <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                    <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                    <SelectItem value="Full-time">Full-time</SelectItem>
-                    <SelectItem value="Part-time">Part-time</SelectItem>
-                    <SelectItem value="Contract">Contract</SelectItem>
-                    <SelectItem value="Internship">Internship</SelectItem>
+                  <SelectContent className="bg-[#1A1A1A] border-white/20 text-white">
+                    <SelectItem value="Technical">Technical</SelectItem>
+                    <SelectItem value="HR">HR</SelectItem>
+                    <SelectItem value="Managerial">Managerial</SelectItem>
+                    <SelectItem value="Culture Fit">Culture Fit</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="status" className="text-white">Status</Label>
-                <Select
-                  value={editedJob.status || ''}
-                  onValueChange={(value) => handleInputChange('status', value)}
-                >
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white">
-                    <SelectItem value="Active">Active</SelectItem>
-                    <SelectItem value="Inactive">Inactive</SelectItem>
-                    <SelectItem value="Draft">Draft</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="space-y-2">
+                <Label className="text-white/80 font-medium">Meeting Link (Optional)</Label>
+                <Input
+                  placeholder="Zoom/Google Meet link"
+                  value={bulkInterviewData.meetLink}
+                  onChange={(e) =>
+                    setBulkInterviewData({ ...bulkInterviewData, meetLink: e.target.value })
+                  }
+                  className="bg-white/5 border-white/20 text-white focus:border-[#F58220]/50"
+                />
               </div>
-            </div>
-
-            {/* Job Description */}
-            <div className="grid gap-2">
-              <Label htmlFor="description" className="text-white">
-                Job Description
-              </Label>
-              <Textarea
-                id="description"
-                value={editedJob.description || ''}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                placeholder="Describe the role, responsibilities, and requirements..."
-                className="min-h-[150px] bg-white/5 border-white/10 text-white placeholder:text-white/40 resize-none"
-              />
-            </div>
-
-            {/* Job Image */}
-            <div className="grid gap-2">
-              <ImageInput
-                id="jobImageEdit"
-                label="Job Image"
-                currentImage={job.imageUrl}
-                value={editedJob.imageUrl || ""}
-                onChange={(file, previewUrl) => {
-                  setImageFile(file);
-                  handleInputChange("imageUrl", previewUrl || "");
-                }}
-                onRemove={() => {
-                  setImageFile(null);
-                  handleInputChange("imageUrl", "");
-                }}
-                previewSize="w-44 h-28"
-              />
             </div>
           </div>
-
-          {/* Dialog Footer with action buttons */}
-          <DialogFooter className="gap-2">
+          
+          <div className="p-6 pt-2 bg-white/5 border-t border-white/10 flex justify-end gap-3">
             <Button
               variant="outline"
-              onClick={() => setIsEditDialogOpen(false)}
-              className="border-white/20 hover:bg-white/10 text-white"
+              onClick={() => setShowBulkInviteDialog(false)}
+              className="border-white/20 text-white hover:bg-white/10"
             >
               Cancel
             </Button>
             <Button
-              onClick={handleSaveEdit}
-              disabled={isUpdating || isUploading}
-              className="bg-[#F58220] hover:bg-[#dce865] text-black"
+              onClick={handleBulkInvite}
+              disabled={isBulkCreating}
+              className="bg-[#F58220] hover:bg-[#F58220]/80 text-black font-bold"
             >
-              <Save className="w-4 h-4 mr-2" />
-              {isUpdating || isUploading ? 'Saving...' : 'Save Changes'}
+              {isBulkCreating ? "Scheduling..." : `Schedule ${selectedCandidates.length} Interviews`}
             </Button>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

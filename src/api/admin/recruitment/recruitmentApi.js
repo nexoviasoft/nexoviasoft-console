@@ -96,6 +96,15 @@ export const recruitmentApi = baseApi.injectEndpoints({
       invalidatesTags: ['Recruitment'],
     }),
     
+    createBulkInterviews: builder.mutation({
+      query: (data) => ({
+        url: '/recruitment/interviews/bulk',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Recruitment'],
+    }),
+    
     updateInterview: builder.mutation({
       query: ({ id, ...data }) => ({
         url: `/recruitment/interviews/${id}`,
@@ -129,6 +138,7 @@ export const {
   useGetInterviewsQuery,
   useGetInterviewByIdQuery,
   useCreateInterviewMutation,
+  useCreateBulkInterviewsMutation,
   useUpdateInterviewMutation,
   useDeleteInterviewMutation,
 } = recruitmentApi;

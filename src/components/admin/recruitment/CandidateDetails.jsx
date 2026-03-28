@@ -34,6 +34,26 @@ export default function CandidateDetails({ candidate, onBack }) {
     }
   };
 
+  const handleDownloadResume = () => {
+    if (candidate.cvUrl) {
+      window.open(candidate.cvUrl, '_blank');
+      return;
+    }
+
+    if (candidate.cvData) {
+      // Create a link and trigger download for base64 data
+      const link = document.createElement('a');
+      link.href = candidate.cvData;
+      link.download = candidate.cvFilename || `resume-${candidate.name.replace(/\s+/g, '-').toLowerCase()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
+    toast.error("No resume available for this candidate");
+  };
+
   return (
     <>
       <div className="space-y-6">
@@ -88,7 +108,7 @@ export default function CandidateDetails({ candidate, onBack }) {
                 <div>
                   <p className="text-[10px] sm:text-xs text-white/60">Applied Date</p>
                   <p className="text-sm sm:font-medium text-white">
-                    {candidate.appliedDate}
+                    {candidate.appliedDate ? new Date(candidate.appliedDate).toLocaleDateString() : '-'}
                   </p>
                 </div>
               </div>
@@ -106,7 +126,7 @@ export default function CandidateDetails({ candidate, onBack }) {
             <div>
               <h4 className="font-semibold mb-2 text-white text-sm sm:text-base">Skills</h4>
               <div className="flex flex-wrap gap-2">
-                {candidate.skills.map((skill, idx) => (
+                {candidate.skills && Array.isArray(candidate.skills) ? candidate.skills.map((skill, idx) => (
                   <Badge
                     key={idx}
                     variant="secondary"
@@ -114,7 +134,9 @@ export default function CandidateDetails({ candidate, onBack }) {
                   >
                     {skill}
                   </Badge>
-                ))}
+                )) : (
+                  <p className="text-xs text-white/40 italic">No skills listed</p>
+                )}
               </div>
             </div>
 
@@ -133,9 +155,11 @@ export default function CandidateDetails({ candidate, onBack }) {
                 Schedule Interview
               </Button>
               <Button
+                onClick={handleDownloadResume}
                 variant="outline"
                 className="bg-transparent border-[#F58220] text-[#F58220] hover:bg-[#F58220]/10 w-full sm:w-auto text-xs sm:text-sm"
               >
+                <FileText className="w-4 h-4 mr-2" />
                 Download Resume
               </Button>
             </div>
