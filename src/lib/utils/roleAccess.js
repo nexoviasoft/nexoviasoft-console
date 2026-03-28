@@ -29,6 +29,7 @@ const rolePermissions = {
       '/admin/settings',
       '/admin/platform-settings',
       '/admin/our-team',
+      '/admin/expense',
     ],
   },
   employee: {
@@ -40,6 +41,7 @@ const rolePermissions = {
       '/admin/projects',
       '/admin/documents',
       '/admin/leave',
+      '/admin/expense',
     ],
   },
   marketing: {

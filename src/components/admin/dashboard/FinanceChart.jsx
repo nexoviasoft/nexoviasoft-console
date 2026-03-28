@@ -14,11 +14,21 @@ import { useGetFinanceTrendQuery } from "@/api/admin/dashboard/dashboardApi";
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#121212] border border-[#F58220]/20 p-3 rounded-lg shadow-xl min-w-[120px]">
+      <div className="bg-[#121212] border border-[#F58220]/20 p-3 rounded-lg shadow-xl min-w-[150px]">
         <p className="text-white/60 mb-2 text-xs font-medium">{label}</p>
-        <div className="flex items-center justify-between gap-4">
-            <span className="text-white text-sm font-semibold">Income</span>
-            <span className="text-[#F58220] text-sm font-bold">${payload[0].value.toLocaleString()}</span>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-white/70 text-xs">Income</span>
+            <span className="text-emerald-500 text-sm font-bold">${payload.find(p => p.dataKey === 'income')?.value?.toLocaleString() || 0}</span>
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-white/70 text-xs">Expense</span>
+            <span className="text-rose-500 text-sm font-bold">${payload.find(p => p.dataKey === 'expense')?.value?.toLocaleString() || 0}</span>
+          </div>
+          <div className="border-t border-white/10 my-1 pt-1 flex items-center justify-between gap-4">
+            <span className="text-white text-xs font-semibold">Net Profit</span>
+            <span className="text-[#F58220] text-sm font-bold">${payload.find(p => p.dataKey === 'profit')?.value?.toLocaleString() || 0}</span>
+          </div>
         </div>
       </div>
     );
@@ -64,21 +74,20 @@ export default function FinanceChart({ period = "Yearly" }) {
                 cursor={{ fill: 'rgba(255,255,255,0.03)', radius: [4,4,4,4] }} 
               />
               
-              {/* Background Track */}
               <Bar
                 dataKey="income"
-                data={data.map(d => ({ ...d, full: 100000 }))} // Normalized max reference
-                fill="#ffffff"
-                fillOpacity={0.05}
+                fill="#10b981"
                 radius={[4, 4, 4, 4]}
-                tooltipType="none"
-                isAnimationActive={false}
-                position="center"
+                className="hover:opacity-90 transition-opacity cursor-pointer"
               />
-
-              {/* Value Bar */}
               <Bar
-                dataKey="income"
+                dataKey="expense"
+                fill="#f43f5e"
+                radius={[4, 4, 4, 4]}
+                className="hover:opacity-90 transition-opacity cursor-pointer"
+              />
+              <Bar
+                dataKey="profit"
                 fill="#F58220"
                 radius={[4, 4, 4, 4]}
                 className="hover:opacity-90 transition-opacity cursor-pointer"

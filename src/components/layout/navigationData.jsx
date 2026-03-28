@@ -26,6 +26,7 @@ import {
   Sparkles,
   Star,
   Wrench,
+  Wallet,
 } from "lucide-react";
 
 export const mainNavItems = [
@@ -44,6 +45,7 @@ export const mainNavItems = [
   { icon: Radio, label: "Broadcast", id: "Broadcast", href: "/admin/broadcast" },
   { icon: Briefcase, label: "Our Clients", id: "Our Clients", href: "/admin/our-client" },
   { icon: Wrench, label: "Service Requests", id: "Service Requests", href: "/admin/service-request" },
+  { icon: Wallet, label: "Expense Management", id: "Expense Management", href: "/admin/expense" },
   { icon: Settings, label: "Settings", id: "Settings", href: "/admin/settings" },
 ];
 
