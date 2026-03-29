@@ -32,58 +32,6 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
-const initialData = [
-  {
-    id: 1,
-    name: "Dipa Inhouse",
-    role: "Visual Designer",
-    avatar: "/avatars/01.png",
-    checkIn: "08:58 AM",
-    checkOut: "06:05 PM",
-    workHours: "9h 5m",
-    status: "On Time",
-  },
-  {
-    id: 2,
-    name: "Jane Cooper",
-    role: "Product Manager",
-    avatar: "/avatars/02.png",
-    checkIn: "09:05 AM",
-    checkOut: "06:15 PM",
-    workHours: "8h 30m",
-    status: "Late",
-  },
-  {
-    id: 3,
-    name: "Floyd Miles",
-    role: "Frontend Developer",
-    avatar: "/avatars/03.png",
-    checkIn: "09:00 AM",
-    checkOut: "06:00 PM",
-    workHours: "9h 0m",
-    status: "On Time",
-  },
-  {
-    id: 4,
-    name: "Theresa Webb",
-    role: "Marketing",
-    avatar: "/avatars/04.png",
-    checkIn: "08:45 AM",
-    checkOut: "05:50 PM",
-    workHours: "9h 5m",
-    status: "On Time",
-  },
-  {
-    id: 5,
-    name: "Robert Fox",
-    role: "Backend Developer",
-    avatar: "/avatars/05.png",
-    checkIn: "-",
-    checkOut: "-",
-    workHours: "-",
-    status: "Absent",
-  },
-];
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -114,7 +62,7 @@ const ApprovedBadge = ({ approved }) => {
 };
 
 export default function AttendanceTable({ rows }) {
-  const [data, setData] = useState(rows?.length ? rows : initialData);
+  const [data, setData] = useState(rows || []);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);

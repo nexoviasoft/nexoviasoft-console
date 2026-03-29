@@ -38,7 +38,7 @@ import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
 
 export default function Schedule() {
-  const { userRole } = useAuth();
+  const { user, userRole } = useAuth();
   const [isAddShiftDialogOpen, setIsAddShiftDialogOpen] = useState(false);
   const [isScheduleMeetingDialogOpen, setIsScheduleMeetingDialogOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -77,12 +77,26 @@ export default function Schedule() {
 
   const scheduleRows = useMemo(() => {
     // Filter to current week if backend stored weekStartDate; otherwise show all schedules
-    const normalized = schedules.filter((s) => {
+    let filtered = schedules.filter((s) => {
       const ws = s?.weekStartDate ? format(new Date(s.weekStartDate), "yyyy-MM-dd") : null;
       return !ws || ws === weekStartDate;
     });
 
-    return normalized.map((s) => ({
+    // Role-based visibility filtering
+    const role = (userRole || "").toLowerCase();
+    if (role !== "admin") {
+      filtered = filtered.filter((s) => {
+        // Logged-in user sees their own schedule
+        const isOwnSchedule = Number(s.teamId) === Number(user?.id);
+        
+        // Logged-in user sees everyone's schedule under their department
+        const isInSameDepartment = user?.department && s.team?.department === user.department;
+        
+        return isOwnSchedule || isInSameDepartment;
+      });
+    }
+
+    return filtered.map((s) => ({
       id: s.id ?? s.teamId,
       teamId: s.teamId,
       name: s.team?.name || "Unknown",
@@ -90,7 +104,7 @@ export default function Schedule() {
       avatar: s.team?.avatar || "/avatars/01.png",
       shifts: Array.isArray(s.shifts) ? s.shifts : [null, null, null, null, null, null, null],
     }));
-  }, [schedules, weekStartDate]);
+  }, [schedules, weekStartDate, user, userRole]);
 
   const canAddShift = ["admin", "manager"].includes((userRole || "").toLowerCase());
   const canPublish = ["admin", "manager"].includes((userRole || "").toLowerCase());

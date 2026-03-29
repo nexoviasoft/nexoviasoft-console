@@ -10,26 +10,29 @@ import {
 } from "@/api/admin/attendance/attendanceApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
-
+import { useAuth } from "@/contexts/AuthContext";
 export default function Attendance() {
+  const { user } = useAuth();
   const { data: attendanceResp, isLoading: isLoadingAttendance } =
     useGetMyAttendanceQuery();
   const { data: statsResp, isLoading: isLoadingStats } =
     useGetMyAttendanceStatsQuery();
 
   const rows =
-    attendanceResp?.data?.map((a) => ({
-      id: a.id,
-      name: a?.team?.name || "Unknown",
-      role: a?.team?.role || "-",
-      avatar: a?.team?.avatar || "",
-      checkIn: a.checkIn || "-",
-      checkOut: a.checkOut || "-",
-      workHours: a.workHours || "-",
-      status: a.status || "Absent",
-      approved: a.approved || false,
-      date: a.createdAt || null,
-    })) || [];
+    attendanceResp?.data
+      ?.filter((a) => !user?.id || Number(a.teamId) === Number(user.id))
+      .map((a) => ({
+        id: a.id,
+        name: a?.team?.name || "Unknown",
+        role: a?.team?.role || "-",
+        avatar: a?.team?.avatar || "",
+        checkIn: a.checkIn || "-",
+        checkOut: a.checkOut || "-",
+        workHours: a.workHours || "-",
+        status: a.status || "Absent",
+        approved: a.approved || false,
+        date: a.createdAt || null,
+      })) || [];
 
   return (
     <PrivateRoute>
