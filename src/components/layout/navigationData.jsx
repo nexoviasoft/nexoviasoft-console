@@ -27,6 +27,7 @@ import {
   Star,
   Wrench,
   Wallet,
+  Banknote,
 } from "lucide-react";
 
 export const mainNavItems = [
@@ -35,6 +36,7 @@ export const mainNavItems = [
   { icon: Calendar, label: "Schedule", id: "Schedule", href: "/admin/schedule" },
   { icon: Folder, label: "Projects", id: "Projects", href: "/admin/projects" },
   { icon: ShoppingCart, label: "Orders", id: "Orders", href: "/admin/orders" },
+  { icon: Banknote, label: "Income", id: "Income", href: "/admin/income" },
   { icon: Users, label: "Employee Directory", id: "Employee Directory", href: "/admin/employees" },
   { icon: FileText, label: "Leave Management", id: "Leave Management", href: "/admin/leave" },
   { icon: ScrollText, label: "Documents", id: "Documents", href: "/admin/documents" },
