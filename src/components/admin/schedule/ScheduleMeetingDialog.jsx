@@ -121,16 +121,17 @@ export default function ScheduleMeetingDialog({
 
     try {
       const dateTime = `${meetingData.date}T${meetingData.time}:00`;
-      const durationMinutes = parseInt(meetingData.duration, 10) || 30;
+      const durationMinutes = Number(meetingData.duration) || 30;
       const attendeeIds = meetingData.selectedMembers.map(Number);
+      const hostName = organizerName || "Nexoviasoft Team";
 
       const createdMeeting = await createMeeting({
         topic: meetingData.topic,
-        description: meetingData.description,
+        description: meetingData.description || "",
         dateTime,
         durationMinutes,
         attendeeIds,
-        organizerName,
+        organizerName: hostName,
       }).unwrap();
 
       // Call parent submit handler
@@ -164,7 +165,8 @@ export default function ScheduleMeetingDialog({
       onOpenChange(false);
     } catch (error) {
       console.error("Error scheduling meeting:", error);
-      toast.error("Failed to schedule meeting. Please try again.");
+      const errorMessage = error?.data?.message || error?.message || "Failed to schedule meeting. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
