@@ -30,6 +30,7 @@ const rolePermissions = {
       '/admin/platform-settings',
       '/admin/our-team',
       '/admin/expense',
+      '/admin/income',
     ],
   },
   employee: {
