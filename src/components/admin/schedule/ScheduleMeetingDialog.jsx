@@ -120,9 +120,9 @@ export default function ScheduleMeetingDialog({
     setIsSubmitting(true);
 
     try {
-      const dateTime = `${meetingData.date}T${meetingData.time}`;
+      const dateTime = `${meetingData.date}T${meetingData.time}:00`;
       const durationMinutes = parseInt(meetingData.duration, 10) || 30;
-      const attendeeIds = meetingData.selectedMembers;
+      const attendeeIds = meetingData.selectedMembers.map(Number);
 
       const createdMeeting = await createMeeting({
         topic: meetingData.topic,

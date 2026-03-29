@@ -37,6 +37,10 @@ export const attendanceApi = baseApi.injectEndpoints({
       query: () => "/attendance/stats",
       providesTags: ["Attendance"],
     }),
+    getAllAttendance: builder.query({
+      query: () => "/attendance",
+      providesTags: ["Attendance"],
+    }),
   }),
 });
 
@@ -47,5 +51,6 @@ export const {
   useUpdateAttendanceMutation,
   useGetAttendanceStatsQuery,
   useApproveAttendanceMutation,
+  useGetAllAttendanceQuery,
 } = attendanceApi;
 

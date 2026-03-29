@@ -12,15 +12,28 @@ import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
 import { useAuth } from "@/contexts/AuthContext";
 export default function Attendance() {
-  const { user } = useAuth();
-  const { data: attendanceResp, isLoading: isLoadingAttendance } =
-    useGetMyAttendanceQuery();
-  const { data: statsResp, isLoading: isLoadingStats } =
-    useGetMyAttendanceStatsQuery();
+  const { user, userRole } = useAuth();
+  const role = (userRole || "").toLowerCase();
+  const isStaff = role === "admin" || role === "manager";
+
+  const { data: myAttendanceResp, isLoading: isLoadingMyAttendance } = 
+    useGetMyAttendanceQuery(undefined, { skip: isStaff });
+  const { data: allAttendanceResp, isLoading: isLoadingAllAttendance } = 
+    useGetAllAttendanceQuery(undefined, { skip: !isStaff });
+
+  const { data: myStatsResp, isLoading: isLoadingMyStats } = 
+    useGetMyAttendanceStatsQuery(undefined, { skip: isStaff });
+  const { data: allStatsResp, isLoading: isLoadingAllStats } = 
+    useGetAttendanceStatsQuery(undefined, { skip: !isStaff });
+
+  const attendanceResp = isStaff ? allAttendanceResp : myAttendanceResp;
+  const statsResp = isStaff ? allStatsResp : myStatsResp;
+  const isLoadingAttendance = isStaff ? isLoadingAllAttendance : isLoadingMyAttendance;
+  const isLoadingStats = isStaff ? isLoadingAllStats : isLoadingMyStats;
 
   const rows =
     attendanceResp?.data
-      ?.filter((a) => !user?.id || Number(a.teamId) === Number(user.id))
+      ?.filter((a) => isStaff || !user?.id || Number(a.teamId) === Number(user.id))
       .map((a) => ({
         id: a.id,
         name: a?.team?.name || "Unknown",
