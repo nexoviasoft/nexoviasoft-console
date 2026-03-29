@@ -1392,7 +1392,16 @@ export default function EnhancedKanbanBoard({ applicationType, projectId }) {
                 </label>
                 <Select 
                   value={newTaskData.team}
-                  onValueChange={(value) => setNewTaskData({ ...newTaskData, team: value })}
+                  onValueChange={(value) => {
+                    setNewTaskData({ ...newTaskData, team: value });
+                    // Find department ID and set it for filtering
+                    const dept = departments.find(d => d.name === value);
+                    if (dept) {
+                      setSelectedDepartmentId(String(dept.id));
+                    } else {
+                      setSelectedDepartmentId("");
+                    }
+                  }}
                 >
                   <SelectTrigger className="bg-white/5 border-white/10">
                     <SelectValue placeholder="Select Team" />

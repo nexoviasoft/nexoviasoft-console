@@ -15,15 +15,17 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Calendar, Clock, User, Video } from "lucide-react";
+import { Calendar, Clock, User, Video, Check } from "lucide-react";
 import { toast } from "sonner";
 import {
   useGetInterviewsQuery,
   useCreateInterviewMutation,
   useGetCandidatesQuery,
+  useCreateBulkInterviewsMutation,
 } from "@/api/admin/recruitment/recruitmentApi";
 
 export default function InterviewScheduler() {
@@ -187,8 +189,11 @@ export default function InterviewScheduler() {
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-[500px] glass-panel border-white/20">
-          <DialogHeader>
+          <DialogHeader className="space-y-1">
             <DialogTitle className="text-white">Schedule Interview</DialogTitle>
+            <DialogDescription className="text-white/60">
+              Fill in the details below to schedule a new interview session.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">

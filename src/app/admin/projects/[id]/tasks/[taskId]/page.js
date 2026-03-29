@@ -35,6 +35,8 @@ import { useCreateTaskCommentMutation } from "@/api/admin/projects/taskCommentsA
 import { useGetOurTeamQuery } from "@/api/admin/our-team/ourTeamApi";
 import { useGetDepartmentsQuery } from "@/api/landing/department/departmentApi";
 import { toast } from "sonner";
+import AppLayout from "@/components/layout/AppLayout";
+import { useAuth } from "@/contexts/AuthContext";
 
 const priorities = [
   { value: "high", label: "High", color: "text-red-400 bg-red-400/10" },
@@ -48,6 +50,8 @@ export default function TaskDetailsPage({ params }) {
   const { data: taskResponse, isLoading, error } = useGetTaskByIdQuery(Number(taskId));
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
   const [createTaskComment, { isLoading: isCreatingComment }] = useCreateTaskCommentMutation();
+  const { user } = useAuth();
+  const currentUserName = user ? `${user.firstName} ${user.lastName}` : "Unknown User";
 
   // Fetch team members and departments
   const { data: teamMembersResponse } = useGetOurTeamQuery();
@@ -70,6 +74,8 @@ export default function TaskDetailsPage({ params }) {
   const [comments, setComments] = useState([]);
   const [localTitle, setLocalTitle] = useState("");
   const [localDescription, setLocalDescription] = useState("");
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
+  const [replyTo, setReplyTo] = useState(null); // { id, author }
 
   // Update local state when task data changes
   useEffect(() => {
@@ -79,12 +85,21 @@ export default function TaskDetailsPage({ params }) {
       if (task?.comments && Array.isArray(task.comments)) {
         setComments(task.comments);
       }
+      // Set selected department based on team name
+      if (task.team && departments.length > 0) {
+        const dept = departments.find(d => d.name === task.team);
+        if (dept) setSelectedDepartmentId(String(dept.id));
+      }
     }
-  }, [task]);
+  }, [task, departments]);
 
   // Create assignees list from team members (format: initials)
   const availableMembers = React.useMemo(() => {
-    return teamMembers.map((member) => {
+    let filtered = teamMembers;
+    if (selectedDepartmentId) {
+      filtered = teamMembers.filter(m => m.departmentId === Number(selectedDepartmentId));
+    }
+    return filtered.map((member) => {
       const initials = (member.firstName?.[0] || '') + (member.lastName?.[0] || '') || 'TM';
       return {
         id: member.id,
@@ -93,7 +108,7 @@ export default function TaskDetailsPage({ params }) {
         fullName: `${member.firstName} ${member.lastName}`,
       };
     });
-  }, [teamMembers]);
+  }, [teamMembers, selectedDepartmentId]);
 
   // Create teams list from departments (department names)
   const teamsList = React.useMemo(() => {
@@ -156,12 +171,14 @@ export default function TaskDetailsPage({ params }) {
     try {
       const result = await createTaskComment({
         taskId: Number(taskId),
-        author: "You", // TODO: Get from auth context
+        author: currentUserName,
         content: newComment.trim(),
+        parentId: replyTo?.id || null,
       }).unwrap();
 
       setComments(prev => [...prev, result]);
       setNewComment("");
+      setReplyTo(null);
       toast.success("Comment added");
     } catch (error) {
       console.error("Failed to add comment:", error);
@@ -291,9 +308,24 @@ export default function TaskDetailsPage({ params }) {
                                 </span>
                               )}
                             </div>
+                            {comment.parentId && (
+                              <div className="text-[10px] text-[#F58220] flex items-center gap-1 mb-1">
+                                <MessageSquare className="w-2.5 h-2.5" />
+                                <span>In reply to {comments.find(c => c.id === comment.parentId)?.author || 'deleted comment'}</span>
+                              </div>
+                            )}
                             <p className="text-sm text-white/80 bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5">
                               {comment.content || comment.text}
                             </p>
+                            <button 
+                              onClick={() => {
+                                setReplyTo({ id: comment.id, author: authorName });
+                                document.getElementById('comment-textarea')?.focus();
+                              }}
+                              className="text-[10px] text-white/40 hover:text-[#F58220] transition-colors mt-1 ml-1"
+                            >
+                              Reply
+                            </button>
                           </div>
                         </div>
                       );
@@ -301,16 +333,23 @@ export default function TaskDetailsPage({ params }) {
                   )}
                 </div>
 
-                <div className="flex gap-3 items-start">
+                <div className="flex gap-3 items-start relative pt-4">
                   <Avatar className="w-8 h-8">
-                    <AvatarFallback className="bg-white/10 text-white/50">YO</AvatarFallback>
+                    <AvatarFallback className="bg-white/10 text-white/50">{(user?.firstName?.[0] || 'U') + (user?.lastName?.[0] || 'U')}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 gap-2 flex flex-col">
+                    {replyTo && (
+                      <div className="flex items-center justify-between bg-[#F58220]/10 border border-[#F58220]/20 px-3 py-1.5 rounded-t-lg -mb-2 text-xs">
+                        <span className="text-white/70">Replying to <span className="text-[#F58220] font-semibold">{replyTo.author}</span></span>
+                        <button onClick={() => setReplyTo(null)} className="text-white/40 hover:text-white">✕</button>
+                      </div>
+                    )}
                     <Textarea
+                      id="comment-textarea"
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Write a comment..."
-                      className="min-h-[80px] bg-white/5 border-white/10 focus-visible:ring-[#F58220]/50"
+                      placeholder={replyTo ? `Write a reply...` : "Write a comment..."}
+                      className={`min-h-[80px] bg-white/5 border-white/10 focus-visible:ring-[#F58220]/50 ${replyTo ? 'rounded-t-none border-t-0' : ''}`}
                     />
                     <div className="flex justify-end">
                       <Button
@@ -399,7 +438,25 @@ export default function TaskDetailsPage({ params }) {
                     </div>
                     <Select
                       value={task.team}
-                      onValueChange={(value) => setTask({ ...task, team: value })}
+                      onValueChange={async (value) => {
+                        try {
+                          await updateTask({
+                            id: Number(taskId),
+                            team: value,
+                            projectId: Number(projectId),
+                          }).unwrap();
+                          
+                          // Update department ID for filtering
+                          const dept = departments.find(d => d.name === value);
+                          if (dept) setSelectedDepartmentId(String(dept.id));
+                          
+                          toast.success("Team updated");
+                        } catch (error) {
+                          console.error("Failed to update team:", error);
+                          toast.error("Failed to update team");
+                        }
+                      }}
+                      disabled={isUpdating}
                     >
                       <SelectTrigger className="bg-white/5 border-white/10 focus:ring-[#F58220]/50">
                         <SelectValue placeholder="Select Team" />

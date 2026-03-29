@@ -40,6 +40,7 @@ import {
   FileText,
 } from "lucide-react";
 import { toast } from "sonner";
+import AppLayout from "@/components/layout/AppLayout";
 
 // Mock employee data - in real app, fetch based on params.id
 const getEmployee = (id) => {

@@ -4,6 +4,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import AppLayout from "@/components/layout/AppLayout";
 
 const timelineData = [
   {
