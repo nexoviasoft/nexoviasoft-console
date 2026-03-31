@@ -11,7 +11,8 @@ import {
   Copy, 
   Check, 
   ExternalLink,
-  Video 
+  Video,
+  Trash2
 } from "lucide-react";
 import { toast } from "sonner";
 import { copyToClipboard } from "@/lib/generateMeetingLink";
@@ -32,7 +33,7 @@ const STATUS_STYLES = {
   },
 };
 
-export default function MeetingHistoryCard({ meeting }) {
+export default function MeetingHistoryCard({ meeting, onDelete }) {
   const [copiedLink, setCopiedLink] = useState(false);
 
   const handleCopyLink = async () => {
@@ -154,6 +155,16 @@ export default function MeetingHistoryCard({ meeting }) {
               >
                 <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
                 Join
+              </Button>
+            )}
+            {onDelete && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onDelete(meeting)}
+                className="border-red-500/30 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
               </Button>
             )}
           </div>

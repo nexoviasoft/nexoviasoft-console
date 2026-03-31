@@ -21,6 +21,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import AttendanceDetailsDialog from "./AttendanceDetailsDialog";
 import AttendanceEditDialog from "./AttendanceEditDialog";
 import AddAttendanceDialog from "./AddAttendanceDialog";
@@ -28,6 +38,7 @@ import {
   useUpdateAttendanceMutation,
   useCreateAttendanceMutation,
   useApproveAttendanceMutation,
+  useDeleteAttendanceMutation,
 } from "@/api/admin/attendance/attendanceApi";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
@@ -67,9 +78,11 @@ export default function AttendanceTable({ rows }) {
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [deleteToConfirm, setDeleteToConfirm] = useState(null); // { id, name }
   const [updateAttendance] = useUpdateAttendanceMutation();
   const [createAttendance] = useCreateAttendanceMutation();
   const [approveAttendance] = useApproveAttendanceMutation();
+  const [deleteAttendance, { isLoading: isDeleting }] = useDeleteAttendanceMutation();
   const { userRole } = useAuth();
   const isAdmin = userRole === "admin";
 
@@ -106,8 +119,22 @@ export default function AttendanceTable({ rows }) {
     }
   }, [rows]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDeleteClick = (row) => {
+    setDeleteToConfirm({ id: row.id, name: row.name });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteToConfirm) return;
+    try {
+      await deleteAttendance(deleteToConfirm.id).unwrap();
+      setData((prev) => prev.filter((item) => item.id !== deleteToConfirm.id));
+      toast.success("Attendance record deleted.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete attendance. Please try again.");
+    } finally {
+      setDeleteToConfirm(null);
+    }
   };
 
   const handleViewDetails = (employee) => {
@@ -193,6 +220,38 @@ export default function AttendanceTable({ rows }) {
 
   return (
     <div className="glass-panel rounded-2xl overflow-hidden border border-white/10">
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={!!deleteToConfirm}
+        onOpenChange={(open) => !open && setDeleteToConfirm(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border border-white/10 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white">Delete Attendance Record?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Are you sure you want to delete the attendance record for{" "}
+              <span className="text-white font-semibold">{deleteToConfirm?.name}</span>?
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              className="bg-white/10 border-white/10 text-white hover:bg-white/20 hover:text-white"
+              disabled={isDeleting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700 text-white border-0"
+            >
+              {isDeleting ? "Deleting…" : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <AddAttendanceDialog
         open={showAdd}
         onOpenChange={setShowAdd}
@@ -316,7 +375,7 @@ export default function AttendanceTable({ rows }) {
                     )}
                     <DropdownMenuItem
                       className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
-                      onClick={() => handleDelete(row.id)}
+                      onClick={() => handleDeleteClick(row)}
                     >
                       <Trash2 className="mr-2 h-4 w-4" />
                       <span>Delete</span>

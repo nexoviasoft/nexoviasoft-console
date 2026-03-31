@@ -14,20 +14,38 @@ import {
   Server,
   Database,
   Layout,
+  Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import NewProjectDialog from "@/components/admin/projects/NewProjectDialog";
-import { useGetProjectsQuery } from "@/api/admin/projects/projectsApi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { 
+  useGetProjectsQuery,
+  useDeleteProjectMutation 
+} from "@/api/admin/projects/projectsApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export default function Projects() {
   const router = useRouter();
   const { userRole } = useAuth();
   const isAdmin = userRole === 'admin';
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+  
   const { data: projectsResponse, isLoading, error, refetch } = useGetProjectsQuery();
+  const [deleteProject, { isLoading: isDeleting }] = useDeleteProjectMutation();
   
   // Extract projects from API response
   const projects = Array.isArray(projectsResponse) 
@@ -44,6 +62,28 @@ export default function Projects() {
         avatar: initials,
       };
     });
+  };
+
+  const handleProjectClick = (projectId) => {
+    router.push(`/admin/projects/${projectId}`);
+  };
+
+  const handleDeleteClick = (e, project) => {
+    e.stopPropagation();
+    setProjectToDelete(project);
+  };
+
+  const confirmDeleteProject = async () => {
+    if (!projectToDelete) return;
+    try {
+      await deleteProject(projectToDelete.id).unwrap();
+      toast.success("Project deleted successfully");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to delete project");
+    } finally {
+      setProjectToDelete(null);
+    }
   };
 
   if (isLoading) {
@@ -105,10 +145,6 @@ export default function Projects() {
     }
   };
 
-  const handleProjectClick = (projectId) => {
-    router.push(`/admin/projects/${projectId}`);
-  };
-
   return (
     <PrivateRoute>
       <AppLayout>
@@ -154,16 +190,28 @@ export default function Projects() {
                 <div
                   key={project.id}
                   onClick={() => handleProjectClick(project.id)}
-                  className="glass-card rounded-xl p-4 md:p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group"
+                  className="glass-card rounded-xl p-4 md:p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group relative"
                 >
+                  {/* Delete Button (Admin Only) */}
+                  {isAdmin && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => handleDeleteClick(e, project)}
+                      className="absolute top-2 right-2 h-7 w-7 text-white/20 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  )}
+
                   {/* Project Header */}
                   <div className="mb-3 md:mb-4">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#F58220] transition-colors line-clamp-1">
+                      <h3 className="font-bold text-base md:text-lg text-white group-hover:text-[#F58220] transition-colors line-clamp-1 pr-6">
                         {project.name}
                       </h3>
                       <span
-                        className={`text-xs font-medium px-2 py-1 rounded-full ${getStatusColor(project.status)}`}
+                        className={`text-xs font-medium px-2 py-1 rounded-full shrink-0 ${getStatusColor(project.status)}`}
                       >
                         {project.status}
                       </span>
@@ -250,6 +298,38 @@ export default function Projects() {
           refetch();
         }}
       />
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={!!projectToDelete}
+        onOpenChange={(open) => !open && setProjectToDelete(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this project?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Project: <span className="text-white font-medium">{projectToDelete?.name}</span>
+              <br />
+              This action cannot be undone. This will permanently delete the project and all related tasks and data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              disabled={isDeleting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteProject}
+              className="bg-red-600 hover:bg-red-700 text-white border-none"
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
     </AppLayout>
     </PrivateRoute>

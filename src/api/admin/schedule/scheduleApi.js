@@ -3,7 +3,14 @@ import { baseApi } from '@/api/baseApi';
 export const scheduleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSchedules: builder.query({
-      query: () => '/schedule',
+      query: (params = {}) => {
+        const { weekStartDate, weekEndDate } = params;
+        const searchParams = new URLSearchParams();
+        if (weekStartDate) searchParams.append('weekStartDate', weekStartDate);
+        if (weekEndDate) searchParams.append('weekEndDate', weekEndDate);
+        const qs = searchParams.toString();
+        return qs ? `/schedule?${qs}` : '/schedule';
+      },
       providesTags: ['Schedule'],
     }),
 

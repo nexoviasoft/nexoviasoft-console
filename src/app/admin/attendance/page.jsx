@@ -7,6 +7,8 @@ import BiometricClockIn from "@/components/admin/attendance/BiometricClockIn";
 import {
   useGetMyAttendanceQuery,
   useGetMyAttendanceStatsQuery,
+  useGetAllAttendanceQuery,
+  useGetAttendanceStatsQuery,
 } from "@/api/admin/attendance/attendanceApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";

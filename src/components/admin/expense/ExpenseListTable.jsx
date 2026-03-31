@@ -22,30 +22,61 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { 
   useGetExpensesQuery, 
-  useUpdateExpenseMutation 
+  useUpdateExpenseMutation,
+  useDeleteExpenseMutation
 } from '@/api/admin/expense/expenseApi';
 import { useAuth } from '@/contexts/AuthContext';
 import ExpenseStatusBadge from './ExpenseStatusBadge';
-import { Check, X, Loader2, User } from 'lucide-react';
+import { Check, X, Loader2, User, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const ExpenseListTable = () => {
   const { userRole } = useAuth();
+  const isAdmin = userRole === 'admin';
   const isManagement = userRole === 'admin' || userRole === 'Manager';
   const { data: expenses, isLoading, refetch } = useGetExpensesQuery();
   const [updateExpense, { isLoading: isUpdating }] = useUpdateExpenseMutation();
+  const [deleteExpense, { isLoading: isDeleting }] = useDeleteExpenseMutation();
   
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [actionType, setActionType] = useState(null); // 'approved' or 'rejected'
   const [rejectionReason, setRejectionReason] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProcessLoading, setIsProcessLoading] = useState(false);
+  const [expenseToDelete, setExpenseToDelete] = useState(null);
 
   const handleActionClick = (expense, type) => {
     setSelectedExpense(expense);
     setActionType(type);
     setRejectionReason("");
     setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (expense) => {
+    setExpenseToDelete(expense);
+  };
+
+  const confirmDeleteExpense = async () => {
+    if (!expenseToDelete) return;
+    try {
+      await deleteExpense(expenseToDelete.id).unwrap();
+      toast.success("Expense request deleted successfully");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to delete expense request");
+    } finally {
+      setExpenseToDelete(null);
+    }
   };
 
   const handleConfirmAction = async () => {
@@ -132,29 +163,43 @@ const ExpenseListTable = () => {
                   <ExpenseStatusBadge status={expense.status} />
                 </TableCell>
                 <TableCell className="text-right">
-                  {isManagement && expense.status === 'pending' ? (
-                    <div className="flex items-center justify-end gap-2">
+                  <div className="flex items-center justify-end gap-2">
+                    {isManagement && expense.status === 'pending' && (
+                      <>
+                        <Button
+                          size="sm"
+                          className="bg-emerald-500 hover:bg-emerald-600 text-white h-8 px-2"
+                          onClick={() => handleActionClick(expense, 'approved')}
+                          disabled={isUpdating}
+                        >
+                          <Check className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="h-8 px-2"
+                          onClick={() => handleActionClick(expense, 'rejected')}
+                          disabled={isUpdating}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </>
+                    )}
+                    {isAdmin && (
                       <Button
                         size="sm"
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white h-8 px-2"
-                        onClick={() => handleActionClick(expense, 'approved')}
-                        disabled={isUpdating}
+                        variant="ghost"
+                        className="h-8 px-2 text-white/40 hover:text-red-500 hover:bg-red-500/10"
+                        onClick={() => handleDeleteClick(expense)}
+                        disabled={isDeleting}
                       >
-                        <Check className="w-4 h-4" />
+                        <Trash2 className="w-4 h-4" />
                       </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        className="h-8 px-2"
-                        onClick={() => handleActionClick(expense, 'rejected')}
-                        disabled={isUpdating}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <span className="text-xs text-white/20">None</span>
-                  )}
+                    )}
+                    {(!isAdmin && (!isManagement || expense.status !== 'pending')) && (
+                      <span className="text-xs text-white/20">None</span>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))
@@ -217,6 +262,40 @@ const ExpenseListTable = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={!!expenseToDelete}
+        onOpenChange={(open) => !open && setExpenseToDelete(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this expense request?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Requester: <span className="text-white font-medium">{expenseToDelete?.requester?.firstName} {expenseToDelete?.requester?.lastName}</span>
+              <br />
+              Amount: <span className="text-white font-medium">${expenseToDelete?.amount}</span>
+              <br />
+              This action cannot be undone. This will permanently delete the expense request.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              disabled={isDeleting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteExpense}
+              className="bg-red-600 hover:bg-red-700 text-white border-none"
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

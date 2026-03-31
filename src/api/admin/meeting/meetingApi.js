@@ -15,8 +15,19 @@ export const meetingApi = baseApi.injectEndpoints({
       query: () => "/meeting",
       providesTags: ["Meeting"],
     }),
+
+    deleteMeeting: builder.mutation({
+      query: (id) => ({
+        url: `/meeting/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Meeting"],
+    }),
   }),
 });
 
-export const { useCreateMeetingMutation, useGetMeetingsQuery } = meetingApi;
-
+export const {
+  useCreateMeetingMutation,
+  useGetMeetingsQuery,
+  useDeleteMeetingMutation,
+} = meetingApi;

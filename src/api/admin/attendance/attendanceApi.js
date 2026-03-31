@@ -41,6 +41,13 @@ export const attendanceApi = baseApi.injectEndpoints({
       query: () => "/attendance",
       providesTags: ["Attendance"],
     }),
+    deleteAttendance: builder.mutation({
+      query: (id) => ({
+        url: `/attendance/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Attendance"],
+    }),
   }),
 });
 
@@ -52,5 +59,6 @@ export const {
   useGetAttendanceStatsQuery,
   useApproveAttendanceMutation,
   useGetAllAttendanceQuery,
+  useDeleteAttendanceMutation,
 } = attendanceApi;
 

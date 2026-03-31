@@ -17,6 +17,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -32,7 +42,10 @@ import {
   useGetSchedulesQuery,
   useUpdateScheduleMutation,
 } from "@/api/admin/schedule/scheduleApi";
-import { useGetMeetingsQuery } from "@/api/admin/meeting/meetingApi";
+import { 
+  useGetMeetingsQuery,
+  useDeleteMeetingMutation
+} from "@/api/admin/meeting/meetingApi";
 import { useAuth } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
@@ -42,6 +55,7 @@ export default function Schedule() {
   const [isAddShiftDialogOpen, setIsAddShiftDialogOpen] = useState(false);
   const [isScheduleMeetingDialogOpen, setIsScheduleMeetingDialogOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [meetingToDelete, setMeetingToDelete] = useState(null);
   
   // Meeting History State
   const [filterStatus, setFilterStatus] = useState("all");
@@ -55,12 +69,14 @@ export default function Schedule() {
   const { data: teamData, isLoading: isLoadingTeam } = useGetOurTeamQuery();
   const teamMembers = teamData?.data || teamData || [];
 
-  const { data: schedulesData, isLoading: isLoadingSchedules } = useGetSchedulesQuery();
+  const { data: schedulesData, isLoading: isLoadingSchedules } = useGetSchedulesQuery({ weekStartDate, weekEndDate });
   const schedules = schedulesData?.data || schedulesData || [];
   const [createSchedule, { isLoading: isCreatingSchedule }] = useCreateScheduleMutation();
   const [updateSchedule, { isLoading: isUpdatingSchedule }] = useUpdateScheduleMutation();
   
   const { data: meetingsResp, isLoading: isLoadingMeetings } = useGetMeetingsQuery();
+  const [deleteMeeting, { isLoading: isDeletingMeeting }] = useDeleteMeetingMutation();
+
   const [newShift, setNewShift] = useState({
     teamId: "",
     day: "Mon",
@@ -76,22 +92,18 @@ export default function Schedule() {
   };
 
   const scheduleRows = useMemo(() => {
-    // Filter to current week if backend stored weekStartDate; otherwise show all schedules
-    let filtered = schedules.filter((s) => {
-      const ws = s?.weekStartDate ? format(new Date(s.weekStartDate), "yyyy-MM-dd") : null;
-      return !ws || ws === weekStartDate;
-    });
+    // Backend already filters by weekStartDate/weekEndDate.
+    // Apply role-based visibility filtering only.
+    let filtered = [...schedules];
 
-    // Role-based visibility filtering
     const role = (userRole || "").toLowerCase();
     if (role !== "admin") {
       filtered = filtered.filter((s) => {
         // Logged-in user sees their own schedule
         const isOwnSchedule = Number(s.teamId) === Number(user?.id);
-        
         // Logged-in user sees everyone's schedule under their department
-        const isInSameDepartment = user?.department && s.team?.department === user.department;
-        
+        const isInSameDepartment =
+          user?.departmentId && s.team?.departmentId === user.departmentId;
         return isOwnSchedule || isInSameDepartment;
       });
     }
@@ -104,7 +116,7 @@ export default function Schedule() {
       avatar: s.team?.avatar || "/avatars/01.png",
       shifts: Array.isArray(s.shifts) ? s.shifts : [null, null, null, null, null, null, null],
     }));
-  }, [schedules, weekStartDate, user, userRole]);
+  }, [schedules, user, userRole]);
 
   const canAddShift = ["admin", "manager"].includes((userRole || "").toLowerCase());
   const canPublish = ["admin", "manager"].includes((userRole || "").toLowerCase());
@@ -218,6 +230,23 @@ export default function Schedule() {
     */
   };
 
+  const handleDeleteMeeting = (meeting) => {
+    setMeetingToDelete(meeting);
+  };
+
+  const confirmDeleteMeeting = async () => {
+    if (!meetingToDelete) return;
+
+    try {
+      await deleteMeeting(meetingToDelete.id).unwrap();
+      toast.success("Meeting deleted successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to delete meeting");
+    } finally {
+      setMeetingToDelete(null);
+    }
+  };
+
   // Map meetings from API and hydrate attendees from teamMembers
   const meetings = useMemo(() => {
     const raw = meetingsResp?.data || meetingsResp || [];
@@ -250,7 +279,12 @@ export default function Schedule() {
   }, [meetingsResp, teamMembers]);
 
   // Filter and search meetings
+  const isAdmin = (userRole || "").toLowerCase() === "admin";
   const filteredMeetings = meetings.filter((meeting) => {
+    // Role-based: admins see all meetings; others only see meetings they attend
+    const matchesRole =
+      isAdmin || meeting.attendees.some((a) => Number(a.id) === Number(user?.id));
+
     // Filter by status
     const matchesStatus = filterStatus === "all" || meeting.status === filterStatus;
     
@@ -260,7 +294,7 @@ export default function Schedule() {
       meeting.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
       meeting.description?.toLowerCase().includes(searchQuery.toLowerCase());
     
-    return matchesStatus && matchesSearch;
+    return matchesRole && matchesStatus && matchesSearch;
   });
 
   return (
@@ -356,7 +390,11 @@ export default function Schedule() {
           ) : filteredMeetings.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {filteredMeetings.map((meeting) => (
-                <MeetingHistoryCard key={meeting.id} meeting={meeting} />
+                <MeetingHistoryCard 
+                  key={meeting.id} 
+                  meeting={meeting} 
+                  onDelete={isAdmin ? handleDeleteMeeting : null}
+                />
               ))}
             </div>
           ) : (
@@ -542,6 +580,38 @@ export default function Schedule() {
         onSubmit={handleScheduleMeeting}
         teamMembers={teamMembers}
       />
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={!!meetingToDelete}
+        onOpenChange={(open) => !open && setMeetingToDelete(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this meeting?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Topic: <span className="text-white font-medium">{meetingToDelete?.topic}</span>
+              <br />
+              This action cannot be undone. This will permanently delete the meeting and all related data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              disabled={isDeletingMeeting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteMeeting}
+              className="bg-red-600 hover:bg-red-700 text-white border-none"
+              disabled={isDeletingMeeting}
+            >
+              {isDeletingMeeting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
     </AppLayout>
     </PrivateRoute>

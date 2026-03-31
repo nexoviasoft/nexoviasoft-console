@@ -8,9 +8,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Plus, Search, MoreHorizontal, Download, Filter } from 'lucide-react';
+import { Plus, Search, MoreHorizontal, Download, Filter, Eye, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { useGetIncomesQuery } from '@/api/admin/income/incomeApi';
+import { 
+  useGetIncomesQuery,
+  useDeleteIncomeMutation 
+} from '@/api/admin/income/incomeApi';
 import AddIncomeDialog from './AddIncomeDialog';
 import { format } from 'date-fns';
 import {
@@ -18,15 +21,33 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import AppLayout from '@/components/layout/AppLayout';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 const IncomeList = () => {
-  const { data: incomes, isLoading } = useGetIncomesQuery();
+  const { userRole } = useAuth();
+  const isAdmin = userRole === 'admin';
+  const { data: incomes, isLoading, refetch } = useGetIncomesQuery();
+  const [deleteIncome, { isLoading: isDeleting }] = useDeleteIncomeMutation();
+  
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [incomeToDelete, setIncomeToDelete] = useState(null);
 
   const filteredIncomes = incomes?.filter((income) => {
     const searchLower = searchQuery.toLowerCase();
@@ -38,9 +59,24 @@ const IncomeList = () => {
     );
   });
 
+  const handleDeleteClick = (income) => {
+    setIncomeToDelete(income);
+  };
+
+  const confirmDeleteIncome = async () => {
+    if (!incomeToDelete) return;
+    try {
+      await deleteIncome(incomeToDelete.id).unwrap();
+      toast.success("Income record deleted successfully");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to delete income record");
+    } finally {
+      setIncomeToDelete(null);
+    }
+  };
+
   return (
-
-
     <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto space-y-6 md:space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -139,10 +175,26 @@ const IncomeList = () => {
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-[#0A0A0A] border-white/20 text-white">
-                            <DropdownMenuItem className="focus:bg-[#F58220]/20 focus:text-[#F58220]">View Details</DropdownMenuItem>
-                            <DropdownMenuItem className="focus:bg-[#F58220]/20 focus:text-[#F58220]">Edit Record</DropdownMenuItem>
-                            <DropdownMenuItem className="text-rose-500 focus:bg-rose-500/10">Delete</DropdownMenuItem>
+                          <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator className="bg-white/10" />
+                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                              <Eye className="w-4 h-4 mr-2" />
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit Record
+                            </DropdownMenuItem>
+                            {isAdmin && (
+                              <DropdownMenuItem 
+                                onClick={() => handleDeleteClick(income)}
+                                className="cursor-pointer text-rose-500 focus:bg-rose-500/10 focus:text-rose-500"
+                              >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Delete
+                              </DropdownMenuItem>
+                            )}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -164,9 +216,42 @@ const IncomeList = () => {
           open={isAddDialogOpen}
           onOpenChange={setIsAddDialogOpen}
         />
+
+        {/* Delete Confirmation Modal */}
+        <AlertDialog
+          open={!!incomeToDelete}
+          onOpenChange={(open) => !open && setIncomeToDelete(null)}
+        >
+          <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to delete this income record?</AlertDialogTitle>
+              <AlertDialogDescription className="text-white/60">
+                Client: <span className="text-white font-medium">{incomeToDelete?.client?.name}</span>
+                <br />
+                Amount: <span className="text-emerald-400 font-medium">${Number(incomeToDelete?.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                <br />
+                This action cannot be undone. This will permanently delete the income record and update related balances.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel 
+                className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+                disabled={isDeleting}
+              >
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={confirmDeleteIncome}
+                className="bg-red-600 hover:bg-red-700 text-white border-none"
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
-
   );
 };
 

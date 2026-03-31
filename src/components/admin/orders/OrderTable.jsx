@@ -27,6 +27,9 @@ import {
   Users,
   Settings,
   Loader2,
+  MoreHorizontal,
+  Eye,
+  Trash2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -36,7 +39,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useGetOrdersQuery } from "@/api/admin/orders/orderApi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { 
+  useGetOrdersQuery,
+  useDeleteOrderMutation 
+} from "@/api/admin/orders/orderApi";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
@@ -70,9 +88,14 @@ const StatusBadge = ({ status }) => {
 };
 
 export default function OrderTable({ onViewDetails }) {
+  const { userRole } = useAuth();
+  const isAdmin = userRole === 'admin';
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const { data: ordersData, isLoading, error } = useGetOrdersQuery();
+  const [orderToDelete, setOrderToDelete] = useState(null);
+
+  const { data: ordersData, isLoading, error, refetch } = useGetOrdersQuery();
+  const [deleteOrder, { isLoading: isDeleting }] = useDeleteOrderMutation();
 
   const filteredOrders = useMemo(() => {
     if (!ordersData) return [];
@@ -93,6 +116,23 @@ export default function OrderTable({ onViewDetails }) {
       return matchesSearch && matchesStatus;
     });
   }, [ordersData, searchTerm, statusFilter]);
+
+  const handleDeleteClick = (order) => {
+    setOrderToDelete(order);
+  };
+
+  const confirmDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    try {
+      await deleteOrder(orderToDelete.id).unwrap();
+      toast.success("Order deleted successfully");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to delete order");
+    } finally {
+      setOrderToDelete(null);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -119,8 +159,8 @@ export default function OrderTable({ onViewDetails }) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-xl border-white/20">
+    <div className="space-y-4 text-white">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-xl border-white/20 text-white">
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
           <Input
@@ -142,15 +182,15 @@ export default function OrderTable({ onViewDetails }) {
                 <span>Filter: {statusFilter}</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
               <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/10" />
               {["All", "Pending", "In Progress", "Review", "Completed"].map(
                 (status) => (
                   <DropdownMenuItem
                     key={status}
                     onClick={() => setStatusFilter(status)}
-                    className="cursor-pointer"
+                    className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white"
                   >
                     {status}
                   </DropdownMenuItem>
@@ -209,7 +249,7 @@ export default function OrderTable({ onViewDetails }) {
                   </div>
                 </TableHead>
                 <TableHead className="text-xs font-semibold text-[#F58220] text-right">
-                  <div className="flex items-center justify-end gap-2">
+                  <div className="flex items-center justify-end gap-2 pr-4">
                     <Settings className="w-3.5 h-3.5" />
                     Action
                   </div>
@@ -289,15 +329,37 @@ export default function OrderTable({ onViewDetails }) {
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => onViewDetails(order)}
-                        className="h-8 gap-1.5 text-xs font-medium text-[#F58220] border border-[#F58220]/60 bg-[#F58220]/10 hover:bg-[#F58220]/20 hover:text-black hover:border-[#F58220] glass-button"
-                      >
-                        View Details
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-white/40 hover:text-[#F58220] hover:bg-white/5"
+                          >
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator className="bg-white/10" />
+                          <DropdownMenuItem
+                            onClick={() => onViewDetails(order)}
+                            className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white"
+                          >
+                            <Eye className="w-4 h-4 mr-2" />
+                            View Details
+                          </DropdownMenuItem>
+                          {isAdmin && (
+                            <DropdownMenuItem
+                              onClick={() => handleDeleteClick(order)}
+                              className="cursor-pointer text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-400"
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete Order
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))
@@ -318,6 +380,40 @@ export default function OrderTable({ onViewDetails }) {
           </Table>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AlertDialog
+        open={!!orderToDelete}
+        onOpenChange={(open) => !open && setOrderToDelete(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this order?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Order ID: <span className="text-white font-medium">{orderToDelete?.orderId}</span>
+              <br />
+              Client: <span className="text-white font-medium">{orderToDelete?.client?.name}</span>
+              <br />
+              This action cannot be undone. This will permanently delete the order and all related tracking and messages.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              disabled={isDeleting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteOrder}
+              className="bg-red-600 hover:bg-red-700 text-white border-none"
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

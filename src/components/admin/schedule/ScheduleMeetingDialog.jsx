@@ -120,7 +120,15 @@ export default function ScheduleMeetingDialog({
     setIsSubmitting(true);
 
     try {
-      const dateTime = `${meetingData.date}T${meetingData.time}:00`;
+      // Include user's local timezone offset so backend uses exact entered time
+      const tzOffset = (() => {
+        const off = new Date().getTimezoneOffset();
+        const sign = off <= 0 ? '+' : '-';
+        const hh = String(Math.floor(Math.abs(off) / 60)).padStart(2, '0');
+        const mm = String(Math.abs(off) % 60).padStart(2, '0');
+        return `${sign}${hh}:${mm}`;
+      })();
+      const dateTime = `${meetingData.date}T${meetingData.time}:00${tzOffset}`;
       const durationMinutes = Number(meetingData.duration) || 30;
       const attendeeIds = meetingData.selectedMembers.map(Number);
       const hostName = organizerName || "Nexoviasoft Team";
