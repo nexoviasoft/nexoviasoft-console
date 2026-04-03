@@ -54,10 +54,13 @@ export const AuthProvider = ({ children }) => {
       if (data?.data?.user) {
         setUser(data.data.user);
       } else if (error) {
-        // Token might be invalid, remove it
-        localStorage.removeItem('auth_token');
-        setHasToken(false);
-        setUser(null);
+        // Token might be invalid, remove it only on authentication error (e.g. 401 Unauthorized)
+        // Prevents logging out purely due to network timeouts or fetch errors
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem('auth_token');
+          setHasToken(false);
+          setUser(null);
+        }
       } else {
         setUser(null);
       }
@@ -104,10 +107,12 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Refresh user error:', error);
-      // Token might be invalid, remove it
-      localStorage.removeItem('auth_token');
-      setHasToken(false);
-      setUser(null);
+      // Token might be invalid, remove it only on authentication error
+      if (error?.status === 401 || error?.status === 403) {
+        localStorage.removeItem('auth_token');
+        setHasToken(false);
+        setUser(null);
+      }
     }
   };
 
