@@ -242,7 +242,7 @@ export default function PayrollTable() {
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(100, 100, 100);
-    doc.text("Authorized Manager Signature", 160, signatureY + 11, null, null, "center");
+    doc.text("Head Of Finance", 160, signatureY + 11, null, null, "center");
 
     // Footer
     doc.setFillColor(245, 130, 32);

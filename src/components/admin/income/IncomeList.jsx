@@ -10,11 +10,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Plus, Search, MoreHorizontal, Download, Filter, Eye, Edit, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { 
+import {
   useGetIncomesQuery,
-  useDeleteIncomeMutation 
+  useDeleteIncomeMutation
 } from '@/api/admin/income/incomeApi';
 import AddIncomeDialog from './AddIncomeDialog';
+import UpdateIncomeDialog from './UpdateIncomeDialog';
+import IncomeDetailsDialog from './IncomeDetailsDialog';
 import { format } from 'date-fns';
 import {
   DropdownMenu,
@@ -44,10 +46,12 @@ const IncomeList = () => {
   const isAdmin = userRole === 'admin';
   const { data: incomes, isLoading, refetch } = useGetIncomesQuery();
   const [deleteIncome, { isLoading: isDeleting }] = useDeleteIncomeMutation();
-  
+
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [incomeToDelete, setIncomeToDelete] = useState(null);
+  const [incomeToEdit, setIncomeToEdit] = useState(null);
+  const [incomeToView, setIncomeToView] = useState(null);
 
   const filteredIncomes = incomes?.filter((income) => {
     const searchLower = searchQuery.toLowerCase();
@@ -116,14 +120,14 @@ const IncomeList = () => {
     doc.setTextColor(100, 100, 100);
     doc.text(`Name:`, 130, 72);
     doc.text(income.client?.name || 'N/A', 155, 72);
-    
+
     if (income.client?.email) {
       doc.text(`Email:`, 130, 77);
       doc.text(income.client.email, 155, 77);
     }
-    
+
     let currentY = income.client?.email ? 82 : 77;
-    if(income.order?.orderId) {
+    if (income.order?.orderId) {
       doc.text(`Order ID:`, 130, currentY);
       doc.text(income.order.orderId, 155, currentY);
       currentY += 5;
@@ -151,11 +155,11 @@ const IncomeList = () => {
     const description = income.description || 'Service Payment';
     const splitDesc = doc.splitTextToSize(description, 130);
     doc.text(splitDesc, 25, yPos);
-    
+
     doc.setFont("helvetica", "bold");
     const amountStr = `$${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
     doc.text(amountStr, 185, yPos, null, null, "right");
-    
+
     yPos += splitDesc.length * 6 + 10;
 
     doc.setDrawColor(...baseColor);
@@ -190,7 +194,7 @@ const IncomeList = () => {
     doc.setFont("helvetica", "bold");
     doc.setTextColor(60, 60, 60);
     doc.text("CEO", 50, signatureY + 6, null, null, "center");
-    
+
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(120, 120, 120);
@@ -209,7 +213,7 @@ const IncomeList = () => {
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(60, 60, 60);
-    doc.text("Manager", 160, signatureY + 6, null, null, "center");
+    doc.text("Head Of Finance", 160, signatureY + 6, null, null, "center");
 
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
@@ -318,9 +322,9 @@ const IncomeList = () => {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             className="hover:bg-[#F58220]/20 text-white/60 hover:text-[#F58220]"
                             onClick={() => generateInvoice(income)}
                             title="Download Invoice"
@@ -334,27 +338,33 @@ const IncomeList = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator className="bg-white/10" />
-                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                              <Eye className="w-4 h-4 mr-2" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                              <Edit className="w-4 h-4 mr-2" />
-                              Edit Record
-                            </DropdownMenuItem>
-                            {isAdmin && (
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator className="bg-white/10" />
                               <DropdownMenuItem 
-                                onClick={() => handleDeleteClick(income)}
-                                className="cursor-pointer text-rose-500 focus:bg-rose-500/10 focus:text-rose-500"
+                                onClick={() => setIncomeToView(income)}
+                                className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white"
                               >
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Delete
+                                <Eye className="w-4 h-4 mr-2" />
+                                View Details
                               </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                              <DropdownMenuItem 
+                                onClick={() => setIncomeToEdit(income)}
+                                className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white"
+                              >
+                                <Edit className="w-4 h-4 mr-2" />
+                                Edit Record
+                              </DropdownMenuItem>
+                              {isAdmin && (
+                                <DropdownMenuItem
+                                  onClick={() => handleDeleteClick(income)}
+                                  className="cursor-pointer text-rose-500 focus:bg-rose-500/10 focus:text-rose-500"
+                                >
+                                  <Trash2 className="w-4 h-4 mr-2" />
+                                  Delete
+                                </DropdownMenuItem>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -376,6 +386,18 @@ const IncomeList = () => {
           onOpenChange={setIsAddDialogOpen}
         />
 
+        <UpdateIncomeDialog
+          open={!!incomeToEdit}
+          onOpenChange={(open) => !open && setIncomeToEdit(null)}
+          income={incomeToEdit}
+        />
+
+        <IncomeDetailsDialog
+          open={!!incomeToView}
+          onOpenChange={(open) => !open && setIncomeToView(null)}
+          income={incomeToView}
+        />
+
         {/* Delete Confirmation Modal */}
         <AlertDialog
           open={!!incomeToDelete}
@@ -393,13 +415,13 @@ const IncomeList = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel 
+              <AlertDialogCancel
                 className="bg-white/5 border-white/10 text-white hover:bg-white/10"
                 disabled={isDeleting}
               >
                 Cancel
               </AlertDialogCancel>
-              <AlertDialogAction 
+              <AlertDialogAction
                 onClick={confirmDeleteIncome}
                 className="bg-red-600 hover:bg-red-700 text-white border-none"
                 disabled={isDeleting}
