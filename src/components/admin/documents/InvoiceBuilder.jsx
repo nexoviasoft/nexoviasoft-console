@@ -36,23 +36,27 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
   const { data: documentData, isLoading: isLoadingDocument } = useGetDocumentByIdQuery(documentId, {
     skip: !documentId,
   });
-  
+
   // Fetch team members and clients
   const { data: teamData } = useGetOurTeamQuery();
   const { data: clientsData } = useGetClientsQuery();
-  
+
   const teamMembers = teamData?.data || teamData || [];
   const clients = clientsData?.data || clientsData || [];
-  
+
   const [invoiceData, setInvoiceData] = useState({
     invoiceNumber: "INV-2026-001",
     date: new Date().toISOString().split("T")[0],
     clientName: "",
     clientEmail: "",
     clientAddress: "",
+    companyName: "NexoviaSoft INC.",
+    companyAddress: "Rangpur, Bangladesh\nwww.nexoviasoft.com",
+    managerName: "Afrin Jahan",
+    note: "Thank you for your business! Please process the payment within the agreed timeline.",
     items: [],
   });
-  
+
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const [emailData, setEmailData] = useState({
     selectedUserType: "", // 'team' or 'client'
@@ -74,6 +78,10 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
           clientName: doc.clientName || doc.data.clientName || "",
           clientEmail: doc.clientEmail || doc.data.clientEmail || "",
           clientAddress: doc.clientAddress || doc.data.clientAddress || "",
+          companyName: doc.data.companyName || "NexoviaSoft INC.",
+          companyAddress: doc.data.companyAddress || "123 Tech Park, San Francisco, CA\nwww.nexoviasoft.com",
+          managerName: doc.data.managerName || "Manager",
+          note: doc.data.note || "Thank you for your business! Please process the payment within the agreed timeline.",
           items: doc.data.items || [],
         });
       }
@@ -84,13 +92,13 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
   useEffect(() => {
     if (!documentId || !documentData?.data) {
       let initialItem = { description: "General Service", quantity: 1, rate: 100 };
-      
+
       if (template === 'invoice-cloud') {
-          initialItem = { description: "Cloud Infrastructure Setup (AWS)", quantity: 1, rate: 1500 };
+        initialItem = { description: "Cloud Infrastructure Setup (AWS)", quantity: 1, rate: 1500 };
       } else if (template === 'invoice-web') {
-          initialItem = { description: "Frontend Development - React.js", quantity: 40, rate: 50 };
+        initialItem = { description: "Frontend Development - React.js", quantity: 40, rate: 50 };
       } else if (template === 'invoice-design') {
-          initialItem = { description: "UI/UX Design - Landing Page", quantity: 1, rate: 800 };
+        initialItem = { description: "UI/UX Design - Landing Page", quantity: 1, rate: 800 };
       }
 
       setInvoiceData(prev => ({ ...prev, items: prev.items.length === 0 ? [initialItem] : prev.items }));
@@ -103,15 +111,15 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
 
   const addItem = () => {
     setInvoiceData(prev => ({
-        ...prev,
-        items: [...prev.items, { description: "", quantity: 1, rate: 0 }]
+      ...prev,
+      items: [...prev.items, { description: "", quantity: 1, rate: 0 }]
     }));
   };
 
   const removeItem = (index) => {
     setInvoiceData(prev => ({
-        ...prev,
-        items: prev.items.filter((_, i) => i !== index)
+      ...prev,
+      items: prev.items.filter((_, i) => i !== index)
     }));
   };
 
@@ -188,7 +196,7 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
 
       const recipientEmail = emailData.recipientEmail || invoiceData.clientEmail;
       const recipientName = emailData.recipientName || invoiceData.clientName || 'Valued Client';
-      
+
       if (!recipientEmail) {
         toast.error("Please provide recipient email");
         return;
@@ -203,13 +211,13 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
 
       toast.success("Invoice sent successfully!");
       setIsEmailDialogOpen(false);
-      setEmailData({ 
-        selectedUserType: "", 
-        selectedUserId: "", 
-        recipientEmail: "", 
+      setEmailData({
+        selectedUserType: "",
+        selectedUserId: "",
+        recipientEmail: "",
         recipientName: "",
-        subject: "", 
-        message: "" 
+        subject: "",
+        message: ""
       });
     } catch (error) {
       toast.error(error?.data?.message || "Failed to send invoice");
@@ -266,225 +274,227 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Editor Form */}
         <Card className="no-print h-fit glass-card border-white/10">
-            <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">Invoice Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label className="text-white/80">Invoice No.</Label>
-                        <Input
-                          value={invoiceData.invoiceNumber}
-                          onChange={(e) => updateField('invoiceNumber', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label className="text-white/80">Date</Label>
-                        <Input
-                          type="date"
-                          value={invoiceData.date}
-                          onChange={(e) => updateField('date', e.target.value)}
-                          className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
-                        />
-                    </div>
-                </div>
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">Invoice Details</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-white/80">Invoice No.</Label>
+                <Input
+                  value={invoiceData.invoiceNumber}
+                  onChange={(e) => updateField('invoiceNumber', e.target.value)}
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white/80">Date</Label>
+                <Input
+                  type="date"
+                  value={invoiceData.date}
+                  onChange={(e) => updateField('date', e.target.value)}
+                  className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                />
+              </div>
+            </div>
 
-                <div className="space-y-2">
-                    <Label className="text-white/80">Client Name</Label>
-                    <Input
-                      placeholder="Company or Person Name"
-                      value={invoiceData.clientName}
-                      onChange={(e) => updateField('clientName', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <Label className="text-white/80">Client Address</Label>
-                    <Input
-                      placeholder="Billing Address"
-                      value={invoiceData.clientAddress}
-                      onChange={(e) => updateField('clientAddress', e.target.value)}
-                      className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
-                    />
-                </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Client Name</Label>
+              <Input
+                placeholder="Company or Person Name"
+                value={invoiceData.clientName}
+                onChange={(e) => updateField('clientName', e.target.value)}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-white/80">Client Address</Label>
+              <Input
+                placeholder="Billing Address"
+                value={invoiceData.clientAddress}
+                onChange={(e) => updateField('clientAddress', e.target.value)}
+                className="bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+              />
+            </div>
 
-                <Separator className="my-4" />
-                
-                <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                        <Label className="text-white/80">Line Items</Label>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={addItem}
-                          className="glass-button text-white/80 hover:text-white"
-                        >
-                          <Plus className="w-4 h-4 mr-1"/> Add Item
-                        </Button>
-                    </div>
-                    {invoiceData.items.map((item, idx) => (
-                        <div key={idx} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center bg-white/5 p-2 rounded-md sm:bg-transparent sm:p-0">
-                             <Input 
-                                className="flex-1 w-full bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
-                                placeholder="Description" 
-                                value={item.description} 
-                                onChange={(e) => updateItem(idx, 'description', e.target.value)} 
-                             />
-                             <div className="flex gap-2 w-full sm:w-auto">
-                               <Input 
-                                  className="w-full sm:w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
-                                  type="number" 
-                                  placeholder="Qty" 
-                                  value={item.quantity} 
-                                  onChange={(e) => updateItem(idx, 'quantity', e.target.value)} 
-                               />
-                               <Input 
-                                  className="w-full sm:w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]" 
-                                  type="number" 
-                                  placeholder="Rate" 
-                                  value={item.rate} 
-                                  onChange={(e) => updateItem(idx, 'rate', e.target.value)} 
-                               />
-                               <Button
-                                 variant="ghost"
-                                 size="icon"
-                                 className="text-red-400 hover:text-red-300 hover:bg-red-500/10 shrink-0"
-                                 onClick={() => removeItem(idx)}
-                               >
-                                  <Trash2 className="w-4 h-4" />
-                               </Button>
-                             </div>
-                        </div>
-                    ))}
+            <Separator className="my-4" />
+
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <Label className="text-white/80">Line Items</Label>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={addItem}
+                  className="glass-button text-white/80 hover:text-white"
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Add Item
+                </Button>
+              </div>
+              {invoiceData.items.map((item, idx) => (
+                <div key={idx} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center bg-white/5 p-2 rounded-md sm:bg-transparent sm:p-0">
+                  <Input
+                    className="flex-1 w-full bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                    placeholder="Description"
+                    value={item.description}
+                    onChange={(e) => updateItem(idx, 'description', e.target.value)}
+                  />
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <Input
+                      className="w-full sm:w-20 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                      type="number"
+                      placeholder="Qty"
+                      value={item.quantity}
+                      onChange={(e) => updateItem(idx, 'quantity', e.target.value)}
+                    />
+                    <Input
+                      className="w-full sm:w-24 bg-black/40 border border-white/20 text-white placeholder:text-white/40 focus-visible:ring-[#F58220]"
+                      type="number"
+                      placeholder="Rate"
+                      value={item.rate}
+                      onChange={(e) => updateItem(idx, 'rate', e.target.value)}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10 shrink-0"
+                      onClick={() => removeItem(idx)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
-            </CardContent>
+              ))}
+            </div>
+          </CardContent>
         </Card>
 
         {/* Live Preview / Printable Area */}
         <div className="glass-card border-white/20 rounded-lg p-6 md:p-8 min-h-[500px] md:min-h-[600px] text-sm text-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 w-full mx-auto print:mx-0 overflow-x-auto">
-            <div className="min-w-[600px] md:min-w-0 flex flex-col h-full justify-between">
+          <div className="min-w-[600px] md:min-w-0 flex flex-col h-full justify-between">
+            <div>
+              {/* Header Section */}
+              <div className="flex justify-between items-start mb-12">
                 <div>
-                    {/* Header Section */}
-                    <div className="flex justify-between items-start mb-12">
-                        <div>
-                            <h1 className="text-5xl font-bold mb-2 tracking-tight">INVOICE</h1>
-                            <div className="text-white/70 text-lg">Invoice No: <span className="text-white font-semibold">#{invoiceData.invoiceNumber}</span></div>
-                        </div>
-                        <div className="text-right">
-                            <div className="font-bold text-xl text-[#F58220] tracking-wide mb-2">MD SAMSUDDOHA SOJIB</div>
-                            <div className="text-white/60 text-xs leading-relaxed">
-                                Full Stack Developer<br/>
-                                www.fiverr.com<br/>
-                                Rangpur City, Bangladesh
-                            </div>
-                            <Separator className="my-2 bg-white/20 ml-auto w-32" />
-                        </div>
-                    </div>
+                  <h1 className="text-5xl font-bold mb-2 tracking-tight">INVOICE</h1>
+                  <div className="text-white/70 text-lg">Invoice No: <span className="text-white font-semibold">#{invoiceData.invoiceNumber}</span></div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold text-xl text-[#F58220] tracking-wide mb-2">{invoiceData.companyName}</div>
+                  <div className="text-white/60 text-xs leading-relaxed whitespace-pre-wrap">
+                    {invoiceData.companyAddress}
+                  </div>
+                  <Separator className="my-2 bg-white/20 ml-auto w-32" />
+                </div>
+              </div>
 
-                    {/* Meta Info Section */}
-                    <div className="grid grid-cols-2 gap-12 mb-8">
-                        <div className="space-y-2 mt-4">
-                            <div className="flex gap-12">
-                                <span className="text-white/60 min-w-[80px]">Date</span>
-                                <span className="font-medium">: {invoiceData.date}</span>
-                            </div>
-                            <div className="flex gap-12">
-                                <span className="text-white/60 min-w-[80px]">Due Date</span>
-                                <span className="font-medium">: {invoiceData.date}</span>
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <div className="font-bold text-white mb-2">Bill To:</div>
-                            <div className="font-bold text-lg mb-1">{invoiceData.clientName || "MMM Ventures Group B.V."}</div>
-                            <div className="text-white/60 whitespace-pre-wrap text-sm leading-relaxed">
-                                {invoiceData.clientAddress || "Randstad 22 46\n1316BZ ALMERE\nThe Netherlands"}
-                            </div>
-                        </div>
-                    </div>
+              {/* Meta Info Section */}
+              <div className="grid grid-cols-2 gap-12 mb-8">
+                <div className="space-y-2 mt-4">
+                  <div className="flex gap-12">
+                    <span className="text-white/60 min-w-[80px]">Date</span>
+                    <span className="font-medium">: {invoiceData.date}</span>
+                  </div>
+                  <div className="flex gap-12">
+                    <span className="text-white/60 min-w-[80px]">Due Date</span>
+                    <span className="font-medium">: {invoiceData.date}</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold text-white mb-2">Bill To:</div>
+                  <div className="font-bold text-lg mb-1">{invoiceData.clientName || "MMM Ventures Group B.V."}</div>
+                  <div className="text-white/60 whitespace-pre-wrap text-sm leading-relaxed">
+                    {invoiceData.clientAddress || "Randstad 22 46\n1316BZ ALMERE\nThe Netherlands"}
+                  </div>
+                </div>
+              </div>
 
-                    {/* Items Card Container */}
-                    <div className="bg-[#1E1E2E]/80 backdrop-blur-sm rounded-3xl p-8 mb-8 border border-white/5 shadow-xl print:bg-[#1E1E2E] print:break-inside-avoid">
-                        {/* Table Header Pills */}
-                        <div className="flex justify-between gap-4 mb-8">
-                            <div className="flex-1">
-                                <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
-                            </div>
-                            <div className="w-24 text-center">
-                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Qty</span>
-                            </div>
-                            <div className="w-32 text-center">
-                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Price</span>
-                            </div>
-                            <div className="w-32 text-center">
-                                <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Total</span>
-                            </div>
-                        </div>
-
-                        {/* Items List */}
-                        <div className="space-y-6 mb-8">
-                            {invoiceData.items.map((item, i) => (
-                                <div key={i} className="flex justify-between gap-4 items-center text-base py-2">
-                                    <div className="flex-1 font-medium text-white/90 pl-4">{item.description || "—"}</div>
-                                    <div className="w-24 text-center text-white/80">{item.quantity}</div>
-                                    <div className="w-32 text-center text-white/80">${item.rate}</div>
-                                    <div className="w-32 text-center font-bold text-white">
-                                        ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
-                                    </div>
-                                </div>
-                            ))}
-                            {invoiceData.items.length === 0 && (
-                                <div className="text-center text-white/40 py-8 italic">No items added</div>
-                            )}
-                        </div>
-
-                        <Separator className="bg-white/10 mb-8" />
-
-                        {/* Totals Section */}
-                        <div className="flex justify-end">
-                            <div className="w-full max-w-sm space-y-4">
-                                <div className="flex justify-between text-white/80 text-base">
-                                    <span>Subtotal</span>
-                                    <span className="font-bold text-white text-lg">${calculateTotal().toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between text-white/80 text-base">
-                                    <span>Sales Tax (free)</span>
-                                    <span className="font-bold text-white text-lg">$0.00</span>
-                                </div>
-                                <Separator className="bg-white/10 my-2" />
-                                <div className="flex justify-between items-center pt-2">
-                                    <span className="font-medium text-lg">Grand Total</span>
-                                    <span className="text-3xl font-bold text-[#F58220]">${calculateTotal().toFixed(2)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              {/* Items Card Container */}
+              <div className="bg-[#1E1E2E]/80 backdrop-blur-sm rounded-3xl p-8 mb-8 border border-white/5 shadow-xl print:bg-[#1E1E2E] print:break-inside-avoid">
+                {/* Table Header Pills */}
+                <div className="flex justify-between gap-4 mb-8">
+                  <div className="flex-1">
+                    <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
+                  </div>
+                  <div className="w-24 text-center">
+                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Qty</span>
+                  </div>
+                  <div className="w-32 text-center">
+                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Price</span>
+                  </div>
+                  <div className="w-32 text-center">
+                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Total</span>
+                  </div>
                 </div>
 
-                {/* Footer Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-auto pt-4 items-end">
-                    <div>
-                        <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(245,130,32,0.3)]">Payment Information</span>
-                        <div className="space-y-3 text-sm text-white/80 pl-2">
-                            <div className="flex gap-8">
-                                <span className="min-w-[60px] font-medium text-white">Wise</span>
-                                <span>: European Account</span>
-                            </div>
-                            <div className="flex gap-8">
-                                <span className="min-w-[60px] font-medium text-white">IBAN</span>
-                                <span>: BE54 9679 3485 0000</span>
-                            </div>
-                        </div>
+                {/* Items List */}
+                <div className="space-y-6 mb-8">
+                  {invoiceData.items.map((item, i) => (
+                    <div key={i} className="flex justify-between gap-4 items-center text-base py-2">
+                      <div className="flex-1 font-medium text-white/90 pl-4">{item.description || "—"}</div>
+                      <div className="w-24 text-center text-white/80">{item.quantity}</div>
+                      <div className="w-32 text-center text-white/80">${item.rate}</div>
+                      <div className="w-32 text-center font-bold text-white">
+                        ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
+                      </div>
                     </div>
-                    <div className="md:text-left">
-                        <div className="font-bold text-white mb-4 text-lg">Terms and Conditions:</div>
-                        <ul className="text-sm text-white/70 space-y-2 list-disc pl-5">
-                            <li>Payment constitutes acceptance.</li>
-                            <li>Payment must be made within 7 days to avoid late fees.</li>
-                        </ul>
-                    </div>
+                  ))}
+                  {invoiceData.items.length === 0 && (
+                    <div className="text-center text-white/40 py-8 italic">No items added</div>
+                  )}
                 </div>
+
+                <Separator className="bg-white/10 mb-8" />
+
+                {/* Totals Section */}
+                <div className="flex justify-end">
+                  <div className="w-full max-w-sm space-y-4">
+                    <div className="flex justify-between text-white/80 text-base">
+                      <span>Subtotal</span>
+                      <span className="font-bold text-white text-lg">${calculateTotal().toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-white/80 text-base">
+                      <span>Sales Tax (free)</span>
+                      <span className="font-bold text-white text-lg">$0.00</span>
+                    </div>
+                    <Separator className="bg-white/10 my-2" />
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="font-medium text-lg">Grand Total</span>
+                      <span className="text-3xl font-bold text-[#F58220]">${calculateTotal().toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {/* Footer Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-auto pt-4 items-end">
+              <div>
+                <div className="bg-[#fffbeb] border-l-4 border-[#f59e0b] p-4 rounded-md text-black mb-6 max-w-sm">
+                  <div className="text-xs font-bold text-[#d97706] uppercase mb-2">Note</div>
+                  <div className="text-sm text-[#78350f] leading-relaxed">
+                    {invoiceData.note}
+                  </div>
+                </div>
+                <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(245,130,32,0.3)]">Payment Information</span>
+                <div className="space-y-3 text-sm text-white/80 pl-2">
+                  <div className="flex gap-8">
+                    <span className="min-w-[60px] font-medium text-white">Bank</span>
+                    <span>: Default Account</span>
+                  </div>
+                </div>
+              </div>
+              <div className="md:text-right flex flex-col items-end print:items-end">
+                <div className="text-center min-w-[200px]">
+                  <div className="font-[cursive] text-3xl text-white pb-2 border-b-2 border-white/20 mb-3 flex items-end justify-center h-12 print:text-black print:border-gray-300" style={{ fontFamily: "'Brush Script MT', 'Cedarville Cursive', cursive" }}>
+                    {invoiceData.managerName}
+                  </div>
+                  <div className="text-[13px] font-bold text-white/70 uppercase tracking-widest print:text-gray-600">Manager</div>
+                  <div className="text-xs text-white/50 mt-1 print:text-gray-400">Authorized Signature</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -506,8 +516,8 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
               <Select
                 value={emailData.selectedUserType}
                 onValueChange={(value) => {
-                  setEmailData(prev => ({ 
-                    ...prev, 
+                  setEmailData(prev => ({
+                    ...prev,
                     selectedUserType: value,
                     selectedUserId: "",
                     recipientEmail: "",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { useGetCurrentUserQuery, useLogoutMutation } from '@/api/auth/authApi';
 
 const AuthContext = createContext(null);
@@ -116,7 +116,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     isLoading,
     login,
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
     refreshUser,
     isAuthenticated: !!user && hasToken,
     userRole: user?.role?.toLowerCase() || null,
-  };
+  }), [user, isLoading, hasToken]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

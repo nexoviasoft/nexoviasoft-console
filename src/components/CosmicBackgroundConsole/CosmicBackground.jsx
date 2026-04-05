@@ -40,7 +40,7 @@ const CosmicBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute -top-[40%] left-1/2 -translate-x-1/2 w-[90%] aspect-square rounded-full bg-gradient-to-b from-[#F58220]/25 via-[#F58220]/5 to-transparent blur-[140px] pointer-events-none"
+        className="absolute -top-[40%] left-1/2 -translate-x-1/2 w-[90%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(245,130,32,0.25)_0%,rgba(245,130,32,0.05)_40%,transparent_70%)] pointer-events-none will-change-transform"
       />
 
       {/* Secondary Ambient Glows - Stronger */}
@@ -53,10 +53,10 @@ const CosmicBackground = () => {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] pointer-events-none opacity-40"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[120%] pointer-events-none opacity-40 will-change-transform"
       >
-        <div className="absolute top-[15%] left-[15%] w-[45%] h-[45%] bg-[#F58220]/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[25%] right-[25%] w-[40%] h-[40%] bg-[#F58220]/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[15%] left-[15%] w-[45%] h-[45%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute bottom-[25%] right-[25%] w-[40%] h-[40%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_60%)] rounded-full" />
       </motion.div>
 
       {/* Stars Background */}
@@ -64,7 +64,7 @@ const CosmicBackground = () => {
         {stars.map((star) => (
           <motion.div
             key={star.id}
-            className="absolute rounded-full bg-white/60"
+            className="absolute rounded-full bg-white/60 will-change-transform"
             style={{
               width: star.width,
               height: star.height,
