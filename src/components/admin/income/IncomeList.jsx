@@ -157,7 +157,7 @@ const IncomeList = () => {
     doc.text(splitDesc, 25, yPos);
 
     doc.setFont("helvetica", "bold");
-    const amountStr = `$${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    const amountStr = `Tk. ${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
     doc.text(amountStr, 185, yPos, null, null, "right");
 
     yPos += splitDesc.length * 6 + 10;
@@ -315,7 +315,7 @@ const IncomeList = () => {
                       </TableCell>
                       <TableCell className="text-xs font-mono text-white/60">{income.receiptNo || 'N/A'}</TableCell>
                       <TableCell className="font-bold text-emerald-400">
-                        ${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        ৳{Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                       </TableCell>
                       <TableCell className="max-w-[200px] truncate text-sm text-white/60 italic">
                         {income.description || '-'}
@@ -409,7 +409,7 @@ const IncomeList = () => {
               <AlertDialogDescription className="text-white/60">
                 Client: <span className="text-white font-medium">{incomeToDelete?.client?.name}</span>
                 <br />
-                Amount: <span className="text-emerald-400 font-medium">${Number(incomeToDelete?.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                Amount: <span className="text-emerald-400 font-medium">৳{Number(incomeToDelete?.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                 <br />
                 This action cannot be undone. This will permanently delete the income record and update related balances.
               </AlertDialogDescription>

@@ -33,7 +33,7 @@ const IncomeDetailsDialog = ({ open, onOpenChange, income }) => {
                 <span className="text-xs uppercase font-bold tracking-wider">Amount</span>
               </div>
               <div className="text-2xl font-black text-emerald-400">
-                ${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                ৳{Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
               </div>
             </div>
             <div className="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-[#F58220]/50 transition-colors">

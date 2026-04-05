@@ -132,7 +132,7 @@ const UpdateIncomeDialog = ({ open, onOpenChange, income }) => {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-sm font-semibold text-white/80">Amount Received ($) <span className="text-[#F58220]">*</span></Label>
+              <Label htmlFor="amount" className="text-sm font-semibold text-white/80">Amount Received (৳) <span className="text-[#F58220]">*</span></Label>
               <Input
                 id="amount"
                 type="number"

@@ -136,11 +136,11 @@ const AddIncomeDialog = ({ open, onOpenChange }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-[10px] text-white/50 uppercase font-bold">Total Order</p>
-                  <p className="text-lg font-bold text-white">${Number(selectedOrder.amount).toLocaleString()}</p>
+                  <p className="text-lg font-bold text-white">৳{Number(selectedOrder.amount).toLocaleString()}</p>
                 </div>
                 <div className="space-y-1 text-right">
                   <p className="text-[10px] text-white/50 uppercase font-bold">Already Paid</p>
-                  <p className="text-lg font-bold text-emerald-400">${Number(selectedOrder.paidAmount || 0).toLocaleString()}</p>
+                  <p className="text-lg font-bold text-emerald-400">৳{Number(selectedOrder.paidAmount || 0).toLocaleString()}</p>
                 </div>
               </div>
               <div className="pt-2 border-t border-[#F58220]/20 flex justify-between items-center">
@@ -151,7 +151,7 @@ const AddIncomeDialog = ({ open, onOpenChange }) => {
                   </div>
                 ) : (
                   <p className="text-xl font-black text-[#F58220]">
-                    ${(selectedOrder.amount - (selectedOrder.paidAmount || 0)).toLocaleString()}
+                    ৳{(selectedOrder.amount - (selectedOrder.paidAmount || 0)).toLocaleString()}
                   </p>
                 )}
               </div>
@@ -181,7 +181,7 @@ const AddIncomeDialog = ({ open, onOpenChange }) => {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-sm font-semibold text-white/80">Amount Received ($) <span className="text-[#F58220]">*</span></Label>
+              <Label htmlFor="amount" className="text-sm font-semibold text-white/80">Amount Received (৳) <span className="text-[#F58220]">*</span></Label>
               <Input
                 id="amount"
                 type="number"
