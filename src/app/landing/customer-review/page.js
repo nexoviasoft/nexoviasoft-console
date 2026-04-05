@@ -8,12 +8,14 @@ import { toast } from "sonner";
 import ReusableTable from "@/components/table/reusable-table";
 import DeleteConfirmModal from "@/components/modal/DeleteConfirmModal";
 import CustomerReviewForm from "@/components/landing/landing-page-from/customer-review/CustomerReviewForm";
-import { 
-  useGetCustomerReviewsQuery, 
-  useDeleteCustomerReviewMutation 
+import {
+  useGetCustomerReviewsQuery,
+  useDeleteCustomerReviewMutation
 } from "@/api/landing/customer-review/customerReviewApi";
+import AppLayout from "@/components/layout/AppLayout";
 
 export default function CustomerReviewPage() {
+  ß
   const [showDialog, setShowDialog] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -55,13 +57,12 @@ export default function CustomerReviewPage() {
       <span className="text-gray-400 text-sm italic">-</span>
     ),
     status: review.status ? (
-      <span className={`capitalize px-2 py-1 rounded-md text-sm ${
-        review.status === "approved" 
-          ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-          : review.status === "rejected"
+      <span className={`capitalize px-2 py-1 rounded-md text-sm ${review.status === "approved"
+        ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+        : review.status === "rejected"
           ? "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
           : "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
-      }`}>
+        }`}>
         {review.status}
       </span>
     ) : (
@@ -133,50 +134,54 @@ export default function CustomerReviewPage() {
   };
 
   return (
-    <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Customer Reviews</CardTitle>
-          <Button onClick={handleAdd}>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Customer Review
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <ReusableTable
-            data={tableData}
-            headers={headers}
-            isLoading={isLoading}
-            enableSearch={true}
-            searchPlaceholder="Search customer reviews..."
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
-        </CardContent>
-      </Card>
+    <AppLayout>
+      <div className="w-full mx-auto">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Customer Reviews</CardTitle>
+            <Button onClick={handleAdd}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Customer Review
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <ReusableTable
+              data={tableData}
+              headers={headers}
+              isLoading={isLoading}
+              enableSearch={true}
+              searchPlaceholder="Search customer reviews..."
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </CardContent>
+        </Card>
 
-      {/* Customer Review Form Dialog */}
-      <CustomerReviewForm
-        open={showDialog}
-        onOpenChange={setShowDialog}
-        editingReview={editingReview}
-        onSuccess={handleFormSuccess}
-      />
+        {/* Customer Review Form Dialog */}
+        <CustomerReviewForm
+          open={showDialog}
+          onOpenChange={setShowDialog}
+          editingReview={editingReview}
+          onSuccess={handleFormSuccess}
+        />
 
-      {/* Delete Confirmation Modal */}
-      <DeleteConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false);
-          setReviewToDelete(null);
-        }}
-        onConfirm={handleDeleteConfirm}
-        count={1}
-        itemName="customer review"
-        loading={isDeleting}
-      />
-    </div>
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => {
+            setShowDeleteModal(false);
+            setReviewToDelete(null);
+          }}
+          onConfirm={handleDeleteConfirm}
+          count={1}
+          itemName="customer review"
+          loading={isDeleting}
+        />
+      </div>
+
+    </AppLayout>
+
   );
 }

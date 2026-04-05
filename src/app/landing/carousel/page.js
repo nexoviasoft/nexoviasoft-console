@@ -8,9 +8,9 @@ import { toast } from "sonner";
 import ReusableTable from "@/components/table/reusable-table";
 import DeleteConfirmModal from "@/components/modal/DeleteConfirmModal";
 import HeroCarouselForm from "@/components/landing/landing-page-from/hero-carousel/HeroCarouselForm";
-import { 
-  useGetHeroCarouselsQuery, 
-  useDeleteHeroCarouselMutation 
+import {
+  useGetHeroCarouselsQuery,
+  useDeleteHeroCarouselMutation
 } from "@/api/landing/hero-carousel/heroCarouselApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
@@ -41,10 +41,10 @@ export default function CarouselPage() {
     logoUrl: heroCarousel.logoUrl ? (
       <div className="flex items-center justify-center p-2">
         <div className="relative group">
-          <img 
-            src={heroCarousel.logoUrl} 
-            alt="Logo" 
-            className="w-24 h-24 object-contain rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+          <img
+            src={heroCarousel.logoUrl}
+            alt="Logo"
+            className="w-40 h-40 object-contain rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             onError={(e) => {
               e.target.style.display = "none";
               const parent = e.target.parentElement;
@@ -126,51 +126,51 @@ export default function CarouselPage() {
     <PrivateRoute>
       <AppLayout>
         <div className="max-w-[1600px] w-full mx-auto">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Hero Carousel</CardTitle>
-          <Button onClick={handleAdd}>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Hero Carousel
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <ReusableTable
-            data={tableData}
-            headers={headers}
-            isLoading={isLoading}
-            enableSearch={true}
-            searchPlaceholder="Search hero carousels..."
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>Hero Carousel</CardTitle>
+              <Button onClick={handleAdd}>
+                <Plus className="w-4 h-4 mr-2" />
+                Add Hero Carousel
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <ReusableTable
+                data={tableData}
+                headers={headers}
+                isLoading={isLoading}
+                enableSearch={true}
+                searchPlaceholder="Search hero carousels..."
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Hero Carousel Form Dialog */}
+          <HeroCarouselForm
+            open={showDialog}
+            onOpenChange={setShowDialog}
+            editingHeroCarousel={editingHeroCarousel}
+            onSuccess={handleFormSuccess}
           />
-        </CardContent>
-      </Card>
 
-      {/* Hero Carousel Form Dialog */}
-      <HeroCarouselForm
-        open={showDialog}
-        onOpenChange={setShowDialog}
-        editingHeroCarousel={editingHeroCarousel}
-        onSuccess={handleFormSuccess}
-      />
-
-      {/* Delete Confirmation Modal */}
-      <DeleteConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false);
-          setHeroCarouselToDelete(null);
-        }}
-        onConfirm={handleDeleteConfirm}
-        count={1}
-        itemName="hero carousel"
-        loading={isDeleting}
-      />
-    </div>
-    </AppLayout>
+          {/* Delete Confirmation Modal */}
+          <DeleteConfirmModal
+            isOpen={showDeleteModal}
+            onClose={() => {
+              setShowDeleteModal(false);
+              setHeroCarouselToDelete(null);
+            }}
+            onConfirm={handleDeleteConfirm}
+            count={1}
+            itemName="hero carousel"
+            loading={isDeleting}
+          />
+        </div>
+      </AppLayout>
     </PrivateRoute>
   );
 }
