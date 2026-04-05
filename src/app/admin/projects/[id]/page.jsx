@@ -9,7 +9,6 @@ import ProjectComments from "@/components/admin/projects/ProjectComments";
 import { useGetProjectByIdQuery } from "@/api/admin/projects/projectsApi";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
-
 export default function ProjectDetailPage({ params }) {
   const router = useRouter();
   const { id } = use(params);

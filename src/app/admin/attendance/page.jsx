@@ -18,14 +18,14 @@ export default function Attendance() {
   const role = (userRole || "").toLowerCase();
   const isStaff = role === "admin" || role === "manager";
 
-  const { data: myAttendanceResp, isLoading: isLoadingMyAttendance } = 
+  const { data: myAttendanceResp, isLoading: isLoadingMyAttendance } =
     useGetMyAttendanceQuery(undefined, { skip: isStaff });
-  const { data: allAttendanceResp, isLoading: isLoadingAllAttendance } = 
+  const { data: allAttendanceResp, isLoading: isLoadingAllAttendance } =
     useGetAllAttendanceQuery(undefined, { skip: !isStaff });
 
-  const { data: myStatsResp, isLoading: isLoadingMyStats } = 
+  const { data: myStatsResp, isLoading: isLoadingMyStats } =
     useGetMyAttendanceStatsQuery(undefined, { skip: isStaff });
-  const { data: allStatsResp, isLoading: isLoadingAllStats } = 
+  const { data: allStatsResp, isLoading: isLoadingAllStats } =
     useGetAttendanceStatsQuery(undefined, { skip: !isStaff });
 
   const attendanceResp = isStaff ? allAttendanceResp : myAttendanceResp;

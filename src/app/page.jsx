@@ -72,7 +72,7 @@ export default function Dashboard() {
         <div className="px-4 py-4 md:px-8 md:py-6 text-white">
       <div className="space-y-6">
         {isManagement && (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
           <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
@@ -127,6 +127,39 @@ export default function Dashboard() {
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-rose-400 font-medium flex items-center gap-1">
                   <ArrowDown className="w-3 h-3" /> --
+                </span>
+                <span className="text-white/40 md:text-xs text-[10px]">
+                  from last month
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
+            <CardContent className="md:p-6">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <span className="text-sm font-medium text-white/60">
+                    Revenue Total
+                  </span>
+                </div>
+                <div className="p-2 bg-white/5 rounded-full group-hover:bg-[#F58220]/20 transition-colors">
+                  <Activity className="w-5 h-5 text-white/60 group-hover:text-[#F58220] transition-colors" />
+                </div>
+              </div>
+              <div className="space-y-2 mb-2">
+                <div className="text-xl md:text-3xl font-bold text-white">
+                  {dashboard?.finance?.revenueTotal != null
+                    ? `৳ ${Number(dashboard.finance.revenueTotal).toLocaleString(
+                        undefined,
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                    : "৳ 0.00"}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-emerald-400 font-medium flex items-center gap-1">
+                  <ArrowUp className="w-3 h-3" /> --
                 </span>
                 <span className="text-white/40 md:text-xs text-[10px]">
                   from last month

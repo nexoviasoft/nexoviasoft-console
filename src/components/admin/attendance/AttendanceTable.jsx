@@ -61,11 +61,10 @@ const StatusBadge = ({ status }) => {
 const ApprovedBadge = ({ approved }) => {
   return (
     <Badge
-      className={`font-medium shadow-none ${
-        approved
-          ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30"
-          : "bg-orange-500/15 text-orange-200 border border-orange-400/30"
-      }`}
+      className={`font-medium shadow-none ${approved
+        ? "bg-emerald-500/15 text-emerald-300 border border-emerald-400/30"
+        : "bg-orange-500/15 text-orange-200 border border-orange-400/30"
+        }`}
     >
       {approved ? "Approved" : "Pending"}
     </Badge>
@@ -257,15 +256,15 @@ export default function AttendanceTable({ rows }) {
         onOpenChange={setShowAdd}
         onCreate={handleCreate}
       />
-      <AttendanceDetailsDialog 
-        open={showDetails} 
-        onOpenChange={setShowDetails} 
-        employee={selectedEmployee} 
+      <AttendanceDetailsDialog
+        open={showDetails}
+        onOpenChange={setShowDetails}
+        employee={selectedEmployee}
       />
-      <AttendanceEditDialog 
-        open={showEdit} 
-        onOpenChange={setShowEdit} 
-        employee={selectedEmployee} 
+      <AttendanceEditDialog
+        open={showEdit}
+        onOpenChange={setShowEdit}
+        employee={selectedEmployee}
         onSave={handleSaveEdit}
       />
       <div className="overflow-x-auto">
@@ -285,16 +284,16 @@ export default function AttendanceTable({ rows }) {
         <Table>
           <TableHeader className="bg-[#F58220]/10">
             <TableRow className="hover:bg-transparent border-white/10">
-              <TableHead className="w-[220px] text-[#F58220] font-semibold">Employee</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Date</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Check In</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Check Out</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Work Hours</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Status</TableHead>
-              <TableHead className="text-[#F58220] font-semibold">Approved</TableHead>
-              <TableHead className="text-right text-[#F58220] font-semibold">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
+              <TableHead className="w-[220px] text-[#EFFC76] font-semibold">Employee</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Date</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Check In</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Check Out</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Work Hours</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Status</TableHead>
+              <TableHead className="text-[#EFFC76] font-semibold">Approved</TableHead>
+              <TableHead className="text-right text-[#EFFC76] font-semibold">Actions</TableHead>
+            </TableRow >
+          </TableHeader >
           <TableBody>
             {data.map((row) => (
               <TableRow
@@ -313,81 +312,81 @@ export default function AttendanceTable({ rows }) {
                     </div>
                   </div>
                 </TableCell>
-              <TableCell className="text-white/70">
-                {row.date
-                  ? new Date(row.date).toLocaleDateString()
-                  : "-"}
-              </TableCell>
-              <TableCell className="text-white/80 font-medium">
-                {row.checkIn}
-              </TableCell>
-              <TableCell className="text-white/80 font-medium">
-                {row.checkOut}
-              </TableCell>
-              <TableCell className="text-white/80 font-medium">
-                {row.workHours}
-              </TableCell>
-              <TableCell>
-                <StatusBadge status={row.status} />
-              </TableCell>
-              <TableCell>
-                <ApprovedBadge approved={!!row.approved} />
-              </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-white/50 hover:text-[#F58220] hover:bg-white/5"
-                    >
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="bg-[#1A1A1A] border-white/10 text-white"
-                  >
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem
-                      className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
-                      onClick={() => handleViewDetails(row)}
-                    >
-                      <Eye className="mr-2 h-4 w-4" />
-                      <span>View Details</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
-                      onClick={() => handleEdit(row)}
-                    >
-                      <Edit className="mr-2 h-4 w-4" />
-                      <span>Edit Record</span>
-                    </DropdownMenuItem>
-                    {isAdmin && !row.approved && (
-                      <DropdownMenuItem
-                        className="hover:bg-white/10 cursor-pointer text-emerald-400 focus:text-emerald-400 focus:bg-white/10"
-                        onClick={() => handleApprove(row)}
+                <TableCell className="text-white/70">
+                  {row.date
+                    ? new Date(row.date).toLocaleDateString()
+                    : "-"}
+                </TableCell>
+                <TableCell className="text-white/80 font-medium">
+                  {row.checkIn}
+                </TableCell>
+                <TableCell className="text-white/80 font-medium">
+                  {row.checkOut}
+                </TableCell>
+                <TableCell className="text-white/80 font-medium">
+                  {row.workHours}
+                </TableCell>
+                <TableCell>
+                  <StatusBadge status={row.status} />
+                </TableCell>
+                <TableCell>
+                  <ApprovedBadge approved={!!row.approved} />
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-white/50 hover:text-[#F58220] hover:bg-white/5"
                       >
-                        <CheckCircle2 className="mr-2 h-4 w-4" />
-                        <span>Approve Attendance</span>
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem
-                      className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
-                      onClick={() => handleDeleteClick(row)}
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      className="bg-[#1A1A1A] border-white/10 text-white"
                     >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      <span>Delete</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </div>
-    </div>
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator className="bg-white/10" />
+                      <DropdownMenuItem
+                        className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
+                        onClick={() => handleViewDetails(row)}
+                      >
+                        <Eye className="mr-2 h-4 w-4" />
+                        <span>View Details</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="hover:bg-white/10 cursor-pointer focus:bg-white/10 focus:text-white"
+                        onClick={() => handleEdit(row)}
+                      >
+                        <Edit className="mr-2 h-4 w-4" />
+                        <span>Edit Record</span>
+                      </DropdownMenuItem>
+                      {isAdmin && !row.approved && (
+                        <DropdownMenuItem
+                          className="hover:bg-white/10 cursor-pointer text-emerald-400 focus:text-emerald-400 focus:bg-white/10"
+                          onClick={() => handleApprove(row)}
+                        >
+                          <CheckCircle2 className="mr-2 h-4 w-4" />
+                          <span>Approve Attendance</span>
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuItem
+                        className="hover:bg-white/10 cursor-pointer text-red-400 focus:text-red-400 focus:bg-white/10"
+                        onClick={() => handleDeleteClick(row)}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span>Delete</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table >
+      </div >
+    </div >
   );
 }
