@@ -98,38 +98,38 @@ export default function PayrollTable() {
 
   const generatePayslip = (row) => {
     const doc = new jsPDF();
-    
+
     // Header background
     doc.setFillColor(245, 130, 32); // #F58220
     doc.rect(0, 0, 210, 40, "F");
-    
+
     // Header Text
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(24);
     doc.text("PAYSLIP", 105, 20, null, null, "center");
-    
+
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.text(`Date Generated: ${new Date().toLocaleDateString()}`, 105, 30, null, null, "center");
-    
+
     // Company Info 
     doc.setTextColor(40, 40, 40);
     doc.setFontSize(16);
     doc.setFont("helvetica", "bold");
-    doc.text("SquadLog Inc.", 20, 55);
-    
+    doc.text("NexoviaSoft", 20, 55);
+
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(110, 110, 110);
     doc.text("123 Business Avenue", 20, 62);
     doc.text("Tech District, NY 10012", 20, 67);
-    
+
     // Employee Info Section
     doc.setFont("helvetica", "bold");
     doc.setTextColor(40, 40, 40);
     doc.text("Employee Details", 130, 55);
-    
+
     doc.setFont("helvetica", "normal");
     doc.setTextColor(110, 110, 110);
     doc.text(`Name:`, 130, 62);
@@ -140,12 +140,12 @@ export default function PayrollTable() {
     doc.text(row.paymentDate, 160, 72);
     doc.text(`Status:`, 130, 77);
     doc.text(row.status, 160, 77);
-    
+
     // Divider
     doc.setDrawColor(220, 220, 220);
     doc.setLineWidth(0.5);
     doc.line(20, 85, 190, 85);
-    
+
     // Salary Details Table Header
     doc.setFillColor(245, 245, 245);
     doc.rect(20, 95, 170, 10, "F");
@@ -153,70 +153,70 @@ export default function PayrollTable() {
     doc.setTextColor(40, 40, 40);
     doc.text("Description", 25, 102);
     doc.text("Amount", 185, 102, null, null, "right");
-    
+
     // Table content
     doc.setFont("helvetica", "normal");
     let yPos = 115;
-    
+
     // Base Salary
     doc.setTextColor(40, 40, 40);
     doc.text("Base Salary", 25, yPos);
     doc.text(`$${Number(row.raw.baseSalary || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
-    
+
     // Bonus
     doc.text("Bonus", 25, yPos);
     doc.text(`+ $${Number(row.raw.bonus || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
-    
+
     // Deductions
     doc.text("Deductions", 25, yPos);
     doc.setTextColor(220, 38, 38); // Red for deductions
     doc.text(`- $${Number(row.raw.deductions || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
-    
+
     // Border above total
     doc.setDrawColor(220, 220, 220);
     doc.line(20, yPos, 190, yPos);
     yPos += 10;
-    
+
     // Net Pay
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
     doc.setTextColor(245, 130, 32);
     doc.text("Net Pay:", 120, yPos);
     doc.text(`${row.netPay}`, 185, yPos, null, null, "right");
-    
+
     // Note
     doc.setFontSize(10);
     doc.setFont("helvetica", "italic");
     doc.setTextColor(150, 150, 150);
     doc.text("* This is a computer generated document and does not require a physical signature for validity.", 105, 190, null, null, "center");
-    
+
     // Manager Signature
     const signatureY = 240;
-    
+
     // Simulate a signature above the line
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(16);
+    doc.setFont("times", "italic");
+    doc.setFontSize(22);
     doc.setTextColor(40, 40, 40);
-    doc.text("Afrin Jahan", 160, signatureY - 3, null, null, "center");
-    
+    doc.text("Afrin Jahan", 160, signatureY - 2, null, null, "center");
+
     doc.setDrawColor(40, 40, 40);
     doc.setLineWidth(0.5);
     doc.line(130, signatureY, 190, signatureY);
-    
+
     // Title under the signature line
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(40, 40, 40);
-    doc.text("Afrin Jahan", 160, signatureY + 6, null, null, "center");
-    
+    // doc.setFontSize(10);
+    // doc.setFont("helvetica", "bold");
+    // doc.setTextColor(40, 40, 40);
+    // doc.text("Afrin Jahan", 160, signatureY + 6, null, null, "center");
+
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(100, 100, 100);
     doc.text("Authorized Manager Signature", 160, signatureY + 11, null, null, "center");
-    
+
     // Footer
     doc.setFillColor(245, 130, 32);
     doc.rect(0, 287, 210, 10, "F");
@@ -400,7 +400,7 @@ export default function PayrollTable() {
                           {isPaying ? "Paying..." : "Pay"}
                         </Button>
                       )}
-                      
+
                       <Button
                         size="sm"
                         variant="ghost"
@@ -410,7 +410,7 @@ export default function PayrollTable() {
                       >
                         <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
-                      
+
                       <Button
                         size="sm"
                         variant="ghost"
@@ -420,7 +420,7 @@ export default function PayrollTable() {
                       >
                         <Download className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
-                      
+
                       <Button
                         size="sm"
                         variant="ghost"
@@ -448,10 +448,10 @@ export default function PayrollTable() {
         </Table>
       </div>
 
-      <UpdatePayrollDialog 
-        open={!!payrollToEdit} 
-        onOpenChange={(open) => !open && setPayrollToEdit(null)} 
-        payroll={payrollToEdit} 
+      <UpdatePayrollDialog
+        open={!!payrollToEdit}
+        onOpenChange={(open) => !open && setPayrollToEdit(null)}
+        payroll={payrollToEdit}
       />
 
       <AlertDialog
@@ -470,13 +470,13 @@ export default function PayrollTable() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel 
+            <AlertDialogCancel
               className="bg-white/5 border-white/10 text-white hover:bg-white/10"
               disabled={isDeleting}
             >
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={confirmDeletePayroll}
               className="bg-red-600 hover:bg-red-700 text-white border-none"
               disabled={isDeleting}
