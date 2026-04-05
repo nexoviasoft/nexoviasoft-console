@@ -11,7 +11,7 @@ import { useGetDashboardSummaryQuery } from "@/api/admin/dashboard/dashboardApi"
 
 export default function ExpenseManagement() {
   const { userRole } = useAuth();
-  const isManagement = userRole === 'admin' || userRole === 'Manager';
+  const isManagement = userRole === 'admin' || userRole?.toLowerCase() === 'manager';
   const { data: dashboardResp } = useGetDashboardSummaryQuery();
   const dashboard = dashboardResp?.data;
 

@@ -30,7 +30,9 @@ import {
   MoreHorizontal,
   Eye,
   Trash2,
+  Edit,
 } from "lucide-react";
+import UpdateOrderDialog from "./UpdateOrderDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,6 +95,7 @@ export default function OrderTable({ onViewDetails }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [orderToDelete, setOrderToDelete] = useState(null);
+  const [orderToEdit, setOrderToEdit] = useState(null);
 
   const { data: ordersData, isLoading, error, refetch } = useGetOrdersQuery();
   const [deleteOrder, { isLoading: isDeleting }] = useDeleteOrderMutation();
@@ -349,6 +352,13 @@ export default function OrderTable({ onViewDetails }) {
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                           </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setOrderToEdit(order)}
+                            className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white"
+                          >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Edit Order
+                          </DropdownMenuItem>
                           {isAdmin && (
                             <DropdownMenuItem
                               onClick={() => handleDeleteClick(order)}
@@ -380,6 +390,12 @@ export default function OrderTable({ onViewDetails }) {
           </Table>
         </div>
       </div>
+
+      <UpdateOrderDialog 
+        open={!!orderToEdit}
+        onOpenChange={(open) => !open && setOrderToEdit(null)}
+        order={orderToEdit}
+      />
 
       {/* Delete Confirmation Modal */}
       <AlertDialog

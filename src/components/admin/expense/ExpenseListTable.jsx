@@ -43,7 +43,7 @@ import {
 const ExpenseListTable = () => {
   const { userRole } = useAuth();
   const isAdmin = userRole === 'admin';
-  const isManagement = userRole === 'admin' || userRole === 'Manager';
+  const isManagement = userRole === 'admin' || userRole?.toLowerCase() === 'manager';
   const { data: expenses, isLoading, refetch } = useGetExpensesQuery();
   const [updateExpense, { isLoading: isUpdating }] = useUpdateExpenseMutation();
   const [deleteExpense, { isLoading: isDeleting }] = useDeleteExpenseMutation();
