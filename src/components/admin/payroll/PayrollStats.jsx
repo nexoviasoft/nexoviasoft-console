@@ -2,22 +2,25 @@
 
 import React, { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, PieChart, CheckCircle2, AlertCircle } from "lucide-react";
+import { PieChart, CheckCircle2, AlertCircle } from "lucide-react";
+
+const TakaIcon = ({ className }) => (
+  <span className={`font-bold leading-none select-none flex items-center justify-center ${className}`}>৳</span>
+);
 import { useGetPayrollStatsQuery } from "@/api/payrollApi";
 
 export default function PayrollStats() {
   const { data: statsData, isLoading } = useGetPayrollStatsQuery();
 
-  const currency = useMemo(
-    () =>
-      new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [],
-  );
+  const currency = useMemo(() => {
+    const numFormatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return {
+      format: (val) => `৳ ${numFormatter.format(val)}`
+    };
+  }, []);
 
   const totalCost = statsData?.totalCost ?? 0;
   const avgSalary = statsData?.avgSalary ?? 0;
@@ -30,7 +33,7 @@ export default function PayrollStats() {
       label: "Total Cost",
       value: isLoading ? "—" : currency.format(totalCost),
       subtext: "Net pay total",
-      icon: DollarSign,
+      icon: TakaIcon,
       trend: "neutral",
     },
     {

@@ -19,15 +19,15 @@ const CustomTooltip = ({ active, payload, label }) => {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-4">
             <span className="text-white/70 text-xs">Income</span>
-            <span className="text-emerald-500 text-sm font-bold">${payload.find(p => p.dataKey === 'income')?.value?.toLocaleString() || 0}</span>
+            <span className="text-emerald-500 text-sm font-bold">৳{payload.find(p => p.dataKey === 'income')?.value?.toLocaleString() || 0}</span>
           </div>
           <div className="flex items-center justify-between gap-4">
             <span className="text-white/70 text-xs">Expense</span>
-            <span className="text-rose-500 text-sm font-bold">${payload.find(p => p.dataKey === 'expense')?.value?.toLocaleString() || 0}</span>
+            <span className="text-rose-500 text-sm font-bold">৳{payload.find(p => p.dataKey === 'expense')?.value?.toLocaleString() || 0}</span>
           </div>
           <div className="border-t border-white/10 my-1 pt-1 flex items-center justify-between gap-4">
             <span className="text-white text-xs font-semibold">Net Profit</span>
-            <span className="text-[#F58220] text-sm font-bold">${payload.find(p => p.dataKey === 'profit')?.value?.toLocaleString() || 0}</span>
+            <span className="text-[#F58220] text-sm font-bold">৳{payload.find(p => p.dataKey === 'profit')?.value?.toLocaleString() || 0}</span>
           </div>
         </div>
       </div>

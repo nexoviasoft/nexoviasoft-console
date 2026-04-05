@@ -21,6 +21,7 @@ import {
   CalendarClock,
   BarChart3,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
@@ -35,6 +36,9 @@ import {
 } from "@/api/admin/dashboard/dashboardApi";
 
 export default function Dashboard() {
+  const { userRole } = useAuth();
+  const isManagement = userRole === 'admin' || userRole?.toLowerCase() === 'manager';
+  
   const [period, setPeriod] = useState("Weekly");
   const [financePeriod, setFinancePeriod] = useState("Yearly");
   const [activityTab, setActivityTab] = useState("Attendance");
@@ -67,7 +71,8 @@ export default function Dashboard() {
       <AppLayout>
         <div className="px-4 py-4 md:px-8 md:py-6 text-white">
       <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {isManagement && (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <Card className="bg-[#121212] border border-white/10 hover:border-[#F58220]/50 transition-colors group">
             <CardContent className="md:p-6">
               <div className="flex justify-between items-start mb-2">
@@ -143,13 +148,18 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="space-y-2 mb-2">
-                <div className="ttext-xl md:text-3xl font-bold text-white">
-                  {dashboard?.finance
-                    ? `$${Number(dashboard.finance.profitTotal || 0).toLocaleString(
-                        undefined,
-                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                      )}`
-                    : "$0.00"}
+                <div className="text-xl md:text-3xl font-bold text-white">
+                  {dashboard?.finance?.profitTotal != null
+                    ? (Number(dashboard.finance.profitTotal) < 0
+                        ? `-৳ ${Math.abs(Number(dashboard.finance.profitTotal)).toLocaleString(
+                            undefined,
+                            { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                          )}`
+                        : `৳ ${Number(dashboard.finance.profitTotal).toLocaleString(
+                            undefined,
+                            { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                          )}`)
+                    : "৳ 0.00"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
@@ -177,12 +187,12 @@ export default function Dashboard() {
               </div>
               <div className="space-y-2 mb-2">
                 <div className="text-xl md:text-3xl font-bold text-white">
-                  {dashboard?.finance
-                    ? `$${Number(dashboard.finance.expenseTotal || 0).toLocaleString(
+                  {dashboard?.finance?.expenseTotal != null
+                    ? `৳ ${Number(dashboard.finance.expenseTotal).toLocaleString(
                         undefined,
                         { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                       )}`
-                    : "$0.00"}
+                    : "৳ 0.00"}
                 </div>
               </div>
               <div className="flex items-center gap-2 text-xs">
@@ -196,6 +206,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
@@ -569,43 +580,45 @@ export default function Dashboard() {
         </div>
 
         {/* Finance Section */}
-        <Card className="bg-[#121212] border border-white/10">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
-              <div className="w-full">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <BarChart3 className="w-6 h-6 text-[#F58220]" />
-                    Finance Report
-                  </h3>
-
-                  <select
-                    value={financePeriod}
-                    onChange={(e) => setFinancePeriod(e.target.value)}
-                    className="px-3 py-1.5 bg-[#F58220]/10 border border-[#F58220]/20 rounded-lg text-xs font-medium text-[#F58220] focus:outline-none focus:ring-1 focus:ring-[#F58220]"
-                  >
-                    <option value="Weekly" className="bg-[#121212] text-white">
-                      Weekly
-                    </option>
-                    <option value="Monthly" className="bg-[#121212] text-white">
-                      Monthly
-                    </option>
-                    <option
-                      value="Quarterly"
-                      className="bg-[#121212] text-white"
+        {isManagement && (
+          <Card className="bg-[#121212] border border-white/10">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
+                <div className="w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+                      <BarChart3 className="w-6 h-6 text-[#F58220]" />
+                      Finance Report
+                    </h3>
+  
+                    <select
+                      value={financePeriod}
+                      onChange={(e) => setFinancePeriod(e.target.value)}
+                      className="px-3 py-1.5 bg-[#F58220]/10 border border-[#F58220]/20 rounded-lg text-xs font-medium text-[#F58220] focus:outline-none focus:ring-1 focus:ring-[#F58220]"
                     >
-                      Quarterly
-                    </option>
-                    <option value="Yearly" className="bg-[#121212] text-white">
-                      Yearly
-                    </option>
-                  </select>
+                      <option value="Weekly" className="bg-[#121212] text-white">
+                        Weekly
+                      </option>
+                      <option value="Monthly" className="bg-[#121212] text-white">
+                        Monthly
+                      </option>
+                      <option
+                        value="Quarterly"
+                        className="bg-[#121212] text-white"
+                      >
+                        Quarterly
+                      </option>
+                      <option value="Yearly" className="bg-[#121212] text-white">
+                        Yearly
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <FinanceChart period={financePeriod} />
-          </CardContent>
-        </Card>
+              <FinanceChart period={financePeriod} />
+            </CardContent>
+          </Card>
+        )}
       </div>
         </div>
       </AppLayout>

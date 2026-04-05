@@ -122,8 +122,8 @@ export default function PayrollTable() {
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(110, 110, 110);
-    doc.text("123 Business Avenue", 20, 62);
-    doc.text("Tech District, NY 10012", 20, 67);
+    doc.text("Rangpur", 20, 62);
+    doc.text("Bangladesh", 20, 67);
 
     // Employee Info Section
     doc.setFont("helvetica", "bold");
@@ -139,11 +139,11 @@ export default function PayrollTable() {
     doc.text(`Payment Date:`, 130, 72);
     doc.text(row.paymentDate, 160, 72);
     doc.text(`Status:`, 130, 77);
-    
+
     // Highlighted Status Badge
     let statusBgColor = [255, 237, 213]; // Orange/Pending
     let statusTextColor = [234, 88, 12];
-    
+
     if (row.status?.toLowerCase() === "paid") {
       statusBgColor = [220, 252, 231]; // Green/Paid
       statusTextColor = [22, 163, 74];
@@ -151,17 +151,17 @@ export default function PayrollTable() {
       statusBgColor = [224, 242, 254]; // Sky/Processing
       statusTextColor = [2, 132, 199];
     }
-    
+
     // Draw badge background
     doc.setFillColor(...statusBgColor);
     doc.roundedRect(158, 73, 24, 6, 1, 1, "F");
-    
+
     // Draw badge text
     doc.setTextColor(...statusTextColor);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(8);
     doc.text((row.status || "Pending").toUpperCase(), 170, 77.2, null, null, "center");
-    
+
     // Reset font for further elements
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
@@ -187,18 +187,18 @@ export default function PayrollTable() {
     // Base Salary
     doc.setTextColor(40, 40, 40);
     doc.text("Base Salary", 25, yPos);
-    doc.text(`$${Number(row.raw.baseSalary || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    doc.text(`Tk. ${Number(row.raw.baseSalary || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
 
     // Bonus
     doc.text("Bonus", 25, yPos);
-    doc.text(`+ $${Number(row.raw.bonus || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    doc.text(`+ Tk. ${Number(row.raw.bonus || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
 
     // Deductions
     doc.text("Deductions", 25, yPos);
     doc.setTextColor(220, 38, 38); // Red for deductions
-    doc.text(`- $${Number(row.raw.deductions || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    doc.text(`- Tk. ${Number(row.raw.deductions || 0).toFixed(2)}`, 185, yPos, null, null, "right");
     yPos += 12;
 
     // Border above total
@@ -251,16 +251,15 @@ export default function PayrollTable() {
     toast.success(`Payslip for ${row.name} generated successfully.`);
   };
 
-  const formatter = useMemo(
-    () =>
-      new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [],
-  );
+  const formatter = useMemo(() => {
+    const numFormatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return {
+      format: (val) => `৳ ${numFormatter.format(val)}`
+    };
+  }, []);
 
   const tableRows = useMemo(() => {
     return payrollRows.map((p) => {
@@ -325,7 +324,7 @@ export default function PayrollTable() {
               </TableHead>
               <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                 <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-[#F58220]" />
+                  <span className="font-bold text-[#F58220] text-sm leading-none pt-0.5">৳</span>
                   Base Salary
                 </div>
               </TableHead>

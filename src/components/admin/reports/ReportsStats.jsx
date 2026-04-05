@@ -2,13 +2,17 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, Clock, Layout, TrendingUp } from "lucide-react";
+import { Clock, Layout, TrendingUp } from "lucide-react";
+
+const TakaIcon = ({ className }) => (
+  <span className={`font-bold leading-none select-none flex items-center justify-center ${className}`}>৳</span>
+);
 
 export default function ReportsStats({ dashboard }) {
   const data = dashboard;
 
   const iconByLabel = {
-    "Total Revenue": DollarSign,
+    "Total Revenue": TakaIcon,
     "Hours Worked": Clock,
     "Active Projects": Layout,
     "Efficiency": TrendingUp,
@@ -17,9 +21,9 @@ export default function ReportsStats({ dashboard }) {
   const fallbackStats = [
     {
       label: "Total Revenue",
-      value: "$124,500",
+      value: "৳ 124,500",
       subtext: "+12% vs last period",
-      icon: DollarSign,
+      icon: TakaIcon,
       trend: "up",
     },
     {

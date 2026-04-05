@@ -4,7 +4,11 @@ import React from "react";
 import ExpenseListTable from "@/components/admin/expense/ExpenseListTable";
 import ExpenseRequestModal from "@/components/admin/expense/ExpenseRequestModal";
 import { useAuth } from "@/contexts/AuthContext";
-import { Wallet, Info, DollarSign, CreditCard } from "lucide-react";
+import { Wallet, Info, CreditCard } from "lucide-react";
+
+const TakaIcon = ({ className }) => (
+  <span className={`font-bold leading-none select-none flex items-center justify-center ${className}`}>৳</span>
+);
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";
 import { useGetDashboardSummaryQuery } from "@/api/admin/dashboard/dashboardApi";
@@ -59,12 +63,14 @@ export default function ExpenseManagement() {
                     <p className="text-sm font-medium text-white/60 mb-2">Total Net Profit</p>
                     <h3 className="text-2xl md:text-3xl font-bold text-white">
                       {dashboard?.finance?.profitTotal != null 
-                        ? `$${Number(dashboard.finance.profitTotal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
-                        : "$0.00"}
+                        ? (Number(dashboard.finance.profitTotal) < 0 
+                            ? `-৳ ${Math.abs(Number(dashboard.finance.profitTotal)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
+                            : `৳ ${Number(dashboard.finance.profitTotal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`)
+                        : "৳ 0.00"}
                     </h3>
                   </div>
                   <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                    <DollarSign className="w-6 h-6 text-emerald-500" />
+                    <TakaIcon className="w-6 h-6 text-emerald-500 text-2xl" />
                   </div>
                 </div>
 
@@ -73,8 +79,8 @@ export default function ExpenseManagement() {
                     <p className="text-sm font-medium text-white/60 mb-2">Total Expense</p>
                     <h3 className="text-2xl md:text-3xl font-bold text-white">
                       {dashboard?.finance?.expenseTotal != null 
-                        ? `$${Number(dashboard.finance.expenseTotal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
-                        : "$0.00"}
+                        ? `৳ ${Number(dashboard.finance.expenseTotal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` 
+                        : "৳ 0.00"}
                     </h3>
                   </div>
                   <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center">
