@@ -26,6 +26,8 @@ import {
   TrendingDownIcon,
   Wallet,
   Activity,
+  Calendar,
+  Edit,
 } from "lucide-react";
 
 const StatusBadge = ({ status }) => {
@@ -166,6 +168,12 @@ export default function PayrollTable() {
                   Status
                 </div>
               </TableHead>
+              <TableHead className="text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#F58220]" />
+                  Date
+                </div>
+              </TableHead>
               <TableHead className="text-right text-[#F58220] font-bold uppercase text-xs sm:text-sm py-5">
                 Actions
               </TableHead>
@@ -174,7 +182,7 @@ export default function PayrollTable() {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center text-white/60 text-sm">
+                <TableCell colSpan={8} className="h-24 text-center text-white/60 text-sm">
                   Loading payroll...
                 </TableCell>
               </TableRow>
@@ -217,6 +225,9 @@ export default function PayrollTable() {
                   <TableCell>
                     <StatusBadge status={row.status} />
                   </TableCell>
+                  <TableCell className="text-white/80 font-medium text-xs sm:text-sm whitespace-nowrap group-hover:text-[#F58220] transition-colors">
+                    {row.paymentDate}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
                       {(row.status === "Pending" || row.status === "Processing") && (
@@ -230,6 +241,13 @@ export default function PayrollTable() {
                           {isPaying ? "Paying..." : "Pay"}
                         </Button>
                       )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 w-7 sm:h-8 sm:w-8 p-0 text-white/50 hover:text-[#F58220] hover:bg-white/5"
+                      >
+                        <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
+                      </Button>
                       <Button
                         size="sm"
                         variant="ghost"
@@ -251,7 +269,7 @@ export default function PayrollTable() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={8}
                   className="h-24 text-center text-white/60 text-sm"
                 >
                   No employees found matching "{searchTerm}"
