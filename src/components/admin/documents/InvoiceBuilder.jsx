@@ -370,129 +370,112 @@ export default function InvoiceBuilder({ template, onBack, documentId }) {
         </Card>
 
         {/* Live Preview / Printable Area */}
-        <div className="glass-card border-white/20 rounded-lg p-6 md:p-8 min-h-[500px] md:min-h-[600px] text-sm text-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 w-full mx-auto print:mx-0 overflow-x-auto">
-          <div className="min-w-[600px] md:min-w-0 flex flex-col h-full justify-between">
-            <div>
+        <div className="glass-card border-white/20 rounded-lg p-6 md:p-8 min-h-[500px] md:min-h-[600px] text-sm text-black bg-white print:shadow-none print:border-none print:w-full print:absolute print:top-0 print:left-0 print:z-50 w-full mx-auto print:mx-0 overflow-x-auto print:p-0">
+          <div className="min-w-[700px] md:min-w-0 flex flex-col h-full justify-between max-w-4xl mx-auto">
+            <div className="p-8 md:p-12">
               {/* Header Section */}
-              <div className="flex justify-between items-start mb-12">
+              <div className="flex justify-between items-start mb-16">
                 <div>
-                  <h1 className="text-5xl font-bold mb-2 tracking-tight">INVOICE</h1>
-                  <div className="text-white/70 text-lg">Invoice No: <span className="text-white font-semibold">#{invoiceData.invoiceNumber}</span></div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-xl text-[#F58220] tracking-wide mb-2">{invoiceData.companyName}</div>
-                  <div className="text-white/60 text-xs leading-relaxed whitespace-pre-wrap">
+                  <div className="text-4xl font-extrabold text-[#F58220] tracking-tight mb-2">{invoiceData.companyName}</div>
+                  <div className="text-gray-500 text-sm leading-relaxed whitespace-pre-wrap font-medium">
                     {invoiceData.companyAddress}
                   </div>
-                  <Separator className="my-2 bg-white/20 ml-auto w-32" />
+                </div>
+                <div className="text-right">
+                  <h1 className="text-5xl font-extrabold text-gray-900 mb-2 tracking-tighter">INVOICE</h1>
+                  <div className="text-gray-500 text-lg font-medium">#{invoiceData.invoiceNumber}</div>
                 </div>
               </div>
 
               {/* Meta Info Section */}
-              <div className="grid grid-cols-2 gap-12 mb-8">
-                <div className="space-y-2 mt-4">
-                  <div className="flex gap-12">
-                    <span className="text-white/60 min-w-[80px]">Date</span>
-                    <span className="font-medium">: {invoiceData.date}</span>
-                  </div>
-                  <div className="flex gap-12">
-                    <span className="text-white/60 min-w-[80px]">Due Date</span>
-                    <span className="font-medium">: {invoiceData.date}</span>
+              <div className="flex justify-between mb-12">
+                <div className="space-y-1 max-w-[50%]">
+                  <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Billed To</div>
+                  <div className="font-bold text-xl text-gray-900">{invoiceData.clientName || "Valued Client"}</div>
+                  <div className="text-gray-500 whitespace-pre-wrap text-sm leading-relaxed font-medium">
+                    {invoiceData.clientAddress || "N/A"}
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-bold text-white mb-2">Bill To:</div>
-                  <div className="font-bold text-lg mb-1">{invoiceData.clientName || "MMM Ventures Group B.V."}</div>
-                  <div className="text-white/60 whitespace-pre-wrap text-sm leading-relaxed">
-                    {invoiceData.clientAddress || "Randstad 22 46\n1316BZ ALMERE\nThe Netherlands"}
+                <div className="flex gap-12 text-right">
+                  <div className="space-y-1">
+                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Date Issued</div>
+                    <div className="font-semibold text-gray-900">{invoiceData.date}</div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Due Date</div>
+                    <div className="font-semibold text-gray-900">{invoiceData.date}</div>
                   </div>
                 </div>
               </div>
 
               {/* Items Card Container */}
-              <div className="bg-[#1E1E2E]/80 backdrop-blur-sm rounded-3xl p-8 mb-8 border border-white/5 shadow-xl print:bg-[#1E1E2E] print:break-inside-avoid">
-                {/* Table Header Pills */}
-                <div className="flex justify-between gap-4 mb-8">
-                  <div className="flex-1">
-                    <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full text-center md:text-left md:w-auto">Description</span>
-                  </div>
-                  <div className="w-24 text-center">
-                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Qty</span>
-                  </div>
-                  <div className="w-32 text-center">
-                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Price</span>
-                  </div>
-                  <div className="w-32 text-center">
-                    <span className="bg-[#F58220] text-black px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block shadow-[0_0_15px_rgba(245,130,32,0.3)] w-full">Total</span>
-                  </div>
-                </div>
+              <div className="rounded-xl border border-gray-200 overflow-hidden mb-12 shadow-sm">
+                <Table className="w-full">
+                  <TableHeader className="bg-gray-50">
+                    <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                      <TableHead className="py-4 px-6 text-gray-600 font-bold uppercase text-xs tracking-wider">Description</TableHead>
+                      <TableHead className="py-4 px-6 text-center text-gray-600 font-bold uppercase text-xs tracking-wider w-24">Qty</TableHead>
+                      <TableHead className="py-4 px-6 text-right text-gray-600 font-bold uppercase text-xs tracking-wider w-32">Rate</TableHead>
+                      <TableHead className="py-4 px-6 text-right text-gray-600 font-bold uppercase text-xs tracking-wider w-32">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {invoiceData.items.map((item, i) => (
+                      <TableRow key={i} className="border-b border-gray-100 hover:bg-transparent">
+                        <TableCell className="py-4 px-6 font-semibold text-gray-900">{item.description || "—"}</TableCell>
+                        <TableCell className="py-4 px-6 text-center text-gray-600">{item.quantity}</TableCell>
+                        <TableCell className="py-4 px-6 text-right text-gray-600">${item.rate}</TableCell>
+                        <TableCell className="py-4 px-6 text-right font-bold text-gray-900">
+                          ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {invoiceData.items.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center text-gray-400 py-8 italic font-medium">No items added</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
 
-                {/* Items List */}
-                <div className="space-y-6 mb-8">
-                  {invoiceData.items.map((item, i) => (
-                    <div key={i} className="flex justify-between gap-4 items-center text-base py-2">
-                      <div className="flex-1 font-medium text-white/90 pl-4">{item.description || "—"}</div>
-                      <div className="w-24 text-center text-white/80">{item.quantity}</div>
-                      <div className="w-32 text-center text-white/80">${item.rate}</div>
-                      <div className="w-32 text-center font-bold text-white">
-                        ${(Number(item.quantity) * Number(item.rate)).toFixed(2)}
-                      </div>
-                    </div>
-                  ))}
-                  {invoiceData.items.length === 0 && (
-                    <div className="text-center text-white/40 py-8 italic">No items added</div>
-                  )}
-                </div>
-
-                <Separator className="bg-white/10 mb-8" />
-
-                {/* Totals Section */}
-                <div className="flex justify-end">
-                  <div className="w-full max-w-sm space-y-4">
-                    <div className="flex justify-between text-white/80 text-base">
-                      <span>Subtotal</span>
-                      <span className="font-bold text-white text-lg">${calculateTotal().toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-white/80 text-base">
-                      <span>Sales Tax (free)</span>
-                      <span className="font-bold text-white text-lg">$0.00</span>
-                    </div>
-                    <Separator className="bg-white/10 my-2" />
-                    <div className="flex justify-between items-center pt-2">
-                      <span className="font-medium text-lg">Grand Total</span>
-                      <span className="text-3xl font-bold text-[#F58220]">${calculateTotal().toFixed(2)}</span>
-                    </div>
+              {/* Totals Section */}
+              <div className="flex justify-end mb-16">
+                <div className="w-full max-w-sm">
+                  <div className="flex justify-between py-4 border-b border-gray-100 text-gray-600">
+                    <span className="font-medium text-lg">Subtotal</span>
+                    <span className="font-bold text-gray-900 text-lg">${calculateTotal().toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between py-4 border-b border-gray-100 text-gray-600">
+                    <span className="font-medium text-lg">Tax (0%)</span>
+                    <span className="font-bold text-gray-900 text-lg">$0.00</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-6">
+                    <span className="font-bold text-xl text-gray-900">Total Due</span>
+                    <span className="text-4xl font-extrabold text-[#F58220] tracking-tight">${calculateTotal().toFixed(2)}</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Footer Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-auto pt-4 items-end">
-              <div>
-                <div className="bg-[#fffbeb] border-l-4 border-[#f59e0b] p-4 rounded-md text-black mb-6 max-w-sm">
-                  <div className="text-xs font-bold text-[#d97706] uppercase mb-2">Note</div>
-                  <div className="text-sm text-[#78350f] leading-relaxed">
-                    {invoiceData.note}
+              {/* Footer Section */}
+              <div className="flex justify-between items-end pt-12 border-t border-gray-200 mt-auto">
+                <div className="w-1/2 pr-8">
+                  <div className="bg-[#fffcf0] rounded-xl p-6 border-l-4 border-[#F58220]">
+                    <div className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">Payment Notes</div>
+                    <div className="text-sm text-amber-900 leading-relaxed font-medium">
+                      {invoiceData.note}
+                    </div>
                   </div>
                 </div>
-                <span className="bg-[#F58220] text-black px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wider inline-block mb-6 shadow-[0_0_15px_rgba(245,130,32,0.3)]">Payment Information</span>
-                <div className="space-y-3 text-sm text-white/80 pl-2">
-                  <div className="flex gap-8">
-                    <span className="min-w-[60px] font-medium text-white">Bank</span>
-                    <span>: Default Account</span>
-                  </div>
-                </div>
-              </div>
-              <div className="md:text-right flex flex-col items-end print:items-end">
-                <div className="text-center min-w-[200px]">
-                  <div className="font-[cursive] text-3xl text-white pb-2 border-b-2 border-white/20 mb-3 flex items-end justify-center h-12 print:text-black print:border-gray-300" style={{ fontFamily: "'Brush Script MT', 'Cedarville Cursive', cursive" }}>
+                <div className="text-center min-w-[250px]">
+                  <div className="font-[cursive] text-6xl text-gray-800 pb-3 border-b-2 border-gray-200 mb-3 flex items-end justify-center h-24" style={{ fontFamily: "'Brush Script MT', 'Cedarville Cursive', cursive" }}>
                     {invoiceData.managerName}
                   </div>
-                  <div className="text-[13px] font-bold text-white/70 uppercase tracking-widest print:text-gray-600">Manager</div>
-                  <div className="text-xs text-white/50 mt-1 print:text-gray-400">Authorized Signature</div>
+                  <div className="font-bold text-gray-900 text-lg">{invoiceData.managerName}</div>
+                  <div className="text-xs font-bold text-gray-500 tracking-wider uppercase mt-1">Authorized Signature</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
