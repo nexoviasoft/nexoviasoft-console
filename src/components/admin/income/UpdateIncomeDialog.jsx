@@ -42,8 +42,8 @@ const UpdateIncomeDialog = ({ open, onOpenChange, income }) => {
         clientId: income.clientId ? income.clientId.toString() : '',
         amount: income.amount || '',
         description: income.description || '',
-        date: income.date 
-          ? new Date(income.date).toISOString().split('T')[0] 
+        date: income.date
+          ? new Date(income.date).toISOString().split('T')[0]
           : (income.createdAt ? new Date(income.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]),
         receiptNo: income.receiptNo || '',
       });
@@ -189,8 +189,8 @@ const UpdateIncomeDialog = ({ open, onOpenChange, income }) => {
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isLoading}
               className="bg-[#F58220] hover:bg-[#d91d79] text-black font-bold h-10 px-8 glass-button"
             >
