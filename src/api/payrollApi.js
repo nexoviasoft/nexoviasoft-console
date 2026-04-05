@@ -31,6 +31,21 @@ export const payrollApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Payroll"],
     }),
+    updatePayroll: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/payroll/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Payroll"],
+    }),
+    deletePayroll: builder.mutation({
+      query: (id) => ({
+        url: `/payroll/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Payroll"],
+    }),
   }),
 });
 
@@ -39,5 +54,7 @@ export const {
   useGetPayrollStatsQuery,
   useCreatePayrollMutation,
   useMarkPayrollPaidMutation,
+  useUpdatePayrollMutation,
+  useDeletePayrollMutation,
 } = payrollApi;
 
