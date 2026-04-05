@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useGetPayrollQuery, useMarkPayrollPaidMutation } from "@/api/payrollApi";
+import { useGetPayrollQuery, useMarkPayrollPaidMutation, useDeletePayrollMutation } from "@/api/payrollApi";
 import { toast } from "sonner";
 import {
   Download,
@@ -28,7 +28,20 @@ import {
   Activity,
   Calendar,
   Edit,
+  Trash2,
 } from "lucide-react";
+import jsPDF from "jspdf";
+import UpdatePayrollDialog from "./UpdatePayrollDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const StatusBadge = ({ status }) => {
   if (status === "Paid") {
@@ -56,6 +69,10 @@ export default function PayrollTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data: payrollRows = [], isLoading } = useGetPayrollQuery();
   const [markPaid, { isLoading: isPaying }] = useMarkPayrollPaidMutation();
+  const [deletePayroll, { isLoading: isDeleting }] = useDeletePayrollMutation();
+
+  const [payrollToEdit, setPayrollToEdit] = useState(null);
+  const [payrollToDelete, setPayrollToDelete] = useState(null);
 
   const handlePay = async (row) => {
     const toastId = toast.loading(`Paying ${row.name}...`);
@@ -65,6 +82,42 @@ export default function PayrollTable() {
     } catch (error) {
       toast.error(error?.data?.message || `Failed to pay ${row.name}`, { id: toastId });
     }
+  };
+
+  const confirmDeletePayroll = async () => {
+    if (!payrollToDelete) return;
+    try {
+      await deletePayroll(payrollToDelete.id).unwrap();
+      toast.success("Payroll entry deleted successfully");
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to delete payroll entry");
+    } finally {
+      setPayrollToDelete(null);
+    }
+  };
+
+  const generatePayslip = (row) => {
+    const doc = new jsPDF();
+    doc.setFontSize(20);
+    doc.text("Payslip", 105, 20, null, null, "center");
+    
+    doc.setFontSize(12);
+    doc.text(`Employee Name: ${row.name}`, 20, 40);
+    doc.text(`Role: ${row.role}`, 20, 50);
+    doc.text(`Status: ${row.status}`, 20, 60);
+    doc.text(`Payment Date: ${row.paymentDate}`, 20, 70);
+    
+    doc.text("---------------------------------------------------------", 20, 80);
+    
+    doc.text(`Base Salary: $${row.raw.baseSalary || 0}`, 20, 95);
+    doc.text(`Bonus: $${row.raw.bonus || 0}`, 20, 105);
+    doc.text(`Deductions: -$${row.raw.deductions || 0}`, 20, 115);
+    
+    doc.setFont(undefined, 'bold');
+    doc.text(`Net Pay: ${row.netPay}`, 20, 135);
+    
+    doc.save(`Payslip-${row.name.replace(/\s+/g, '-')}-${row.paymentDate}.pdf`);
+    toast.success(`Payslip for ${row.name} generated successfully.`);
   };
 
   const formatter = useMemo(
@@ -102,6 +155,7 @@ export default function PayrollTable() {
         netPay: formatter.format(netPay),
         status,
         paymentDate,
+        raw: p,
       };
     });
   }, [payrollRows, formatter]);
@@ -241,26 +295,35 @@ export default function PayrollTable() {
                           {isPaying ? "Paying..." : "Pay"}
                         </Button>
                       )}
+                      
                       <Button
                         size="sm"
                         variant="ghost"
+                        onClick={() => setPayrollToEdit(row.raw)}
                         className="h-7 w-7 sm:h-8 sm:w-8 p-0 text-white/50 hover:text-[#F58220] hover:bg-white/5"
+                        title="Edit Payroll"
                       >
                         <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
+                      
                       <Button
                         size="sm"
                         variant="ghost"
+                        onClick={() => generatePayslip(row)}
                         className="h-7 w-7 sm:h-8 sm:w-8 p-0 text-white/50 hover:text-[#F58220] hover:bg-white/5"
+                        title="Download Payslip"
                       >
                         <Download className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
+                      
                       <Button
                         size="sm"
                         variant="ghost"
-                        className="h-7 w-7 sm:h-8 sm:w-8 p-0 text-white/50 hover:text-[#F58220] hover:bg-white/5"
+                        onClick={() => setPayrollToDelete(row)}
+                        className="h-7 w-7 sm:h-8 sm:w-8 p-0 text-red-500/50 hover:text-red-500 hover:bg-red-500/10"
+                        title="Delete Payroll"
                       >
-                        <MoreHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -279,6 +342,45 @@ export default function PayrollTable() {
           </TableBody>
         </Table>
       </div>
+
+      <UpdatePayrollDialog 
+        open={!!payrollToEdit} 
+        onOpenChange={(open) => !open && setPayrollToEdit(null)} 
+        payroll={payrollToEdit} 
+      />
+
+      <AlertDialog
+        open={!!payrollToDelete}
+        onOpenChange={(open) => !open && setPayrollToDelete(null)}
+      >
+        <AlertDialogContent className="bg-[#1A1A1A] border-white/20 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this payroll entry?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/60">
+              Employee: <span className="text-white font-medium">{payrollToDelete?.name}</span>
+              <br />
+              Period: <span className="text-white font-medium">{payrollToDelete?.raw?.periodYear}-{payrollToDelete?.raw?.periodMonth}</span>
+              <br />
+              This action cannot be undone. This will permanently delete the payroll entry.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              disabled={isDeleting}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeletePayroll}
+              className="bg-red-600 hover:bg-red-700 text-white border-none"
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
