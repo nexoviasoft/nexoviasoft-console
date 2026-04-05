@@ -3,23 +3,7 @@
  * Handles file uploads to the backend API
  */
 
-<<<<<<< HEAD
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://squadlog-backend.up.railway.app'
-=======
-<<<<<<< HEAD
-// Prefer a dedicated upload/CDN URL if provided, otherwise fall back to the CDN,
-// and finally localhost for local development.
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_UPLOAD_URL ||
-  process.env.NEXT_PUBLIC_CDN_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://squadlog-cdn.up.railway.app";
-const UPLOAD_ENDPOINT = '/upload/image'
-/**
-=======
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://squadlog-backend.up.railway.app'
->>>>>>> 932f6199 (update hook)
->>>>>>> 872df1ff (add and update pages)
+
 
 /**
  * Upload an image file to the backend
@@ -33,12 +17,10 @@ export const uploadToCDN = async (file, folder = 'documents') => {
         // ImgBB requires the field name to be 'image'
         formData.append('image', file)
 
-<<<<<<< HEAD
+
         const apiKey = '4ba7f7ac04e8b97db1e85e7a46c609d7'
         const url = `https://api.imgbb.com/1/upload?key=${apiKey}`
-=======
-        const url = `${API_BASE_URL}/upload/image`
->>>>>>> 872df1ff (add and update pages)
+
 
         const response = await fetch(url, {
             method: 'POST',
@@ -55,13 +37,13 @@ export const uploadToCDN = async (file, folder = 'documents') => {
             throw new Error(data.error?.message || 'Upload failed')
         }
 
-<<<<<<< HEAD
+
         // Return the URL from the ImgBB response
         return data.data.url
-=======
+
         // Return the URL from the response
         return data.url
->>>>>>> 872df1ff (add and update pages)
+
     } catch (error) {
         console.error('Upload Error:', error)
         throw new Error(error.message || 'Failed to upload file')
