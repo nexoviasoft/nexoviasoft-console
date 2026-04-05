@@ -76,6 +76,154 @@ const IncomeList = () => {
     }
   };
 
+  const generateInvoice = async (income) => {
+    const { default: jsPDF } = await import("jspdf");
+    const doc = new jsPDF();
+
+    const baseColor = [245, 130, 32]; // #F58220
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 0, 210, 297, "F");
+
+    doc.setFillColor(...baseColor);
+    doc.rect(0, 0, 210, 45, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(28);
+    doc.text("INVOICE", 105, 22, null, null, "center");
+
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    const dateStr = income.date ? format(new Date(income.date), 'MMM dd, yyyy') : format(new Date(income.createdAt), 'MMM dd, yyyy');
+    doc.text(`Date: ${dateStr}`, 105, 32, null, null, "center");
+
+    doc.setTextColor(40, 40, 40);
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.text("NexoviaSoft", 20, 65);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    doc.text("Rangpur, Bangladesh", 20, 72);
+    doc.text("contact@nexoviasoft.com", 20, 77);
+
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(40, 40, 40);
+    doc.text("Billed To:", 130, 65);
+
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Name:`, 130, 72);
+    doc.text(income.client?.name || 'N/A', 155, 72);
+    
+    if (income.client?.email) {
+      doc.text(`Email:`, 130, 77);
+      doc.text(income.client.email, 155, 77);
+    }
+    
+    let currentY = income.client?.email ? 82 : 77;
+    if(income.order?.orderId) {
+      doc.text(`Order ID:`, 130, currentY);
+      doc.text(income.order.orderId, 155, currentY);
+      currentY += 5;
+    }
+    if (income.receiptNo) {
+      doc.text(`Receipt:`, 130, currentY);
+      doc.text(income.receiptNo, 155, currentY);
+    }
+
+    doc.setDrawColor(220, 220, 220);
+    doc.setLineWidth(0.5);
+    doc.line(20, 95, 190, 95);
+
+    doc.setFillColor(...baseColor);
+    doc.rect(20, 105, 170, 12, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(255, 255, 255);
+    doc.text("Description", 25, 113);
+    doc.text("Amount", 185, 113, null, null, "right");
+
+    doc.setFont("helvetica", "normal");
+    let yPos = 127;
+
+    doc.setTextColor(60, 60, 60);
+    const description = income.description || 'Service Payment';
+    const splitDesc = doc.splitTextToSize(description, 130);
+    doc.text(splitDesc, 25, yPos);
+    
+    doc.setFont("helvetica", "bold");
+    const amountStr = `$${Number(income.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    doc.text(amountStr, 185, yPos, null, null, "right");
+    
+    yPos += splitDesc.length * 6 + 10;
+
+    doc.setDrawColor(...baseColor);
+    doc.setLineWidth(0.5);
+    doc.line(130, yPos, 190, yPos);
+    yPos += 8;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(...baseColor);
+    doc.text("Total Paid:", 130, yPos + 4);
+    doc.text(amountStr, 185, yPos + 4, null, null, "right");
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic");
+    doc.setTextColor(150, 150, 150);
+    doc.text("Thank you for choosing NexoviaSoft!", 105, 170, null, null, "center");
+
+    const signatureY = 240;
+
+    // CEO Signature
+    doc.setFont("times", "italic");
+    doc.setFontSize(26);
+    doc.setTextColor(20, 20, 20);
+    doc.text("Ashikur Rahman", 50, signatureY - 2, null, null, "center");
+
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.5);
+    doc.line(20, signatureY, 80, signatureY);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(60, 60, 60);
+    doc.text("CEO", 50, signatureY + 6, null, null, "center");
+    
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(120, 120, 120);
+    doc.text("NexoviaSoft", 50, signatureY + 11, null, null, "center");
+
+    // Manager Signature
+    doc.setFont("times", "italic");
+    doc.setFontSize(26);
+    doc.setTextColor(20, 20, 20);
+    doc.text("Afrin Jahan", 160, signatureY - 2, null, null, "center");
+
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.5);
+    doc.line(130, signatureY, 190, signatureY);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(60, 60, 60);
+    doc.text("Manager", 160, signatureY + 6, null, null, "center");
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(120, 120, 120);
+    doc.text("NexoviaSoft", 160, signatureY + 11, null, null, "center");
+
+    doc.setFillColor(...baseColor);
+    doc.rect(0, 287, 210, 10, "F");
+
+    let fileName = `Invoice-${income.client?.name?.replace(/\s+/g, '-') || 'Client'}-${dateStr.replace(/[, ]+/g, '-')}.pdf`;
+    doc.save(fileName);
+    toast.success(`Invoice downloaded successfully.`);
+  };
+
   return (
     <div className="px-4 py-4 md:px-8 md:py-6 flex flex-col min-h-screen text-white">
       <div className="max-w-[1600px] w-full mx-auto space-y-6 md:space-y-8">
@@ -169,13 +317,23 @@ const IncomeList = () => {
                         {income.description || '-'}
                       </TableCell>
                       <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="hover:bg-[#F58220]/20 text-white/60">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
+                        <div className="flex items-center justify-end gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="hover:bg-[#F58220]/20 text-white/60 hover:text-[#F58220]"
+                            onClick={() => generateInvoice(income)}
+                            title="Download Invoice"
+                          >
+                            <Download className="h-4 w-4" />
+                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" className="hover:bg-[#F58220]/20 text-white/60">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="bg-[#1A1A1A] border-white/10 text-white">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator className="bg-white/10" />
                             <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
@@ -197,6 +355,7 @@ const IncomeList = () => {
                             )}
                           </DropdownMenuContent>
                         </DropdownMenu>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
