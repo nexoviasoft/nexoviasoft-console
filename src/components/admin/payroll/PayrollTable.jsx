@@ -139,7 +139,33 @@ export default function PayrollTable() {
     doc.text(`Payment Date:`, 130, 72);
     doc.text(row.paymentDate, 160, 72);
     doc.text(`Status:`, 130, 77);
-    doc.text(row.status, 160, 77);
+    
+    // Highlighted Status Badge
+    let statusBgColor = [255, 237, 213]; // Orange/Pending
+    let statusTextColor = [234, 88, 12];
+    
+    if (row.status?.toLowerCase() === "paid") {
+      statusBgColor = [220, 252, 231]; // Green/Paid
+      statusTextColor = [22, 163, 74];
+    } else if (row.status?.toLowerCase() === "processing") {
+      statusBgColor = [224, 242, 254]; // Sky/Processing
+      statusTextColor = [2, 132, 199];
+    }
+    
+    // Draw badge background
+    doc.setFillColor(...statusBgColor);
+    doc.roundedRect(158, 73, 24, 6, 1, 1, "F");
+    
+    // Draw badge text
+    doc.setTextColor(...statusTextColor);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.text((row.status || "Pending").toUpperCase(), 170, 77.2, null, null, "center");
+    
+    // Reset font for further elements
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(110, 110, 110);
 
     // Divider
     doc.setDrawColor(220, 220, 220);
