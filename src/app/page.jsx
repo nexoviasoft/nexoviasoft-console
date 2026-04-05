@@ -24,8 +24,10 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import AttendanceChart from "@/components/admin/dashboard/AttendanceChart";
-import FinanceChart from "@/components/admin/dashboard/FinanceChart";
+import dynamic from "next/dynamic";
+
+const AttendanceChart = dynamic(() => import("@/components/admin/dashboard/AttendanceChart"), { ssr: false });
+const FinanceChart = dynamic(() => import("@/components/admin/dashboard/FinanceChart"), { ssr: false });
 import { useEffect } from "react";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import AppLayout from "@/components/layout/AppLayout";

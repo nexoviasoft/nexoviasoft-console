@@ -32,7 +32,8 @@ import {
   Trash2,
   Edit,
 } from "lucide-react";
-import UpdateOrderDialog from "./UpdateOrderDialog";
+import dynamic from "next/dynamic";
+const UpdateOrderDialog = dynamic(() => import("./UpdateOrderDialog"), { ssr: false });
 import {
   DropdownMenu,
   DropdownMenuContent,

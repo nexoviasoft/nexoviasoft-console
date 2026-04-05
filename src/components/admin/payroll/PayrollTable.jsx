@@ -30,8 +30,8 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-import jsPDF from "jspdf";
-import UpdatePayrollDialog from "./UpdatePayrollDialog";
+import dynamic from "next/dynamic";
+const UpdatePayrollDialog = dynamic(() => import("./UpdatePayrollDialog"), { ssr: false });
 import {
   AlertDialog,
   AlertDialogAction,
@@ -96,7 +96,8 @@ export default function PayrollTable() {
     }
   };
 
-  const generatePayslip = (row) => {
+  const generatePayslip = async (row) => {
+    const { default: jsPDF } = await import("jspdf");
     const doc = new jsPDF();
 
     // Header background
