@@ -98,24 +98,129 @@ export default function PayrollTable() {
 
   const generatePayslip = (row) => {
     const doc = new jsPDF();
-    doc.setFontSize(20);
-    doc.text("Payslip", 105, 20, null, null, "center");
     
-    doc.setFontSize(12);
-    doc.text(`Employee Name: ${row.name}`, 20, 40);
-    doc.text(`Role: ${row.role}`, 20, 50);
-    doc.text(`Status: ${row.status}`, 20, 60);
-    doc.text(`Payment Date: ${row.paymentDate}`, 20, 70);
+    // Header background
+    doc.setFillColor(245, 130, 32); // #F58220
+    doc.rect(0, 0, 210, 40, "F");
     
-    doc.text("---------------------------------------------------------", 20, 80);
+    // Header Text
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text("PAYSLIP", 105, 20, null, null, "center");
     
-    doc.text(`Base Salary: $${row.raw.baseSalary || 0}`, 20, 95);
-    doc.text(`Bonus: $${row.raw.bonus || 0}`, 20, 105);
-    doc.text(`Deductions: -$${row.raw.deductions || 0}`, 20, 115);
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Date Generated: ${new Date().toLocaleDateString()}`, 105, 30, null, null, "center");
     
-    doc.setFont(undefined, 'bold');
-    doc.text(`Net Pay: ${row.netPay}`, 20, 135);
+    // Company Info 
+    doc.setTextColor(40, 40, 40);
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text("SquadLog Inc.", 20, 55);
     
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(110, 110, 110);
+    doc.text("123 Business Avenue", 20, 62);
+    doc.text("Tech District, NY 10012", 20, 67);
+    
+    // Employee Info Section
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(40, 40, 40);
+    doc.text("Employee Details", 130, 55);
+    
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(110, 110, 110);
+    doc.text(`Name:`, 130, 62);
+    doc.text(row.name, 160, 62);
+    doc.text(`Role:`, 130, 67);
+    doc.text(row.role, 160, 67);
+    doc.text(`Payment Date:`, 130, 72);
+    doc.text(row.paymentDate, 160, 72);
+    doc.text(`Status:`, 130, 77);
+    doc.text(row.status, 160, 77);
+    
+    // Divider
+    doc.setDrawColor(220, 220, 220);
+    doc.setLineWidth(0.5);
+    doc.line(20, 85, 190, 85);
+    
+    // Salary Details Table Header
+    doc.setFillColor(245, 245, 245);
+    doc.rect(20, 95, 170, 10, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(40, 40, 40);
+    doc.text("Description", 25, 102);
+    doc.text("Amount", 185, 102, null, null, "right");
+    
+    // Table content
+    doc.setFont("helvetica", "normal");
+    let yPos = 115;
+    
+    // Base Salary
+    doc.setTextColor(40, 40, 40);
+    doc.text("Base Salary", 25, yPos);
+    doc.text(`$${Number(row.raw.baseSalary || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    yPos += 12;
+    
+    // Bonus
+    doc.text("Bonus", 25, yPos);
+    doc.text(`+ $${Number(row.raw.bonus || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    yPos += 12;
+    
+    // Deductions
+    doc.text("Deductions", 25, yPos);
+    doc.setTextColor(220, 38, 38); // Red for deductions
+    doc.text(`- $${Number(row.raw.deductions || 0).toFixed(2)}`, 185, yPos, null, null, "right");
+    yPos += 12;
+    
+    // Border above total
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, yPos, 190, yPos);
+    yPos += 10;
+    
+    // Net Pay
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(245, 130, 32);
+    doc.text("Net Pay:", 120, yPos);
+    doc.text(`${row.netPay}`, 185, yPos, null, null, "right");
+    
+    // Note
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic");
+    doc.setTextColor(150, 150, 150);
+    doc.text("* This is a computer generated document and does not require a physical signature for validity.", 105, 190, null, null, "center");
+    
+    // Manager Signature
+    const signatureY = 240;
+    
+    // Simulate a signature above the line
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(16);
+    doc.setTextColor(40, 40, 40);
+    doc.text("Afrin Jahan", 160, signatureY - 3, null, null, "center");
+    
+    doc.setDrawColor(40, 40, 40);
+    doc.setLineWidth(0.5);
+    doc.line(130, signatureY, 190, signatureY);
+    
+    // Title under the signature line
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(40, 40, 40);
+    doc.text("Afrin Jahan", 160, signatureY + 6, null, null, "center");
+    
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    doc.text("Authorized Manager Signature", 160, signatureY + 11, null, null, "center");
+    
+    // Footer
+    doc.setFillColor(245, 130, 32);
+    doc.rect(0, 287, 210, 10, "F");
+
     doc.save(`Payslip-${row.name.replace(/\s+/g, '-')}-${row.paymentDate}.pdf`);
     toast.success(`Payslip for ${row.name} generated successfully.`);
   };
