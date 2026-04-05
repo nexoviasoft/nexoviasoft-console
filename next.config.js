@@ -30,7 +30,6 @@ const nextConfig = {
       '@radix-ui/react-dropdown-menu',
       '@radix-ui/react-select'
     ],
-    reactCompiler: true,
   },
 };
 
